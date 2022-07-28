@@ -1,10 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
+
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- App Color Palette -->
+    <color name="app_green">@color/md_teal_500</color>
+    <color name="app_dark_green">@color/md_teal_700</color>
+    <color name="app_pink">#ff4081</color>
+    <color name="app_dark_pink">#f50057</color>
+    <color name="app_light_pink">#ff80ab</color>
+    <color name="app_white">#ffffff</color>
+    <color name="app_shadow">#42000000</color>
+    <color name="app_yellow">#FFCC00</color>
+    <color name="app_orange">#f5a623</color>
+    <color name="app_light_red">#EF5350</color>
+    <color name="app_red">#d0021b</color>
+    <color name="app_dark_red">#d32f2f</color>
+    <color name="app_blue">#0090FF</color> <!-- old: #4a90e2 -->
+    <color name="app_light_blue">#c5cae9</color>
+    <color name="app_love_red">#F54242</color>
+
+    <color name="app_thread_recommend_blue">#1278F2</color>
+
+    <!-- App Theme Colors -->
+    <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
+    <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
+    <!--selection controls.-->
+    <color name="color_primary">@color/app_green</color>
+    <color name="color_primary_variant">@color/app_dark_green</color>
+    <color name="color_secondary">@color/app_yellow</color>
+    <color name="color_secondary_variant">@color/app_orange</color>
+
+    <!--colorBackground appears behind scrollable content and is used for the default window-->
+    <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
+    <!--and menus. colorError is used to indicate an error state for components such as-->
+    <!--text fields.-->
+    <color name="color_background">#ffffff</color>
+    <color name="asymt_color_background">#f7f7f7</color>
+    <color name="qa_color_background">#f7f7f7</color>
+    <color name="color_surface">#ffffff</color>
+    <color name="color_error">#d0021b</color>
+
+    <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
+    <!--on which they appear.-->
+    <color name="color_on_primary">#ffffff</color>
+    <color name="color_on_secondary">#000000</color>
+    <color name="color_on_background">#000000</color>
+    <color name="color_on_surface">#de000000</color>
+    <color name="color_on_error">#ffffff</color>
+
+
+    <!-- [note] : color to deprecate -->
+
+    <color name="theme_primary">@color/app_green</color>
+    <color name="theme_primary_dark">@color/app_dark_green</color>
+    <color name="theme_accent">#F3CD0A</color>
+    <color name="theme_accent_dark">#857514</color>
+    <color name="theme_accent_fallback">#9b111e</color>
+
+    <!-- App Primary Text Colors (Dark text). -->
+    <color name="app_transparent">#00000000</color>
+    <color name="app_error">#ffdd2c00</color>
+    <color name="app_primary_text">#de000000</color> <!-- black 87% -->
+    <color name="app_secondary_text">#8a000000</color> <!-- black 54% -->
+    <color name="app_disabled_text">#61000000</color> <!-- black 38% -->
+    <color name="app_hint_text">#61000000</color> <!-- black 38 % -->
+    <color name="app_divider">#1F000000</color> <!-- black 12% -->
+    <color name="app_divider_05">#0F000000</color> <!-- black 6% -->
+
+    <!-- App Primary Text Colors (Light text). -->
+    <color name="app_primary_text_inverse">#deffffff</color> <!-- white 87% -->
+    <color name="app_secondary_text_inverse">#b3ffffff</color> <!-- white 70% -->
+    <color name="app_disabled_text_inverse">#80ffffff</color> <!-- white 50% -->
+    <color name="app_hint_text_inverse">#80ffffff</color> <!-- white 50% -->
+    <color name="app_divider_inverse">#1fffffff</color> <!-- white 12% -->
+
+    <!-- App Icon Colors (Dark icons) -->
+    <color name="app_active_icon">#8a000000</color> <!-- black 54% -->
+    <color name="app_inactive_icon">#61000000</color> <!-- black 38 % -->
+
+    <!-- App Icon Colors (Light icons) -->
+    <color name="app_active_icon_inverse">#ffffffff</color> <!-- white 100% -->
+    <color name="app_inactive_icon_inverse">#80ffffff</color> <!-- white 50% -->
+
+    <!-- App Tab Colors -->
+    <color name="app_tab_indicator">@color/md_yellow_500</color>
+    <color name="show_profile_bar">#eeF1F6</color>
+
+    <color name="unread_noti_item_bg">#daedeb</color>
+
+    <!-- Asymt Colors -->
+    <color name="asymt_background">#F7F7F7</color>
+    <color name="asymt_text_color">#4A4A4A</color>
 </resources>

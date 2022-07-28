@@ -1,3 +1,109 @@
 <resources>
+
+    <!-- standard metrics -->
+    <dimen name="spacing_nano">2dp</dimen>
+    <dimen name="spacing_micro">4dp</dimen>
+    <dimen name="spacing_normal">8dp</dimen>
+    <dimen name="spacing_double">16dp</dimen>
+    <dimen name="spacing_triple">24dp</dimen>
+    <dimen name="spacing_triple_2">32dp</dimen>
+    <dimen name="spacing_large">72dp</dimen>
+
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="padding_normal_minus_4dp">12dp</dimen>
+    <dimen name="padding_normal_minus_8dp">8dp</dimen>
+
+    <!-- Keylines -->
+    <dimen name="keyline_1">16dp</dimen>
+    <dimen name="keyline_1_minus_8dp">8dp</dimen>
+    <dimen name="keyline_2">72dp</dimen>
+    <dimen name="keyline_2_minus_16dp">56dp</dimen>
+    <dimen name="keyline_2_minus_12dp">60dp</dimen>
+    <dimen name="keyline_2_minus_24dp">48dp</dimen>
+
+    <!-- App Primary Text Sizes -->
+    <!-- (Ref: appcompat support lib -->
+    <dimen name="app_text_size_display_4">112sp</dimen>
+    <dimen name="app_text_size_display_3">56sp</dimen>
+    <dimen name="app_text_size_display_2">45sp</dimen>
+    <dimen name="app_text_size_display_1">34sp</dimen>
+    <dimen name="app_text_size_headline">24sp</dimen>
+    <dimen name="app_text_size_title">20sp</dimen>
+    <dimen name="app_text_size_subhead">16sp</dimen>
+    <dimen name="app_text_size_body">14sp</dimen>
+    <dimen name="app_text_size_caption">12sp</dimen>
+    <dimen name="app_text_size_button">14sp</dimen>
+
+    <!-- Ref: iosched 2016)-->
+    <dimen name="app_text_size_xsmall">11sp</dimen>
+    <dimen name="app_text_size_small">12sp</dimen>
+    <dimen name="app_text_size_medium">14sp</dimen>
+    <dimen name="app_text_size_medium_2">14sp</dimen>
+    <dimen name="app_text_size_medium_3">16sp</dimen>
+    <dimen name="app_text_size_large">18sp</dimen>
+    <dimen name="app_text_size_xlarge">20sp</dimen>
+
+    <!-- aspect ratio -->
+    <item name="aspect_16_9" format="float" type="dimen">1.7778</item>
+    <item name="aspect_4_3" format="float" type="dimen">1.3333</item>
+    <item name="aspect_3_4" format="float" type="dimen">0.75</item>
+    <item name="aspect_3_2" format="float" type="dimen">1.5</item>
+    <item name="aspect_2_3" format="float" type="dimen">0.6667</item>
+    <item name="aspect_1_1" format="float" type="dimen">1</item>
+    <!-- Book cover in bookshelf 470x647-->
+    <item name="aspect_book_cover" format="float" type="dimen">0.7264</item>
+    <!-- Ads image aspect rations -->
+    <!-- Article Banner 300x50-->
+    <item name="aspect_6_1" format="float" type="dimen">6</item>
+    <!-- Article Big Hit 300x250-->
+    <item name="aspect_6_5" format="float" type="dimen">1.2</item>
+    <!-- Aspect ratio of Latest post item thumbnail image shown in Home screen -->
+    <item name="aspect_latest_post_thumbnail" format="float" type="dimen">1.35</item>
+
+    <!--Emphasis modifiers for "on" colors-->
+    <dimen name="alpha_emphasis_high">@dimen/material_emphasis_high_type</dimen>
+    <dimen name="alpha_emphasis_medium">@dimen/material_emphasis_medium</dimen>
+    <dimen name="alpha_emphasis_disabled">@dimen/material_emphasis_disabled</dimen>
+
+    <!-- Z-axis elevations -->
+    <dimen name="z_app_bar">4dp</dimen>
+    <dimen name="z_card">2dp</dimen>
+    <dimen name="z_fab">6dp</dimen>
+    <dimen name="touch_raise">6dp</dimen>
+    <dimen name="touched_app_bar">8dp</dimen>
+    <dimen name="z_fab_over_touchable_app_bar">9dp</dimen>
+    <dimen name="z_drawer">16dp</dimen>
+    <dimen name="z_dialog">24dp</dimen>
+
+    <!-- Elevations : TODO: Delete -->
+    <dimen name="appbar_elevation">4dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="bottom_nav_elevation">8dp</dimen>
+
+
+    <dimen name="splash_margin_bottom">8dp</dimen>
+    <dimen name="standard_field_width">200dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="book_column_width">124dp</dimen>
+    <dimen name="medium_grid_column_width">96dp</dimen>
+    <dimen name="sticker_column_width">100dp</dimen>
+    <dimen name="thread_comment_sticker_size">120dp</dimen>
+    <dimen name="app_bar_height">160dp</dimen>
+    <dimen name="bottom_navigation_height">56dp</dimen>
+    <dimen name="bottom_navigation_height_plus_16dp">72dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="boat_type_grid_column_width">180dp</dimen>
+    <dimen name="farm_input_product_width">96dp</dimen>
+
+    <!-- Gallery image thumbnail sie of image chooser for NewThread -->
+    <dimen name="gallery_image_thumbnail_size">120dp</dimen>
+    <dimen name="avatar_size">150dp</dimen>
+    <dimen name="border_width">2dp</dimen>
+
+    <dimen name="cart_collapsed_state_height">56dp</dimen>
+    <dimen name="app_bottom_nav_content_padding">70dp</dimen>
 </resources>

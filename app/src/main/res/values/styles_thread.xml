@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- TextInputLayout style -->
+    <style name="Widget.Thread.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxBackgroundColor">@color/app_white</item>
+        <item name="boxStrokeColor">@color/asymt_outlined_stroke_color</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Thread.TextInputEditText.OutlinedBox
+        </item>
+    </style>
+
+    <style name="ThemeOverlay.Thread.TextInputEditText.OutlinedBox" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="editTextStyle">@style/Widget.Thread.TextInputEditText.OutlinedBox</item>
+    </style>
+
+    <style name="Widget.Thread.TextInputEditText.OutlinedBox" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Widget.Thread.TextInputLayout.Dense.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxBackgroundColor">@color/app_white</item>
+    </style>
+
+    <style name="Widget.Thread.TextInputLayout.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxBackgroundColor">@color/app_white</item>
+    </style>
+
+    <!-- RadioButton style -->
+    <style name="Widget.Thread.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Thread.RadioButton</item>
+        <item name="android:background">@drawable/asymt_radio_button_background</item>
+        <item name="android:textAppearance">?textAppearanceBody1</item>
+        <item name="android:paddingStart">@dimen/spacing_normal</item>
+        <item name="android:drawablePadding">@dimen/spacing_normal</item>
+        <item name="android:textColor">@color/asymt_radio_button_text</item>
+    </style>
+
+    <style name="ThemeOverlay.Thread.RadioButton" parent="">
+        <item name="colorOnSurface">@color/app_inactive_icon</item>
+        <item name="colorSecondary">?colorPrimary</item>
+    </style>
+
+    <!-- ExtendedFloatingActionButton style -->
+    <style name="Widget.Thread.ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Thread.FloatingActionButton</item>
+    </style>
+
+    <style name="ThemeOverlay.Thread.FloatingActionButton" parent="">
+        <item name="colorSecondary">@color/color_secondary
+        </item> <!-- ?attr/colorSecondary not working -->
+        <item name="colorOnSecondary">@color/color_on_secondary
+        </item> <!-- ?colorOnSecondary not working -->
+        <item name="colorOnSurface">@color/color_on_surface</item>
+    </style>
+
+    <!-- Button -->
+    <style name="Widget.Thread.Button.Primary" parent="Widget.MaterialComponents.Button">
+
+    </style>
+
+    <style name="Widget.Thread.Button.Secondary" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@drawable/app_btn_bg_secondary_selector</item>
+        <item name="android:textColor">?colorOnSecondary</item>
+    </style>
+
+    <style name="Widget.Thread.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?colorOnSecondary</item>
+    </style>
+
+    <style name="Widget.Thread.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton"></style>
+
+
+    <!-- CheckBox -->
+    <style name="Widget.Thread.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Thread.CheckBox</item>
+    </style>
+
+    <style name="ThemeOverlay.Thread.CheckBox" parent="">
+        <item name="colorOnSurface">@color/app_inactive_icon</item>
+        <item name="colorSecondary">?colorPrimary</item>
+    </style>
+
+    <!-- Toolbar Title -->
+    <style name="TextAppearance.Thread.Title" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">?colorOnPrimary</item>
+    </style>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Platform.V21.Theme.GreenWay" parent="Platform.V14.Theme.GreenWay">
+        <item name="android:statusBarColor">?colorPrimaryDark</item>
+    </style>
+
+    <style name="Platform.Theme.MDC" parent="Platform.V21.Theme.GreenWay" />
+
+</resources>

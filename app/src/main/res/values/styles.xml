@@ -1,0 +1,465 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--Components-->
+    <style name="Theme.GreenWayPartial.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.GreenWayPartial.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!--Bottom Sheets-->
+    <style name="ThemeOverlay.GreenWay.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.GreenWay.BottomSheet.Modal</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent
+        </item>
+        <item name="bottomSheetStyle">@style/Widget.GreenWay.BottomSheet.Modal</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">?colorSurface</item>
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">
+            @android:color/transparent
+        </item>
+    </style>
+
+    <style name="Widget.GreenWay.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearance">?shapeAppearanceLargeComponent</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.GreenWay.BottomSheet
+        </item>
+    </style>
+
+    <!--Navigation Drawer-->
+    <style name="Widget.GreenWay.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="itemTextAppearance">?textAppearanceBody2</item>
+    </style>
+
+    <!-- Toolbar -->
+    <style name="Widget.GreenWay.Toolbar.Primary" parent="Widget.MaterialComponents.Toolbar.Primary"></style>
+
+    <style name="Widget.GreenWay.Toolbar.Primary.NoElevation" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:elevation" tools:ignore="NewApi">0dp</item>
+    </style>
+
+    <style name="Widget.GreenWay.Toolbar.Surface" parent="Widget.MaterialComponents.Toolbar.Surface">
+
+    </style>
+
+    <!-- TabLayout -->
+    <style name="Widget.GreenWay.TabLayout.Colored" parent="Widget.MaterialComponents.TabLayout.Colored">
+        <item name="tabIndicator">@drawable/app_tabs_on_primary_rounded_line_indicator</item>
+    </style>
+
+    <style name="Widget.GreenWay.TabLayout.PrimarySurface" parent="Widget.MaterialComponents.TabLayout.PrimarySurface">
+        <item name="tabIndicator">@drawable/app_tabs_primary_rounded_line_indicator</item>
+    </style>
+
+    <style name="Widget.GreenWay.TabLayout.Surface" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabIndicator">@drawable/app_tabs_primary_rounded_line_indicator</item>
+    </style>
+
+
+    <!-- Buttons -->
+    <style name="Widget.GreenWay.Button" parent="Widget.MaterialComponents.Button" />
+
+    <style name="Widget.GreenWay.Button.TextButton.Large">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="Widget.GreenWay.Button.Small" parent="Widget.GreenWay.Button">
+        <item name="android:paddingStart">@dimen/spacing_micro</item>
+        <item name="android:paddingLeft">@dimen/spacing_micro</item>
+        <item name="android:paddingTop">@dimen/spacing_nano</item>
+        <item name="android:paddingEnd">@dimen/spacing_normal</item>
+        <item name="android:paddingRight">@dimen/spacing_normal</item>
+        <item name="android:paddingBottom">@dimen/spacing_nano</item>
+    </style>
+
+    <style name="Widget.GreenWay.Button.Primary" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">?colorOnPrimary</item>
+        <item name="backgroundTint">@drawable/app_btn_bg_primary_selector</item>
+    </style>
+
+    <style name="Widget.GreenWay.Button.Secondary" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@drawable/app_btn_bg_secondary_selector</item>
+        <item name="android:textColor">?colorOnPrimary</item>
+    </style>
+
+    <style name="Widget.GreenWay.Button.SecondaryVariant" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@drawable/app_btn_bg_secondary_variant_selector</item>
+        <item name="android:textColor">?colorOnPrimary</item>
+    </style>
+
+    <style name="Widget.GreenWay.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+
+    </style>
+
+    <style name="Widget.GreenWay.Button.TextButton.Negative" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?colorOnSurface</item>
+        <item name="android:alpha">?alphaEmphasisMedium</item>
+    </style>
+
+    <style name="Widget.GreenWay.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton"></style>
+
+    <style name="Widget.GreenWay.Button.OutlinedButton.Thin" parent="Widget.GreenWay.Button.OutlinedButton">
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="cornerRadius">20dp</item>
+    </style>
+
+    <style name="Widget.GreenWay.Button.OutlinedButton.Icon.Blue" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+        <item name="iconTint">@color/app_blue</item>
+        <item name="android:textColor">@color/app_blue</item>
+        <item name="strokeColor">#e2e4ed</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <style name="Widget.GreenWay.Button.TextButton.Icon.Blue" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="iconTint">@color/app_blue</item>
+        <item name="android:textColor">@color/app_blue</item>
+        <item name="strokeColor">#e2e4ed</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <style name="Widget.GreenWay.Button.UnelevatedButton.Icon" parent="Widget.MaterialComponents.Button.UnelevatedButton.Icon" />
+
+    <style name="Widget.GreenWay.Button.UnelevatedButton" parent="Widget.MaterialComponents.Button.UnelevatedButton" />
+
+    <style name="Widget.GreenWay.Button.UnelevatedButton.Rounded" parent="Widget.GreenWay.Button.UnelevatedButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.GreenWay.Button</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.GreenWay.Button</item>
+    </style>
+
+    <style name="Widget.GreenWay.Button.UnelevatedButton.Rounded.Large">
+        <item name="android:insetTop">2dp</item>
+        <item name="android:insetBottom">2dp</item>
+    </style>
+
+    <style name="ThemeOverlay.GreenWay.Button" parent="">
+        <!--        <item name="colorPrimary">?colorPrimary</item>-->
+    </style>
+
+    <style name="Widget.GreenWay.Button.UnelevatedButton.Large">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <!-- Unused -->
+    <style name="ThemeOverlay.GreenWay.Button.Primary.Disabled" parent="ThemeOverlay.MaterialComponents">
+        <!--<item name="colorAccent">@color/app_blue</item>
+        <item name="colorSecondary">@color/app_yellow</item>
+        <item name="colorButtonNormal">@color/md_black</item>
+        <item name="colorControlNormal">@color/md_teal_a100</item>
+        <item name="colorPrimary">@color/md_amber_900</item>-->
+    </style>
+
+
+    <!-- Radio Button -->
+    <style name="ThemeOverlay.GreenWay.RadioButton.Primary" parent="ThemeOverlay.MaterialComponents">
+        <item name="colorControlActivated">?colorPrimary</item>
+    </style>
+
+    <style name="ThemeOverlay.GreenWay.NavigationView" parent="">
+        <item name="listPreferredItemHeightSmall">80dp</item>
+    </style>
+
+    <style name="Widget.Group.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Group.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlay.Group.RadioButton" parent="">
+        <item name="colorOnSurface">@color/app_inactive_icon</item>
+        <item name="colorSecondary">?colorPrimary</item>
+    </style>
+
+    <!-- Switch -->
+    <style name="Widget.GreenWay.Switch.Primary" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.GreenWay.Switch.Primary</item>
+    </style>
+
+    <style name="ThemeOverlay.GreenWay.Switch.Primary" parent="">
+        <item name="colorOnSurface">@color/app_inactive_icon</item>
+        <item name="colorSecondary">?colorPrimary</item>
+    </style>
+
+
+    <!-- ........... OLD GREENWAY THEME ................ -->
+
+    <style name="GreenWay.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+
+    <style name="GreenWay.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
+    <!-- Exists for inheritance purposes -->
+    <!-- <style name="GreenWay" parent="GreenWay.Base" />
+     &lt;!&ndash;Theme.AppCompat.Light.NoActionBar&ndash;&gt;
+     <style name="GreenWay.Base" parent="Theme.MaterialComponents.Light.NoActionBar">
+         <item name="colorPrimary">@color/theme_primary</item>
+         <item name="colorPrimaryDark">@color/theme_primary_dark</item>
+         <item name="colorAccent">@color/theme_accent</item>
+         <item name="android:textColorLink">@color/theme_accent_fallback</item>
+
+         <item name="tabStyle">@style/Widget.GreenWay.TabLayout.Colored</item>
+
+         <item name="bottomSheetDialogTheme">@style/Widget.GreenWay.BottomSheetDialog</item>
+
+     </style>
+
+
+     &lt;!&ndash; Default theme for activities that don't actually display a UI; that
+             is, they finish themselves before being resumed.  &ndash;&gt;
+     <style name="GreenWay.NoDisplay">
+         <item name="android:windowBackground">@null</item>
+         <item name="android:windowContentOverlay">@null</item>
+         <item name="android:windowIsTranslucent">false</item>
+         <item name="android:windowAnimationStyle">@null</item>
+         <item name="android:windowDisablePreview">true</item>
+         <item name="android:windowNoDisplay">true</item>
+         <item name="android:windowIsFloating">false</item>
+     </style>
+
+     &lt;!&ndash; Activity styles &ndash;&gt;
+     <style name="GreenWay.Home" />
+
+     <style name="GreenWay.Survey" />
+
+     <style name="GreenWay.UserRegistration">
+         <item name="colorAccent">@color/theme_primary</item>
+         <item name="textInputStyle">@style/Widget.GreenWay.TextInputLayout.Light</item>
+     </style>
+
+     <style name="GreenWay.UserRegister"/>
+
+     <style name="GreenWay.Authentication">
+         <item name="colorControlNormal">@color/app_white</item>
+         <item name="colorControlActivated">@color/theme_accent</item>
+     </style>
+
+     <style name="GreenWay.PostList" />
+
+     <style name="GreenWay.SplashTheme" />
+
+     <style name="GreenWay.CommodityPrice">
+         <item name="colorAccent">@color/theme_primary_dark</item>
+     </style>
+
+     <style name="GreenWay.Threads" />
+
+     <style name="GreenWay.Notification" />
+
+     <style name="GreenWay.AssociationList" />
+
+     <style name="GreenWay.AssociationDetail" />
+
+     <style name="GreenWay.AssociationNotificationDetail" />
+
+     <style name="GreenWay.NewThread">
+         <item name="android:windowActionBarOverlay">true</item>
+     </style>
+
+     <style name="GreenWay.EditThread">
+         <item name="android:windowActionBarOverlay">true</item>
+     </style>
+
+     <style name="GreenWay.FarmingRecord"/>
+
+     <style name="GreenWay.MarketPlace"/>
+
+     <style name="GreenWay.MarketPlaceProductDetail"/>
+
+     <style name="GreenWay.OrderTransactionList" />
+
+     <style name="GreenWay.OrderTransactionDetail" />
+
+     <style name="GreenWay.BookShelf" />
+
+     <style name="GreenWay.BookDetail" />
+
+     <style name="GreenWay.MemberRegistration">
+         <item name="textInputStyle">@style/Widget.GreenWay.TextInputLayout.Light</item>
+     </style>
+
+     <style name="GreenWay.PaymentTypes" />
+
+     <style name="GreenWay.AuthorProfile">
+
+     </style>
+
+     <style name="GreenWay.DeliverAddress">
+         <item name="colorControlActivated">?colorPrimary</item>
+     </style>-->
+
+    <!-- Button styles -->
+    <style name="Widget.GreenWay.Button.Base" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/app_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
+    </style>
+
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">#FFC107</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <!-- Used for the background -->
+        <item name="android:background">@color/theme_primary</item>
+    </style>
+
+    <style name="mySpinnerItemStyle" parent="Base.Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textColor">@color/app_white</item>
+        <item name="android:textColorHint">@color/app_white</item>
+    </style>
+
+    <style name="Spinner.CropTypeInfo" parent="Widget.AppCompat.Spinner.Underlined">
+        <item name="android:textColor">#444444</item>
+    </style>
+
+
+    <style name="SpinnerItem.CropTypeInfo" parent="">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:textColor">#444444</item>
+    </style>
+
+    <style name="CollapsibleCardTitle">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="fab_menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/app_white</item>
+    </style>
+
+    <style name="MorePostCategoryButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:background">@drawable/greenway_btn_more_post_category</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_micro</item>
+    </style>
+
+    <style name="ThreadFilterButtonStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/greenway_btn_thread_filter</item>
+        <item name="android:textColor">@color/app_white</item>
+    </style>
+
+    <!-- <style name="Widget.GreenWay.TabLayout.Colored" parent="Widget.MaterialComponents.TabLayout.Colored">
+         <item name="android:background">?attr/colorPrimary</item>
+         <item name="tabIconTint">@color/greenway_tabs_icon_color_selector_colored</item>
+         <item name="tabIndicatorColor">@color/app_tab_indicator</item>
+         <item name="tabTextColor">@color/greenway_tabs_icon_color_selector_colored</item>
+         <item name="tabRippleColor">@color/greenway_tabs_icon_color_selector_colored</item>
+     </style>-->
+
+    <style name="Widget.GreenWay.BottomNav" parent="@style/Widget.MaterialComponents.BottomNavigationView">
+        <item name="labelVisibilityMode">unlabeled</item>
+        <item name="itemIconTint">@color/bottom_nav_item_tint</item>
+        <!--<item name="itemIconTint">@color/bottom_nav_item</item>-->
+        <!--<item name="android:theme">@style/ThemeOverlay.MaterialComponents.Dark</item>-->
+    </style>
+
+    <style name="Widget.GreenWay.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox" />
+
+    <style name="Widget.GreenWay.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" />
+
+    <style name="Widget.GreenWay.TextInputLayout.Light">
+        <item name="hintTextAppearance">@style/TextAppearance.GreenWay.Hint</item>
+        <item name="boxStrokeColor">@color/greenway_box_stroke_light_color</item>
+    </style>
+
+    <style name="Widget.GreenWay.TextInputLayout.Dark">
+        <item name="hintTextAppearance">@style/TextAppearance.GreenWay.Hint</item>
+        <item name="boxStrokeColor">@color/greenway_box_stroke_dark_color</item>
+    </style>
+
+    <style name="Widget.GreenWay.TextInputLayout.UserRegister">
+        <item name="boxStrokeColor">@color/greenway_box_stroke_dark_color</item>
+        <!-- The color of the label when it is collapsed and the text field is active -->
+        <item name="hintTextColor">@color/theme_accent</item>
+        <!-- The color of the label in all other text field states (such as resting and disabled) -->
+        <item name="android:textColorHint">@color/user_register_indicator_text_color</item>
+    </style>
+
+    <style name="Widget.GreenWay.TextInputEditText.UserRegister" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="android:textColor">@color/app_primary_text_inverse</item>
+    </style>
+
+    <style name="TextAppearance.GreenWay.Hint" parent="TextAppearance.Design.Hint">
+        <!--<item name="android:textColor">@color/theme_accent</item>-->
+
+    </style>
+
+    <style name="Widget.GreenWay.TextInputEditText.NewFarm" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/app_primary_text</item>
+    </style>
+
+    <style name="ThemeOverlay.GreenWay.NewFarmInputDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.GreenWay.NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.GreenWay.PositiveButtonStyle</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Widget.GreenWay.PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/theme_accent_fallback</item>
+    </style>
+
+    <style name="Widget.GreenWay.NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/app_secondary_text</item>
+    </style>
+
+    <style name="AssociationMemberTypeButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/association_member_type_button_text_color</item>
+        <item name="android:textSize">@dimen/app_text_size_subhead</item>
+    </style>
+
+    <style name="ButtonsBottomBarStyle">
+        <item name="android:background">@drawable/bottom_bar_shadow</item>
+        <item name="android:paddingTop">1dp</item>
+    </style>
+
+    <style name="UserRegistrationTitleStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/app_text_size_body</item>
+        <item name="android:textColor">@color/app_secondary_text</item>
+    </style>
+
+    <style name="Widget.GreenWay.BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.GreenWay.BottomSheet.Modal</item>
+        <item name="colorPrimary">@color/theme_primary</item>
+    </style>
+
+    <!--    <style name="Widget.GreenWay.BottomSheet.Modal" parent="Widget.Design.BottomSheet.Modal">-->
+    <!--        <item name="android:background">@drawable/bottom_sheet_background</item>-->
+    <!--    </style>-->
+
+    <style name="Widget.GreenWay.ExposedDrowdownMenu.ProductPrice" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <!--    <style name="MyCheckbox" parent="@style/Widget.AppCompat.CompoundButton.CheckBox">-->
+    <!--        <item name="android:colorControlNormal">#ffd600</item>-->
+    <!--        <item name="android:colorControlActivated">#0091ea</item>-->
+    <!--        <item name="android:colorControlHighlight">#c51162</item>-->
+    <!--        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>-->
+    <!--    </style>-->
+
+    <style name="Widget.GreenWay.CountTextView" parent="Widget.MaterialComponents.TextView"></style>
+
+    <style name="AppTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/color_primary</item>
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <!--        <item name="tabTextAppearance">?textAppearanceListItem</item>-->
+        <item name="tabTextAppearance">@style/MyCustomTabText</item>
+        <item name="tabSelectedTextColor">@color/app_primary_text</item>
+        <item name="tabTextColor">@color/app_primary_text</item>
+    </style>
+
+    <style name="MyCustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+</resources>

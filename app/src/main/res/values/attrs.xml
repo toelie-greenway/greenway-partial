@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Common attributes-->
+    <attr name="alphaEmphasisHigh" format="float" />
+    <attr name="alphaEmphasisMedium" format="float" />
+    <attr name="alphaEmphasisDisabled" format="float" />
+    <attr name="textAppearanceToolbarTitle" format="reference" />
+    <attr name="aspectRatio" format="float" />
+    <attr name="icon" format="reference" />
+    <attr name="hint" format="string" />
+
+    <declare-styleable name="AspectRatioImageView">
+        <attr name="imgAspectRatio" format="float" />
+        <attr name="deviceRatioDivisor" format="integer" />
+        <attr name="deviceRatioDividend" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="AspectRatioViewPager">
+        <attr name="pagerAspectRatio" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="AspectRatioFrameLayout">
+        <attr name="frameAspectRatio" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="AspectRatioCardView">
+        <attr name="cardAspectRatio" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="AspectRatioAppBarLayout">
+        <attr name="aspectRatio" />
+    </declare-styleable>
+
+    <declare-styleable name="ImageViewPager">
+        <attr name="aspectRatio" />
+    </declare-styleable>
+
+    <declare-styleable name="BezelImageView">
+        <attr name="maskDrawable" format="reference" />
+        <attr name="borderDrawable" format="reference" />
+        <attr name="desaturateOnPress" format="boolean" />
+    </declare-styleable>
+
+
+    <declare-styleable name="CameraControls">
+        <attr name="camera" format="reference" />
+        <attr name="cover" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CollapsibleCard">
+        <attr name="cardTitle" format="string" />
+        <attr name="cardDescription" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ReadMoreTextView">
+        <attr name="trimExpandedText" format="string" />
+        <attr name="trimCollapsedText" format="string" />
+        <attr name="trimLength" format="integer" />
+        <attr name="showTrimExpandedText" format="boolean" />
+        <attr name="colorClickableText" format="color" />
+        <attr name="trimLines" format="integer" />
+        <attr name="trimMode">
+            <enum name="trimModeLine" value="0" />
+            <enum name="trimModeLength" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="GreenWayHtmlTextView">
+        <attr name="html" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="GreenWayCommon">
+        <attr name="icon" />
+        <attr name="title" format="string" />
+        <attr name="label" format="string" />
+        <attr name="text" format="string" />
+        <attr name="imageUrl" format="string" />
+        <attr name="placeholder" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="GreenWaySimpleSpinner">
+        <attr name="items" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="GreenWayExposedDropdownMenu">
+        <attr name="supportsLoading" format="boolean" />
+        <attr name="hint" />
+    </declare-styleable>
+
+    <declare-styleable name="GreenWayPrefixedTextInputEditText">
+        <attr name="prefix" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="GreenWaySuffixedTextInputEditText">
+        <attr name="suffix" format="string" />
+        <attr name="suffix_padding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="GreenWayCountTextView">
+        <attr name="icon" />
+        <attr name="count" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="GreenWayLargeDropdownTextInputView">
+        <attr name="android:text" />
+        <attr name="android:label" />
+        <attr name="android:textAppearance" />
+    </declare-styleable>
+
+    <declare-styleable name="GreenWayLargeSwitchOptionInputView">
+        <attr name="android:text" />
+        <attr name="textPlaceholder" format="reference|string"/>
+        <attr name="android:label" />
+        <attr name="android:textAppearance" />
+    </declare-styleable>
+</resources>

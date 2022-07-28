@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Platform.V27.Theme.GreenWay" parent="Platform.V23.Theme.GreenWay">
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:navigationBarDividerColor">?colorControlHighlight</item>
+    </style>
+
+    <style name="Platform.Theme.GreenWay" parent="Platform.V27.Theme.GreenWay" />
+
+</resources>
