@@ -8,10 +8,13 @@
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/asymt_radio_button_background.xml" value="0.1265" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/ic_arrow_drop_down_black_24dp.xml" value="0.1265" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/ic_expand_18dp.xml" value="0.1265" />
-        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/add_edit_farming_record_qr_fragment.xml" value="0.10815602836879433" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/ic_qr_printer.xml" value="0.1935" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/add_edit_farming_record_qr_fragment.xml" value="0.21" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_order_qr_success_fragment.xml" value="0.20833333333333334" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_qr_activity.xml" value="0.20833333333333334" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_qr_home_fragment.xml" value="0.20833333333333334" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_qr_order_status_fragment.xml" value="0.33" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_qr_order_success_fragment.xml" value="0.25" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/green_way_large_dropdown_text_input_view.xml" value="0.20833333333333334" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/green_way_large_switch_option_input_view.xml" value="0.20833333333333334" />
       </map>
