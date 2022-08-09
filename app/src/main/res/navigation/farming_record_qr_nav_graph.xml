@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/qr_nav_graph"
-    app:startDestination="@id/addEditFarmingRecordQrFragment">
+    app:startDestination="@id/qrTestFragment">
+
+    <fragment
+        android:id="@+id/qrTestFragment"
+        android:name="greenway_myanmar.org.features.farmingrecord.qr.presentation.QrTestFragment"
+        android:label="QrTestFragment"
+        tools:layout="@layout/farming_record_qr_home_fragment" />
 
     <fragment
         android:id="@+id/farmingRecordQrHomeFragment"
@@ -13,6 +19,9 @@
         <action
             android:id="@+id/action_farmingRecordQrHomeFragment_to_addEditFarmingRecordQrFragment"
             app:destination="@id/addEditFarmingRecordQrFragment" />
+        <action
+            android:id="@+id/action_farmingRecordQrHomeFragment_to_qrFullScreenFragment"
+            app:destination="@id/qrFullScreenFragment" />
     </fragment>
 
     <fragment
@@ -29,7 +38,7 @@
         android:id="@+id/farmingRecordQrOrderSuccessFragment"
         android:name="greenway_myanmar.org.features.farmingrecord.qr.presentation.FarmingRecordQrOrderSuccessFragment"
         android:label="FarmingRecordQrHomeFragment"
-        tools:layout="@layout/farming_record_qr_order_success_fragment" >
+        tools:layout="@layout/farming_record_qr_order_success_fragment">
         <action
             android:id="@+id/action_farmingRecordQrOrderSuccessFragment_to_farmingRecordQrOrderStatusFragment"
             app:destination="@id/farmingRecordQrOrderStatusFragment" />
@@ -37,8 +46,17 @@
 
     <fragment
         android:id="@+id/farmingRecordQrOrderStatusFragment"
-        android:name="greenway_myanmar.org.features.farmingrecord.qr.presentation.FarmingRecordQrOrderStatusFragment"
+        android:name="greenway_myanmar.org.features.farmingrecord.qr.presentation.QrOrderStatusFragment"
         android:label="FarmingRecordQrOrderStatusFragment"
         tools:layout="@layout/farming_record_qr_order_status_fragment" />
+    <fragment
+        android:id="@+id/qrFullScreenFragment"
+        android:name="greenway_myanmar.org.features.farmingrecord.qr.presentation.QrFullScreenFragment"
+        android:label="QrFullScreenFragment"
+        tools:layout="@layout/qr_full_screen_fragment">
+        <argument
+            android:name="qr_data"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

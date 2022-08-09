@@ -13,55 +13,55 @@ import greenway_myanmar.org.R
 @AndroidEntryPoint
 class FarmingRecordQrActivity : AppCompatActivity() {
 
-  private val navController by lazy { findNavController() }
+    private val navController by lazy { findNavController() }
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.farming_record_qr_activity)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.farming_record_qr_activity)
 
-    val navInflater = navController.navInflater
-    val graph = navInflater.inflate(R.navigation.farming_record_qr_nav_graph)
-    graph.setStartDestination(R.id.addEditFarmingRecordQrFragment)
-    navController.graph = graph
-  }
-
-  private fun findNavController(): NavController {
-    val navHost =
-      supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
-    return navHost!!.navController
-  }
-
-  companion object {
-
-    private const val EXTRA_DESTINATION_RES_ID = "extra.DESTINATION_RES_ID"
-
-    @JvmStatic
-    fun start(context: Context) {
-      start(context, R.id.farmingRecordQrHomeFragment)
+        val navInflater = navController.navInflater
+        val graph = navInflater.inflate(R.navigation.farming_record_qr_nav_graph)
+        graph.setStartDestination(R.id.farmingRecordQrHomeFragment)
+        navController.graph = graph
     }
 
-    @JvmStatic
-    fun start(
-      context: Context,
-      @IdRes destinationResId: Int = R.id.farmingRecordQrHomeFragment,
-      extras: Bundle? = null
-    ) {
-      val starter = getStartIntent(context, destinationResId, extras)
-      context.startActivity(starter)
+    private fun findNavController(): NavController {
+        val navHost =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+        return navHost!!.navController
     }
 
-    @JvmStatic
-    fun getStartIntent(
-      context: Context,
-      @IdRes destinationResId: Int = R.id.farmingRecordQrHomeFragment,
-      extras: Bundle? = null
-    ): Intent {
-      val starter = Intent(context, FarmingRecordQrActivity::class.java)
-      starter.putExtra(EXTRA_DESTINATION_RES_ID, destinationResId)
-      if (extras != null) {
-        starter.putExtras(extras)
-      }
-      return starter
+    companion object {
+
+        private const val EXTRA_DESTINATION_RES_ID = "extra.DESTINATION_RES_ID"
+
+        @JvmStatic
+        fun start(context: Context) {
+            start(context, R.id.farmingRecordQrHomeFragment)
+        }
+
+        @JvmStatic
+        fun start(
+            context: Context,
+            @IdRes destinationResId: Int = R.id.farmingRecordQrHomeFragment,
+            extras: Bundle? = null
+        ) {
+            val starter = getStartIntent(context, destinationResId, extras)
+            context.startActivity(starter)
+        }
+
+        @JvmStatic
+        fun getStartIntent(
+            context: Context,
+            @IdRes destinationResId: Int = R.id.farmingRecordQrHomeFragment,
+            extras: Bundle? = null
+        ): Intent {
+            val starter = Intent(context, FarmingRecordQrActivity::class.java)
+            starter.putExtra(EXTRA_DESTINATION_RES_ID, destinationResId)
+            if (extras != null) {
+                starter.putExtras(extras)
+            }
+            return starter
+        }
     }
-  }
 }

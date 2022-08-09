@@ -4,19 +4,32 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/app_4dp_rounded_border_white_selector.xml" value="0.1265" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/app_logo_rounded.xml" value="0.1935" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/app_tabs_on_primary_rounded_line_indicator.xml" value="0.1265" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/asymt_radio_button_background.xml" value="0.1265" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/ic_arrow_drop_down_black_24dp.xml" value="0.1265" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/ic_check_circle_black_24dp.xml" value="0.201" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/ic_check_circle_black_24px.xml" value="0.201" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/ic_expand_18dp.xml" value="0.1265" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/ic_qr_printer.xml" value="0.1935" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/ic_support_agent_24dp_black.xml" value="0.1925" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/drawable/ic_tick_checkable_selector.xml" value="0.201" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/add_edit_farming_record_qr_fragment.xml" value="0.21" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_order_qr_success_fragment.xml" value="0.20833333333333334" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_qr_activity.xml" value="0.20833333333333334" />
-        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_qr_home_fragment.xml" value="0.20833333333333334" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_qr_home_fragment.xml" value="0.20090293453724606" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_qr_order_list_item.xml" value="0.5" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_qr_order_status_fragment.xml" value="0.33" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_qr_order_status_list_item.xml" value="0.5412130637636081" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_qr_order_status_placeholder_list_item.xml" value="0.3546195652173913" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/farming_record_qr_order_success_fragment.xml" value="0.25" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/green_way_large_dropdown_text_input_view.xml" value="0.20833333333333334" />
         <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/green_way_large_switch_option_input_view.xml" value="0.20833333333333334" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/qr_full_screen_fragment.xml" value="0.184375" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/qr_test.xml" value="0.184375" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/layout/qr_test_fragment.xml" value="0.18541666666666667" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/menu/farming_record_qr_home.xml" value="0.184375" />
+        <entry key="..\:/Dev/Projects/greenway/source-code/greenway-partial/app/src/main/res/menu/menu_main.xml" value="0.18541666666666667" />
       </map>
     </option>
   </component>

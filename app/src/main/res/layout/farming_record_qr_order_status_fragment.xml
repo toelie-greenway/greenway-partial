@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingStart="@dimen/spacing_16"
     android:paddingTop="@dimen/spacing_16"
-    android:paddingEnd="@dimen/spacing_16">
+    android:paddingEnd="@dimen/spacing_16"
+    android:paddingBottom="@dimen/spacing_16">
 
     <greenway_myanmar.org.ui.widget.GreenWayTextView
         android:id="@+id/title_text_view"
@@ -29,5 +32,29 @@
         android:text="@string/label_farming_record_qr_order_status_message"
         android:textAppearance="?textAppearanceCaption"
         android:textSize="14sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/spacing_24"
+        android:layout_marginBottom="@dimen/spacing_16"
+        android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/farming_record_qr_order_status_list_item" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayButton
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:text="@string/button_text_farming_record_qr_edit" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayButton
+        style="@style/Widget.GreenWay.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_8"
+        android:text="@string/button_text_close"
+        android:textColor="?colorOnSurface" />
 
 </LinearLayout>

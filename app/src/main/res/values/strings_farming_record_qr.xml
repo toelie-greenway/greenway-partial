@@ -3,6 +3,16 @@
 
     <string name="button_text_done">Done</string>
 
+    <!-- Title -->
+    <string name="nav_title_farming_record_qr_home">QR code အမှာစာရင်း</string>
+    <string name="nav_title_farming_record_qr_new_order">QR ကုဒ်ပြုလုပ်မှာယူရန်</string>
+
+    <!-- Menu Item Titles -->
+    <string name="menu_item_title_farming_record_qr_support">စုံစမ်းရန်</string>
+
+    <!-- QR Home screen -->
+    <string name="button_text_farming_record_qr_create_new_order">QR code အော်ဒါတင်ရန်</string>
+
     <!-- Add Edit Qr screen -->
     <string name="label_qr_code_number">QR Code Number</string>
     <string name="label_farming_record_qr_farm_name">လယ်ကွက်အမည်</string>

@@ -116,4 +116,8 @@
 
     <dimen name="cart_collapsed_state_height">56dp</dimen>
     <dimen name="app_bottom_nav_content_padding">70dp</dimen>
+
+    <dimen name="qr_size">124dp</dimen>
+    <dimen name="qr_thumbnail_size">60dp</dimen>
+
 </resources>

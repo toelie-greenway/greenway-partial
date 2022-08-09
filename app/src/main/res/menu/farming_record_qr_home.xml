@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_support"
+        android:icon="@drawable/ic_support_agent_24dp_black"
+        android:title="@string/menu_item_title_farming_record_qr_support"
+        app:showAsAction="always"
+        app:tint="@color/app_inactive_icon" />
+</menu>

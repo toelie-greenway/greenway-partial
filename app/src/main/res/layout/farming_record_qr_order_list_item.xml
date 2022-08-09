@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:paddingTop="@dimen/spacing_16"
+    android:paddingBottom="@dimen/spacing_16">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/qr_card_view"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:cardBackgroundColor="#F8F8F8"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp"
+        app:contentPadding="@dimen/spacing_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <greenway_myanmar.org.features.farmingrecord.qr.presentation.widgets.QrImageView
+            android:id="@+id/qr_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/farm_info_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_8"
+        android:layout_marginEnd="@dimen/spacing_4"
+        android:text="သောင်ကွက်၊ မြေပဲ"
+        android:textAppearance="?textAppearanceBody2"
+        app:layout_constraintBottom_toTopOf="@+id/season_info_text_view"
+        app:layout_constraintEnd_toStartOf="@id/quantity_text_view"
+        app:layout_constraintStart_toEndOf="@id/qr_card_view"
+        app:layout_constraintTop_toTopOf="@id/qr_card_view"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/season_info_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:layout_marginEnd="@dimen/spacing_4"
+        android:text="နွေရာသီ၊ ၂၀၂၂"
+        android:textAppearance="?textAppearanceCaption"
+        android:textColor="?colorOnSurface"
+        app:layout_constraintBottom_toBottomOf="@+id/qr_card_view"
+        app:layout_constraintEnd_toStartOf="@id/order_info_text_view"
+        app:layout_constraintStart_toStartOf="@id/farm_info_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/farm_info_text_view" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/quantity_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_8"
+        android:text="အခုရေ 500"
+        android:textAppearance="?textAppearanceBody2"
+        app:layout_constraintBaseline_toBaselineOf="@id/farm_info_text_view"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/order_info_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_2"
+        android:alpha="?alphaEmphasisMedium"
+        android:text="၃/၇/၂၀၂၂ - အမှာအတည်ပြုပြီး"
+        android:textAppearance="?textAppearanceCaption"
+        android:textColor="?colorOnSurface"
+        app:layout_constraintBaseline_toBaselineOf="@id/season_info_text_view"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
