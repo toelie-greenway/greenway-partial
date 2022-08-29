@@ -64,8 +64,11 @@ public class Rotate extends Transition {
                                    TransitionValues endValues) {
         if (startValues == null || endValues == null) return null;
 
-        float startRotation = (float) startValues.values.get(PROP_ROTATION);
-        float endRotation = (float) endValues.values.get(PROP_ROTATION);
+        Object startRotationObject = startValues.values.get(PROP_ROTATION);
+        Object endRotationObject = endValues.values.get(PROP_ROTATION);
+
+        float startRotation = startRotationObject != null ? (float) startRotationObject : 0 ;
+        float endRotation = endRotationObject != null ? (float) endRotationObject : 0;
         if (startRotation == endRotation) return null;
 
         View view = endValues.view;

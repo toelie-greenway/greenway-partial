@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        style="@style/FarmingRecordQrInfoSubtitleStyle"
+        android:text="@string/label_farming_record_qr_farming_info_subtitle" />
+
+    <LinearLayout style="@style/FarmingRecordQrInfoItemStyle">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            style="@style/FarmingRecordQrInfoItemLabelStyle"
+            android:text="@string/label_farming_record_qr_farm_location" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            style="@style/FarmingRecordQrInfoItemValueStyle"
+            android:text="မြေပုံပေါ်တွင် ကြည့်ရန်" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/app_divider" />
+
+
+    <LinearLayout style="@style/FarmingRecordQrInfoItemStyle">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            style="@style/FarmingRecordQrInfoItemLabelStyle"
+            android:text="@string/label_farming_record_qr_farm_name" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            style="@style/FarmingRecordQrInfoItemValueStyle"
+            android:text="သောင်ကွက်" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/app_divider" />
+
+
+    <LinearLayout style="@style/FarmingRecordQrInfoItemStyle">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            style="@style/FarmingRecordQrInfoItemLabelStyle"
+            android:text="@string/label_farming_record_qr_crop_name" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            style="@style/FarmingRecordQrInfoItemValueStyle"
+            android:text="ဗူး" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/app_divider" />
+
+    <greenway_myanmar.org.features.farmingrecord.qr.presentation.widgets.QrFarmInputInfoView
+        android:id="@+id/farm_input_info_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_16" />
+
+</merge>

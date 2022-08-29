@@ -17,6 +17,7 @@
     <string name="label_qr_code_number">QR Code Number</string>
     <string name="label_farming_record_qr_farm_name">လယ်ကွက်အမည်</string>
     <string name="label_farming_record_qr_season">စိုက်ပျိုးရာသီ</string>
+    <string name="label_farming_record_qr_crop_name">စိုက်ပျိုးသီးနှံ</string>
     <string name="label_farming_record_qr_farm_location">စိုက်ခင်းတည်နေရာ</string>
     <string name="label_farming_record_qr_phone_number">ဖုန်းနံပါတ်</string>
     <string name="label_farming_record_qr_show_farm_input">သွင်းအားစု ပါဝင်နှုန်း ပြမည်</string>
@@ -27,14 +28,17 @@
     <string name="label_farming_record_qr_quantity">ထုတ်လိုသောအခုရေ</string>
     <string name="label_farming_record_qr_estimated_cost">ခန့်မှန်းကုန်ကျငွေ</string>
     <string name="label_farming_record_qr_summary_preview">သင်၏ ကုဒ် နှင့်ပါဝင်မည့်အချက်အလက်များ</string>
-    <string name="label_farming_record_qr_crop_history">သီးနှံရာဇဝင်</string>
+    <string name="label_farming_record_qr_farming_info_subtitle">သီးနှံရာဇဝင်</string>
     <string name="label_farming_record_qr_farming_record">စိုက်ပျိုးမှတ်တမ်း (နွေရာသီ, ၂၀၂၂)</string>
     <string name="label_farming_record_qr_fertilizer_content">ဓာတ်မြေသြဇာပါဝင်နှုန်း</string>
     <string name="label_farming_record_qr_farmer_info">တောင်သူအချက်အလက်</string>
     <string name="label_farming_record_qr_farmer_contact_number">ဆက်သွယ်ရန်</string>
     <string name="label_farming_record_qr_farmer_location">တည်နေရာ</string>
+    <string name="label_farming_record_qr_farmer_crops">စိုက်ပျိုးသီးနှံများ</string>
     <string name="label_farming_record_qr_farmer_member_start_date">စျေးတန်းကြီးအဖွဲ့ဝင်ရက်</string>
     <string name="button_text_farming_record_qr_confirm_order">မှာယူမည်</string>
+    <string name="button_text_farming_record_qr_toggle_show_farm_input">အသေးစိတ်ဖြန့်ကြည့်ရန်</string>
+    <string name="button_text_farming_record_qr_toggle_hide_farm_input">ခေါက်ထားရန်</string>
 
     <!-- QR order success screen -->
     <string name="label_farming_record_qr_order_success_title">အမှာစာအားအောင်မြင်စွာလက်ခံရရှိပါသည်။</string>
