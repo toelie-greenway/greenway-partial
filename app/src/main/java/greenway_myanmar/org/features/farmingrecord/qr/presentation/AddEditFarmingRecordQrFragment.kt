@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation.findNavController
@@ -12,9 +13,12 @@ import androidx.navigation.fragment.findNavController
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
+import greenway_myanmar.org.common.presentation.extensions.showSoftInput
 import greenway_myanmar.org.databinding.AddEditFarmingRecordQrFragmentBinding
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.AddEditQrPagerAdapter
 import greenway_myanmar.org.util.kotlin.autoCleared
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -49,6 +53,10 @@ open class AddEditFarmingRecordQrFragment : Fragment() {
     }
 
     private fun setupUi() {
+        binding.toolbar.setNavigationOnClickListener {
+            navigateUpOrFinish()
+        }
+
         val viewPager = binding.viewPager
         viewPager.isUserInputEnabled = false
 
@@ -73,6 +81,23 @@ open class AddEditFarmingRecordQrFragment : Fragment() {
                     binding.viewPager.currentItem = it
                 }
             }
+            launch {
+                viewModel.uiState.map { it.loading }
+                    .distinctUntilChanged()
+                    .collect { loading ->
+                        binding.loadingIndicator.isVisible = loading
+                    }
+            }
+            launch {
+                viewModel.uiState.map { it.showOrderSuccess }
+                    .distinctUntilChanged()
+                    .collect { show ->
+                        if (show) {
+                            navigateToSuccessScreen()
+                            viewModel.handleEvent(AddEditFarmingRecordQrEvent.OrderSuccessShown)
+                        }
+                    }
+            }
         }
     }
 
@@ -92,4 +117,13 @@ open class AddEditFarmingRecordQrFragment : Fragment() {
             requireActivity().finish()
         }
     }
+
+    private fun navigateToSuccessScreen() {
+        findNavController().navigate(
+            AddEditFarmingRecordQrFragmentDirections.actionAddEditFarmingRecordQrFragmentToFarmingRecordQrOrderSuccessFragment(
+                viewModel.getQuantity()
+            )
+        )
+    }
+
 }

@@ -1,10 +1,16 @@
 package greenway_myanmar.org.features.farmingrecord.qr.domain.model
 
-import java.time.Instant
+enum class QrOrderStatus(val value: String) {
+    Ordered("ordered"),
+    Confirmed("confirmed");
 
-data class QrOrderStatus(
-    val id: Int,
-    val status: String,
-    val note: String?,
-    val date: Instant
-)
+    companion object {
+        fun fromString(value: String): QrOrderStatus {
+            return when (value) {
+                Ordered.value -> Ordered
+                Confirmed.value -> Confirmed
+                else -> Ordered
+            }
+        }
+    }
+}

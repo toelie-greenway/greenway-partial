@@ -112,7 +112,10 @@
         <item name="android:colorBackground">@color/app_white</item>
         <item name="android:windowBackground">?android:colorBackground</item>
         <item name="switchStyle">@style/Widget.GreenWay.Switch.Primary</item>
-        <item name="materialButtonStyle">@style/Widget.GreenWay.Button.UnelevatedButton.Rounded.Large
+        <item name="materialButtonStyle">
+            @style/Widget.GreenWay.Button.UnelevatedButton.Rounded.Large
+        </item>
+        <item name="radioButtonStyle">@style/Widget.MaterialComponents.CompoundButton.RadioButton
         </item>
     </style>
 

@@ -1,21 +1,25 @@
 package greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FarmingRecordQrOrderListItemBinding
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.QrOrderStatusItemUiState
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrOrder
 
 class QrOrderListAdapter constructor(
+    private val context: Context,
     private val itemClickCallback: ItemClickCallback
 ) :
     ListAdapter<UiQrOrder, QrOrderListAdapter.QrOrderViewHolder>(QrOrderDiffCallback) {
 
     class QrOrderViewHolder(
+        private val context: Context,
         private val binding: FarmingRecordQrOrderListItemBinding,
         private val itemClickCallback: ItemClickCallback
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -25,6 +29,29 @@ class QrOrderListAdapter constructor(
         }
 
         fun bind(item: UiQrOrder) {
+            binding.farmInfoTextView.text =
+                context.resources.getString(
+                    R.string.label_formatted_qr_order_farm_info,
+                    item.farmName,
+                    "သီးနှံနာမည်"
+                )
+            binding.seasonInfoTextView.text =
+                context.resources.getString(
+                    R.string.label_formatted_qr_order_season_info,
+                    item.seasonName,
+                    item.seasonYear
+                )
+            binding.quantityTextView.text =
+                context.resources.getString(
+                    R.string.label_formatted_qr_order_quantity,
+                    item.formattedQuantity
+                )
+            binding.orderStatusTextView.text =
+                context.resources.getString(
+                    R.string.label_formatted_qr_order_status,
+                    item.orderStatusDate,
+                    item.orderStatusDetail.description
+                )
             binding.qrImageView.setQrData(item.qrUrl)
             binding.qrCardView.setOnClickListener {
                 if (item.qrUrl.isNotEmpty()) {
@@ -43,7 +70,7 @@ class QrOrderListAdapter constructor(
             parent,
             false
         )
-        return QrOrderViewHolder(binding, itemClickCallback)
+        return QrOrderViewHolder(context, binding, itemClickCallback)
     }
 
     override fun onBindViewHolder(holder: QrOrderViewHolder, position: Int) {

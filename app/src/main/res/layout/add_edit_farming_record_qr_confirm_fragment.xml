@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
@@ -21,6 +22,7 @@
             android:text="@string/label_farming_record_qr_quantity" />
 
         <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+            android:id="@+id/quantity_text_input_layout"
             style="@style/Widget.GreenWay.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,9 +30,12 @@
             app:hintEnabled="false">
 
             <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+                android:id="@+id/quantity_text_input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="500" />
+                android:hint="500"
+                android:imeOptions="actionDone"
+                android:inputType="number" />
 
         </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
 
@@ -68,8 +73,8 @@
         <greenway_myanmar.org.features.farmingrecord.qr.presentation.widgets.QrUserInfoView
             android:id="@+id/user_info_view"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/spacing_8"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_8" />
 
         <greenway_myanmar.org.ui.widget.GreenWayTextView
             android:layout_width="match_parent"

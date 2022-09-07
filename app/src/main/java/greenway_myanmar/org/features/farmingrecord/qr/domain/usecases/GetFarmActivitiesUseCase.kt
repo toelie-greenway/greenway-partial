@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.farmingrecord.qr.domain.usecases
 
+import greenway_myanmar.org.common.domain.entities.ResourceError
 import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrFarmActivity
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -30,6 +31,6 @@ class GetFarmActivitiesUseCase @Inject constructor(
 
     sealed class GetFarmActivitiesResult {
         data class Success(val data: List<QrFarmActivity>) : GetFarmActivitiesResult()
-        data class Error(val message: String) : GetFarmActivitiesResult()
+        data class Error(val error: ResourceError) : GetFarmActivitiesResult()
     }
 }

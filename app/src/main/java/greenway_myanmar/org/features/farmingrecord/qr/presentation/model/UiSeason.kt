@@ -1,6 +1,5 @@
 package greenway_myanmar.org.features.farmingrecord.qr.presentation.model
 
-import greenway_myanmar.org.features.farmingrecord.qr.domain.model.Farm
 import greenway_myanmar.org.features.farmingrecord.qr.domain.model.Season
 import greenway_myanmar.org.vo.SingleListItem
 
@@ -17,7 +16,7 @@ data class UiSeason(
         fun fromDomain(domainEntity: Season): UiSeason {
             return UiSeason(
                 id = domainEntity.id,
-                name = domainEntity.name
+                name = domainEntity.seasonName
             )
         }
     }

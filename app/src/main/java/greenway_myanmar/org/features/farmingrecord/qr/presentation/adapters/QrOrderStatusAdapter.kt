@@ -4,13 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.os.LocaleListCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import greenway_myanmar.org.R
-import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrOrderStatus
+import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrOrderStatusDetail
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.QrOrderStatusItemUiState
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.FarmingRecordQrOrderStatusAdapter.OrderStatusViewHolder.PhysicalPosition
 import java.time.Instant
@@ -60,12 +59,12 @@ class FarmingRecordQrOrderStatusAdapter :
             bottomRouteView.alpha = if (dimRoute) 0.36f else 1f
         }
 
-        fun bind(item: QrOrderStatus) {
-            statusTextView.text = item.status
-            dateTextView.text = dateFormatted(item.date)
+        fun bind(item: QrOrderStatusDetail) {
+            statusTextView.text = item.status.value + "//TBC"
+            dateTextView.text = dateFormatted(item.createdAt)
 
-            noteTextView.text = item.note.orEmpty()
-            noteTextView.isVisible = !item.note.isNullOrEmpty()
+            noteTextView.text = item.description
+            noteTextView.isVisible = item.description.isNotEmpty()
         }
 
         private fun dateFormatted(date: Instant): String {

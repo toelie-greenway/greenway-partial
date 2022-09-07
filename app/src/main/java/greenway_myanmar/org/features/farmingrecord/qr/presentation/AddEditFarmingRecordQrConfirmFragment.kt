@@ -4,15 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
+import android.view.inputmethod.EditorInfo
+import android.widget.ScrollView
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import greenway_myanmar.org.common.presentation.extensions.hideSoftInput
+import greenway_myanmar.org.common.presentation.extensions.setTextError
+import greenway_myanmar.org.common.presentation.extensions.showIme
 import greenway_myanmar.org.databinding.AddEditFarmingRecordQrConfirmFragmentBinding
 import greenway_myanmar.org.util.kotlin.autoCleared
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -32,11 +36,7 @@ class AddEditFarmingRecordQrConfirmFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding =
-            AddEditFarmingRecordQrConfirmFragmentBinding.inflate(inflater, container, false).apply {
-                submitButton.setOnClickListener {
-                    navigateToSuccessScreen()
-                }
-            }
+            AddEditFarmingRecordQrConfirmFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -47,11 +47,22 @@ class AddEditFarmingRecordQrConfirmFragment : Fragment() {
     }
 
     private fun setupUi() {
-        setupList()
+        setupQuantityEditText()
+        setupClickListeners()
     }
 
-    private fun setupList() {
+    private fun setupQuantityEditText() {
+        binding.quantityTextInputEditText.doAfterTextChanged {
+            parentViewModel.handleEvent(
+                AddEditFarmingRecordQrEvent.QuantityChanged(it?.toString().orEmpty())
+            )
+        }
+    }
 
+    private fun setupClickListeners() {
+        binding.submitButton.setOnClickListener {
+            parentViewModel.handleEvent(AddEditFarmingRecordQrEvent.ConfirmOrder)
+        }
     }
 
     private fun observeViewModel() {
@@ -60,16 +71,29 @@ class AddEditFarmingRecordQrConfirmFragment : Fragment() {
                 parentViewModel.uiState.map { it.farmActivities }
                     .distinctUntilChanged()
                     .collect {
-                        binding.farmingInfoView.setActivities(it)
+                        binding.farmingInfoView.setActivities(it )
+                    }
+            }
+            launch {
+                parentViewModel.uiState.map { it.quantityError }
+                    .distinctUntilChanged()
+                    .collect { error ->
+                        binding.quantityTextInputLayout.setTextError(error)
+                        if (error != null) {
+                            binding.quantityTextInputEditText.requestFocus()
+                            binding.scrollView.scrollTo(0, 0)
+                            binding.quantityTextInputEditText.showIme()
+                        }
+                    }
+            }
+            launch {
+                parentViewModel.uiState.map { it.loading }
+                    .distinctUntilChanged()
+                    .collect { loading ->
+                        binding.submitButton.isVisible = !loading
                     }
             }
         }
-    }
-
-    private fun navigateToSuccessScreen() {
-        findNavController().navigate(
-            AddEditFarmingRecordQrFragmentDirections.actionAddEditFarmingRecordQrFragmentToFarmingRecordQrOrderSuccessFragment()
-        )
     }
 
     companion object {

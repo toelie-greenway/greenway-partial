@@ -38,13 +38,30 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/progress_indicator"
-            style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:trackColor="@color/app_white"
-            app:trackThickness="1dp" />
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_indicator"
+                style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:indicatorColor="@color/color_primary_56"
+                app:trackColor="@color/app_white"
+                app:trackThickness="1dp" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/loading_indicator"
+                style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                app:indicatorColor="@color/color_primary_56"
+                app:trackColor="@color/app_white"
+                app:trackThickness="1dp" />
+        </FrameLayout>
+
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"

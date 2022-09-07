@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_farmingRecordQrOrderSuccessFragment_to_farmingRecordQrOrderStatusFragment"
             app:destination="@id/farmingRecordQrOrderStatusFragment" />
+        <argument
+            android:name="quantity"
+            app:argType="integer" />
     </fragment>
 
     <fragment

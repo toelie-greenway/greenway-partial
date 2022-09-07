@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,10 +14,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
+import greenway_myanmar.org.common.domain.entities.asString
+import greenway_myanmar.org.common.presentation.decorators.SpacingItemDecoration
 import greenway_myanmar.org.databinding.FarmingRecordQrHomeFragmentBinding
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.QrOrderListAdapter
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrOrder
 import greenway_myanmar.org.util.kotlin.autoCleared
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -79,7 +83,14 @@ class FarmingRecordQrHomeFragment : Fragment() {
     }
 
     private fun setupUi() {
+        setupRetryButton()
         setupList()
+    }
+
+    private fun setupRetryButton() {
+        binding.retryButton.setOnClickListener {
+            viewModel.handleEvent(FarmingRecordQrHomeEvent.Retry)
+        }
     }
 
     private fun setupList() {
@@ -92,17 +103,10 @@ class FarmingRecordQrHomeFragment : Fragment() {
                 navigateToOrderDetailScreen(item)
             }
         }
-        adapter = QrOrderListAdapter(itemClickCallback)
+        adapter = QrOrderListAdapter(requireContext(), itemClickCallback)
         binding.qrOrderList.adapter = adapter
         binding.qrOrderList.apply {
-            addItemDecoration(
-                DividerItemDecoration(
-                    requireContext(),
-                    DividerItemDecoration.VERTICAL
-                ).apply {
-                    setDrawable(createDividerDrawable())
-                }
-            )
+            addItemDecoration(SpacingItemDecoration(requireContext(), 0, 0, 0, 16))
         }
     }
 
@@ -135,8 +139,25 @@ class FarmingRecordQrHomeFragment : Fragment() {
             launch {
                 viewModel.uiState.map { it.qrOrderList }
                     .distinctUntilChanged()
-                    .collect {
-                        adapter.submitList(it)
+                    .collect { list ->
+                        adapter.submitList(list)
+                        binding.qrOrderList.isVisible = list.isNotEmpty()
+                    }
+            }
+            launch {
+                viewModel.uiState.map { it.qrOrderListError }
+                    .distinctUntilChanged()
+                    .collect { error ->
+                        binding.errorMessage.text = error?.asString(requireContext())
+                        binding.errorMessage.isVisible = error != null
+                        binding.retryButton.isVisible = error != null
+                    }
+            }
+            launch {
+                viewModel.uiState.map { it.qrOrderListLoading }
+                    .distinctUntilChanged()
+                    .collect { loading ->
+                        binding.loadingIndicator.isVisible = loading
                     }
             }
         }

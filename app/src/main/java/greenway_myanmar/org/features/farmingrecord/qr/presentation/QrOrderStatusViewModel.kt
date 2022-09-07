@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.greenwaymyanmar.utils.runCancellableCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
-import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrOrderStatus
+import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrOrderStatusDetail
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrOrderStatusUseCase
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrOrderStatusUseCase.GetQrOrderStatusUseCaseResult
 import kotlinx.coroutines.Job
@@ -75,7 +75,7 @@ class QrOrderStatusViewModel @Inject constructor(
 
     }
 
-    private fun mapToListUiItem(data: List<QrOrderStatus>): List<QrOrderStatusItemUiState> {
+    private fun mapToListUiItem(data: List<QrOrderStatusDetail>): List<QrOrderStatusItemUiState> {
         return if (data.size == 1) {
             listOf(
                 QrOrderStatusItemUiState.ListItem(data[0]),
@@ -108,14 +108,14 @@ data class QrOrderStatusUiState(
 )
 
 sealed class QrOrderStatusItemUiState {
-    abstract val id: Int
-    data class ListItem(val item: QrOrderStatus) : QrOrderStatusItemUiState() {
-        override val id: Int
+    abstract val id: String
+    data class ListItem(val item: QrOrderStatusDetail) : QrOrderStatusItemUiState() {
+        override val id: String
             get() = item.id
     }
 
     object PlaceholderItem : QrOrderStatusItemUiState() {
-        override val id: Int
-            get() = -1
+        override val id: String
+            get() = "-1"
     }
 }

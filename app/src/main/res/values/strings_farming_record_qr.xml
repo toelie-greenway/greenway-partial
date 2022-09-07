@@ -12,6 +12,10 @@
 
     <!-- QR Home screen -->
     <string name="button_text_farming_record_qr_create_new_order">QR code အော်ဒါတင်ရန်</string>
+    <string name="label_formatted_qr_order_farm_info">%1$s၊ %2$s</string>
+    <string name="label_formatted_qr_order_season_info">%1$s၊ %2$s</string>
+    <string name="label_formatted_qr_order_quantity">အခုရေ %1$s</string>
+    <string name="label_formatted_qr_order_status">%1$s - %2$s</string>
 
     <!-- Add Edit Qr screen -->
     <string name="label_qr_code_number">QR Code Number</string>
@@ -19,6 +23,9 @@
     <string name="label_farming_record_qr_season">စိုက်ပျိုးရာသီ</string>
     <string name="label_farming_record_qr_crop_name">စိုက်ပျိုးသီးနှံ</string>
     <string name="label_farming_record_qr_farm_location">စိုက်ခင်းတည်နေရာ</string>
+    <string name="label_farming_record_qr_farm_location_map">မြေပုံနှင့် အတိအကျဖော်ပြမည်</string>
+    <string name="label_farming_record_qr_farm_location_township">မြို့နယ်အဆင့်ထိ ပြမည်</string>
+    <string name="label_farming_record_qr_farm_location_village">ကျေးရွာအဆင့်ထိ ပြမည်</string>
     <string name="label_farming_record_qr_phone_number">ဖုန်းနံပါတ်</string>
     <string name="label_farming_record_qr_show_farm_input">သွင်းအားစု ပါဝင်နှုန်း ပြမည်</string>
     <string name="label_farming_record_qr_show_yield">အထွက်နှုန်း ပမာဏ ပြမည်</string>
@@ -42,7 +49,7 @@
 
     <!-- QR order success screen -->
     <string name="label_farming_record_qr_order_success_title">အမှာစာအားအောင်မြင်စွာလက်ခံရရှိပါသည်။</string>
-    <string name="label_farming_record_qr_order_success_message">QR code အခုရေ ၅၀၀ မှာကြားမှု အား အစိမ်းရောင်လမ်းမှ အသေးစိတ်တွက်ချက်၍ ဖုန်းဆက်အတည်ပြုပေးပါမည်။</string>
+    <string name="label_farming_record_qr_order_success_message">QR code အခုရေ %1$s မှာကြားမှု အား အစိမ်းရောင်လမ်းမှ အသေးစိတ်တွက်ချက်၍ ဖုန်းဆက်အတည်ပြုပေးပါမည်။</string>
     <string name="button_text_farming_record_qr_view_order_status">မှာယူမှတ်တမ်းသို့</string>
 
     <string name="label_farming_record_qr_order_status_title">QR code GW-12345 မှာယူမှုမှတ်တမ်း</string>

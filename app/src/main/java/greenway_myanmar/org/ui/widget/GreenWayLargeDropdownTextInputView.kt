@@ -11,12 +11,14 @@ import androidx.core.view.isVisible
 import androidx.core.widget.TextViewCompat
 import androidx.transition.TransitionManager
 import greenway_myanmar.org.R
+import greenway_myanmar.org.common.domain.entities.Resource
+import greenway_myanmar.org.common.domain.entities.Text
+import greenway_myanmar.org.common.domain.entities.asString
 import greenway_myanmar.org.databinding.GreenWayLargeDropdownTextInputViewBinding
 import greenway_myanmar.org.ui.transition.Rotate
 import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView.LoadingState.Error
 import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView.LoadingState.Loading
 import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView.LoadingState.Success
-import greenway_myanmar.org.vo.Resource
 import greenway_myanmar.org.vo.SingleListItem
 import greenway_myanmar.org.vo.Status
 
@@ -82,7 +84,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 
             if (_expanded) {
                 if (_items.isEmpty()) {
-                    _clickCallback?.loadItem()
+                    _clickCallback?.loadItems()
                 } else {
                     showDropdown()
                 }
@@ -130,11 +132,18 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     }
 
     fun setSelection(item: T?) {
+        if (_selection != null && _selection == item) {
+            return
+        }
         _selection = item
         setText(item?.displayText.orEmpty())
     }
 
-    fun setText(text: String) {
+    fun removeSelection() {
+        setSelection(null)
+    }
+
+    private fun setText(text: String) {
         val colorResId =
             if (text.isNotEmpty()) R.color.app_primary_text else R.color.app_secondary_text
         binding.textTextView.setTextColor(ContextCompat.getColor(context, colorResId))
@@ -148,16 +157,26 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         binding.expandIcon.isVisible = state != Loading
         binding.errorTextView.isVisible = state is Error
         when (state) {
-            is LoadingState.Idle -> {}
-            is Loading -> {}
+            is LoadingState.Idle -> {
+                setItems(emptyList())
+            }
+            is Loading -> {
+                setItems(emptyList())
+            }
             is Success -> {
                 setItems(state.data, showDropdown)
             }
             is Error -> {
-                binding.errorTextView.text = state.message
+                setItems(emptyList())
+                setError(state.message)
                 resetExpanded(resetAnimationDuration = 0L)
             }
         }
+    }
+
+    fun setError(text: Text?) {
+        binding.errorTextView.text = text?.asString(context).orEmpty()
+        binding.errorTextView.isVisible = text != null
     }
 
     private fun resetExpanded(resetAnimationDuration: Long = 200L) {
@@ -181,7 +200,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     sealed class LoadingState<out T> {
         object Idle : LoadingState<Nothing>()
         data class Success<out T>(val data: List<T>) : LoadingState<T>()
-        data class Error(val message: String) : LoadingState<Nothing>()
+        data class Error(val message: Text?) : LoadingState<Nothing>()
         object Loading : LoadingState<Nothing>()
 
         override fun toString(): String {
@@ -199,7 +218,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
                     resource == null -> Idle
                     resource.status == Status.LOADING -> Loading
                     resource.status == Status.SUCCESS -> Success(resource.data ?: emptyList())
-                    resource.status == Status.ERROR -> Error(resource.message.orEmpty())
+                    resource.status == Status.ERROR -> Error(resource.error?.error)
                     else -> Idle
                 }
             }
@@ -207,7 +226,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     }
 
     interface ClickCallback<T> {
-        fun loadItem()
+        fun loadItems()
         fun onItemSelected(item: T)
     }
 }

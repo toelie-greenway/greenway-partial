@@ -21,6 +21,8 @@ import com.greenwaymyanmar.api.interceptors.NoConnectivityException
 import com.greenwaymyanmar.api.response.AsylErrorResponse
 import com.greenwaymyanmar.utils.errorMessage
 import greenway_myanmar.org.BuildConfig
+import greenway_myanmar.org.common.domain.entities.ResourceError
+import greenway_myanmar.org.common.domain.entities.Text
 import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException
@@ -35,43 +37,43 @@ import javax.net.ssl.SSLHandshakeException
  */
 @Suppress("unused") // T is used in extending classes
 sealed class ApiResponse<T> {
-  companion object {
-    @JvmStatic
-    fun <T> create(error: Throwable?): ApiErrorResponse<T> {
-      val errorMessage: String =
-        if (BuildConfig.DEBUG) {
-          error?.message ?: "unknown error"
-        } else {
-          "ချိတ်ဆက်မှု မအောင်မြင်ပါ။\nမိတ်ဆွေရဲ့ အင်တာနက်လိုင်းအား စစ်ဆေး၍ ပြန်လည်ကြိုးစားကြည့်ပါ။"
-        }
-      return when (error) {
-        is NoConnectivityException,
-        is SocketTimeoutException,
-        is UnknownHostException,
-        is ConnectException,
-        is SSLHandshakeException -> {
-          ApiErrorResponse(errorMessage, 500)
-        }
-        else -> {
-          ApiErrorResponse(errorMessage, 500)
-        }
-      }
-    }
+    companion object {
 
-    @JvmStatic
-    fun <T> create(response: Response<T>): ApiResponse<T> {
-      return if (response.isSuccessful) {
-        val body = response.body()
-        if (body == null || response.code() == 204) {
-          ApiEmptyResponse()
-        } else {
-          ApiSuccessResponse(body = body)
+        @JvmStatic
+        fun <T> create(error: Throwable?): ApiErrorResponse<T> {
+            return ApiErrorResponse(
+                ResourceError.IoMessageError(error.errorText()),
+                500
+            )
         }
-      } else {
-        ApiErrorResponse(response.errorMessage(), response.code())
-      }
+
+        @JvmStatic
+        fun <T> create(response: Response<T>): ApiResponse<T> {
+            return if (response.isSuccessful) {
+                val body = response.body()
+                if (body == null || response.code() == 204) {
+                    ApiEmptyResponse()
+                } else {
+                    ApiSuccessResponse(body = body)
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                if (errorBody.isNullOrEmpty()) {
+                    ApiErrorResponse(
+                        error = ResourceError.IoMessageError(
+                            error = Text.StringText(response.message())
+                        ),
+                        code = response.code()
+                    )
+                } else {
+                    ApiErrorResponse(
+                        error = ResourceError.IoBodyError(body = errorBody),
+                        code = response.code()
+                    )
+                }
+            }
+        }
     }
-  }
 }
 
 /** separate class for HTTP 204 responses so that we can make ApiSuccessResponse's body non-null. */
@@ -79,31 +81,56 @@ class ApiEmptyResponse<T> : ApiResponse<T>()
 
 data class ApiSuccessResponse<T>(val body: T) : ApiResponse<T>()
 
-data class ApiErrorResponse<T>(val errorMessage: String, val code: Int) : ApiResponse<T>()
+data class ApiErrorResponse<T>(val error: ResourceError, val code: Int) : ApiResponse<T>()
 
 fun Response<*>.errorMessage(): String {
 
-  var errorMsg: String? = null
+    var errorMsg: String? = null
 
-  val errorBodyString = this.errorBody()?.string()
+    val errorBodyString = this.errorBody()?.string()
 
-  if (!errorBodyString.isNullOrEmpty()) {
-    try {
-      val gson = Gson()
-      val apiError = gson.fromJson(errorBodyString, AsylErrorResponse::class.java)
-      errorMsg = apiError.message
-    } catch (ignored: IOException) {
-      Timber.e(ignored, "error while parsing response")
+    if (!errorBodyString.isNullOrEmpty()) {
+        try {
+            val gson = Gson()
+            val apiError = gson.fromJson(errorBodyString, AsylErrorResponse::class.java)
+            errorMsg = apiError.message
+        } catch (ignored: IOException) {
+            Timber.e(ignored, "error while parsing response")
+        }
     }
-  }
 
-  if (errorMsg.isNullOrEmpty()) {
-    errorMsg = this.message()
-  }
+    if (errorMsg.isNullOrEmpty()) {
+        errorMsg = this.message()
+    }
 
-  return if (!errorMsg.isNullOrEmpty()) {
-    errorMsg
-  } else {
-    "တစ်ခုခုမှားယွင်းနေပါသည်။ ခေတ္တခဏ စောင့်ဆိုင်းပြီ ပြန်လည်ကြိုးစားကြည့်ပါ။ ကျေးဇူးတင်ပါသည်။"
-  }
+    return if (!errorMsg.isNullOrEmpty()) {
+        errorMsg
+    } else {
+        "တစ်ခုခုမှားယွင်းနေပါသည်။ ခေတ္တခဏ စောင့်ဆိုင်းပြီ ပြန်လည်ကြိုးစားကြည့်ပါ။ ကျေးဇူးတင်ပါသည်။"
+    }
+}
+
+fun Throwable?.errorText(): Text {
+    val errorMessage: String =
+        if (BuildConfig.DEBUG) {
+            this?.message ?: "unknown error"
+        } else {
+            "ချိတ်ဆက်မှု မအောင်မြင်ပါ။\nမိတ်ဆွေရဲ့ အင်တာနက်လိုင်းအား စစ်ဆေး၍ ပြန်လည်ကြိုးစားကြည့်ပါ။"
+        }
+    return when (this) {
+        is NoConnectivityException,
+        is SocketTimeoutException,
+        is UnknownHostException,
+        is ConnectException,
+        is SSLHandshakeException -> {
+            Text.StringText(errorMessage)
+        }
+        else -> {
+            Text.StringText(errorMessage)
+        }
+    }
+}
+
+fun  Response<*>.errorText(): Text {
+    return Text.StringText(errorMessage())
 }

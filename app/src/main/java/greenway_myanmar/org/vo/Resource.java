@@ -71,19 +71,6 @@ public class Resource<T> {
         return new Resource<>(LOADING, data, null, -1);
     }
 
-    public static <T> Resource<T> from(Throwable e, @Nullable T data) {
-        ApiErrorResponse<T> response = ApiResponse.create(e);
-        return error(
-                response.getErrorMessage(),
-                data,
-                response.getCode()
-        );
-    }
-
-    public static <T> Resource<T> from(Throwable e) {
-        return from(e, null);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
