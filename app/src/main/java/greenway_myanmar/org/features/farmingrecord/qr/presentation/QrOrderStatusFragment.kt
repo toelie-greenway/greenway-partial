@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import greenway_myanmar.org.common.domain.entities.asString
 import greenway_myanmar.org.databinding.FarmingRecordQrOrderStatusFragmentBinding
 import greenway_myanmar.org.databinding.FarmingRecordQrOrderSuccessFragmentBinding
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.FarmingRecordQrOrderStatusAdapter
@@ -32,9 +35,7 @@ class QrOrderStatusFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding =
-            FarmingRecordQrOrderStatusFragmentBinding.inflate(inflater, container, false).apply {
-
-            }
+            FarmingRecordQrOrderStatusFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -43,12 +44,20 @@ class QrOrderStatusFragment : Fragment() {
 
         setupUi()
         observeViewModel()
-
-        viewModel.setOrderId("123")
     }
 
     private fun setupUi() {
+        setupOnClickListeners()
         setupList()
+    }
+
+    private fun setupOnClickListeners() {
+        binding.closeButton.setOnClickListener {
+            navigateBack()
+        }
+        binding.editQrButton.setOnClickListener {
+            navigateToQrEditScreen()
+        }
     }
 
     private fun setupList() {
@@ -63,6 +72,34 @@ class QrOrderStatusFragment : Fragment() {
                     adapter.submitList(it)
                 }
             }
+            launch {
+                viewModel.uiState.map { it.isLoading }.distinctUntilChanged()
+                    .collect { loading ->
+                        binding.loadingIndicator.isVisible = loading
+                    }
+            }
+            launch {
+                viewModel.uiState.map { it.order }
+                    .distinctUntilChanged()
+                    .collect {
+                        binding.contentContainer.isVisible = it != null
+                    }
+            }
+            launch {
+                viewModel.uiState.map { it.title }
+                    .distinctUntilChanged()
+                    .collect {
+                        binding.titleTextView.text = it.asString(requireContext())
+                    }
+            }
         }
+    }
+
+    private fun navigateBack() {
+        findNavController().popBackStack()
+    }
+
+    private fun navigateToQrEditScreen() {
+
     }
 }

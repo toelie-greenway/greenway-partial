@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_16"
+        android:layout_marginTop="@dimen/spacing_24"
+        android:text="@string/label_farming_record_qr_phone_number"
+        android:textAppearance="?textAppearanceHeadline6" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/spacing_16"
+        android:paddingTop="@dimen/spacing_16"
+        android:paddingEnd="@dimen/spacing_16"
+        android:paddingBottom="@dimen/spacing_16">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+            android:id="@+id/phone_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_farming_record_qr_phone_number"
+            app:prefixText="09">
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+                android:id="@+id/phone_input_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="phone"
+                android:maxLines="1" />
+
+        </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:minHeight="52dp"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/spacing_8"
+        android:paddingEnd="@dimen/spacing_8">
+
+        <greenway_myanmar.org.ui.widget.GreenWayButton
+            android:id="@+id/cancel_button"
+            style="?attr/buttonBarNegativeButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:minWidth="64dp"
+            android:text="@string/button_text_close" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayButton
+            android:id="@+id/confirm_button"
+            style="?attr/buttonBarPositiveButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:minWidth="64dp"
+            android:text="@string/button_text_confirm" />
+
+    </LinearLayout>
+
+</LinearLayout>

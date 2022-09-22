@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,14 +16,22 @@ class FarmingRecordQrActivity : AppCompatActivity() {
 
     private val navController by lazy { findNavController() }
 
+    private lateinit var viewModel: FarmingRecordQrActivityViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.farming_record_qr_activity)
+
+        initViewMode()
 
         val navInflater = navController.navInflater
         val graph = navInflater.inflate(R.navigation.farming_record_qr_nav_graph)
         graph.setStartDestination(R.id.farmingRecordQrHomeFragment)
         navController.graph = graph
+    }
+
+    private fun initViewMode() {
+        viewModel = ViewModelProvider(this).get(FarmingRecordQrActivityViewModel::class.java)
     }
 
     private fun findNavController(): NavController {

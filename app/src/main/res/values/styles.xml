@@ -496,4 +496,10 @@
         <item name="android:textAppearance">?textAppearanceCaption</item>
         <item name="android:text">12sp</item>
     </style>
+
+    <style name="ThemeOverlay.GreenWay.PhoneInputDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:windowMinWidthMajor">@dimen/abc_dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/abc_dialog_min_width_minor</item>
+    </style>
+
 </resources>

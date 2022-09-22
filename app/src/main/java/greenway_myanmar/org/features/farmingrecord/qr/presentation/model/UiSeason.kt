@@ -5,18 +5,20 @@ import greenway_myanmar.org.vo.SingleListItem
 
 data class UiSeason(
     val id: String,
-    val name: String
+    val name: String,
+    val crop: UiCrop
 ) : SingleListItem {
     override val itemId: Long
         get() = id.toLong()
     override val displayText: String
-        get() = name
+        get() = "$name (${crop.title})"
 
     companion object {
         fun fromDomain(domainEntity: Season): UiSeason {
             return UiSeason(
                 id = domainEntity.id,
-                name = domainEntity.seasonName
+                name = domainEntity.seasonName,
+                crop = UiCrop.fromDomain(domainEntity.crop)
             )
         }
     }

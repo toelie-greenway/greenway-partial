@@ -1,15 +1,16 @@
 package greenway_myanmar.org.features.farmingrecord.qr.domain.usecases
 
-import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrOrderStatusDetail
-import java.time.Instant
-import java.time.temporal.ChronoUnit
+import greenway_myanmar.org.common.domain.entities.ResourceError
+import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrOrder
+import greenway_myanmar.org.features.farmingrecord.qr.domain.repositories.QrRepository
 import javax.inject.Inject
 
-class GetQrOrderStatusUseCase @Inject constructor(
+class GetQrOrderUseCase @Inject constructor(
+    private val qrRepository: QrRepository
 ) {
 
-    operator fun invoke(): GetQrOrderStatusUseCaseResult {
-        return GetQrOrderStatusUseCaseResult.Success(emptyList())
+    suspend operator fun invoke(params: Param): GetQrOrderResult {
+        return qrRepository.getQrOrder(params.orderId)
     }
 
     //            listOf(
@@ -20,9 +21,10 @@ class GetQrOrderStatusUseCase @Inject constructor(
 //            )
 //        )
 
-    sealed class GetQrOrderStatusUseCaseResult {
-        object Loading : GetQrOrderStatusUseCaseResult()
-        data class Success(val data: List<QrOrderStatusDetail>) : GetQrOrderStatusUseCaseResult()
-        data class Error(val message: String) : GetQrOrderStatusUseCaseResult()
+    data class Param(val orderId: String)
+
+    sealed class GetQrOrderResult {
+        data class Success(val data: QrOrder) : GetQrOrderResult()
+        data class Error(val error: ResourceError) : GetQrOrderResult()
     }
 }

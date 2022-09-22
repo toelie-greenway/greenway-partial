@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
@@ -20,6 +22,7 @@ import greenway_myanmar.org.databinding.FarmingRecordQrHomeFragmentBinding
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.QrOrderListAdapter
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrOrder
 import greenway_myanmar.org.util.kotlin.autoCleared
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -34,6 +37,8 @@ class FarmingRecordQrHomeFragment : Fragment() {
     private var adapter by autoCleared<QrOrderListAdapter>()
 
     private val viewModel by viewModels<FarmingRecordQrHomeViewModel>()
+
+    private val qrActivityViewModel: FarmingRecordQrActivityViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -85,6 +90,7 @@ class FarmingRecordQrHomeFragment : Fragment() {
     private fun setupUi() {
         setupRetryButton()
         setupList()
+        setupSwipeRefresh()
     }
 
     private fun setupRetryButton() {
@@ -110,6 +116,19 @@ class FarmingRecordQrHomeFragment : Fragment() {
         }
     }
 
+    private fun setupSwipeRefresh() {
+        binding.swipeRefresh.setScrollUpChild(binding.qrOrderList)
+        binding.swipeRefresh.setOnRefreshListener {
+            refresh()
+        }
+    }
+
+    private fun refresh() {
+        viewModel.handleEvent(
+            FarmingRecordQrHomeEvent.Refresh
+        )
+    }
+
     private fun createDividerDrawable(): InsetDrawable {
         val attrs = intArrayOf(android.R.attr.listDivider)
         val a = requireContext().obtainStyledAttributes(attrs)
@@ -128,10 +147,12 @@ class FarmingRecordQrHomeFragment : Fragment() {
     }
 
     private fun navigateToOrderDetailScreen(order: UiQrOrder) {
-//        findNavController().navigate(
-//            FarmingRecordQrHomeFragmentDirections
-//                .actionFarmingRecordQrHomeFragmentToQrFullScreenFragment(qrData)
-//        )
+        findNavController().navigate(
+            FarmingRecordQrHomeFragmentDirections
+                .actionFarmingRecordQrHomeFragmentToFarmingRecordQrOrderStatusFragment(
+                    orderId = order.id
+                )
+        )
     }
 
     private fun observeViewModel() {
@@ -158,6 +179,39 @@ class FarmingRecordQrHomeFragment : Fragment() {
                     .distinctUntilChanged()
                     .collect { loading ->
                         binding.loadingIndicator.isVisible = loading
+                    }
+            }
+            launch {
+                viewModel.uiState.map { it.qrOrderListRefreshing }
+                    .distinctUntilChanged()
+                    .collect { refreshing ->
+                        binding.swipeRefresh.isRefreshing = refreshing
+                    }
+            }
+            launch {
+                viewModel.uiState.map { it.scrollToTopPending }
+                    .distinctUntilChanged()
+                    .collect { pending ->
+                        if (pending) {
+                            binding.qrOrderList.scrollToPosition(0)
+                            viewModel.handleEvent(
+                                FarmingRecordQrHomeEvent.ScrollToTopHandled
+                            )
+                        }
+                    }
+            }
+            launch {
+                qrActivityViewModel.uiState.map { it.refreshPending }
+                    .distinctUntilChanged()
+                    .collect { pending ->
+                        if (pending) {
+                            viewModel.handleEvent(
+                                FarmingRecordQrHomeEvent.Refresh
+                            )
+                            qrActivityViewModel.handleEvent(
+                                FarmingRecordQrEvent.Refresh
+                            )
+                        }
                     }
             }
         }

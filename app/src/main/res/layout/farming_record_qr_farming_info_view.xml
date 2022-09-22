@@ -18,8 +18,9 @@
             android:text="@string/label_farming_record_qr_farm_location" />
 
         <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/farm_location"
             style="@style/FarmingRecordQrInfoItemValueStyle"
-            android:text="မြေပုံပေါ်တွင် ကြည့်ရန်" />
+            tools:text="မြေပုံပေါ်တွင် ကြည့်ရန်" />
 
     </LinearLayout>
 
@@ -36,8 +37,9 @@
             android:text="@string/label_farming_record_qr_farm_name" />
 
         <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/farm_name"
             style="@style/FarmingRecordQrInfoItemValueStyle"
-            android:text="သောင်ကွက်" />
+            tools:text="သောင်ကွက်" />
 
     </LinearLayout>
 
@@ -54,8 +56,9 @@
             android:text="@string/label_farming_record_qr_crop_name" />
 
         <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/crop_name"
             style="@style/FarmingRecordQrInfoItemValueStyle"
-            android:text="ဗူး" />
+            tools:text="ဗူး" />
 
     </LinearLayout>
 

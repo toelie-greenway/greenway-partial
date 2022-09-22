@@ -9,8 +9,10 @@ import java.time.Instant
 data class ApiQrOrderStatusDetail(
     @SerializedName("created_at")
     val createdAt: Instant? = null,
-    @SerializedName("description")
-    val description: String? = null,
+    @SerializedName("status_label")
+    val statusLabel: String? = null,
+    @SerializedName("note")
+    val note: String? = null,
     @SerializedName("id")
     val id: String? = null,
     @SerializedName("qr_id")
@@ -26,7 +28,8 @@ data class ApiQrOrderStatusDetail(
         return QrOrderStatusDetail(
             id = id.orEmpty(),
             status = QrOrderStatus.fromString(status.orEmpty()),
-            description = description.orEmpty(),
+            statusLabel = statusLabel.orEmpty(),
+            note = note.orEmpty(),
             createdAt = createdAt ?: Instant.now()
         )
     }

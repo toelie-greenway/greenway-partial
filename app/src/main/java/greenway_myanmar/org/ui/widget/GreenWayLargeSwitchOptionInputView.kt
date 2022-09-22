@@ -63,6 +63,8 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 
         binding.root.setOnClickListener {
             binding.optionSwitch.toggle()
+            _clickCallback?.onItemClick()
+            // binding.optionSwitch.toggle()
             //      _expanded = !_expanded
             //      toggleDropdownArrow()
             //
@@ -116,5 +118,6 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 
     interface ClickCallback {
         fun onCheckChanged(buttonView: CompoundButton, selected: Boolean)
+        fun onItemClick()
     }
 }

@@ -12,6 +12,7 @@ import greenway_myanmar.org.R
 import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrOrderStatusDetail
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.QrOrderStatusItemUiState
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.FarmingRecordQrOrderStatusAdapter.OrderStatusViewHolder.PhysicalPosition
+import greenway_myanmar.org.util.MyanmarZarConverter
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -60,16 +61,16 @@ class FarmingRecordQrOrderStatusAdapter :
         }
 
         fun bind(item: QrOrderStatusDetail) {
-            statusTextView.text = item.status.value + "//TBC"
+            statusTextView.text = item.statusLabel
             dateTextView.text = dateFormatted(item.createdAt)
 
-            noteTextView.text = item.description
-            noteTextView.isVisible = item.description.isNotEmpty()
+            noteTextView.text = item.note
+            noteTextView.isVisible = item.note.isNotEmpty()
         }
 
         private fun dateFormatted(date: Instant): String {
             val zoneId = ZoneId.systemDefault()
-            val locale = Locale("my")// LocaleListCompat.getDefault().get(0)
+            val locale = MyanmarZarConverter.getLocale()
             return DateTimeFormatter.ofPattern("d MMMM, yyyy၊ a h:mm")
                 .withLocale(locale)
                 .withDecimalStyle(DecimalStyle.of(locale))

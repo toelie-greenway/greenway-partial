@@ -130,7 +130,7 @@
     <string name="button_text_post_thread">တင်မယ်</string>
     <string name="button_text_confirm">အတည်ပြု</string>
     <string name="button_text_next">ရှေ့သို့</string>
-    <string name="button_text_close">Close</string>
+    <string name="button_text_close">ပိတ်မည်</string>
 
     <!-- Dialog Texts -->
     <string name="dialog_positive_button">ဟုတ်ပြီ</string>

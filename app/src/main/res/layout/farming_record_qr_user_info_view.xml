@@ -19,7 +19,8 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/profile_image_placeholder"
+            android:id="@+id/farmer_profile"
+            tools:src="@drawable/profile_image_placeholder"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.GreenWay.Image.Circle"
             app:strokeWidth="1dp" />
 
@@ -28,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/spacing_16"
-            android:text="ကိုသိန်းစိုးမင်း"
+            tools:text="ကိုသိန်းစိုးမင်း"
+            android:id="@+id/farmer_name"
             android:textAppearance="?textAppearanceBody2" />
 
     </LinearLayout>
@@ -42,8 +44,9 @@
             android:text="@string/label_farming_record_qr_farmer_contact_number" />
 
         <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/farmer_contact_number"
             style="@style/FarmingRecordQrInfoItemValueStyle"
-            android:text="09123456789" />
+            tools:text="09123456789" />
 
     </LinearLayout>
 
@@ -59,8 +62,9 @@
             android:text="@string/label_farming_record_qr_farmer_location" />
 
         <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/farmer_address"
             style="@style/FarmingRecordQrInfoItemValueStyle"
-            android:text="ပုလဲမြို့နယ်၊ တောင်ပုရွာ" />
+            tools:text="ပုလဲမြို့နယ်၊ တောင်ပုရွာ" />
 
     </LinearLayout>
 
@@ -76,44 +80,10 @@
             android:text="@string/label_farming_record_qr_farmer_crops" />
 
         <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/farmer_crop"
             style="@style/FarmingRecordQrInfoItemValueStyle"
-            android:text="မြေပဲ၊ ကြက်သွန်နီ၊ ပဲတီစိမ်း၊ဂျုံ၊ ငရုတ်သီး" />
+            tools:text="မြေပဲ၊ ကြက်သွန်နီ၊ ပဲတီစိမ်း၊ဂျုံ၊ ငရုတ်သီး" />
 
     </LinearLayout>
-
-    <!--    <LinearLayout style="@style/FarmingRecordQrInfoItemStyle">-->
-
-    <!--        <greenway_myanmar.org.ui.widget.GreenWayTextView-->
-    <!--            style="@style/FarmingRecordQrInfoItemLabelStyle"-->
-    <!--            android:text="@string/label_farming_record_qr_farm_name" />-->
-
-    <!--        <greenway_myanmar.org.ui.widget.GreenWayTextView-->
-    <!--            style="@style/FarmingRecordQrInfoItemValueStyle"-->
-    <!--            android:text="သောင်ကွက်" />-->
-
-    <!--    </LinearLayout>-->
-
-    <!--    <View-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="1dp"-->
-    <!--        android:background="@color/app_divider" />-->
-
-
-    <!--    <LinearLayout style="@style/FarmingRecordQrInfoItemStyle">-->
-
-    <!--        <greenway_myanmar.org.ui.widget.GreenWayTextView-->
-    <!--            style="@style/FarmingRecordQrInfoItemLabelStyle"-->
-    <!--            android:text="@string/label_farming_record_qr_crop_name" />-->
-
-    <!--        <greenway_myanmar.org.ui.widget.GreenWayTextView-->
-    <!--            style="@style/FarmingRecordQrInfoItemValueStyle"-->
-    <!--            android:text="ဗူး" />-->
-
-    <!--    </LinearLayout>-->
-
-    <!--    <View-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="1dp"-->
-    <!--        android:background="@color/app_divider" />-->
 
 </merge>

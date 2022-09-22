@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FarmingRecordQrFarmActivityListItemBinding
-import greenway_myanmar.org.features.farmingrecord.qr.presentation.QrFarmActivityItemUiState
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrFarmActivity
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.QrFarmActivityAdapter.QrFarmActivityViewHolder.PhysicalPosition.*
 
 class QrFarmActivityAdapter :
-    ListAdapter<QrFarmActivityItemUiState, QrFarmActivityAdapter.QrFarmActivityViewHolder>(
+    ListAdapter<UiQrFarmActivity, QrFarmActivityAdapter.QrFarmActivityViewHolder>(
         QrFarmActivityDiffCallback
     ) {
 
@@ -47,7 +47,7 @@ class QrFarmActivityAdapter :
             }
         }
 
-        fun bind(item: QrFarmActivityItemUiState) {
+        fun bind(item: UiQrFarmActivity) {
             activityNameTextView.text = item.activityName
             dateTextView.text = item.formattedDate
 
@@ -113,17 +113,17 @@ class QrFarmActivityAdapter :
         }
     }
 
-    object QrFarmActivityDiffCallback : DiffUtil.ItemCallback<QrFarmActivityItemUiState>() {
+    object QrFarmActivityDiffCallback : DiffUtil.ItemCallback<UiQrFarmActivity>() {
         override fun areItemsTheSame(
-            oldItem: QrFarmActivityItemUiState,
-            newItem: QrFarmActivityItemUiState
+            oldItem: UiQrFarmActivity,
+            newItem: UiQrFarmActivity
         ): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: QrFarmActivityItemUiState,
-            newItem: QrFarmActivityItemUiState
+            oldItem: UiQrFarmActivity,
+            newItem: UiQrFarmActivity
         ): Boolean {
             return oldItem == newItem
         }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,65 +17,25 @@
         android:paddingEnd="@dimen/spacing_16"
         android:paddingBottom="@dimen/spacing_16">
 
-        <greenway_myanmar.org.ui.widget.GreenWayTextView
+        <greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView
+            android:id="@+id/quantity_dropdown_input_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_farming_record_qr_quantity" />
+            android:label="@string/label_farming_record_qr_quantity" />
 
-        <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
-            android:id="@+id/quantity_text_input_layout"
-            style="@style/Widget.GreenWay.TextInputLayout.OutlinedBox"
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/estimated_price_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            app:hintEnabled="false">
+            android:textAppearance="?textAppearanceCaption"
+            tools:text="@string/label_farming_record_qr_estimated_cost" />
 
-            <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
-                android:id="@+id/quantity_text_input_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="500"
-                android:imeOptions="actionDone"
-                android:inputType="number" />
-
-        </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
-
-        <greenway_myanmar.org.ui.widget.GreenWayTextView
+        <greenway_myanmar.org.features.farmingrecord.qr.presentation.widgets.QrDetailView
+            android:id="@+id/qr_detail_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:text="@string/label_farming_record_qr_estimated_cost"
-            android:textAppearance="?textAppearanceCaption" />
-
-        <greenway_myanmar.org.ui.widget.GreenWayTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/spacing_triple"
-            android:text="@string/label_farming_record_qr_summary_preview"
-            android:textAppearance="?textAppearanceSubtitle2"
-            android:textColor="?colorOnSurface"
-            android:textSize="@dimen/app_text_size_caption" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/padding_normal"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="2dp" />
-
-        <greenway_myanmar.org.features.farmingrecord.qr.presentation.widgets.QrFarmingInfoView
-            android:id="@+id/farming_info_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_16" />
-
-        <greenway_myanmar.org.features.farmingrecord.qr.presentation.widgets.QrUserInfoView
-            android:id="@+id/user_info_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_8" />
+            android:layout_marginTop="@dimen/spacing_triple" />
 
         <greenway_myanmar.org.ui.widget.GreenWayTextView
             android:layout_width="match_parent"

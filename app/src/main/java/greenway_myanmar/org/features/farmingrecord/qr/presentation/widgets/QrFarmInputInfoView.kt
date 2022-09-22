@@ -1,7 +1,6 @@
 package greenway_myanmar.org.features.farmingrecord.qr.presentation.widgets
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,11 +10,10 @@ import androidx.core.view.isVisible
 import androidx.transition.TransitionManager
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FarmingRecordQrFarmInputInfoViewBinding
-import greenway_myanmar.org.features.farmingrecord.qr.presentation.QrFarmActivityItemUiState
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrFarmActivity
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.QrFarmActivityAdapter
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiSeason
 import greenway_myanmar.org.ui.transition.Rotate
-import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView
-import timber.log.Timber
 
 class QrFarmInputInfoView @JvmOverloads constructor(
     context: Context,
@@ -70,7 +68,17 @@ class QrFarmInputInfoView @JvmOverloads constructor(
         binding.farmInputList.adapter = adapter
     }
 
-    fun setActivities(activities: List<QrFarmActivityItemUiState>) {
+    fun setData(season: UiSeason, activities: List<UiQrFarmActivity>) {
+        setSeason(season)
+        setActivities(activities)
+    }
+
+    private fun setSeason(season: UiSeason) {
+        binding.seasonInfo.text =
+            resources.getString(R.string.label_farming_record_qr_season_info, season.name, "2050")
+    }
+
+    private fun setActivities(activities: List<UiQrFarmActivity>) {
         adapter.submitList(activities)
     }
 

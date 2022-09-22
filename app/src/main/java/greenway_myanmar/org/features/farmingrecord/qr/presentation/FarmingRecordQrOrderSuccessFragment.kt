@@ -68,9 +68,6 @@ class FarmingRecordQrOrderSuccessFragment : Fragment() {
     }
 
     private fun navigateToOrderStatusScreen() {
-        findNavController().navigate(
-            FarmingRecordQrOrderSuccessFragmentDirections
-                .actionFarmingRecordQrOrderSuccessFragmentToFarmingRecordQrOrderStatusFragment()
-        )
+        findNavController().popBackStack(R.id.farmingRecordQrHomeFragment, false)
     }
 }

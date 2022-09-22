@@ -23,7 +23,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
                 android:id="@+id/label_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
                 android:textColor="#4A4A4A"
                 tools:text="လယ်ကွက်အမည်" />
 
-            <TextView
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
                 android:id="@+id/text_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

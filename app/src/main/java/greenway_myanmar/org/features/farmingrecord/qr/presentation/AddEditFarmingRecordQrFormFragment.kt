@@ -8,25 +8,29 @@ import android.widget.CompoundButton
 import androidx.annotation.IdRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
-import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.common.domain.entities.asString
 import greenway_myanmar.org.common.presentation.extensions.showSnackbar
 import greenway_myanmar.org.databinding.AddEditFarmingRecordQrFormFragmentBinding
-import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiFarm
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.dialogs.PhoneInputDialog
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiFarmLocationType
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiSeason
-import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView
+import greenway_myanmar.org.ui.widget.*
 import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView.LoadingState
-import greenway_myanmar.org.ui.widget.GreenWayLargeSwitchOptionInputView
 import greenway_myanmar.org.util.kotlin.autoCleared
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.time.Instant
 
 @AndroidEntryPoint
 class AddEditFarmingRecordQrFormFragment : Fragment() {
@@ -36,6 +40,17 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
     private val parentViewModel: AddEditFarmingRecordQrViewModel by viewModels(
         ownerProducer = { requireParentFragment() }
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(PhoneInputDialog.REQUEST_KEY_PHONE) { _, bundle ->
+            val phone = bundle.getString(PhoneInputDialog.EXTRA_PHONE).orEmpty()
+            parentViewModel.handleEvent(
+                AddEditFarmingRecordQrEvent.PhoneChanged(phone)
+            )
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,13 +74,9 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
 
     private fun setupUi() {
         binding.farmDropdownInputView.setClickCallback(object :
-            GreenWayLargeDropdownTextInputView.ClickCallback<UiFarm> {
-            override fun loadItems() {
-                parentViewModel.handleEvent(AddEditFarmingRecordQrEvent.LoadFarms)
-            }
-
-            override fun onItemSelected(item: UiFarm) {
-                parentViewModel.handleEvent(AddEditFarmingRecordQrEvent.FarmChanged(item))
+            GreenWayLargePickerTextInputView.ClickCallback {
+            override fun onClick() {
+                showFarmListPicker()
             }
         })
         binding.seasonDropdownInputView.setClickCallback(object :
@@ -85,16 +96,26 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                 )
             )
         }
-        binding.phoneOptionInputView.setClickCallback(object :
-            GreenWayLargeSwitchOptionInputView.ClickCallback {
+        binding.phoneInputView.setClickCallback(object :
+            GreenWayLargeSwitchPhoneInputView.ClickCallback {
+            override fun onPhoneChanged(phone: String) {
+                parentViewModel.handleEvent(
+                    AddEditFarmingRecordQrEvent.PhoneChanged(phone)
+                )
+            }
+
             override fun onCheckChanged(buttonView: CompoundButton, selected: Boolean) {
                 parentViewModel.handleEvent(
                     AddEditFarmingRecordQrEvent.OptInShowPhoneChanged(
                         selected
                     )
                 )
-
             }
+
+            override fun onItemClick() {
+                // no-op
+            }
+
         })
         binding.farmInputOptionInputView.setClickCallback(object :
             GreenWayLargeSwitchOptionInputView.ClickCallback {
@@ -104,7 +125,10 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                         selected
                     )
                 )
+            }
 
+            override fun onItemClick() {
+                // no-op
             }
         })
         binding.yieldInputOptionInputView.setClickCallback(object :
@@ -116,19 +140,30 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                     )
                 )
             }
+
+            override fun onItemClick() {
+                // no-op
+            }
+        })
+        binding.qrLifetimeInputView.setClickCallback(object :
+            GreenWayLargeDateInputView.ClickCallback {
+            override fun onClick() {
+                showQrLifetimePicker()
+            }
         })
     }
 
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
             launch {
-                parentViewModel.uiState.map { it.farmList }
+                parentViewModel.uiState.map { it.farm }
                     .distinctUntilChanged()
-                    .collect { resource ->
-                        binding.farmDropdownInputView.setData(
-                            LoadingState.fromResource(resource),
-                            parentViewModel.uiState.value.showFarmDropdown
-                        )
+                    .collect { farm ->
+                        if (farm == null) {
+                            binding.farmDropdownInputView.removeSelection()
+                        } else {
+                            binding.farmDropdownInputView.setSelection(farm)
+                        }
                     }
             }
             launch {
@@ -139,6 +174,11 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                             LoadingState.fromResource(resource),
                             parentViewModel.uiState.value.showSeasonDropdown
                         )
+                        if (resource?.isSuccess() == true) {
+                            parentViewModel.handleEvent(
+                                AddEditFarmingRecordQrEvent.SeasonDropdownShown
+                            )
+                        }
                     }
             }
             launch {
@@ -174,6 +214,20 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                     }
             }
             launch {
+                parentViewModel.uiState.map { it.phoneError }
+                    .distinctUntilChanged()
+                    .collect { error ->
+                        binding.phoneInputView.setError(error)
+                    }
+            }
+            launch {
+                parentViewModel.uiState.map { it.qrLifetimeError }
+                    .distinctUntilChanged()
+                    .collect { error ->
+                        binding.qrLifetimeInputView.setError(error)
+                    }
+            }
+            launch {
                 parentViewModel.uiState.map { it.createQrError }
                     .distinctUntilChanged()
                     .collect { error ->
@@ -197,6 +251,30 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                     .distinctUntilChanged()
                     .collect { type ->
                         updateFarmLocationTypeUi(type)
+                    }
+            }
+            launch {
+                parentViewModel.uiState.map { it.qrLifetime }
+                    .distinctUntilChanged()
+                    .collect {
+                        binding.qrLifetimeInputView.setDate(it)
+                    }
+            }
+            launch {
+                parentViewModel.uiState.map { it.showPhoneInput }
+                    .distinctUntilChanged()
+                    .collect { show ->
+                        if (show) {
+                            showPhoneInputDialog()
+                            markPhoneInputShown()
+                        }
+                    }
+            }
+            launch {
+                parentViewModel.uiState.map { it.phone }
+                    .distinctUntilChanged()
+                    .collect { phone ->
+                        //binding.phon
                     }
             }
         }
@@ -245,6 +323,44 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                 R.id.farm_location_village_radio_button
             }
         }
+    }
+
+    private fun showFarmListPicker() {
+        val direction =
+            AddEditFarmingRecordQrFragmentDirections.actionAddEditFarmingRecordQrFragmentToFarmPickerDialogFragment()
+        findNavController()
+            .navigate(direction)
+    }
+
+    private fun showQrLifetimePicker() {
+        val constraintsBuilder =
+            CalendarConstraints.Builder()
+                .setValidator(DateValidatorPointForward.now())
+
+        val datePicker =
+            MaterialDatePicker.Builder.datePicker()
+                .setTitleText(R.string.label_farming_record_qr_lifetime)
+                .setCalendarConstraints(constraintsBuilder.build())
+                .build()
+        datePicker.addOnPositiveButtonClickListener {
+            val instant = Instant.ofEpochMilli(it)
+            Timber.d("Long: $it; Instant: $instant")
+            parentViewModel.handleEvent(
+                AddEditFarmingRecordQrEvent.QrLifetimeChanged(it)
+            )
+        }
+        datePicker.show(childFragmentManager, "qr-lifetime")
+    }
+
+    private fun showPhoneInputDialog() {
+        PhoneInputDialog.newInstance()
+            .show(childFragmentManager, "phone-input")
+    }
+
+    private fun markPhoneInputShown() {
+        parentViewModel.handleEvent(
+            AddEditFarmingRecordQrEvent.PhoneInputShown
+        )
     }
 
     companion object {

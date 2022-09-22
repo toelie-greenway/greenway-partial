@@ -16,9 +16,7 @@ import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.common.domain.entities.asString
 import greenway_myanmar.org.databinding.GreenWayLargeDropdownTextInputViewBinding
 import greenway_myanmar.org.ui.transition.Rotate
-import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView.LoadingState.Error
-import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView.LoadingState.Loading
-import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView.LoadingState.Success
+import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView.LoadingState.*
 import greenway_myanmar.org.vo.SingleListItem
 import greenway_myanmar.org.vo.Status
 
@@ -26,6 +24,7 @@ class GreenWayLargeDropdownTextInputView<T : SingleListItem>
 @JvmOverloads
 constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     LinearLayout(context, attrs, defStyleAttr) {
+
     private var toggle: Rotate
 
     private var _expanded = false

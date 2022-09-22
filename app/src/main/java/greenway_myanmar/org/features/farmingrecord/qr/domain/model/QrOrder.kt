@@ -5,6 +5,8 @@ data class QrOrder(
     val farm: Farm,
     val season: Season,
     val qrUrl: String,
+    val qrIdNumber: String,
     val quantity: Int,
-    val orderStatusDetail: QrOrderStatusDetail
+    val latestStatus: QrOrderStatusDetail,
+    val statuses: List<QrOrderStatusDetail>
 )

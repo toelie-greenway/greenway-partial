@@ -31,29 +31,55 @@ class FarmingRecordQrHomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             loadDataSignal.collectLatest {
-                loadQrList()
+                loadQrList(load = true)
             }
         }
     }
 
     fun handleEvent(event: FarmingRecordQrHomeEvent) {
         when (event) {
-            is FarmingRecordQrHomeEvent.Retry -> {
+            FarmingRecordQrHomeEvent.Retry -> {
                 retry()
+            }
+            FarmingRecordQrHomeEvent.Refresh -> {
+                refresh()
+            }
+            FarmingRecordQrHomeEvent.ScrollToTopHandled -> {
+                updateScrollToTop(false)
             }
         }
     }
 
-    private fun retry() {
-        loadQrList()
+    private fun updateScrollToTop(scroll: Boolean) {
+        _uiState.update {
+            it.copy(scrollToTopPending = scroll)
+        }
     }
 
-    private fun loadQrList() {
+    private fun retry() {
+        loadQrList(load = true)
+    }
+
+    private fun refresh() {
+        val isLoading = uiState.value.qrOrderListLoading
+        val isRefreshing = uiState.value.qrOrderListRefreshing
+        if (isLoading || isRefreshing) {
+            return
+        }
+
+        loadQrList(refresh = true)
+    }
+
+    private fun loadQrList(load: Boolean = false, refresh: Boolean = false) {
         viewModelScope.launch {
             loadQrListJob?.cancel()
             loadQrListJob = launch {
                 _uiState.update {
-                    it.copy(qrOrderListError = null, qrOrderListLoading = true)
+                    it.copy(
+                        qrOrderListError = null,
+                        qrOrderListLoading = load,
+                        qrOrderListRefreshing = refresh
+                    )
                 }
                 when (val result = getQrOrderListUseCase()) {
                     is GetQrOrderListResult.Success -> {
@@ -64,7 +90,9 @@ class FarmingRecordQrHomeViewModel @Inject constructor(
                                         it
                                     )
                                 },
-                                qrOrderListLoading = false
+                                qrOrderListLoading = false,
+                                qrOrderListRefreshing = false,
+                                scrollToTopPending = refresh,
                             )
                         }
                     }
@@ -72,7 +100,8 @@ class FarmingRecordQrHomeViewModel @Inject constructor(
                         _uiState.update {
                             it.copy(
                                 qrOrderListError = result.error.error,
-                                qrOrderListLoading = false
+                                qrOrderListLoading = false,
+                                qrOrderListRefreshing = false
                             )
                         }
                     }
@@ -84,10 +113,14 @@ class FarmingRecordQrHomeViewModel @Inject constructor(
 
 sealed class FarmingRecordQrHomeEvent {
     object Retry : FarmingRecordQrHomeEvent()
+    object Refresh : FarmingRecordQrHomeEvent()
+    object ScrollToTopHandled : FarmingRecordQrHomeEvent()
 }
 
 data class FarmingRecordQrHomeUiState(
     val qrOrderList: List<UiQrOrder> = emptyList(),
     val qrOrderListLoading: Boolean = false,
-    val qrOrderListError: Text? = null
+    val qrOrderListRefreshing: Boolean = false,
+    val qrOrderListError: Text? = null,
+    val scrollToTopPending: Boolean = false
 )

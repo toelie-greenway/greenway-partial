@@ -27,16 +27,20 @@
     <string name="label_farming_record_qr_farm_location_township">မြို့နယ်အဆင့်ထိ ပြမည်</string>
     <string name="label_farming_record_qr_farm_location_village">ကျေးရွာအဆင့်ထိ ပြမည်</string>
     <string name="label_farming_record_qr_phone_number">ဖုန်းနံပါတ်</string>
+    <string name="hint_farming_record_qr_phone_number">ဖုန်းနံပါတ်ရိုက်ထည့်ပါ</string>
     <string name="label_farming_record_qr_show_farm_input">သွင်းအားစု ပါဝင်နှုန်း ပြမည်</string>
     <string name="label_farming_record_qr_show_yield">အထွက်နှုန်း ပမာဏ ပြမည်</string>
+    <string name="label_farming_record_qr_lifetime">QR သက်တမ်းကုန်ဆုံးရက်</string>
     <string name="label_farming_record_qr_preview">သင်၏ကုဒ်</string>
+
+    <string name="nav_title_choose_qr_farm">လယ်ကွက်ရွေးချယ်ပါ</string>
 
     <!-- Add Edit Qr Summary Screen -->
     <string name="label_farming_record_qr_quantity">ထုတ်လိုသောအခုရေ</string>
-    <string name="label_farming_record_qr_estimated_cost">ခန့်မှန်းကုန်ကျငွေ</string>
+    <string name="label_farming_record_qr_estimated_cost">ခန့်မှန်းကုန်ကျငွေ - %1$s ကျပ်</string>
     <string name="label_farming_record_qr_summary_preview">သင်၏ ကုဒ် နှင့်ပါဝင်မည့်အချက်အလက်များ</string>
     <string name="label_farming_record_qr_farming_info_subtitle">သီးနှံရာဇဝင်</string>
-    <string name="label_farming_record_qr_farming_record">စိုက်ပျိုးမှတ်တမ်း (နွေရာသီ, ၂၀၂၂)</string>
+    <string name="label_farming_record_qr_season_info">စိုက်ပျိုးမှတ်တမ်း (%1$s၊ %2$s)</string>
     <string name="label_farming_record_qr_fertilizer_content">ဓာတ်မြေသြဇာပါဝင်နှုန်း</string>
     <string name="label_farming_record_qr_farmer_info">တောင်သူအချက်အလက်</string>
     <string name="label_farming_record_qr_farmer_contact_number">ဆက်သွယ်ရန်</string>
@@ -52,7 +56,7 @@
     <string name="label_farming_record_qr_order_success_message">QR code အခုရေ %1$s မှာကြားမှု အား အစိမ်းရောင်လမ်းမှ အသေးစိတ်တွက်ချက်၍ ဖုန်းဆက်အတည်ပြုပေးပါမည်။</string>
     <string name="button_text_farming_record_qr_view_order_status">မှာယူမှတ်တမ်းသို့</string>
 
-    <string name="label_farming_record_qr_order_status_title">QR code GW-12345 မှာယူမှုမှတ်တမ်း</string>
+    <string name="label_farming_record_qr_order_status_title">QR code %1$s မှာယူမှုမှတ်တမ်း</string>
     <string name="label_farming_record_qr_order_status_message">သင်၏မှာကြားမှုအား အစိမ်းရောင်လမ်းမှ အသေးစိတ်တွက်ချက်၍ ဖုန်းဆက်အတည်ပြုပေးပါမည်</string>
     <string name="button_text_farming_record_qr_edit">QR ပြင်ရန်</string>
 </resources>

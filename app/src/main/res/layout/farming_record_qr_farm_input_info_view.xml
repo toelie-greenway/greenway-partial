@@ -8,10 +8,11 @@
     tools:parentTag="android.widget.LinearLayout">
 
     <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/season_info"
         style="@style/FarmingRecordQrInfoItemLabelStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/label_farming_record_qr_farming_record" />
+        tools:text="@string/label_farming_record_qr_season_info" />
 
     <LinearLayout
         android:id="@+id/show_detail_container"

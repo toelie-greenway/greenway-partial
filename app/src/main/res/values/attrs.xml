@@ -108,10 +108,31 @@
         <attr name="android:textAppearance" />
     </declare-styleable>
 
-    <declare-styleable name="GreenWayLargeSwitchOptionInputView">
+    <declare-styleable name="GreenWayLargePickerTextInputView">
         <attr name="android:text" />
-        <attr name="textPlaceholder" format="reference|string"/>
         <attr name="android:label" />
         <attr name="android:textAppearance" />
     </declare-styleable>
+
+    <declare-styleable name="GreenWayLargeDateInputView">
+        <attr name="android:text" />
+        <attr name="android:label" />
+        <attr name="android:textAppearance" />
+    </declare-styleable>
+
+    <declare-styleable name="GreenWayLargeSwitchOptionInputView">
+        <attr name="android:text" />
+        <attr name="textPlaceholder" format="reference|string" />
+        <attr name="android:label" />
+        <attr name="android:textAppearance" />
+    </declare-styleable>
+
+    <declare-styleable name="GreenWayLargeSwitchPhoneInputView">
+        <attr name="android:text" />
+        <attr name="android:hint" />
+        <attr name="android:label" />
+        <attr name="android:textAppearance" />
+
+    </declare-styleable>
+
 </resources>

@@ -1,60 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingStart="@dimen/spacing_16"
-    android:paddingTop="@dimen/spacing_16"
-    android:paddingEnd="@dimen/spacing_16"
-    android:paddingBottom="@dimen/spacing_16">
+    android:layout_height="match_parent">
 
-    <greenway_myanmar.org.ui.widget.GreenWayTextView
-        android:id="@+id/title_text_view"
+    <LinearLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/spacing_16"
+        android:paddingTop="@dimen/spacing_16"
+        android:paddingEnd="@dimen/spacing_16"
+        android:paddingBottom="@dimen/spacing_16">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_16"
+            android:gravity="center_horizontal"
+            tools:text="@string/label_farming_record_qr_order_status_title"
+            android:textAppearance="?textAppearanceSubtitle2"
+            android:textSize="16sp" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/message_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:layout_marginTop="@dimen/spacing_16"
+            android:layout_marginEnd="@dimen/spacing_16"
+            android:gravity="center_horizontal"
+            android:lineSpacingMultiplier="1.4"
+            android:text="@string/label_farming_record_qr_order_status_message"
+            android:textAppearance="?textAppearanceCaption"
+            android:textSize="14sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_24"
+            android:layout_marginBottom="@dimen/spacing_16"
+            android:layout_weight="1"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/farming_record_qr_order_status_list_item" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayButton
+            android:id="@+id/edit_qr_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_text_farming_record_qr_edit" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayButton
+            android:id="@+id/close_button"
+            style="@style/Widget.GreenWay.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:text="@string/button_text_close"
+            android:textColor="?colorOnSurface" />
+
+    </LinearLayout>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading_indicator"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_16"
-        android:gravity="center_horizontal"
-        android:text="@string/label_farming_record_qr_order_status_title"
-        android:textAppearance="?textAppearanceSubtitle2"
-        android:textSize="16sp" />
+        android:layout_gravity="center"
+        android:indeterminate="true" />
 
-    <greenway_myanmar.org.ui.widget.GreenWayTextView
-        android:id="@+id/message_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_16"
-        android:layout_marginTop="@dimen/spacing_16"
-        android:layout_marginEnd="@dimen/spacing_16"
-        android:gravity="center_horizontal"
-        android:lineSpacingMultiplier="1.4"
-        android:text="@string/label_farming_record_qr_order_status_message"
-        android:textAppearance="?textAppearanceCaption"
-        android:textSize="14sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/spacing_24"
-        android:layout_marginBottom="@dimen/spacing_16"
-        android:layout_weight="1"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/farming_record_qr_order_status_list_item" />
-
-    <greenway_myanmar.org.ui.widget.GreenWayButton
-        android:layout_width="match_parent"
-
-        android:layout_height="wrap_content"
-        android:text="@string/button_text_farming_record_qr_edit" />
-
-    <greenway_myanmar.org.ui.widget.GreenWayButton
-        style="@style/Widget.GreenWay.Button.TextButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_8"
-        android:text="@string/button_text_close"
-        android:textColor="?colorOnSurface" />
-
-</LinearLayout>
+</FrameLayout>

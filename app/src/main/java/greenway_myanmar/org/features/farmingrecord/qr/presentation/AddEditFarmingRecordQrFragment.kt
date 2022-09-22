@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -16,6 +18,8 @@ import greenway_myanmar.org.R
 import greenway_myanmar.org.common.presentation.extensions.showSoftInput
 import greenway_myanmar.org.databinding.AddEditFarmingRecordQrFragmentBinding
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.AddEditQrPagerAdapter
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiFarm
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.pickers.FarmPickerFragment
 import greenway_myanmar.org.util.kotlin.autoCleared
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -30,10 +34,24 @@ open class AddEditFarmingRecordQrFragment : Fragment() {
 
     private val viewModel: AddEditFarmingRecordQrViewModel by viewModels()
 
+    private val qrActivityViewModel: FarmingRecordQrActivityViewModel by activityViewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setupFragmentResultListeners()
         handleBackPress()
+    }
+
+    private fun setupFragmentResultListeners() {
+        setFragmentResultListener(FarmPickerFragment.REQUEST_KEY_FARM) { requestKey, bundle ->
+            val farm = bundle.getParcelable(FarmPickerFragment.EXTRA_FARM) as? UiFarm
+            if (farm != null) {
+                viewModel.handleEvent(
+                    AddEditFarmingRecordQrEvent.FarmChanged(farm)
+                )
+            }
+        }
     }
 
     override fun onCreateView(
@@ -95,6 +113,17 @@ open class AddEditFarmingRecordQrFragment : Fragment() {
                         if (show) {
                             navigateToSuccessScreen()
                             viewModel.handleEvent(AddEditFarmingRecordQrEvent.OrderSuccessShown)
+                        }
+                    }
+            }
+            launch {
+                viewModel.uiState.map { it.refreshQrList }
+                    .distinctUntilChanged()
+                    .collect { refresh ->
+                        if (refresh) {
+                            qrActivityViewModel.handleEvent(
+                                FarmingRecordQrEvent.Refresh
+                            )
                         }
                     }
             }

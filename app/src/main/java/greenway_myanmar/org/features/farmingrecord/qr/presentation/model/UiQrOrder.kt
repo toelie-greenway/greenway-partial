@@ -27,10 +27,10 @@ data class UiQrOrder(
                 farmName = domainEntity.farm.name,
                 seasonName = domainEntity.season.seasonName,
                 seasonCreatedDate = Instant.now(), //TODO:
-                cropName = "TODO",
+                cropName = domainEntity.season.crop.title,
                 qrUrl = domainEntity.qrUrl,
                 quantity = domainEntity.quantity,
-                orderStatusDetail = UiQrOrderStatusDetail.fromDomain(domainEntity.orderStatusDetail),
+                orderStatusDetail = UiQrOrderStatusDetail.fromDomain(domainEntity.latestStatus),
             )
         }
     }

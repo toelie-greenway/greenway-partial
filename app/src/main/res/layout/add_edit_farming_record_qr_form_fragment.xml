@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView
+        <greenway_myanmar.org.ui.widget.GreenWayLargePickerTextInputView
             android:id="@+id/farm_dropdown_input_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,13 +106,13 @@
             tools:text="Something went wrong"
             tools:visibility="visible" />
 
-        <greenway_myanmar.org.ui.widget.GreenWayLargeSwitchOptionInputView
-            android:id="@+id/phone_option_input_view"
+        <greenway_myanmar.org.ui.widget.GreenWayLargeSwitchPhoneInputView
+            android:id="@+id/phone_input_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_normal"
             android:label="@string/label_farming_record_qr_phone_number"
-            android:text="09123456789" />
+            app:textPlaceholder="09xxxxxxxxx" />
 
         <greenway_myanmar.org.ui.widget.GreenWayLargeSwitchOptionInputView
             android:id="@+id/farm_input_option_input_view"
@@ -129,6 +129,14 @@
             android:layout_marginTop="@dimen/padding_normal"
             android:label="@string/label_farming_record_qr_show_yield"
             app:textPlaceholder="ဥပမာ - (၈၀) တင်း" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayLargeDateInputView
+            android:id="@+id/qr_lifetime_input_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:label="@string/label_farming_record_qr_lifetime"
+            app:textPlaceholder="ရက်/လ/နှစ်" />
 
         <greenway_myanmar.org.ui.widget.GreenWayButton
             android:id="@+id/submit_button"

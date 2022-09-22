@@ -2,14 +2,12 @@ package greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FarmingRecordQrOrderListItemBinding
-import greenway_myanmar.org.features.farmingrecord.qr.presentation.QrOrderStatusItemUiState
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrOrder
 
 class QrOrderListAdapter constructor(
@@ -33,7 +31,7 @@ class QrOrderListAdapter constructor(
                 context.resources.getString(
                     R.string.label_formatted_qr_order_farm_info,
                     item.farmName,
-                    "သီးနှံနာမည်"
+                    item.cropName
                 )
             binding.seasonInfoTextView.text =
                 context.resources.getString(
@@ -50,7 +48,7 @@ class QrOrderListAdapter constructor(
                 context.resources.getString(
                     R.string.label_formatted_qr_order_status,
                     item.orderStatusDate,
-                    item.orderStatusDetail.description
+                    item.orderStatusDetail.statusLabel
                 )
             binding.qrImageView.setQrData(item.qrUrl)
             binding.qrCardView.setOnClickListener {
