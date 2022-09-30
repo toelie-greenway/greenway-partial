@@ -22,6 +22,27 @@
             style="@style/FarmingRecordQrInfoItemValueStyle"
             tools:text="မြေပုံပေါ်တွင် ကြည့်ရန်" />
 
+        <FrameLayout
+            android:id="@+id/farm_location_map_frame"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3">
+
+            <greenway_myanmar.org.ui.widget.GreenWayButton
+                android:id="@+id/farm_location_show_map_button"
+                style="@style/Widget.GreenWay.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:textAppearance="?textAppearanceSubtitle2"
+                android:textColor="?colorOnSurface"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_location_on_black_24dp"
+                app:iconGravity="textEnd"
+                android:text="မြေပုံပေါ်တွင် ကြည့်ရန်" />
+        </FrameLayout>
+
+
     </LinearLayout>
 
     <View

@@ -3,16 +3,21 @@ package greenway_myanmar.org.features.farmingrecord.qr.domain.model
 data class QrUser(
     val id: String,
     val name: String,
+    val phone: String,
     val avatar: String,
-    val userInfo: QrUserInfo
+    val crops: List<Crop>,
+    val stateRegion: StateRegion? = null,
+    val township: Township? = null,
+    val villageTractTown: VillageTractTown? = null,
+    val villageWard: VillageWard? = null
 ) {
-    data class QrUserInfo(
-        val career: String
-    ) {
-        companion object {
-            val Empty = QrUserInfo(
-                career = ""
-            )
-        }
+    companion object {
+        val Empty = QrUser(
+            id = "",
+            name = "",
+            avatar = "",
+            phone = "",
+            crops = emptyList()
+        )
     }
 }

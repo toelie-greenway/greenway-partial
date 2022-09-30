@@ -2,6 +2,7 @@ package greenway_myanmar.org.features.farmingrecord.qr.domain.usecases
 
 import greenway_myanmar.org.common.domain.entities.ResourceError
 import greenway_myanmar.org.features.farmingrecord.qr.domain.model.FarmLocationType
+import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrLifetime
 import greenway_myanmar.org.features.farmingrecord.qr.domain.repositories.QrRepository
 import java.time.Instant
 import javax.inject.Inject
@@ -31,12 +32,14 @@ class CreateUpdateQrUseCase @Inject constructor(
         val optInShowPhone: Boolean,
         val optInShowFarmInput: Boolean,
         val optionShowYield: Boolean,
-        val qrLifetime: Instant,
+        val qrLifetime: Int,
         val phone: String
     )
 
     sealed class CreateUpdateQrResult {
-        data class Success(val qrId: String) : CreateUpdateQrResult()
+        data class Success(val qrId: String) :
+            CreateUpdateQrResult()
+
         data class Error(val error: ResourceError) : CreateUpdateQrResult()
     }
 }

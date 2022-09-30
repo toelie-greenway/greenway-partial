@@ -17,11 +17,11 @@ internal constructor(
     private val userId: Int
 ) : BasePageKeyedGreenWayDataSource<ApiFarmList, ApiFarm>(appExecutors, gson) {
     override fun createCall(): Call<ApiFarmList> {
-        return webservice.getFarmList(1, userId)
+        return webservice.getHarvestedFarmList(1, userId)
     }
 
     override fun createNextPageCall(nextPage: Int): Call<ApiFarmList> {
-        return webservice.getFarmList(nextPage, userId)
+        return webservice.getHarvestedFarmList(nextPage, userId)
     }
 
     override fun getItemsFromResponse(listResponse: ApiFarmList): List<ApiFarm> {

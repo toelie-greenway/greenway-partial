@@ -22,6 +22,8 @@ import greenway_myanmar.org.common.presentation.extensions.showSnackbar
 import greenway_myanmar.org.databinding.AddEditFarmingRecordQrFormFragmentBinding
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.dialogs.PhoneInputDialog
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiFarmLocationType
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrLifetime
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrQuantity
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiSeason
 import greenway_myanmar.org.ui.widget.*
 import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView.LoadingState
@@ -145,10 +147,18 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                 // no-op
             }
         })
-        binding.qrLifetimeInputView.setClickCallback(object :
-            GreenWayLargeDateInputView.ClickCallback {
-            override fun onClick() {
-                showQrLifetimePicker()
+        setupQrLifetimeInput()
+    }
+
+    private fun setupQrLifetimeInput() {
+        binding.qrLifetimeDropdownInputView.setClickCallback(object :
+            GreenWayLargeDropdownTextInputView.ClickCallback<UiQrLifetime> {
+            override fun loadItems() {
+                parentViewModel.handleEvent(AddEditFarmingRecordQrEvent.LoadQrLifetimes)
+            }
+
+            override fun onItemSelected(item: UiQrLifetime) {
+                parentViewModel.handleEvent(AddEditFarmingRecordQrEvent.QrLifetimeChanged(item))
             }
         })
     }
@@ -172,7 +182,7 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                     .collect { resource ->
                         binding.seasonDropdownInputView.setData(
                             LoadingState.fromResource(resource),
-                            parentViewModel.uiState.value.showSeasonDropdown
+                            parentViewModel.shouldExpandSeasonDropdown()
                         )
                         if (resource?.isSuccess() == true) {
                             parentViewModel.handleEvent(
@@ -224,7 +234,19 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                 parentViewModel.uiState.map { it.qrLifetimeError }
                     .distinctUntilChanged()
                     .collect { error ->
-                        binding.qrLifetimeInputView.setError(error)
+                        binding.qrLifetimeDropdownInputView.setError(error)
+                    }
+            }
+            launch {
+                parentViewModel.uiState.map { it.qrLifetimeList }
+                    .distinctUntilChanged()
+                    .collect { resource ->
+                        binding.qrLifetimeDropdownInputView.setData(
+                            LoadingState.fromResource(
+                                resource
+                            ),
+                            parentViewModel.uiState.value.showQuantityDropdown
+                        )
                     }
             }
             launch {
@@ -251,13 +273,6 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                     .distinctUntilChanged()
                     .collect { type ->
                         updateFarmLocationTypeUi(type)
-                    }
-            }
-            launch {
-                parentViewModel.uiState.map { it.qrLifetime }
-                    .distinctUntilChanged()
-                    .collect {
-                        binding.qrLifetimeInputView.setDate(it)
                     }
             }
             launch {
@@ -330,26 +345,6 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
             AddEditFarmingRecordQrFragmentDirections.actionAddEditFarmingRecordQrFragmentToFarmPickerDialogFragment()
         findNavController()
             .navigate(direction)
-    }
-
-    private fun showQrLifetimePicker() {
-        val constraintsBuilder =
-            CalendarConstraints.Builder()
-                .setValidator(DateValidatorPointForward.now())
-
-        val datePicker =
-            MaterialDatePicker.Builder.datePicker()
-                .setTitleText(R.string.label_farming_record_qr_lifetime)
-                .setCalendarConstraints(constraintsBuilder.build())
-                .build()
-        datePicker.addOnPositiveButtonClickListener {
-            val instant = Instant.ofEpochMilli(it)
-            Timber.d("Long: $it; Instant: $instant")
-            parentViewModel.handleEvent(
-                AddEditFarmingRecordQrEvent.QrLifetimeChanged(it)
-            )
-        }
-        datePicker.show(childFragmentManager, "qr-lifetime")
     }
 
     private fun showPhoneInputDialog() {

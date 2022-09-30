@@ -6,7 +6,6 @@ import greenway_myanmar.org.vo.Status.SUCCESS
 import greenway_myanmar.org.vo.Status.ERROR
 import greenway_myanmar.org.vo.Status.LOADING
 
-
 /**
  * A generic class that holds a value with its loading status.
  * @param <T> </T>

@@ -11,13 +11,17 @@ class CreateQrOrderUseCase @Inject constructor(
     suspend operator fun invoke(params: Param): CreateQrOrderResult {
         return qrRepository.createQrOrder(
             qrId = params.qrId,
-            quantity = params.quantity
+            quantity = params.quantity,
+            qrUrl = params.qrUrl,
+            qrIdNumber = params.qrIdNumber
         )
     }
 
     data class Param(
         val qrId: String,
-        val quantity: Int
+        val quantity: Int,
+        val qrUrl: String,
+        val qrIdNumber: String
     )
 
     sealed class CreateQrOrderResult {

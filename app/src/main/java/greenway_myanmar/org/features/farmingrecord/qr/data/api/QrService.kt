@@ -18,6 +18,13 @@ interface QrService {
         @Query("user_id") userId: Int
     ): Call<ApiFarmList>
 
+    @GET("asymt/farms")
+    fun getHarvestedFarmList(
+        @Query("page") page: Int = 1,
+        @Query("user_id") userId: Int,
+        @Query("is_harvest") isHarvested: Boolean = true
+    ): Call<ApiFarmList>
+
     @GET("asymt/farms/{farm_id}/seasons")
     suspend fun getSeasonList(
         @Path("farm_id") farmId: String,
@@ -25,12 +32,20 @@ interface QrService {
         @Query("user_id") userId: String
     ): Response<ApiSeasonList>
 
-    @POST("request-qr")
+    @GET("asymt/farms/{farm_id}/seasons")
+    suspend fun getHarvestedSeasonList(
+        @Path("farm_id") farmId: String,
+        @Query("page") page: Int? = 1,
+        @Query("user_id") userId: String,
+        @Query("is_harvest") isHarvested: Boolean = true
+    ): Response<ApiSeasonList>
+
+    @POST("qr/request-qr")
     suspend fun postQr(
         @Body payload: CreateUpdateQrPayload
     ): Response<ApiDataResponse<CreateUpdateQrResponse>>
 
-    @PATCH("/qr/request-qr/{qr_id}/iupdate")
+    @PATCH("qr/request-qr/{qr_id}/update")
     suspend fun updateQr(
         @Path("qr_id") qrId: String,
         @Body payload: CreateUpdateQrPayload
@@ -47,9 +62,12 @@ interface QrService {
     @GET("qr/order/{order_id}/statues")
     suspend fun getOrder(@Path("order_id") id: String): Response<ApiDataResponse<ApiQrOrder>>
 
-    @GET("qr-quantities")
+    @GET("qr/qr-quantities")
     suspend fun getQuantities(): Response<ApiQrQuantityListResponse>
 
     @GET("qr/{qr_id}")
-    suspend fun getQrDetail(@Path("qr_id") qrId: String): Response<ApiDataResponse<ApiQr>>
+    suspend fun getQrPreview(@Path("qr_id") qrId: String): Response<ApiDataResponse<ApiQrPreview>>
+
+    @GET("qr/expire/months")
+    suspend fun getQrLifetimes(): Response<ApiDataResponse<List<Int>>>
 }

@@ -37,7 +37,7 @@ class QrOrderListAdapter constructor(
                 context.resources.getString(
                     R.string.label_formatted_qr_order_season_info,
                     item.seasonName,
-                    item.seasonYear
+                    item.formattedHarvestedDate
                 )
             binding.quantityTextView.text =
                 context.resources.getString(

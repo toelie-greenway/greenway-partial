@@ -6,6 +6,15 @@ import greenway_myanmar.org.features.farmingrecord.qr.domain.model.Crop
 import greenway_myanmar.org.features.farmingrecord.qr.domain.model.Farm
 import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrOrder
 import greenway_myanmar.org.features.farmingrecord.qr.domain.model.Season
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.QrOrderStatusItemUiState.PlaceholderItem.id
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.util.DateUtils
+import java.time.Clock
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter.ISO_INSTANT
+import java.time.format.DateTimeParseException
 
 data class ApiQrOrder(
     @SerializedName("id")
@@ -29,7 +38,9 @@ data class ApiQrOrder(
     @SerializedName("qr_url")
     val qrUrl: String? = null,
     @SerializedName("statues")
-    val statuses: List<ApiQrOrderStatusDetail>? = null
+    val statuses: List<ApiQrOrderStatusDetail>? = null,
+    @SerializedName("harvest_date")
+    val harvestedDate: String? = null
 ) {
     fun toDomain(): QrOrder {
         return QrOrder(
@@ -42,7 +53,8 @@ data class ApiQrOrder(
             latestStatus = latestStatus?.toDomain()
                 ?: statuses?.last()?.toDomain()
                 ?: throw IllegalStateException("latest order status should not be null!"),
-            statuses = statuses.orEmpty().map { it.toDomain() }
+            statuses = statuses.orEmpty().map { it.toDomain() },
+            harvestedDate = DateUtils.parseIsoDateTimeToInstantOrDefault(harvestedDate)
         )
     }
 }

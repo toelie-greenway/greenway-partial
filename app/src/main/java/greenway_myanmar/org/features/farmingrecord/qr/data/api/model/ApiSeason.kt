@@ -3,6 +3,7 @@ package greenway_myanmar.org.features.farmingrecord.qr.data.api.model
 import com.google.gson.annotations.SerializedName
 import greenway_myanmar.org.features.farmingrecord.qr.domain.model.Crop
 import greenway_myanmar.org.features.farmingrecord.qr.domain.model.Season
+import java.time.Instant
 
 data class ApiSeason(
     @SerializedName("id") val id: String? = null,
@@ -12,11 +13,12 @@ data class ApiSeason(
     @SerializedName("crop_specie") val cropSpecie: String? = null,
     @SerializedName("crop") val crop: ApiCrop? = null
 ) {
-    fun toDomain(): Season {
+    fun toDomain(latestHarvestedDate: Instant? = null): Season {
         return Season(
             id = id.orEmpty(),
             seasonName = seasonName.orEmpty(),
-            crop = crop?.toDomain() ?: ApiCrop.Empty.toDomain()
+            crop = crop?.toDomain() ?: ApiCrop.Empty.toDomain(),
+            latestHarvestedDate = latestHarvestedDate
         )
     }
 

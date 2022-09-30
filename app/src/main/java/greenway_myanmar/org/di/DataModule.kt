@@ -18,7 +18,6 @@ abstract class DataModule {
   @Singleton
   abstract fun bindFarmRepository(repository: DefaultFarmRepository): FarmRepository
 
-
   @Binds
   @Singleton
   abstract fun bindQrRepository(repository: DefaultQrRepository): QrRepository

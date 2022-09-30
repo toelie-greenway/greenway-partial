@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import greenway_myanmar.org.common.domain.entities.Resource
 import greenway_myanmar.org.databinding.FarmingRecordQrDetailViewBinding
@@ -39,7 +38,7 @@ class QrDetailView @JvmOverloads constructor(
                 qrDetail.farm,
                 qrDetail.season
             )
-            binding.userInfoView.setData(qrDetail.user)
+            binding.userInfoView.setData(qrDetail.qrInfo, qrDetail.user)
         }
     }
 }

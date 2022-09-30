@@ -2,7 +2,7 @@ package greenway_myanmar.org.features.farmingrecord.qr.presentation
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrFarmActivity
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiFarmActivity
 import javax.inject.Inject
 
 @HiltViewModel
@@ -63,5 +63,5 @@ class AddEditFarmingRecordQrConfirmViewModel @Inject constructor(
 }
 
 data class AddEditFarmingRecordQrConfirmUiState(
-    val farmActivities: List<UiQrFarmActivity> = emptyList()
+    val farmActivities: List<UiFarmActivity> = emptyList()
 )

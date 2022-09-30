@@ -1,0 +1,55 @@
+{
+  "id": 107,
+  "email": null,
+  "username": "+959425324161",
+  "name": "တိုးလိုင်း (GWW)",
+  "phone": "+959425324161",
+  "information_status": 120,
+  "app_version": "3.5.7-qa",
+  "avatar": "https://upgrade.greenwaymyanmar.com/img/farmer-icon.png",
+  "is_shop_owner": false,
+  "apple_id": null,
+  "google_id": null,
+  "facebook_id": null,
+  "current_provider_id": "+959425324161",
+  "connected_accounts": [],
+  "infos": {
+    "gender": "male",
+    "age": 28,
+    "career": "other",
+    "verify": false,
+    "position": "y",
+    "work_place": "freelance",
+    "state": {
+      "id": 5,
+      "name": "စစ်ကိုင်းတိုင်းဒေသကြီး",
+      "p_code": "MMR005",
+      "myainfo_sd_id": null,
+      "source": null
+    },
+    "township": {
+      "id": 208,
+      "name": "မြင်းမူ",
+      "p_code": "MMR005002",
+      "state_id": 5
+    },
+    "vt_town": {
+      "id": 10404,
+      "name": "ခြေရာတော်",
+      "p_code": "MMR005002005",
+      "lat": null,
+      "lng": null,
+      "township_id": 208
+    },
+    "village_ward": {
+      "id": 46414,
+      "name": "ခြေရာတော်",
+      "alternate_name": null,
+      "p_code": "171152",
+      "lat": null,
+      "lng": null,
+      "source": null,
+      "vt_town_id": 10404
+    }
+  }
+}

@@ -1,0 +1,1179 @@
+{
+  "data": [{
+    "id": 17,
+    "qr": {
+      "qr_id": 69,
+      "farm_id": 10,
+      "season_id": 9,
+      "farm_location": "village",
+      "is_display_ph": true,
+      "is_display_farm_input": true,
+      "is_display_farm_output": true,
+      "phone": "123456789",
+      "qr_type": "individual",
+      "created_at": "2022-09-28T10:32:34.000000Z"
+    },
+    "farm": {
+      "id": 10,
+      "name": "5"
+    },
+    "season": {
+      "id": 9,
+      "season": "မိုးရာသီ",
+      "crop_specie": "အအ",
+      "start_planting_date": null,
+      "crop": {
+        "id": 117,
+        "title": "ကင်းပွန်းချဉ်",
+        "parent_id": 9,
+        "order": 112,
+        "created_at": "2018-01-25T05:05:26.000000Z",
+        "updated_at": "2019-05-20T09:34:20.000000Z",
+        "image": "crop_types_image/9ab2fdee225975e866419a882c2884d8.png",
+        "cover": "crop_types_cover/34cbe064822f80385a7717e8f8134d0a.jpg",
+        "priority": 1,
+        "is_rwcp_crop": 0,
+        "is_main_crop": 1,
+        "crop_life_type": "short-term"
+      },
+      "start_date": "2019-06-20",
+      "end_date": "2020-08-25"
+    },
+    "latest_status": {
+      "id": 13,
+      "qr_id": 69,
+      "qr_order_id": 17,
+      "status": "ordered",
+      "user_id": 107,
+      "status_label": "Order Confirmed",
+      "created_at": "2022-09-28T10:32:58.000000Z",
+      "updated_at": "2022-09-28T10:32:58.000000Z",
+      "note": "confirmed"
+    },
+    "quantity": 1000,
+    "qr_id_number": "GW-X5IP",
+    "user": {
+      "id": 107,
+      "name": "တိုးလိုင်း (GWW)",
+      "email": null,
+      "username": "+959425324161",
+      "phone": "+959425324161",
+      "crops": [{
+        "id": 98,
+        "title": "ကန်စွန်းဥ",
+        "parent_id": 9,
+        "order": 105,
+        "created_at": "2017-11-12T23:12:10.000000Z",
+        "updated_at": "2019-05-20T05:07:03.000000Z",
+        "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+        "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+        "priority": 4,
+        "is_rwcp_crop": 0,
+        "is_main_crop": 1,
+        "crop_life_type": "short-term",
+        "pivot": {
+          "user_id": 107,
+          "crop_id": 98
+        }
+      },
+        {
+          "id": 33,
+          "title": "ကျွဲကော",
+          "parent_id": 3,
+          "order": 26,
+          "created_at": "2017-11-12T22:56:33.000000Z",
+          "updated_at": "2019-05-17T10:29:21.000000Z",
+          "image": "crop_types_image/6373fabb90eb8a24b269fe199138f6a0.png",
+          "cover": "crop_types_cover/9541239c658ce61dd1045007be8970f4.jpg",
+          "priority": 5,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term",
+          "pivot": {
+            "user_id": 107,
+            "crop_id": 33
+          }
+        },
+        {
+          "id": 50,
+          "title": "စပါး",
+          "parent_id": 4,
+          "order": 51,
+          "created_at": "2017-11-12T23:00:33.000000Z",
+          "updated_at": "2019-05-20T04:36:20.000000Z",
+          "image": "crop_types_image/ec5f7a8c0c9c20409ae9064c3ba55586.png",
+          "cover": "crop_types_cover/2d59f102578abab072c25b380ddaa9f1.jpeg",
+          "priority": 31,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term",
+          "pivot": {
+            "user_id": 107,
+            "crop_id": 50
+          }
+        },
+        {
+          "id": 19,
+          "title": "ဝါး",
+          "parent_id": 2,
+          "order": 10,
+          "created_at": "2017-11-12T22:53:27.000000Z",
+          "updated_at": "2019-05-17T09:19:53.000000Z",
+          "image": "crop_types_image/a775b8afea9dd35ab1e963e844f7b723.png",
+          "cover": "crop_types_cover/313f1e47c785efc51d81cc9c6ce98bf2.jpg",
+          "priority": 95,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term",
+          "pivot": {
+            "user_id": 107,
+            "crop_id": 19
+          }
+        }
+      ],
+      "township": {
+        "id": 208,
+        "state_id": 5,
+        "name": "မြင်းမူ",
+        "p_code": "MMR005002",
+        "created_at": "2018-01-10T03:19:02.000000Z",
+        "updated_at": "2018-01-10T03:19:02.000000Z"
+      }
+    },
+    "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-X5IP",
+    "harvest_date": "2021-06-19T13:03:30.000000Z"
+  },
+    {
+      "id": 16,
+      "qr": {
+        "qr_id": 67,
+        "farm_id": 2424,
+        "season_id": 1601,
+        "farm_location": "map",
+        "is_display_ph": true,
+        "is_display_farm_input": false,
+        "is_display_farm_output": false,
+        "phone": "1234566",
+        "qr_type": "individual",
+        "created_at": "2022-09-26T09:15:25.000000Z"
+      },
+      "farm": {
+        "id": 2424,
+        "name": "QR Test Farm"
+      },
+      "season": {
+        "id": 1601,
+        "season": "ဆောင်းရာသီ",
+        "crop_specie": "123",
+        "start_planting_date": null,
+        "crop": {
+          "id": 59,
+          "title": "ကြက်သွန်ဖြူ",
+          "parent_id": 5,
+          "order": 59,
+          "created_at": "2017-11-12T23:03:26.000000Z",
+          "updated_at": "2019-05-20T04:40:45.000000Z",
+          "image": "crop_types_image/2a05638d6ce6f6120a569aea6e0df9a8.png",
+          "cover": "crop_types_cover/7f587be05d77b2feae84f544ba5d8270.jpg",
+          "priority": 10,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term"
+        },
+        "start_date": "2022-01-01",
+        "end_date": null
+      },
+      "latest_status": {
+        "id": 12,
+        "qr_id": 67,
+        "qr_order_id": 16,
+        "status": "ordered",
+        "user_id": 107,
+        "status_label": "Order Confirmed",
+        "created_at": "2022-09-26T09:17:48.000000Z",
+        "updated_at": "2022-09-26T09:17:48.000000Z",
+        "note": "confirmed"
+      },
+      "quantity": 1000,
+      "qr_id_number": "GW-RFRX",
+      "user": {
+        "id": 107,
+        "name": "တိုးလိုင်း (GWW)",
+        "email": null,
+        "username": "+959425324161",
+        "phone": "+959425324161",
+        "crops": [{
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term",
+          "pivot": {
+            "user_id": 107,
+            "crop_id": 98
+          }
+        },
+          {
+            "id": 33,
+            "title": "ကျွဲကော",
+            "parent_id": 3,
+            "order": 26,
+            "created_at": "2017-11-12T22:56:33.000000Z",
+            "updated_at": "2019-05-17T10:29:21.000000Z",
+            "image": "crop_types_image/6373fabb90eb8a24b269fe199138f6a0.png",
+            "cover": "crop_types_cover/9541239c658ce61dd1045007be8970f4.jpg",
+            "priority": 5,
+            "is_rwcp_crop": 0,
+            "is_main_crop": 1,
+            "crop_life_type": "short-term",
+            "pivot": {
+              "user_id": 107,
+              "crop_id": 33
+            }
+          },
+          {
+            "id": 50,
+            "title": "စပါး",
+            "parent_id": 4,
+            "order": 51,
+            "created_at": "2017-11-12T23:00:33.000000Z",
+            "updated_at": "2019-05-20T04:36:20.000000Z",
+            "image": "crop_types_image/ec5f7a8c0c9c20409ae9064c3ba55586.png",
+            "cover": "crop_types_cover/2d59f102578abab072c25b380ddaa9f1.jpeg",
+            "priority": 31,
+            "is_rwcp_crop": 0,
+            "is_main_crop": 1,
+            "crop_life_type": "short-term",
+            "pivot": {
+              "user_id": 107,
+              "crop_id": 50
+            }
+          },
+          {
+            "id": 19,
+            "title": "ဝါး",
+            "parent_id": 2,
+            "order": 10,
+            "created_at": "2017-11-12T22:53:27.000000Z",
+            "updated_at": "2019-05-17T09:19:53.000000Z",
+            "image": "crop_types_image/a775b8afea9dd35ab1e963e844f7b723.png",
+            "cover": "crop_types_cover/313f1e47c785efc51d81cc9c6ce98bf2.jpg",
+            "priority": 95,
+            "is_rwcp_crop": 0,
+            "is_main_crop": 1,
+            "crop_life_type": "short-term",
+            "pivot": {
+              "user_id": 107,
+              "crop_id": 19
+            }
+          }
+        ],
+        "township": {
+          "id": 208,
+          "state_id": 5,
+          "name": "မြင်းမူ",
+          "p_code": "MMR005002",
+          "created_at": "2018-01-10T03:19:02.000000Z",
+          "updated_at": "2018-01-10T03:19:02.000000Z"
+        }
+      },
+      "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-RFRX",
+      "harvest_date": null
+    },
+    {
+      "id": 15,
+      "qr": {
+        "qr_id": 61,
+        "farm_id": 2167,
+        "season_id": 1407,
+        "farm_location": "township",
+        "is_display_ph": true,
+        "is_display_farm_input": true,
+        "is_display_farm_output": true,
+        "phone": "123456789",
+        "qr_type": "individual",
+        "created_at": "2022-09-22T13:28:43.000000Z"
+      },
+      "farm": {
+        "id": 2167,
+        "name": "order test 2"
+      },
+      "season": {
+        "id": 1407,
+        "season": "မိုးရာသီ",
+        "crop_specie": null,
+        "start_planting_date": null,
+        "crop": {
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term"
+        },
+        "start_date": "2021-06-22",
+        "end_date": null
+      },
+      "latest_status": {
+        "id": 11,
+        "qr_id": 61,
+        "qr_order_id": 15,
+        "status": "ordered",
+        "user_id": 107,
+        "status_label": "Order Confirmed",
+        "created_at": "2022-09-22T13:28:48.000000Z",
+        "updated_at": "2022-09-22T13:28:48.000000Z",
+        "note": "confirmed"
+      },
+      "quantity": 2000,
+      "qr_id_number": "GW-PFXL",
+      "user": {
+        "id": 107,
+        "name": "တိုးလိုင်း (GWW)",
+        "email": null,
+        "username": "+959425324161",
+        "phone": "+959425324161",
+        "crops": [{
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term",
+          "pivot": {
+            "user_id": 107,
+            "crop_id": 98
+          }
+        },
+          {
+            "id": 33,
+            "title": "ကျွဲကော",
+            "parent_id": 3,
+            "order": 26,
+            "created_at": "2017-11-12T22:56:33.000000Z",
+            "updated_at": "2019-05-17T10:29:21.000000Z",
+            "image": "crop_types_image/6373fabb90eb8a24b269fe199138f6a0.png",
+            "cover": "crop_types_cover/9541239c658ce61dd1045007be8970f4.jpg",
+            "priority": 5,
+            "is_rwcp_crop": 0,
+            "is_main_crop": 1,
+            "crop_life_type": "short-term",
+            "pivot": {
+              "user_id": 107,
+              "crop_id": 33
+            }
+          },
+          {
+            "id": 50,
+            "title": "စပါး",
+            "parent_id": 4,
+            "order": 51,
+            "created_at": "2017-11-12T23:00:33.000000Z",
+            "updated_at": "2019-05-20T04:36:20.000000Z",
+            "image": "crop_types_image/ec5f7a8c0c9c20409ae9064c3ba55586.png",
+            "cover": "crop_types_cover/2d59f102578abab072c25b380ddaa9f1.jpeg",
+            "priority": 31,
+            "is_rwcp_crop": 0,
+            "is_main_crop": 1,
+            "crop_life_type": "short-term",
+            "pivot": {
+              "user_id": 107,
+              "crop_id": 50
+            }
+          },
+          {
+            "id": 19,
+            "title": "ဝါး",
+            "parent_id": 2,
+            "order": 10,
+            "created_at": "2017-11-12T22:53:27.000000Z",
+            "updated_at": "2019-05-17T09:19:53.000000Z",
+            "image": "crop_types_image/a775b8afea9dd35ab1e963e844f7b723.png",
+            "cover": "crop_types_cover/313f1e47c785efc51d81cc9c6ce98bf2.jpg",
+            "priority": 95,
+            "is_rwcp_crop": 0,
+            "is_main_crop": 1,
+            "crop_life_type": "short-term",
+            "pivot": {
+              "user_id": 107,
+              "crop_id": 19
+            }
+          }
+        ],
+        "township": {
+          "id": 208,
+          "state_id": 5,
+          "name": "မြင်းမူ",
+          "p_code": "MMR005002",
+          "created_at": "2018-01-10T03:19:02.000000Z",
+          "updated_at": "2018-01-10T03:19:02.000000Z"
+        }
+      },
+      "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-PFXL",
+      "harvest_date": null
+    },
+    {
+      "id": 14,
+      "qr": {
+        "qr_id": 60,
+        "farm_id": 2167,
+        "season_id": 1407,
+        "farm_location": "village",
+        "is_display_ph": true,
+        "is_display_farm_input": true,
+        "is_display_farm_output": true,
+        "phone": "123456788",
+        "qr_type": "individual",
+        "created_at": "2022-09-22T13:19:19.000000Z"
+      },
+      "farm": {
+        "id": 2167,
+        "name": "order test 2"
+      },
+      "season": {
+        "id": 1407,
+        "season": "မိုးရာသီ",
+        "crop_specie": null,
+        "start_planting_date": null,
+        "crop": {
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term"
+        },
+        "start_date": "2021-06-22",
+        "end_date": null
+      },
+      "latest_status": {
+        "id": 10,
+        "qr_id": 60,
+        "qr_order_id": 14,
+        "status": "ordered",
+        "user_id": 107,
+        "status_label": "Order Confirmed",
+        "created_at": "2022-09-22T13:19:28.000000Z",
+        "updated_at": "2022-09-22T13:19:28.000000Z",
+        "note": "confirmed"
+      },
+      "quantity": 1000,
+      "qr_id_number": "GW-HLH9",
+      "user": {
+        "id": 107,
+        "name": "တိုးလိုင်း (GWW)",
+        "email": null,
+        "username": "+959425324161",
+        "phone": "+959425324161",
+        "crops": [{
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term",
+          "pivot": {
+            "user_id": 107,
+            "crop_id": 98
+          }
+        },
+          {
+            "id": 33,
+            "title": "ကျွဲကော",
+            "parent_id": 3,
+            "order": 26,
+            "created_at": "2017-11-12T22:56:33.000000Z",
+            "updated_at": "2019-05-17T10:29:21.000000Z",
+            "image": "crop_types_image/6373fabb90eb8a24b269fe199138f6a0.png",
+            "cover": "crop_types_cover/9541239c658ce61dd1045007be8970f4.jpg",
+            "priority": 5,
+            "is_rwcp_crop": 0,
+            "is_main_crop": 1,
+            "crop_life_type": "short-term",
+            "pivot": {
+              "user_id": 107,
+              "crop_id": 33
+            }
+          },
+          {
+            "id": 50,
+            "title": "စပါး",
+            "parent_id": 4,
+            "order": 51,
+            "created_at": "2017-11-12T23:00:33.000000Z",
+            "updated_at": "2019-05-20T04:36:20.000000Z",
+            "image": "crop_types_image/ec5f7a8c0c9c20409ae9064c3ba55586.png",
+            "cover": "crop_types_cover/2d59f102578abab072c25b380ddaa9f1.jpeg",
+            "priority": 31,
+            "is_rwcp_crop": 0,
+            "is_main_crop": 1,
+            "crop_life_type": "short-term",
+            "pivot": {
+              "user_id": 107,
+              "crop_id": 50
+            }
+          },
+          {
+            "id": 19,
+            "title": "ဝါး",
+            "parent_id": 2,
+            "order": 10,
+            "created_at": "2017-11-12T22:53:27.000000Z",
+            "updated_at": "2019-05-17T09:19:53.000000Z",
+            "image": "crop_types_image/a775b8afea9dd35ab1e963e844f7b723.png",
+            "cover": "crop_types_cover/313f1e47c785efc51d81cc9c6ce98bf2.jpg",
+            "priority": 95,
+            "is_rwcp_crop": 0,
+            "is_main_crop": 1,
+            "crop_life_type": "short-term",
+            "pivot": {
+              "user_id": 107,
+              "crop_id": 19
+            }
+          }
+        ],
+        "township": {
+          "id": 208,
+          "state_id": 5,
+          "name": "မြင်းမူ",
+          "p_code": "MMR005002",
+          "created_at": "2018-01-10T03:19:02.000000Z",
+          "updated_at": "2018-01-10T03:19:02.000000Z"
+        }
+      },
+      "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-HLH9",
+      "harvest_date": null
+    },
+    {
+      "id": 13,
+      "qr": {
+        "qr_id": 59,
+        "farm_id": 2424,
+        "season_id": 1601,
+        "farm_location": "village",
+        "is_display_ph": true,
+        "is_display_farm_input": true,
+        "is_display_farm_output": true,
+        "phone": "123456789",
+        "qr_type": "individual",
+        "created_at": "2022-09-22T04:32:40.000000Z"
+      },
+      "farm": {
+        "id": 2424,
+        "name": "QR Test Farm"
+      },
+      "season": {
+        "id": 1601,
+        "season": "ဆောင်းရာသီ",
+        "crop_specie": "123",
+        "start_planting_date": null,
+        "crop": {
+          "id": 59,
+          "title": "ကြက်သွန်ဖြူ",
+          "parent_id": 5,
+          "order": 59,
+          "created_at": "2017-11-12T23:03:26.000000Z",
+          "updated_at": "2019-05-20T04:40:45.000000Z",
+          "image": "crop_types_image/2a05638d6ce6f6120a569aea6e0df9a8.png",
+          "cover": "crop_types_cover/7f587be05d77b2feae84f544ba5d8270.jpg",
+          "priority": 10,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term"
+        },
+        "start_date": "2022-01-01",
+        "end_date": null
+      },
+      "latest_status": {
+        "id": 9,
+        "qr_id": 59,
+        "qr_order_id": 13,
+        "status": "ordered",
+        "user_id": 107,
+        "status_label": "Order Confirmed",
+        "created_at": "2022-09-22T04:33:23.000000Z",
+        "updated_at": "2022-09-22T04:33:23.000000Z",
+        "note": "confirmed"
+      },
+      "quantity": 1500,
+      "qr_id_number": "GW-ECDL",
+      "user": {
+        "id": 107,
+        "name": "တိုးလိုင်း (GWW)",
+        "email": null,
+        "username": "+959425324161",
+        "phone": "+959425324161",
+        "crops": [{
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term",
+          "pivot": {
+            "user_id": 107,
+            "crop_id": 98
+          }
+        },
+          {
+            "id": 33,
+            "title": "ကျွဲကော",
+            "parent_id": 3,
+            "order": 26,
+            "created_at": "2017-11-12T22:56:33.000000Z",
+            "updated_at": "2019-05-17T10:29:21.000000Z",
+            "image": "crop_types_image/6373fabb90eb8a24b269fe199138f6a0.png",
+            "cover": "crop_types_cover/9541239c658ce61dd1045007be8970f4.jpg",
+            "priority": 5,
+            "is_rwcp_crop": 0,
+            "is_main_crop": 1,
+            "crop_life_type": "short-term",
+            "pivot": {
+              "user_id": 107,
+              "crop_id": 33
+            }
+          },
+          {
+            "id": 50,
+            "title": "စပါး",
+            "parent_id": 4,
+            "order": 51,
+            "created_at": "2017-11-12T23:00:33.000000Z",
+            "updated_at": "2019-05-20T04:36:20.000000Z",
+            "image": "crop_types_image/ec5f7a8c0c9c20409ae9064c3ba55586.png",
+            "cover": "crop_types_cover/2d59f102578abab072c25b380ddaa9f1.jpeg",
+            "priority": 31,
+            "is_rwcp_crop": 0,
+            "is_main_crop": 1,
+            "crop_life_type": "short-term",
+            "pivot": {
+              "user_id": 107,
+              "crop_id": 50
+            }
+          },
+          {
+            "id": 19,
+            "title": "ဝါး",
+            "parent_id": 2,
+            "order": 10,
+            "created_at": "2017-11-12T22:53:27.000000Z",
+            "updated_at": "2019-05-17T09:19:53.000000Z",
+            "image": "crop_types_image/a775b8afea9dd35ab1e963e844f7b723.png",
+            "cover": "crop_types_cover/313f1e47c785efc51d81cc9c6ce98bf2.jpg",
+            "priority": 95,
+            "is_rwcp_crop": 0,
+            "is_main_crop": 1,
+            "crop_life_type": "short-term",
+            "pivot": {
+              "user_id": 107,
+              "crop_id": 19
+            }
+          }
+        ],
+        "township": {
+          "id": 208,
+          "state_id": 5,
+          "name": "မြင်းမူ",
+          "p_code": "MMR005002",
+          "created_at": "2018-01-10T03:19:02.000000Z",
+          "updated_at": "2018-01-10T03:19:02.000000Z"
+        }
+      },
+      "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-ECDL",
+      "harvest_date": null
+    },
+    {
+      "id": 12,
+      "qr": {
+        "qr_id": 40,
+        "farm_id": 2167,
+        "season_id": 1407,
+        "farm_location": "township",
+        "is_display_ph": true,
+        "is_display_farm_input": false,
+        "is_display_farm_output": false,
+        "phone": null,
+        "qr_type": null,
+        "created_at": "2022-09-06T05:35:59.000000Z"
+      },
+      "farm": {
+        "id": 2167,
+        "name": "order test 2"
+      },
+      "season": {
+        "id": 1407,
+        "season": "မိုးရာသီ",
+        "crop_specie": null,
+        "start_planting_date": null,
+        "crop": {
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term"
+        },
+        "start_date": "2021-06-22",
+        "end_date": null
+      },
+      "latest_status": {
+        "id": 8,
+        "qr_id": 40,
+        "qr_order_id": 12,
+        "status": "ordered",
+        "user_id": 107,
+        "status_label": "Order Confirmed",
+        "created_at": "2022-09-06T05:49:36.000000Z",
+        "updated_at": "2022-09-06T05:49:36.000000Z",
+        "note": null
+      },
+      "quantity": 10,
+      "qr_id_number": "GW-JSH8",
+      "user": null,
+      "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-JSH8",
+      "harvest_date": null
+    },
+    {
+      "id": 11,
+      "qr": {
+        "qr_id": 35,
+        "farm_id": 2167,
+        "season_id": 1407,
+        "farm_location": "village",
+        "is_display_ph": true,
+        "is_display_farm_input": false,
+        "is_display_farm_output": false,
+        "phone": null,
+        "qr_type": null,
+        "created_at": "2022-09-02T10:53:48.000000Z"
+      },
+      "farm": {
+        "id": 2167,
+        "name": "order test 2"
+      },
+      "season": {
+        "id": 1407,
+        "season": "မိုးရာသီ",
+        "crop_specie": null,
+        "start_planting_date": null,
+        "crop": {
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term"
+        },
+        "start_date": "2021-06-22",
+        "end_date": null
+      },
+      "latest_status": {
+        "id": 7,
+        "qr_id": 35,
+        "qr_order_id": 11,
+        "status": "ordered",
+        "user_id": 107,
+        "status_label": "Order Confirmed",
+        "created_at": "2022-09-02T10:54:32.000000Z",
+        "updated_at": "2022-09-02T10:54:32.000000Z",
+        "note": null
+      },
+      "quantity": 92,
+      "qr_id_number": "GW-IGHI",
+      "user": null,
+      "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-IGHI",
+      "harvest_date": null
+    },
+    {
+      "id": 6,
+      "qr": {
+        "qr_id": 31,
+        "farm_id": 2040,
+        "season_id": 1408,
+        "farm_location": "map",
+        "is_display_ph": true,
+        "is_display_farm_input": true,
+        "is_display_farm_output": true,
+        "phone": null,
+        "qr_type": null,
+        "created_at": "2022-08-31T16:55:51.000000Z"
+      },
+      "farm": {
+        "id": 2040,
+        "name": "Hello Farm"
+      },
+      "season": {
+        "id": 1408,
+        "season": "မိုးရာသီ",
+        "crop_specie": null,
+        "start_planting_date": null,
+        "crop": {
+          "id": 104,
+          "title": "ကညွတ်",
+          "parent_id": 9,
+          "order": 111,
+          "created_at": "2017-11-12T23:13:06.000000Z",
+          "updated_at": "2018-06-13T06:28:07.000000Z",
+          "image": "crop_types_image/c5759a81edd030840efec7beb34df77c.jpg",
+          "cover": "crop_types_cover/cbb13338928f402260dc01ff1efeda14.jpg",
+          "priority": 2,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term"
+        },
+        "start_date": "2021-06-22",
+        "end_date": null
+      },
+      "latest_status": {
+        "id": 6,
+        "qr_id": 31,
+        "qr_order_id": 6,
+        "status": "ordered",
+        "user_id": 107,
+        "status_label": "Order Confirmed",
+        "created_at": "2022-08-31T16:57:53.000000Z",
+        "updated_at": "2022-08-31T16:57:53.000000Z",
+        "note": null
+      },
+      "quantity": 48,
+      "qr_id_number": "GW-B3ZV",
+      "user": null,
+      "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-B3ZV",
+      "harvest_date": null
+    },
+    {
+      "id": 5,
+      "qr": {
+        "qr_id": 30,
+        "farm_id": 2167,
+        "season_id": 1407,
+        "farm_location": "map",
+        "is_display_ph": false,
+        "is_display_farm_input": false,
+        "is_display_farm_output": false,
+        "phone": null,
+        "qr_type": null,
+        "created_at": "2022-08-31T07:49:13.000000Z"
+      },
+      "farm": {
+        "id": 2167,
+        "name": "order test 2"
+      },
+      "season": {
+        "id": 1407,
+        "season": "မိုးရာသီ",
+        "crop_specie": null,
+        "start_planting_date": null,
+        "crop": {
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term"
+        },
+        "start_date": "2021-06-22",
+        "end_date": null
+      },
+      "latest_status": {
+        "id": 5,
+        "qr_id": 30,
+        "qr_order_id": 5,
+        "status": "ordered",
+        "user_id": 107,
+        "status_label": "Order Confirmed",
+        "created_at": "2022-08-31T07:49:19.000000Z",
+        "updated_at": "2022-08-31T07:49:19.000000Z",
+        "note": null
+      },
+      "quantity": 87,
+      "qr_id_number": "GW-UHPU",
+      "user": null,
+      "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-UHPU",
+      "harvest_date": null
+    },
+    {
+      "id": 4,
+      "qr": {
+        "qr_id": 29,
+        "farm_id": 2167,
+        "season_id": 1407,
+        "farm_location": "map",
+        "is_display_ph": false,
+        "is_display_farm_input": false,
+        "is_display_farm_output": false,
+        "phone": null,
+        "qr_type": null,
+        "created_at": "2022-08-31T07:32:36.000000Z"
+      },
+      "farm": {
+        "id": 2167,
+        "name": "order test 2"
+      },
+      "season": {
+        "id": 1407,
+        "season": "မိုးရာသီ",
+        "crop_specie": null,
+        "start_planting_date": null,
+        "crop": {
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term"
+        },
+        "start_date": "2021-06-22",
+        "end_date": null
+      },
+      "latest_status": {
+        "id": 4,
+        "qr_id": 29,
+        "qr_order_id": 4,
+        "status": "ordered",
+        "user_id": 107,
+        "status_label": "Order Confirmed",
+        "created_at": "2022-08-31T07:32:45.000000Z",
+        "updated_at": "2022-08-31T07:32:45.000000Z",
+        "note": null
+      },
+      "quantity": 71,
+      "qr_id_number": "GW-DVB8",
+      "user": null,
+      "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-DVB8",
+      "harvest_date": null
+    },
+    {
+      "id": 3,
+      "qr": {
+        "qr_id": 28,
+        "farm_id": 2167,
+        "season_id": 1407,
+        "farm_location": "map",
+        "is_display_ph": false,
+        "is_display_farm_input": true,
+        "is_display_farm_output": false,
+        "phone": null,
+        "qr_type": null,
+        "created_at": "2022-08-31T07:31:05.000000Z"
+      },
+      "farm": {
+        "id": 2167,
+        "name": "order test 2"
+      },
+      "season": {
+        "id": 1407,
+        "season": "မိုးရာသီ",
+        "crop_specie": null,
+        "start_planting_date": null,
+        "crop": {
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term"
+        },
+        "start_date": "2021-06-22",
+        "end_date": null
+      },
+      "latest_status": {
+        "id": 3,
+        "qr_id": 28,
+        "qr_order_id": 3,
+        "status": "ordered",
+        "user_id": 107,
+        "status_label": "Order Confirmed",
+        "created_at": "2022-08-31T07:31:18.000000Z",
+        "updated_at": "2022-08-31T07:31:18.000000Z",
+        "note": null
+      },
+      "quantity": 50,
+      "qr_id_number": "GW-I7MD",
+      "user": null,
+      "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-I7MD",
+      "harvest_date": null
+    },
+    {
+      "id": 2,
+      "qr": {
+        "qr_id": 27,
+        "farm_id": 2167,
+        "season_id": 1407,
+        "farm_location": "map",
+        "is_display_ph": false,
+        "is_display_farm_input": false,
+        "is_display_farm_output": false,
+        "phone": null,
+        "qr_type": null,
+        "created_at": "2022-08-31T07:07:11.000000Z"
+      },
+      "farm": {
+        "id": 2167,
+        "name": "order test 2"
+      },
+      "season": {
+        "id": 1407,
+        "season": "မိုးရာသီ",
+        "crop_specie": null,
+        "start_planting_date": null,
+        "crop": {
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term"
+        },
+        "start_date": "2021-06-22",
+        "end_date": null
+      },
+      "latest_status": {
+        "id": 2,
+        "qr_id": 27,
+        "qr_order_id": 2,
+        "status": "ordered",
+        "user_id": 107,
+        "status_label": "Order Confirmed",
+        "created_at": "2022-08-31T07:07:56.000000Z",
+        "updated_at": "2022-08-31T07:07:56.000000Z",
+        "note": null
+      },
+      "quantity": 70,
+      "qr_id_number": "GW-WFT4",
+      "user": null,
+      "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-WFT4",
+      "harvest_date": null
+    },
+    {
+      "id": 1,
+      "qr": {
+        "qr_id": 23,
+        "farm_id": 2167,
+        "season_id": 1407,
+        "farm_location": "map",
+        "is_display_ph": false,
+        "is_display_farm_input": false,
+        "is_display_farm_output": false,
+        "phone": null,
+        "qr_type": null,
+        "created_at": "2022-08-31T02:31:47.000000Z"
+      },
+      "farm": {
+        "id": 2167,
+        "name": "order test 2"
+      },
+      "season": {
+        "id": 1407,
+        "season": "မိုးရာသီ",
+        "crop_specie": null,
+        "start_planting_date": null,
+        "crop": {
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term"
+        },
+        "start_date": "2021-06-22",
+        "end_date": null
+      },
+      "latest_status": {
+        "id": 1,
+        "qr_id": 23,
+        "qr_order_id": 1,
+        "status": "ordered",
+        "user_id": 107,
+        "status_label": "Order Confirmed",
+        "created_at": "2022-08-31T02:32:08.000000Z",
+        "updated_at": "2022-08-31T02:32:08.000000Z",
+        "note": null
+      },
+      "quantity": 100,
+      "qr_id_number": "GW-LZDR",
+      "user": null,
+      "qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-LZDR",
+      "harvest_date": null
+    }
+  ]
+}

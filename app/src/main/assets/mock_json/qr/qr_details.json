@@ -1,0 +1,253 @@
+{
+  "data": {
+    "request_qr": {
+      "qr_id": 73,
+      "farm_id": 16,
+      "season_id": 18,
+      "farm_location": "village",
+      "is_display_ph": true,
+      "is_display_farm_input": true,
+      "is_display_farm_output": true,
+      "phone": "123456788",
+      "qr_type": "individual",
+      "created_at": "2022-09-29T14:14:32.000000Z"
+    },
+    "farm": {
+      "id": 16,
+      "name": "ဘ",
+      "area": 2,
+      "area_unit": "Acre",
+      "location": "aa",
+      "ownership": "အငှား",
+      "photos": null,
+      "plot_number": null,
+      "plot_id": null,
+      "lat": null,
+      "lon": null,
+      "created_at": "19/06/2021 19:33:31",
+      "user": {
+        "id": 107,
+        "name": "တိုးလိုင်း (GWW)",
+        "avatar": "https://upgrade.greenwaymyanmar.com/img/farmer-icon.png",
+        "infos": {
+          "career": "other",
+          "verify": false
+        }
+      },
+      "opening_season": {
+        "id": 19,
+        "season": "နွေရာသီ",
+        "crop_specie": "စမ်းသပ်",
+        "start_date": "2020-01-03",
+        "end_date": null,
+        "is_end": false,
+        "crop_life": 0,
+        "is_harvest": false,
+        "seed_source": null,
+        "germination_rate": null,
+        "company_code": null,
+        "is_approved_by_company": false,
+        "start_planting_date": null,
+        "nursery_date": null,
+        "created_at": "19/06/2021 19:33:31",
+        "crop": {
+          "id": 117,
+          "title": "ကင်းပွန်းချဉ်",
+          "order": 112,
+          "parent_id": 9,
+          "priority": 1,
+          "crop_life_type": "short-term",
+          "image": "https://greenway.sgp1.digitaloceanspaces.com/crop_types_image/9ab2fdee225975e866419a882c2884d8.png",
+          "cover": "https://greenway.sgp1.digitaloceanspaces.com/crop_types_cover/34cbe064822f80385a7717e8f8134d0a.jpg",
+          "unit": "ပိဿာ"
+        },
+        "total_cost": 27450
+      }
+    },
+    "season": {
+      "id": 18,
+      "season": "မိုးရာသီ",
+      "crop_specie": "ggg",
+      "start_date": "2019-10-07",
+      "end_date": "2019-10-07",
+      "is_end": true,
+      "crop_life": 0,
+      "is_harvest": true,
+      "seed_source": null,
+      "germination_rate": null,
+      "company_code": null,
+      "is_approved_by_company": false,
+      "start_planting_date": null,
+      "nursery_date": null,
+      "created_at": "19/06/2021 19:33:31",
+      "end_reason": {
+        "id": 4,
+        "reason": "သဘာဝဘေးအန္တရာယ်"
+      },
+      "crop": {
+        "id": 33,
+        "title": "ကျွဲကော",
+        "order": 26,
+        "parent_id": 3,
+        "priority": 5,
+        "crop_life_type": "short-term",
+        "image": "https://greenway.sgp1.digitaloceanspaces.com/crop_types_image/6373fabb90eb8a24b269fe199138f6a0.png",
+        "cover": "https://greenway.sgp1.digitaloceanspaces.com/crop_types_cover/9541239c658ce61dd1045007be8970f4.jpg",
+        "unit": "လုံး"
+      },
+      "yields": [
+        {
+          "id": 5,
+          "yield": 500,
+          "unit": "လုံး",
+          "quality": "အသင့်အတင့်",
+          "estimated_price": "250",
+          "is_sold": false,
+          "remark": "bjj",
+          "created_at": "19/06/2021 19:33:31"
+        }
+      ],
+      "total_cost": 64181
+    },
+    "activities": [
+      {
+        "category_tile": "စိုက်ပျိုးခြင်း",
+        "category_id": 3,
+        "expense_date": "2021-06-19T13:03:31.000000Z",
+        "inputs": [
+          {
+            "id": 17,
+            "product_category_id": 35,
+            "product_category_name": "ပစ္စည်းကိရိယာများ",
+            "product_id": 390,
+            "product_name": "ပျိုးဗန်း (၆၀ပေါက်)",
+            "unit_price": 0,
+            "unit": "ပုံး",
+            "amount_per_unit": null,
+            "amount_unit": null,
+            "quantity": 25.33,
+            "total_cost": 2500,
+            "expense_id": 38,
+            "deleted_at": null,
+            "created_at": "2021-06-19T13:03:31.000000Z",
+            "updated_at": "2021-06-19T13:03:31.000000Z"
+          },
+          {
+            "id": 18,
+            "product_category_id": null,
+            "product_category_name": null,
+            "product_id": null,
+            "product_name": null,
+            "unit_price": 0,
+            "unit": "ကီလို",
+            "amount_per_unit": null,
+            "amount_unit": null,
+            "quantity": 5.33,
+            "total_cost": 56660,
+            "expense_id": 38,
+            "deleted_at": null,
+            "created_at": "2021-06-19T13:03:31.000000Z",
+            "updated_at": "2021-06-19T13:03:31.000000Z"
+          }
+        ]
+      },
+      {
+        "category_tile": "ရိတ်သိမ်းခြင်း",
+        "category_id": 8,
+        "expense_date": "2021-06-19T13:03:31.000000Z",
+        "inputs": []
+      }
+    ],
+    "user": {
+      "id": 107,
+      "name": "တိုးလိုင်း (GWW)",
+      "email": null,
+      "username": "+959425324161",
+      "phone": "+959425324161",
+      "crops": [
+        {
+          "id": 98,
+          "title": "ကန်စွန်းဥ",
+          "parent_id": 9,
+          "order": 105,
+          "created_at": "2017-11-12T23:12:10.000000Z",
+          "updated_at": "2019-05-20T05:07:03.000000Z",
+          "image": "crop_types_image/adc655fdb8f0a7db5d15e622c54333db.png",
+          "cover": "crop_types_cover/21d466dcb9d375e60f9d1011dc059d42.jpg",
+          "priority": 4,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term",
+          "pivot": {
+            "user_id": 107,
+            "crop_id": 98
+          }
+        },
+        {
+          "id": 33,
+          "title": "ကျွဲကော",
+          "parent_id": 3,
+          "order": 26,
+          "created_at": "2017-11-12T22:56:33.000000Z",
+          "updated_at": "2019-05-17T10:29:21.000000Z",
+          "image": "crop_types_image/6373fabb90eb8a24b269fe199138f6a0.png",
+          "cover": "crop_types_cover/9541239c658ce61dd1045007be8970f4.jpg",
+          "priority": 5,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term",
+          "pivot": {
+            "user_id": 107,
+            "crop_id": 33
+          }
+        },
+        {
+          "id": 50,
+          "title": "စပါး",
+          "parent_id": 4,
+          "order": 51,
+          "created_at": "2017-11-12T23:00:33.000000Z",
+          "updated_at": "2019-05-20T04:36:20.000000Z",
+          "image": "crop_types_image/ec5f7a8c0c9c20409ae9064c3ba55586.png",
+          "cover": "crop_types_cover/2d59f102578abab072c25b380ddaa9f1.jpeg",
+          "priority": 31,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term",
+          "pivot": {
+            "user_id": 107,
+            "crop_id": 50
+          }
+        },
+        {
+          "id": 19,
+          "title": "ဝါး",
+          "parent_id": 2,
+          "order": 10,
+          "created_at": "2017-11-12T22:53:27.000000Z",
+          "updated_at": "2019-05-17T09:19:53.000000Z",
+          "image": "crop_types_image/a775b8afea9dd35ab1e963e844f7b723.png",
+          "cover": "crop_types_cover/313f1e47c785efc51d81cc9c6ce98bf2.jpg",
+          "priority": 95,
+          "is_rwcp_crop": 0,
+          "is_main_crop": 1,
+          "crop_life_type": "short-term",
+          "pivot": {
+            "user_id": 107,
+            "crop_id": 19
+          }
+        }
+      ],
+      "township": {
+        "id": 208,
+        "state_id": 5,
+        "name": "မြင်းမူ",
+        "p_code": "MMR005002",
+        "created_at": "2018-01-10T03:19:02.000000Z",
+        "updated_at": "2018-01-10T03:19:02.000000Z"
+      }
+    },
+    "temp_qr_url": "https://upgrade.greenwaymyanmar.com/qr-testing/GW-UNC8",
+    "temp_qr_id_number": "GW-UNC8"
+  }
+}

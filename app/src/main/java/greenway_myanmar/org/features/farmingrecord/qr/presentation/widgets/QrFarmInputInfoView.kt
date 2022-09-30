@@ -10,10 +10,12 @@ import androidx.core.view.isVisible
 import androidx.transition.TransitionManager
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FarmingRecordQrFarmInputInfoViewBinding
-import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrFarmActivity
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiFarmActivity
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.QrFarmActivityAdapter
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiSeason
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.util.DateUtils
 import greenway_myanmar.org.ui.transition.Rotate
+import java.time.Instant
 
 class QrFarmInputInfoView @JvmOverloads constructor(
     context: Context,
@@ -68,17 +70,23 @@ class QrFarmInputInfoView @JvmOverloads constructor(
         binding.farmInputList.adapter = adapter
     }
 
-    fun setData(season: UiSeason, activities: List<UiQrFarmActivity>) {
+    fun setData(season: UiSeason, activities: List<UiFarmActivity>) {
         setSeason(season)
         setActivities(activities)
     }
 
     private fun setSeason(season: UiSeason) {
+        val latestHarvestedYear =
+            DateUtils.format(season.latestHarvestedDate ?: Instant.now(), "yyyy")
         binding.seasonInfo.text =
-            resources.getString(R.string.label_farming_record_qr_season_info, season.name, "2050")
+            resources.getString(
+                R.string.label_farming_record_qr_season_info,
+                season.name,
+                latestHarvestedYear
+            )
     }
 
-    private fun setActivities(activities: List<UiQrFarmActivity>) {
+    private fun setActivities(activities: List<UiFarmActivity>) {
         adapter.submitList(activities)
     }
 

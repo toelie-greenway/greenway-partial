@@ -92,7 +92,8 @@ class DefaultFarmRepository @Inject constructor(
     override suspend fun getSeasonList(farmId: String): GetSeasonListResult {
         return withContext(ioDispatcher) {
             try {
-                val response = qrService.getSeasonList(farmId, 1, "107")
+                val response =
+                    qrService.getHarvestedSeasonList(farmId, 1, userHelper.activeUserId.toString())
                 when (val apiResponse = ApiResponse.create(response)) {
                     is ApiSuccessResponse -> {
                         GetSeasonListResult.Success(

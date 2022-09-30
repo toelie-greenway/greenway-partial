@@ -30,7 +30,7 @@
     <string name="hint_farming_record_qr_phone_number">ဖုန်းနံပါတ်ရိုက်ထည့်ပါ</string>
     <string name="label_farming_record_qr_show_farm_input">သွင်းအားစု ပါဝင်နှုန်း ပြမည်</string>
     <string name="label_farming_record_qr_show_yield">အထွက်နှုန်း ပမာဏ ပြမည်</string>
-    <string name="label_farming_record_qr_lifetime">QR သက်တမ်းကုန်ဆုံးရက်</string>
+    <string name="label_farming_record_qr_lifetime">QR သက်တမ်း</string>
     <string name="label_farming_record_qr_preview">သင်၏ကုဒ်</string>
 
     <string name="nav_title_choose_qr_farm">လယ်ကွက်ရွေးချယ်ပါ</string>

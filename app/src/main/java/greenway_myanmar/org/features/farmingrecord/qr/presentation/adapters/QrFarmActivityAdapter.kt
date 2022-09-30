@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FarmingRecordQrFarmActivityListItemBinding
-import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrFarmActivity
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiFarmActivity
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.QrFarmActivityAdapter.QrFarmActivityViewHolder.PhysicalPosition.*
 
 class QrFarmActivityAdapter :
-    ListAdapter<UiQrFarmActivity, QrFarmActivityAdapter.QrFarmActivityViewHolder>(
+    ListAdapter<UiFarmActivity, QrFarmActivityAdapter.QrFarmActivityViewHolder>(
         QrFarmActivityDiffCallback
     ) {
 
@@ -47,12 +47,12 @@ class QrFarmActivityAdapter :
             }
         }
 
-        fun bind(item: UiQrFarmActivity) {
+        fun bind(item: UiFarmActivity) {
             activityNameTextView.text = item.activityName
             dateTextView.text = item.formattedDate
 
-            detailTextView.text = item.farmInputs
-            detailTextView.isVisible = !item.farmInputs.isEmpty()
+            detailTextView.text = item.formattedFarmInputs()
+            detailTextView.isVisible = item.farmInputs.isNotEmpty()
         }
 
         enum class PhysicalPosition {
@@ -113,17 +113,17 @@ class QrFarmActivityAdapter :
         }
     }
 
-    object QrFarmActivityDiffCallback : DiffUtil.ItemCallback<UiQrFarmActivity>() {
+    object QrFarmActivityDiffCallback : DiffUtil.ItemCallback<UiFarmActivity>() {
         override fun areItemsTheSame(
-            oldItem: UiQrFarmActivity,
-            newItem: UiQrFarmActivity
+            oldItem: UiFarmActivity,
+            newItem: UiFarmActivity
         ): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: UiQrFarmActivity,
-            newItem: UiQrFarmActivity
+            oldItem: UiFarmActivity,
+            newItem: UiFarmActivity
         ): Boolean {
             return oldItem == newItem
         }

@@ -13,24 +13,23 @@ import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.*
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.CreateUpdateQrUseCase.CreateUpdateQrResult
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrDetailUseCase.GetQrDetailResult
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrDetailUseCase.Param
+import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrLifetimeListUseCase.*
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrQuantityListUseCase.GetQrQuantityListResult
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetSeasonListUseCase.GetSeasonListResult
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.AddEditQrPagerAdapter
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.time.Instant
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class AddEditFarmingRecordQrViewModel @Inject constructor(
     private val getSeasonListUseCase: GetSeasonListUseCase,
     private val createUpdateQrUseCase: CreateUpdateQrUseCase,
     private val createQrOrderUseCase: CreateQrOrderUseCase,
     private val getQrQuantityListUseCase: GetQrQuantityListUseCase,
+    private val getQrLifetimeListUseCase: GetQrLifetimeListUseCase,
     private val getQrDetailUseCase: GetQrDetailUseCase
 ) : ViewModel() {
 
@@ -42,6 +41,7 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
     private var loadFarmListJob: Job? = null
     private var loadSeasonListJob: Job? = null
     private var loadQuantityListJob: Job? = null
+    private var loadQrLifetimeListJob: Job? = null
     private var loadQrDetailJob: Job? = null
     private var createUpdateQrJob: Job? = null
     private var createQrOrderJob: Job? = null
@@ -49,6 +49,8 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
     init {
         observeFarmChanged()
         observeQrIdChanged()
+        loadQrLifetimes(false)
+        loadQuantityList(false)
     }
 
     private fun observeFarmChanged() {
@@ -58,7 +60,7 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
                 .collect {
                     resetSeasonUiState()
                     if (it != null) {
-                        loadSeasonList(it, true)
+                        loadSeasonList(it, uiState.value.showSeasonDropdown ?: true)
                     }
                 }
         }
@@ -82,7 +84,11 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
 
     private fun resetSeasonUiState() {
         _uiState.update {
-            it.copy(season = null, seasonList = null, showSeasonDropdown = false)
+            it.copy(
+                season = null,
+                seasonList = null,
+                showSeasonDropdown = null
+            )
         }
     }
 
@@ -169,6 +175,44 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
         }
     }
 
+    private fun loadQrLifetimes(showDropdown: Boolean = false) {
+        loadQrLifetimeListJob?.cancel()
+        viewModelScope.launch {
+            loadQrLifetimeListJob = launch {
+                runCancellableCatching {
+                    _uiState.update { currentUiState ->
+                        currentUiState.copy(quantityList = Resource.loading(null))
+                    }
+                    getQrLifetimeListUseCase()
+                }.onSuccess { result ->
+                    when (result) {
+                        is GetQrLifetimeListResult.Success -> {
+                            _uiState.update { currentUiState ->
+                                currentUiState.copy(
+                                    qrLifetimeList = Resource.success(result.lifetimes.map {
+                                        UiQrLifetime.fromDomain(
+                                            it
+                                        )
+                                    }),
+                                    showQuantityDropdown = showDropdown
+                                )
+                            }
+                        }
+                        is GetQrLifetimeListResult.Error -> {
+                            _uiState.update { currentUiState ->
+                                currentUiState.copy(qrLifetimeList = Resource.error(error = result.error))
+                            }
+                        }
+                    }
+                }.onFailure {
+                    _uiState.update { currentUiState ->
+                        currentUiState.copy(qrLifetimeList = Resource.from(it))
+                    }
+                }
+            }
+        }
+    }
+
     private fun loadQrDetail(qrId: String) {
         loadQrDetailJob?.cancel()
         viewModelScope.launch {
@@ -214,6 +258,9 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
             is AddEditFarmingRecordQrEvent.LoadQuantities -> {
                 loadQuantityList(true)
             }
+            is AddEditFarmingRecordQrEvent.LoadQrLifetimes -> {
+                loadQrLifetimes(true)
+            }
             is AddEditFarmingRecordQrEvent.PageChanged -> {
                 updatePage(event.pageIndex)
             }
@@ -239,7 +286,7 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
                 updateCreateQrErrorShown()
             }
             is AddEditFarmingRecordQrEvent.SeasonDropdownShown -> {
-                updateCreateQrErrorShown()
+                markSeasonDropdownShown()
             }
             is AddEditFarmingRecordQrEvent.Submit -> {
                 onSubmit()
@@ -254,7 +301,7 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
                 updateQuantity(event.quantity)
             }
             is AddEditFarmingRecordQrEvent.QrLifetimeChanged -> {
-                updateQrLifetime(event.millis)
+                updateQrLifetime(event.lifetime)
             }
             is AddEditFarmingRecordQrEvent.PhoneInputShown -> {
                 markPhoneInputShown()
@@ -268,16 +315,9 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
         }
     }
 
-    private fun updateQrLifetime(millis: Long) {
-        val newValue = Instant.ofEpochMilli(millis)
-        val oldValue = _uiState.value.qrLifetime
-
-        if (oldValue != null && newValue == oldValue) {
-            return
-        }
-
+    private fun updateQrLifetime(lifetime: UiQrLifetime) {
         _uiState.update {
-            it.copy(qrLifetime = newValue)
+            it.copy(qrLifetime = lifetime)
         }
     }
 
@@ -422,7 +462,7 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
                         optInShowPhone = optInShowPhone,
                         optInShowFarmInput = optInShowFarmInput,
                         optionShowYield = optInShowYield,
-                        qrLifetime = qrLifetime,
+                        qrLifetime = qrLifetime.month,
                         phone = phone
                     )
                 )
@@ -466,6 +506,8 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
         }
 
         val quantity = uiState.value.quantity?.quantity ?: return
+        val qrUrl = uiState.value.qrDetail?.data?.qrUrl ?: return
+        val qrIdNumber = uiState.value.qrDetail?.data?.qrIdNumber ?: return
 
         _uiState.update {
             it.copy(createQrOrderLoading = true)
@@ -477,7 +519,9 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
                 val result = createQrOrderUseCase(
                     CreateQrOrderUseCase.Param(
                         qrId = qrId,
-                        quantity = quantity
+                        quantity = quantity,
+                        qrUrl = qrUrl,
+                        qrIdNumber = qrIdNumber
                     )
                 )
 
@@ -573,6 +617,7 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
 
     fun getCurrentPageIndex() = uiState.value.currentPageIndex
     fun getQuantity(): Int = uiState.value.quantity?.quantity ?: 0
+    fun shouldExpandSeasonDropdown() = uiState.value.showSeasonDropdown ?: false
 }
 
 data class AddEditFarmingRecordQrUiState(
@@ -592,13 +637,14 @@ data class AddEditFarmingRecordQrUiState(
     val showPhoneInput: Boolean = false,
     val optInShowFarmInput: Boolean = false,
     val optInShowYield: Boolean = false,
-    val qrLifetime: Instant? = null,
+    val qrLifetime: UiQrLifetime? = null,
     val qrLifetimeError: Text? = null,
     val seasonList: Resource<List<UiSeason>>? = null,
     val quantityList: Resource<List<UiQrQuantity>>? = null,
+    val qrLifetimeList: Resource<List<UiQrLifetime>>? = null,
     val qrDetail: Resource<UiQrDetail>? = null,
     val showFarmDropdown: Boolean = false,
-    val showSeasonDropdown: Boolean = false,
+    val showSeasonDropdown: Boolean? = null,
     val showQuantityDropdown: Boolean = false,
     val currentPageIndex: Int = AddEditQrPagerAdapter.FORM_PAGE_INDEX,
     val totalPage: Int = AddEditQrPagerAdapter.TOTAL_PAGE,
@@ -631,13 +677,14 @@ sealed class AddEditFarmingRecordQrEvent {
         AddEditFarmingRecordQrEvent()
 
     object LoadSeasons : AddEditFarmingRecordQrEvent()
+    object LoadQrLifetimes : AddEditFarmingRecordQrEvent()
     object LoadQuantities : AddEditFarmingRecordQrEvent()
     data class OptInShowPhoneChanged(val show: Boolean) : AddEditFarmingRecordQrEvent()
     data class OptInShowFarmInputChanged(val show: Boolean) : AddEditFarmingRecordQrEvent()
     data class OptInShowYieldChanged(val show: Boolean) : AddEditFarmingRecordQrEvent()
     data class PageChanged(val pageIndex: Int) : AddEditFarmingRecordQrEvent()
     class QuantityChanged(val quantity: UiQrQuantity) : AddEditFarmingRecordQrEvent()
-    data class QrLifetimeChanged(val millis: Long) : AddEditFarmingRecordQrEvent()
+    data class QrLifetimeChanged(val lifetime: UiQrLifetime) : AddEditFarmingRecordQrEvent()
     object Submit : AddEditFarmingRecordQrEvent()
     object ConfirmOrder : AddEditFarmingRecordQrEvent()
     object CreateQrErrorShown : AddEditFarmingRecordQrEvent()

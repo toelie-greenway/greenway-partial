@@ -11,5 +11,5 @@ data class CreateUpdateQrPayload(
     @SerializedName("is_display_farm_output") val optInShowYield: Boolean,
     @SerializedName("phone") val phone: String,
     @SerializedName("qr_type") val qrType: String = "individual",
-    @SerializedName("qr_lifetime") val qrLifetime: String
+    @SerializedName("qr_lifetime") val qrLifetime: Int
 )

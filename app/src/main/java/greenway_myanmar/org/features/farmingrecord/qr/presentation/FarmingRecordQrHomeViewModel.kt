@@ -8,6 +8,7 @@ import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrOrder
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrOrderListUseCase.*
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrOrder
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -92,8 +93,11 @@ class FarmingRecordQrHomeViewModel @Inject constructor(
                                 },
                                 qrOrderListLoading = false,
                                 qrOrderListRefreshing = false,
-                                scrollToTopPending = refresh,
                             )
+                        }
+                        delay(300)
+                        _uiState.update {
+                            it.copy(scrollToTopPending = refresh)
                         }
                     }
                     is GetQrOrderListResult.Error -> {

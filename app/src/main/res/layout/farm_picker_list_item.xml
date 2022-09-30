@@ -39,14 +39,12 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.35">
 
-
-                <!--                app:imageUrl="@{farm.photos[0]}"-->
                 <greenway_myanmar.org.ui.widget.AspectRatioImageView
                     android:id="@+id/farm_photo"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:scaleType="centerCrop"
-                    app:imageUrl='@{""}'
+                    app:imageUrl="@{farm.image}"
                     app:imgAspectRatio="@dimen/aspect_3_2"
                     app:placeholder="@{@drawable/farm_greyscale_placeholder}"
                     tools:src="@drawable/farm_placeholder" />
@@ -55,51 +53,51 @@
 
             <!--            android:text='@{item.openingSeason.season ?? "စိုက်ပျိုးရာသီ"}'-->
 
-            <greenway_myanmar.org.ui.widget.GreenWayTextView
-                android:id="@+id/season_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/padding_normal"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:textAppearance="?textAppearanceCaption"
-                app:layout_constraintStart_toEndOf="@id/farm_photo_frame"
-                app:layout_constraintTop_toTopOf="@id/farm_photo_frame"
-                tools:text="ဆောင်းရာသီ" />
+            <!--            <greenway_myanmar.org.ui.widget.GreenWayTextView-->
+            <!--                android:id="@+id/season_name"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/padding_normal"-->
+            <!--                android:layout_marginTop="@dimen/spacing_normal"-->
+            <!--                android:textAppearance="?textAppearanceCaption"-->
+            <!--                app:layout_constraintStart_toEndOf="@id/farm_photo_frame"-->
+            <!--                app:layout_constraintTop_toTopOf="@id/farm_photo_frame"-->
+            <!--                tools:text="ဆောင်းရာသီ" />-->
 
             <!--            android:onClick="@{() -> itemClickCallback.onCompanyClick(item.openingSeason.company)}"-->
             <!--            android:text='@{item.openingSeason.company.name}'-->
             <!--            app:visibleGone="@{item.openingSeason.company != null}"-->
-            <greenway_myanmar.org.ui.widget.GreenWayTextView
-                android:id="@+id/company_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:background="@drawable/asymt_farm_list_company_name_background"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:paddingStart="@dimen/spacing_normal"
-                android:paddingTop="@dimen/spacing_micro"
-                android:paddingEnd="@dimen/spacing_normal"
-                android:paddingBottom="@dimen/spacing_micro"
-                android:textAppearance="?textAppearanceCaption"
-                android:textColor="@color/app_white"
-                app:layout_constraintBaseline_toBaselineOf="@id/season_name"
-                app:layout_constraintStart_toEndOf="@id/season_name"
-                tools:text="NIHC" />
+            <!--            <greenway_myanmar.org.ui.widget.GreenWayTextView-->
+            <!--                android:id="@+id/company_name"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/spacing_normal"-->
+            <!--                android:background="@drawable/asymt_farm_list_company_name_background"-->
+            <!--                android:ellipsize="end"-->
+            <!--                android:maxLines="1"-->
+            <!--                android:paddingStart="@dimen/spacing_normal"-->
+            <!--                android:paddingTop="@dimen/spacing_micro"-->
+            <!--                android:paddingEnd="@dimen/spacing_normal"-->
+            <!--                android:paddingBottom="@dimen/spacing_micro"-->
+            <!--                android:textAppearance="?textAppearanceCaption"-->
+            <!--                android:textColor="@color/app_white"-->
+            <!--                app:layout_constraintBaseline_toBaselineOf="@id/season_name"-->
+            <!--                app:layout_constraintStart_toEndOf="@id/season_name"-->
+            <!--                tools:text="NIHC" />-->
 
             <greenway_myanmar.org.ui.widget.GreenWayTextView
                 android:id="@+id/farm_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/padding_normal"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_8"
                 android:text='@{farm.name}'
                 android:textAppearance="?textAppearanceSubtitle1"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/farm_photo_frame"
-                app:layout_constraintTop_toBottomOf="@id/season_name"
+                app:layout_constraintTop_toTopOf="@id/farm_photo_frame"
                 tools:text="ကန်ဘေး" />
-
-            <!--            android:text='@{MyanmarNumberExtensionKt.toMyanmar(item.area) + " " + item.userFriendlyUnit()}'-->
 
             <greenway_myanmar.org.ui.widget.GreenWayTextView
                 android:id="@+id/farm_area"
@@ -107,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/padding_normal"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:text='@{farm.displayArea}'
                 android:textAppearance="?textAppearanceBody2"
                 android:textColor="@color/app_secondary_text"
                 app:layout_constraintStart_toEndOf="@id/farm_photo_frame"

@@ -130,13 +130,12 @@
             android:label="@string/label_farming_record_qr_show_yield"
             app:textPlaceholder="ဥပမာ - (၈၀) တင်း" />
 
-        <greenway_myanmar.org.ui.widget.GreenWayLargeDateInputView
-            android:id="@+id/qr_lifetime_input_view"
+        <greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView
+            android:id="@+id/qr_lifetime_dropdown_input_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_normal"
-            android:label="@string/label_farming_record_qr_lifetime"
-            app:textPlaceholder="ရက်/လ/နှစ်" />
+            android:label="@string/label_farming_record_qr_lifetime" />
 
         <greenway_myanmar.org.ui.widget.GreenWayButton
             android:id="@+id/submit_button"

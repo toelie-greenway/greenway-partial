@@ -2,8 +2,12 @@ package greenway_myanmar.org.features.farmingrecord.qr.data.api.model
 
 
 import com.google.gson.annotations.SerializedName
+import greenway_myanmar.org.features.farmingrecord.qr.domain.model.FarmLocationType
+import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrInfo
 
 data class ApiQrInfo(
+    @SerializedName("qr_id")
+    val qrId: String? = null,
     @SerializedName("created_at")
     val createdAt: String? = null,
     @SerializedName("farm_id")
@@ -22,4 +26,12 @@ data class ApiQrInfo(
     val qrType: String? = null,
     @SerializedName("season_id")
     val seasonId: Int? = null
-)
+) {
+    fun toDomain() = QrInfo(
+        farmLocationType = FarmLocationType.fromString(farmLocation.orEmpty()),
+        optInShowPhone = isDisplayPh == true,
+        optInShowFarmInput = isDisplayFarmInput == true,
+        optInShowYield = isDisplayFarmOutput == true,
+        phone = phone.orEmpty()
+    )
+}
