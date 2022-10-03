@@ -21,6 +21,7 @@ import greenway_myanmar.org.common.presentation.decorators.SpacingItemDecoration
 import greenway_myanmar.org.databinding.FarmingRecordQrHomeFragmentBinding
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.QrOrderListAdapter
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrOrder
+import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.args.UiQrOrderStatusArg
 import greenway_myanmar.org.util.kotlin.autoCleared
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -150,7 +151,10 @@ class FarmingRecordQrHomeFragment : Fragment() {
         findNavController().navigate(
             FarmingRecordQrHomeFragmentDirections
                 .actionFarmingRecordQrHomeFragmentToFarmingRecordQrOrderStatusFragment(
-                    orderId = order.id
+                    UiQrOrderStatusArg(
+                        qrOrderId = order.id,
+                        qrId = order.qrId
+                    )
                 )
         )
     }
@@ -209,7 +213,7 @@ class FarmingRecordQrHomeFragment : Fragment() {
                                 FarmingRecordQrHomeEvent.Refresh
                             )
                             qrActivityViewModel.handleEvent(
-                                FarmingRecordQrEvent.Refresh
+                                FarmingRecordQrEvent.RefreshHandled
                             )
                         }
                     }

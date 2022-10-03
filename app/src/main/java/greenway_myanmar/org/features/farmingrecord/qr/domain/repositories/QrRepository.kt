@@ -39,4 +39,5 @@ interface QrRepository {
     suspend fun getQrLifetimes(): GetQrLifetimeListUseCase.GetQrLifetimeListResult
 
     suspend fun getQrDetail(qrId: String): GetQrDetailUseCase.GetQrDetailResult
+
 }

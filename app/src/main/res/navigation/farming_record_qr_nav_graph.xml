@@ -38,6 +38,11 @@
         <action
             android:id="@+id/action_addEditFarmingRecordQrFragment_to_farmPickerDialogFragment"
             app:destination="@id/farmPickerDialogFragment" />
+        <argument
+            android:name="qr_edit_arg"
+            app:argType="greenway_myanmar.org.features.farmingrecord.qr.presentation.model.args.UiQrOrderEditArg"
+            android:defaultValue="@null"
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -55,9 +60,12 @@
         android:name="greenway_myanmar.org.features.farmingrecord.qr.presentation.QrOrderStatusFragment"
         android:label="FarmingRecordQrOrderStatusFragment"
         tools:layout="@layout/farming_record_qr_order_status_fragment" >
+        <action
+            android:id="@+id/action_farmingRecordQrOrderStatusFragment_to_addEditFarmingRecordQrFragment"
+            app:destination="@id/addEditFarmingRecordQrFragment" />
         <argument
-            android:name="order_id"
-            app:argType="string" />
+            android:name="order_status_arg"
+            app:argType="greenway_myanmar.org.features.farmingrecord.qr.presentation.model.args.UiQrOrderStatusArg" />
     </fragment>
     <fragment
         android:id="@+id/qrFullScreenFragment"

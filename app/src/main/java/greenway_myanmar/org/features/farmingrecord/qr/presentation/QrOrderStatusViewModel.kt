@@ -22,7 +22,7 @@ class QrOrderStatusViewModel @Inject constructor(
     private val getQrOrderUseCase: GetQrOrderUseCase
 ) : ViewModel() {
 
-    private val _orderId = MutableStateFlow<String>("")
+    private val _orderId = MutableStateFlow("")
 
     private val _uiState = MutableStateFlow(QrOrderStatusUiState())
     val uiState = _uiState.asStateFlow()
@@ -37,7 +37,7 @@ class QrOrderStatusViewModel @Inject constructor(
         }
 
         val args = QrOrderStatusFragmentArgs.fromSavedStateHandle(savedStateHandle)
-        setOrderId(args.orderId)
+        setOrderId(args.orderStatusArg.qrOrderId)
     }
 
     private fun loadData(orderId: String) {
@@ -95,6 +95,7 @@ data class QrOrderStatusUiState(
     val order: QrOrder? = null,
     val error: String? = null
 ) {
+    val orderId: String = order?.id.orEmpty()
     val orderIdNumber: String = order?.qrIdNumber.orEmpty()
     val statuses: List<QrOrderStatusItemUiState> = mapToListUiItem(order?.statuses.orEmpty())
     val title: Text

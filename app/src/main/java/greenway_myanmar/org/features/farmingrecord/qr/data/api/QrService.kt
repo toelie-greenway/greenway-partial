@@ -45,7 +45,7 @@ interface QrService {
         @Body payload: CreateUpdateQrPayload
     ): Response<ApiDataResponse<CreateUpdateQrResponse>>
 
-    @PATCH("qr/request-qr/{qr_id}/update")
+    @PATCH("qr/request-qr/update/{qr_id}")
     suspend fun updateQr(
         @Path("qr_id") qrId: String,
         @Body payload: CreateUpdateQrPayload

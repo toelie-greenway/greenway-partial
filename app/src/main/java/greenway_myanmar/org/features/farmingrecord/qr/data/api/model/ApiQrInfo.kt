@@ -4,6 +4,7 @@ package greenway_myanmar.org.features.farmingrecord.qr.data.api.model
 import com.google.gson.annotations.SerializedName
 import greenway_myanmar.org.features.farmingrecord.qr.domain.model.FarmLocationType
 import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrInfo
+import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrLifetime
 
 data class ApiQrInfo(
     @SerializedName("qr_id")
@@ -25,13 +26,21 @@ data class ApiQrInfo(
     @SerializedName("qr_type")
     val qrType: String? = null,
     @SerializedName("season_id")
-    val seasonId: Int? = null
+    val seasonId: Int? = null,
+    @SerializedName("qr_lifetime")
+    val qrLifetime: Int? = null
 ) {
     fun toDomain() = QrInfo(
+        qrId = qrId.orEmpty(),
         farmLocationType = FarmLocationType.fromString(farmLocation.orEmpty()),
         optInShowPhone = isDisplayPh == true,
         optInShowFarmInput = isDisplayFarmInput == true,
         optInShowYield = isDisplayFarmOutput == true,
-        phone = phone.orEmpty()
+        phone = phone.orEmpty(),
+        qrLifetime = QrLifetime(15) //
     )
+
+    companion object {
+        val Empty = ApiQrInfo()
+    }
 }

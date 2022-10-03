@@ -18,7 +18,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     private var _label: String = ""
     private var _text: String = ""
     private var _textPlaceholder: String = ""
-
+    private var _check: Boolean? = null
     private var _textAppearance = 0
 
     private var _clickCallback: ClickCallback? = null
@@ -97,12 +97,14 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     }
 
     fun setChecked(checked: Boolean) {
-        if (binding.optionSwitch.isChecked == checked) {
+        if (_check != null && _check == checked) {
             return
         }
 
+        _check = checked
         binding.optionSwitch.isChecked = checked
     }
+
 
     fun setText(text: String) {
         val colorResId =

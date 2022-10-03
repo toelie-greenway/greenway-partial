@@ -8,6 +8,7 @@ import java.time.LocalDate
 
 data class UiQrOrder(
     val id: String,
+    val qrId: String,
     val farmName: String,
     val cropName: String,
     val seasonName: String,
@@ -25,6 +26,7 @@ data class UiQrOrder(
         fun fromDomain(domainEntity: QrOrder): UiQrOrder {
             return UiQrOrder(
                 id = domainEntity.id,
+                qrId = domainEntity.qrInfo.qrId,
                 farmName = domainEntity.farm.name,
                 seasonName = domainEntity.season.seasonName,
                 cropName = domainEntity.season.crop.title,

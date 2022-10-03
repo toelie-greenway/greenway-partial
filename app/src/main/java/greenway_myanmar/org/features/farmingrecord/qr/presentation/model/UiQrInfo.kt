@@ -9,6 +9,7 @@ data class UiQrInfo(
     val optInShowFarmInput: Boolean,
     val optInShowYield: Boolean,
     val phone: String,
+    val qrLifetime: UiQrLifetime
 ) {
     companion object {
         fun fromDomain(domainEntity: QrInfo) = UiQrInfo(
@@ -16,7 +17,8 @@ data class UiQrInfo(
             optInShowPhone = domainEntity.optInShowPhone,
             optInShowFarmInput = domainEntity.optInShowFarmInput,
             optInShowYield = domainEntity.optInShowYield,
-            phone = domainEntity.phone
+            phone = domainEntity.phone,
+            qrLifetime = UiQrLifetime.fromDomain(domainEntity.qrLifetime)
         )
     }
 }

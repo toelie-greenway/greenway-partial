@@ -142,7 +142,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_24"
-            android:text="@string/button_text_next" />
+            tools:text="@string/button_text_next" />
 
     </LinearLayout>
 </ScrollView>

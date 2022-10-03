@@ -5,6 +5,7 @@ import java.time.LocalDate
 
 data class QrOrder(
     val id: String,
+    val qrInfo: QrInfo,
     val farm: Farm,
     val season: Season,
     val qrUrl: String,

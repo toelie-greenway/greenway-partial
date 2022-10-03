@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.farmingrecord.qr.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.greenwaymyanmar.utils.runCancellableCatching
@@ -9,11 +10,12 @@ import greenway_myanmar.org.common.domain.entities.Resource
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.common.domain.entities.ValidationResult
 import greenway_myanmar.org.common.domain.entities.errorMessage
+import greenway_myanmar.org.features.farmingrecord.qr.domain.model.QrDetail
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.*
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.CreateUpdateQrUseCase.CreateUpdateQrResult
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrDetailUseCase.GetQrDetailResult
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrDetailUseCase.Param
-import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrLifetimeListUseCase.*
+import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrLifetimeListUseCase.GetQrLifetimeListResult
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetQrQuantityListUseCase.GetQrQuantityListResult
 import greenway_myanmar.org.features.farmingrecord.qr.domain.usecases.GetSeasonListUseCase.GetSeasonListResult
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.AddEditQrPagerAdapter
@@ -30,15 +32,13 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
     private val createQrOrderUseCase: CreateQrOrderUseCase,
     private val getQrQuantityListUseCase: GetQrQuantityListUseCase,
     private val getQrLifetimeListUseCase: GetQrLifetimeListUseCase,
-    private val getQrDetailUseCase: GetQrDetailUseCase
+    private val getQrDetailUseCase: GetQrDetailUseCase,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddEditFarmingRecordQrUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val seasonId = MutableStateFlow<String>("")
-
-    private var loadFarmListJob: Job? = null
     private var loadSeasonListJob: Job? = null
     private var loadQuantityListJob: Job? = null
     private var loadQrLifetimeListJob: Job? = null
@@ -46,11 +46,42 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
     private var createUpdateQrJob: Job? = null
     private var createQrOrderJob: Job? = null
 
+    private var isOnBindingOldData = false
+
     init {
+        val qrEditArg =
+            AddEditFarmingRecordQrFragmentArgs.fromSavedStateHandle(savedStateHandle).qrEditArg
+        if (qrEditArg != null) {
+            _uiState.update {
+                it.copy(isInEditMode = true, qrOrderId = qrEditArg.qrOrderId, qrId = qrEditArg.qrId)
+            }
+            loadQrDetail(qrEditArg.qrId) {
+                bindOldData(UiQrDetail.fromDomain(it))
+            }
+        } else {
+            observeQrIdChanged()
+        }
+
         observeFarmChanged()
-        observeQrIdChanged()
         loadQrLifetimes(false)
         loadQuantityList(false)
+    }
+
+    private fun bindOldData(qrDetail: UiQrDetail) {
+        isOnBindingOldData = true
+        _uiState.update {
+            it.copy(
+                farm = qrDetail.farm,
+                season = qrDetail.season,
+                farmLocationType = qrDetail.farmLocationType,
+                phone = qrDetail.qrInfo.phone,
+                optInShowPhone = qrDetail.qrInfo.optInShowPhone,
+                optInShowFarmInput = qrDetail.qrInfo.optInShowFarmInput,
+                optInShowYield = qrDetail.qrInfo.optInShowYield,
+                qrLifetime = qrDetail.qrInfo.qrLifetime
+            )
+        }
+        isOnBindingOldData = false
     }
 
     private fun observeFarmChanged() {
@@ -58,9 +89,11 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
             uiState.map { it.farm }
                 .distinctUntilChanged()
                 .collect {
-                    resetSeasonUiState()
-                    if (it != null) {
-                        loadSeasonList(it, uiState.value.showSeasonDropdown ?: true)
+                    if (!isOnBindingOldData) {
+                        resetSeasonUiState()
+                        if (it != null) {
+                            loadSeasonList(it, uiState.value.showSeasonDropdown ?: true)
+                        }
                     }
                 }
         }
@@ -213,7 +246,10 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
         }
     }
 
-    private fun loadQrDetail(qrId: String) {
+    private fun loadQrDetail(
+        qrId: String,
+        onSuccess: (qrDetail: QrDetail) -> Unit = {}
+    ) {
         loadQrDetailJob?.cancel()
         viewModelScope.launch {
             loadQrDetailJob = launch {
@@ -225,12 +261,11 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
                 }.onSuccess { result ->
                     when (result) {
                         is GetQrDetailResult.Success -> {
+                            onSuccess(result.data)
                             _uiState.update { currentUiState ->
                                 currentUiState.copy(
                                     qrDetail = Resource.success(
-                                        UiQrDetail.fromDomain(
-                                            result.data
-                                        )
+                                        UiQrDetail.fromDomain(result.data)
                                     )
                                 )
                             }
@@ -417,7 +452,8 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
             farmResult,
             seasonResult,
             farmLocationTypeResult,
-            qrLifetimeResult
+            qrLifetimeResult,
+            phoneResult
         ).any { it is ValidationResult.Error }
 
         if (hasError) {
@@ -469,12 +505,22 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
 
                 when (result) {
                     is CreateUpdateQrResult.Success -> {
-                        _uiState.update {
-                            it.copy(
-                                qrId = result.qrId,
-                                currentPageIndex = getCurrentPageIndex() + 1,
-                                createQrLoading = false
-                            )
+                        if (uiState.value.isInEditMode) {
+                            _uiState.update {
+                                it.copy(
+                                    refreshQrList = true,
+                                    createQrLoading = false,
+                                    dismissed = true
+                                )
+                            }
+                        } else {
+                            _uiState.update {
+                                it.copy(
+                                    qrId = result.qrId,
+                                    currentPageIndex = getCurrentPageIndex() + 1,
+                                    createQrLoading = false
+                                )
+                            }
                         }
                     }
                     is CreateUpdateQrResult.Error -> {
@@ -623,6 +669,7 @@ class AddEditFarmingRecordQrViewModel @Inject constructor(
 data class AddEditFarmingRecordQrUiState(
     val isInEditMode: Boolean = false,
     val qrId: String? = null,
+    val qrOrderId: String? = null,
     val quantity: UiQrQuantity? = null,
     val quantityError: Text? = null,
     val farm: UiFarm? = null,
@@ -647,17 +694,36 @@ data class AddEditFarmingRecordQrUiState(
     val showSeasonDropdown: Boolean? = null,
     val showQuantityDropdown: Boolean = false,
     val currentPageIndex: Int = AddEditQrPagerAdapter.FORM_PAGE_INDEX,
-    val totalPage: Int = AddEditQrPagerAdapter.TOTAL_PAGE,
     val createQrError: Text? = null,
     val createQrLoading: Boolean = false,
     val createQrOrderError: Text? = null,
     val createQrOrderLoading: Boolean = false,
     val qrInfoLoading: Boolean = false,
     val showOrderSuccess: Boolean = false,
-    val refreshQrList: Boolean = false
+    val refreshQrList: Boolean = false,
+    val dismissed: Boolean = false
 ) {
+    val screenTitle: Text = if (isInEditMode) {
+        Text.ResourceText(R.string.nav_title_farming_record_qr_edit_order)
+    } else {
+        Text.ResourceText(R.string.nav_title_farming_record_qr_new_order)
+    }
+
+    val totalPage: Int = if (isInEditMode) {
+        1
+    } else {
+        AddEditQrPagerAdapter.TOTAL_PAGE
+    }
+
+    val submitButtonText: Int = if (isInEditMode) {
+        R.string.button_text_confirm
+    } else {
+        R.string.button_text_next
+    }
+
     val currentProgress = currentPageIndex + 1
-    val loading = createQrLoading || createQrOrderLoading
+    val loading = createQrLoading || createQrOrderLoading || qrDetail?.isLoading() == true
+    val showProgressIndicator = !isInEditMode
     val estimatedPriceLabel: Text.ResourceFormattedText? =
         if (quantity != null) {
             Text.ResourceFormattedText(

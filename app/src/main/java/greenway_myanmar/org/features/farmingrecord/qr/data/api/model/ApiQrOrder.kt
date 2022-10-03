@@ -45,6 +45,7 @@ data class ApiQrOrder(
     fun toDomain(): QrOrder {
         return QrOrder(
             id = id.orEmpty(),
+            qrInfo = qrInfo?.toDomain() ?: ApiQrInfo.Empty.toDomain(),
             farm = farm?.toDomain() ?: ApiFarm.Empty.toDomain(),
             season = season?.toDomain() ?: ApiSeason.Empty.toDomain(),
             qrUrl = qrUrl.orEmpty(),

@@ -265,57 +265,5 @@ class DefaultQrRepository @Inject constructor(
                 GetQrDetailUseCase.GetQrDetailResult.Error(ResourceError.from(e))
             }
         }
-//        val activities = listOf(
-//            QrFarmActivity(
-//                "မြေပြုပြင်ခြင်း", Instant.now(), "နွားချေး - (၂) လှည်း\n" +
-//                        "စီပီ ၁၅း၁၅း၁၅ - (၂) အိတ်"
-//            ),
-//            QrFarmActivity("ပျိုးထောင်ခြင်း", Instant.now().minus(1, ChronoUnit.DAYS)),
-//            QrFarmActivity("စိုက်ပျိုးခြင်း", Instant.now().minus(7, ChronoUnit.DAYS)),
-//            QrFarmActivity("အပင်ပြုစုခြင်း", Instant.now().minus(8, ChronoUnit.DAYS)),
-//            QrFarmActivity("မြေသြဇာကျွေးခြင်း", Instant.now().minus(7, ChronoUnit.DAYS)),
-//            QrFarmActivity(
-//                "ပိုးမွှားရောဂါ၊ ဖျက်ပိုးနှင့် ပေါင်း",
-//                Instant.now().minus(6, ChronoUnit.DAYS)
-//            ),
-//            QrFarmActivity(
-//                "ပိုးမွှားရောဂါ၊ ဖျက်ပိုးနှင့် ပေါင်း",
-//                Instant.now().minus(5, ChronoUnit.DAYS)
-//            ),
-//            QrFarmActivity("ရိတ်သိမ်းခြင်း", Instant.now().minus(12, ChronoUnit.DAYS)),
-//            QrFarmActivity("ရိတ်သိမ်းခြင်း", Instant.now().minus(2, ChronoUnit.DAYS))
-//        )
-//
-//        return GetQrDetailUseCase.GetQrDetailResult.Success(
-//            data = QrDetail(
-//                id = "1",
-//                qrUrl = "https://greenwaymyanmar.com/",
-//                user = QrUser(
-//                    id = "107",
-//                    avatar = "https://picsum.photos/500/500",
-//                    name = "မောင်တိုးလိုင်း",
-//                    userInfo = QrUser.QrUserInfo(
-//                        career = "တောင်သူလယ်သမား"
-//                    )
-//                ),
-//                farm = Farm(
-//                    id = "1",
-//                    name = "စမ်းသပ်စိုက်ခင်း",
-//                    area = 1.9,
-//                    areaUnit = FARM_DEFAULT_AREA_UNIT,
-//                    images = listOf("https://picsum.photos/id/876/200/300")
-//                ),
-//                season = Season(
-//                    id = "1",
-//                    seasonName = "ဆောင်းရာသီ",
-//                    crop = Crop(
-//                        id = "1",
-//                        title = "ပိန်းဥ"
-//                    )
-//                ),
-//                farmActivities = activities
-//            )
-//        )
-
     }
 }

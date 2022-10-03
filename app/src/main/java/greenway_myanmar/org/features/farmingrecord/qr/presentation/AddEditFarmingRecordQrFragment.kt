@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
+import greenway_myanmar.org.common.domain.entities.asString
 import greenway_myanmar.org.common.presentation.extensions.showSoftInput
 import greenway_myanmar.org.databinding.AddEditFarmingRecordQrFragmentBinding
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.adapters.AddEditQrPagerAdapter
@@ -85,6 +86,13 @@ open class AddEditFarmingRecordQrFragment : Fragment() {
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
             launch {
+                viewModel.uiState.map { it.screenTitle }
+                    .distinctUntilChanged()
+                    .collect {
+                        binding.toolbarTitle.text = it.asString(requireContext())
+                    }
+            }
+            launch {
                 viewModel.uiState.map { it.totalPage }.distinctUntilChanged().collect {
                     binding.progressIndicator.max = it
                 }
@@ -92,6 +100,11 @@ open class AddEditFarmingRecordQrFragment : Fragment() {
             launch {
                 viewModel.uiState.map { it.currentProgress }.distinctUntilChanged().collect {
                     binding.progressIndicator.progress = it
+                }
+            }
+            launch {
+                viewModel.uiState.map { it.showProgressIndicator }.distinctUntilChanged().collect {
+                    binding.progressIndicator.isVisible = it
                 }
             }
             launch {
@@ -123,6 +136,18 @@ open class AddEditFarmingRecordQrFragment : Fragment() {
                         if (refresh) {
                             qrActivityViewModel.handleEvent(
                                 FarmingRecordQrEvent.Refresh
+                            )
+                        }
+                    }
+            }
+            launch {
+                viewModel.uiState.map { it.dismissed }
+                    .distinctUntilChanged()
+                    .collect { dismissed ->
+                        if (dismissed) {
+                            findNavController().popBackStack(
+                                R.id.farmingRecordQrHomeFragment,
+                                false
                             )
                         }
                     }

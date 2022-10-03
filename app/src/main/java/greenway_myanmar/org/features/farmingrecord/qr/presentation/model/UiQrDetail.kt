@@ -10,6 +10,7 @@ data class UiQrDetail(
     val user: UiQrUser,
     val farm: UiFarm,
     val season: UiSeason,
+    val farmLocationType: UiFarmLocationType,
     val farmActivities: List<UiFarmActivity>
 ) {
     companion object {
@@ -22,6 +23,7 @@ data class UiQrDetail(
                 user = UiQrUser.fromDomain(domainEntity.user),
                 farm = UiFarm.fromDomain(domainEntity.farm),
                 season = UiSeason.fromDomain(domainEntity.season),
+                farmLocationType = UiFarmLocationType.fromDomain(domainEntity.qrInfo.farmLocationType),
                 farmActivities = domainEntity.farmActivities.map {
                     UiFarmActivity.fromDomain(it)
                 }

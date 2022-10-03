@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.annotation.IdRes
 import androidx.core.view.isVisible
+import androidx.databinding.adapters.CompoundButtonBindingAdapter.setChecked
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.DateValidatorPointForward
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
@@ -23,16 +21,16 @@ import greenway_myanmar.org.databinding.AddEditFarmingRecordQrFormFragmentBindin
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.dialogs.PhoneInputDialog
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiFarmLocationType
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrLifetime
-import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiQrQuantity
 import greenway_myanmar.org.features.farmingrecord.qr.presentation.model.UiSeason
-import greenway_myanmar.org.ui.widget.*
+import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView
 import greenway_myanmar.org.ui.widget.GreenWayLargeDropdownTextInputView.LoadingState
+import greenway_myanmar.org.ui.widget.GreenWayLargePickerTextInputView
+import greenway_myanmar.org.ui.widget.GreenWayLargeSwitchOptionInputView
+import greenway_myanmar.org.ui.widget.GreenWayLargeSwitchPhoneInputView
 import greenway_myanmar.org.util.kotlin.autoCleared
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.time.Instant
 
 @AndroidEntryPoint
 class AddEditFarmingRecordQrFormFragment : Fragment() {
@@ -91,7 +89,7 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                 parentViewModel.handleEvent(AddEditFarmingRecordQrEvent.SeasonChanged(item))
             }
         })
-        binding.farmLocationTypeRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+        binding.farmLocationTypeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             parentViewModel.handleEvent(
                 AddEditFarmingRecordQrEvent.FarmLocationTypeChanged(
                     getFarmLocationTypeFromViewId(checkedId)
@@ -197,6 +195,8 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                     .collect { season ->
                         if (season == null) {
                             binding.seasonDropdownInputView.removeSelection()
+                        } else {
+                            binding.seasonDropdownInputView.setSelection(season)
                         }
                     }
             }
@@ -250,6 +250,17 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                     }
             }
             launch {
+                parentViewModel.uiState.map { it.qrLifetime }
+                    .distinctUntilChanged()
+                    .collect { qrLifetime ->
+                        if (qrLifetime == null) {
+                            binding.qrLifetimeDropdownInputView.removeSelection()
+                        } else {
+                            binding.qrLifetimeDropdownInputView.setSelection(qrLifetime)
+                        }
+                    }
+            }
+            launch {
                 parentViewModel.uiState.map { it.createQrError }
                     .distinctUntilChanged()
                     .collect { error ->
@@ -276,20 +287,38 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
                     }
             }
             launch {
-                parentViewModel.uiState.map { it.showPhoneInput }
-                    .distinctUntilChanged()
-                    .collect { show ->
-                        if (show) {
-                            showPhoneInputDialog()
-                            markPhoneInputShown()
-                        }
-                    }
-            }
-            launch {
                 parentViewModel.uiState.map { it.phone }
                     .distinctUntilChanged()
                     .collect { phone ->
-                        //binding.phon
+                        binding.phoneInputView.setText(phone)
+                    }
+            }
+            launch {
+                parentViewModel.uiState.map { it.optInShowPhone }
+                    .distinctUntilChanged()
+                    .collect { show ->
+                        binding.phoneInputView.setChecked(show)
+                    }
+            }
+            launch {
+                parentViewModel.uiState.map { it.optInShowFarmInput }
+                    .distinctUntilChanged()
+                    .collect { show ->
+                        binding.farmInputOptionInputView.setChecked(show)
+                    }
+            }
+            launch {
+                parentViewModel.uiState.map { it.optInShowYield }
+                    .distinctUntilChanged()
+                    .collect { show ->
+                        binding.yieldInputOptionInputView.setChecked(show)
+                    }
+            }
+            launch {
+                parentViewModel.uiState.map { it.submitButtonText }
+                    .distinctUntilChanged()
+                    .collect { textResId ->
+                        binding.submitButton.setText(textResId)
                     }
             }
         }
@@ -345,17 +374,6 @@ class AddEditFarmingRecordQrFormFragment : Fragment() {
             AddEditFarmingRecordQrFragmentDirections.actionAddEditFarmingRecordQrFragmentToFarmPickerDialogFragment()
         findNavController()
             .navigate(direction)
-    }
-
-    private fun showPhoneInputDialog() {
-        PhoneInputDialog.newInstance()
-            .show(childFragmentManager, "phone-input")
-    }
-
-    private fun markPhoneInputShown() {
-        parentViewModel.handleEvent(
-            AddEditFarmingRecordQrEvent.PhoneInputShown
-        )
     }
 
     companion object {
