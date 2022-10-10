@@ -36,7 +36,8 @@ class QrDetailView @JvmOverloads constructor(
             binding.farmingInfoView.setData(
                 qrDetail.farmActivities,
                 qrDetail.farm,
-                qrDetail.season
+                qrDetail.season,
+                qrDetail.qrInfo.farmLocationType
             )
             binding.userInfoView.setData(qrDetail.qrInfo, qrDetail.user)
         }

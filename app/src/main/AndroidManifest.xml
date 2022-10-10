@@ -5,6 +5,17 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+            <data android:scheme="*" />
+        </intent>
+    </queries>
+
     <application
         android:name=".GreenWayApp"
         android:allowBackup="true"
