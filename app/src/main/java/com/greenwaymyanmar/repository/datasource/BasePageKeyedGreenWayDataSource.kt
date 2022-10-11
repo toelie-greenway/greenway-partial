@@ -7,7 +7,7 @@ import com.google.gson.Gson
 import com.greenwaymyanmar.utils.errorMessage
 import greenway_myanmar.org.AppExecutors
 import greenway_myanmar.org.BuildConfig
-import greenway_myanmar.org.api.Pagination
+import com.greenwaymyanmar.common.data.api.v1.Pagination
 import greenway_myanmar.org.vo.NetworkState
 import paging.PagingRequestHelper
 import retrofit2.Call

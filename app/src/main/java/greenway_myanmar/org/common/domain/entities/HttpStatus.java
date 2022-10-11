@@ -567,6 +567,14 @@ public enum HttpStatus {
         return null;
     }
 
+    public static HttpStatus resolveOrDefault(int statusCode) {
+        HttpStatus status = resolve(statusCode);
+        if (status != null) {
+            return status;
+        } else {
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+    }
 
     /**
      * Enumeration of HTTP status series.

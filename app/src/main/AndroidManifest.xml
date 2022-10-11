@@ -27,7 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GreenWay">
         <activity
-            android:name=".features.farmingrecord.qr.presentation.FarmingRecordQrActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.GreenWay.Asymt.Qr">

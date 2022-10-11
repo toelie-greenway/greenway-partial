@@ -1,11 +1,11 @@
 package com.greenwaymyanmar.utils
 
 import com.google.gson.Gson
-import com.greenwaymyanmar.api.response.AsylErrorResponse
-import greenway_myanmar.org.api.ApiError
-import java.io.IOException
+import com.greenwaymyanmar.common.data.api.v1.ApiError
+import com.greenwaymyanmar.common.data.api.v2.response.AsylErrorResponse
 import retrofit2.Response
 import timber.log.Timber
+import java.io.IOException
 
 fun Response<*>.errorMessage(): String {
 

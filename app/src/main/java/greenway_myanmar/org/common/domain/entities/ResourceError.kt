@@ -1,16 +1,9 @@
 package greenway_myanmar.org.common.domain.entities
 
 import android.content.Context
-import com.greenwaymyanmar.api.ApiErrorResponse
-import com.greenwaymyanmar.api.ApiResponse
-import com.greenwaymyanmar.api.errorMessage
-import com.greenwaymyanmar.api.errorText
+import com.greenwaymyanmar.common.data.api.errorMessage
+import com.greenwaymyanmar.common.data.api.errorText
 import greenway_myanmar.org.R
-import greenway_myanmar.org.vo.Resource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import retrofit2.Response
 
 sealed class ResourceError(open val error: Text) {
@@ -32,14 +25,25 @@ sealed class ResourceError(open val error: Text) {
         return error.asString(context)
     }
 
+    fun message(): String {
+        return error.string()
+    }
+
     companion object {
+        @JvmStatic
+        fun from(message: String): ResourceError {
+            return IoMessageError(Text.StringText(message))
+        }
+
+        @JvmStatic
         fun from(exception: Exception): ResourceError {
             return IoMessageError(exception.errorText())
         }
 
+        @JvmStatic
         fun from(response: Response<*>): ResourceError {
             return IoMessageError(
-                error = Text.StringText(response.errorMessage())
+                error = Text.StringText(response.errorMessage()),
             )
         }
     }
