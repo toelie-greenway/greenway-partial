@@ -136,4 +136,18 @@
     <style name="Theme.GreenWay.NotificationSetting">
         <item name="colorSecondary">?colorPrimary</item>
     </style>
+
+    <style name="Theme.GreenWay.FishFarmerRecordBook">
+        <item name="android:colorBackground">@color/app_white</item>
+        <item name="android:windowBackground">?android:colorBackground</item>
+        <item name="switchStyle">@style/Widget.GreenWay.Switch.Primary</item>
+        <item name="materialButtonStyle">
+            @style/Widget.GreenWay.Button.UnelevatedButton.Rounded.Large
+        </item>
+        <item name="radioButtonStyle">@style/Widget.MaterialComponents.CompoundButton.RadioButton
+        </item>
+        <item name="toolbarStyle">@style/Widget.GreenWay.Toolbar.Primary</item>
+        <item name="toolbarNavigationButtonStyle">@style/Widget.GreenWay.Toolbar.Button.Navigation.Primary</item>
+        <item name="textAppearanceToolbarTitle">@style/TextAppearance.Asymt.Title</item>
+    </style>
 </resources>

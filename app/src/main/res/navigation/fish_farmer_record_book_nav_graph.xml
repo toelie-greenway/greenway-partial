@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fish_farmer_record_book_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="greenway_myanmar.org.features.fishfarmerrecordbook.presentation.home.FishFarmerRecordBookHomeFragment"
+        android:label="FishFarmerRecordBookHomeFragment"
+        tools:layout="@layout/ffrb_home_fragment">
+        <action
+            android:id="@+id/action_homeFragment_to_addEditPondFragment"
+            app:destination="@id/addEditPondFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addEditSeasonFragment"
+            app:destination="@id/addEditSeasonFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addEditExpenseFragment"
+            app:destination="@id/addEditExpenseFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_pondDetailFragment"
+            app:destination="@id/pondDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditPondFragment"
+        android:name="greenway_myanmar.org.features.fishfarmerrecordbook.presentation.addeditpond.AddEditPondFragment"
+        android:label="AddEditPondFragment"
+        tools:layout="@layout/ffrb_add_edit_pond_fragment" />
+    <fragment
+        android:id="@+id/addEditSeasonFragment"
+        android:name="greenway_myanmar.org.features.fishfarmerrecordbook.presentation.addeditseason.AddEditSeasonFragment"
+        android:label="AddEditSeasonFragment"
+        tools:layout="@layout/ffrb_add_edit_season_fragment" />
+    <fragment
+        android:id="@+id/addEditExpenseFragment"
+        android:name="greenway_myanmar.org.features.fishfarmerrecordbook.presentation.addeditexpense.AddEditExpenseFragment"
+        android:label="AddEditExpenseFragment"
+        tools:layout="@layout/ffrb_add_edit_expense_fragment" />
+    <fragment
+        android:id="@+id/pondDetailFragment"
+        android:name="greenway_myanmar.org.features.fishfarmerrecordbook.presentation.ponddetail.PondDetailFragment"
+        android:label="PondDetailFragment"
+        tools:layout="@layout/ffrb_pond_detail_fragment" />
+</navigation>

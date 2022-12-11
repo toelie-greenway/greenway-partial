@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
+                style="?textAppearanceToolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/ffrb_nav_title_add_new_fish_pond" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <Button
+            android:id="@+id/add_new_fish_pond_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add New Fish Pond" />
+
+        <Button
+            android:id="@+id/add_farming_season_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Farming Season" />
+
+        <Button
+            android:id="@+id/add_new_expense_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Expense" />
+
+        <Button
+            android:id="@+id/view_pond_detail_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Pond Detail" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

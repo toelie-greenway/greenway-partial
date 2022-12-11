@@ -41,6 +41,12 @@
 
     </style>
 
+
+
+    <style name="Widget.GreenWay.Toolbar.Button.Navigation.Primary" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">?colorOnPrimary</item>
+    </style>
+
     <!-- TabLayout -->
     <style name="Widget.GreenWay.TabLayout.Colored" parent="Widget.MaterialComponents.TabLayout.Colored">
         <item name="tabIndicator">@drawable/app_tabs_on_primary_rounded_line_indicator</item>

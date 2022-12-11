@@ -5,7 +5,7 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <style name="Platform.Theme.MDC" parent="Platform.V23.Theme.GreenWay" />
+    <style name="Platform.Theme.GreenWay" parent="Platform.V23.Theme.GreenWay" />
 
     <style name="Theme.GreenWay.NoDisplay">
         <item name="android:windowBackground">@android:color/transparent</item>

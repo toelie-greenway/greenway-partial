@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ffrb_nav_title_home">New Fish Pond</string>
+    <string name="ffrb_nav_title_add_new_fish_pond">New Fish Pond</string>
+    <string name="ffrb_nav_title_edit_fish_pond">Edit Fish Pond</string>
+    <string name="ffrb_nav_title_add_new_farming_season">New Farming Season</string>
+    <string name="ffrb_nav_title_edit_farming_season">Edit Farming Season</string>
+
+    <string name="ffrb_action_done">Done</string>
+    <string name="ffrb_action_confirm">Confirm</string>
+
+</resources>
