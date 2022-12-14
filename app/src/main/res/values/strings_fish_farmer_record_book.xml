@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ffrb_nav_title_home">New Fish Pond</string>
+    <string name="myanmar_kyat_without_symbol">%s</string>
+    <string name="myanmar_kyat_with_symbol">%s ကျပ်</string>
+
+    <string name="area_acre_symbol">ဧက</string>
+    <string name="formatted_area">%s %s</string>
+
+    <string name="ffrb_nav_title_home">ငါးမွေးမြူမှတ်တမ်း</string>
     <string name="ffrb_nav_title_add_new_fish_pond">New Fish Pond</string>
     <string name="ffrb_nav_title_edit_fish_pond">Edit Fish Pond</string>
     <string name="ffrb_nav_title_add_new_farming_season">New Farming Season</string>
@@ -8,5 +14,10 @@
 
     <string name="ffrb_action_done">Done</string>
     <string name="ffrb_action_confirm">Confirm</string>
+    <string name="ffrb_action_add_new_pond">ကန်အသစ် ထည့်ရန်</string>
+    <string name="ffrb_action_add_new_season">မွေးမြူရာသီထည့်ရန်</string>
+    <string name="ffrb_action_add_new_expense">ကုန်ကျစရိတ်</string>
+
+    <string name="ffrb_label_no_ongoing_season">မွေးမြူရာသီမရှိသေး</string>
 
 </resources>

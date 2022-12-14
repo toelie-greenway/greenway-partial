@@ -135,4 +135,9 @@
 
     </declare-styleable>
 
+    <declare-styleable name="GreenWayMoneyTextView">
+        <attr name="amount" format="reference|float" />
+        <attr name="showSymbol" format="boolean" />
+    </declare-styleable>
+
 </resources>

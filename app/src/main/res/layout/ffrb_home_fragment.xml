@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -18,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/ffrb_nav_title_add_new_fish_pond" />
+                android:text="@string/ffrb_nav_title_home" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -30,29 +31,17 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <Button
-            android:id="@+id/add_new_fish_pond_button"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pond_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add New Fish Pond" />
-
-        <Button
-            android:id="@+id/add_farming_season_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Farming Season" />
-
-        <Button
-            android:id="@+id/add_new_expense_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Expense" />
-
-        <Button
-            android:id="@+id/view_pond_detail_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View Pond Detail" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="@dimen/spacing_16"
+            android:paddingTop="@dimen/spacing_16"
+            android:paddingEnd="@dimen/spacing_16"
+            android:paddingBottom="@dimen/spacing_16"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/ffrb_pond_list_item" />
 
     </LinearLayout>
 

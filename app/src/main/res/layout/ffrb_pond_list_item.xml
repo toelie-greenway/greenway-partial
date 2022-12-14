@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:contentPaddingBottom="@dimen/spacing_nano"
+    app:contentPaddingTop="@dimen/padding_normal">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/pond_image_frame"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/padding_normal"
+            app:layout_constraintDimensionRatio="3:2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.35">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/pond_thumbnail_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/farm_placeholder" />
+
+        </FrameLayout>
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/season_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:textAppearance="?textAppearanceCaption"
+            app:layout_constraintStart_toEndOf="@id/pond_image_frame"
+            app:layout_constraintTop_toTopOf="@id/pond_image_frame"
+            tools:text="ဆောင်းရာသီ" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/company_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:background="@drawable/ffrb_pond_list_company_name_background"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="@dimen/spacing_normal"
+            android:paddingTop="@dimen/spacing_micro"
+            android:paddingEnd="@dimen/spacing_normal"
+            android:paddingBottom="@dimen/spacing_micro"
+            android:textAppearance="?textAppearanceCaption"
+            android:textColor="@color/app_white"
+            app:layout_constraintBaseline_toBaselineOf="@id/season_name"
+            app:layout_constraintStart_toEndOf="@id/season_name"
+            tools:text="NIHC" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/pond_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:textAppearance="?textAppearanceSubtitle1"
+            app:layout_constraintStart_toEndOf="@id/pond_image_frame"
+            app:layout_constraintTop_toBottomOf="@id/season_name"
+            tools:text="ကန်ဘေး" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/pond_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:textAppearance="?textAppearanceBody2"
+            android:textColor="@color/app_secondary_text"
+            app:layout_constraintStart_toEndOf="@id/pond_image_frame"
+            app:layout_constraintTop_toBottomOf="@id/pond_name"
+            tools:text="၇.၉ ဧက" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:background="@color/app_divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pond_image_frame" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayButton
+            android:id="@+id/create_new_season_button"
+            style="@style/Widget.GreenWay.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_nano"
+            android:text="@string/ffrb_action_add_new_season"
+            android:textColor="@color/app_blue"
+            app:icon="@drawable/ic_add_black_24dp"
+            app:iconTint="@color/app_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayButton
+            android:id="@+id/add_expense_button"
+            style="@style/Widget.GreenWay.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_nano"
+            android:text="@string/ffrb_action_add_new_expense"
+            android:textColor="@color/app_blue"
+            app:icon="@drawable/ic_add_black_24dp"
+            app:iconTint="@color/app_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayMoneyTextView
+            android:id="@+id/total_expenses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_normal"
+            android:textColor="@color/app_blue"
+            app:layout_constraintBaseline_toBaselineOf="@id/add_expense_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="၁၇၅,၀၀၀ ကျပ်" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DEFFFFFF"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone" />
+
+</com.google.android.material.card.MaterialCardView>
