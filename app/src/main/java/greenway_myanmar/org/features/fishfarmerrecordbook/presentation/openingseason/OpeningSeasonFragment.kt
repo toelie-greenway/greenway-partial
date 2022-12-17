@@ -17,6 +17,7 @@ import greenway_myanmar.org.databinding.FfrOpeningSeasonFragmentBinding
 import greenway_myanmar.org.features.fishfarmerrecordbook.presentation.openingseason.epoxycontroller.OpeningSeasonEpoxyController
 import greenway_myanmar.org.util.UIUtils
 import greenway_myanmar.org.util.kotlin.autoCleared
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -104,18 +105,30 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
                     .distinctUntilChanged()
                     .collect {
                         epoxyController.setCategories(it)
-                        epoxyController.setShowProduction(true)
-                        epoxyController.setShowFcr(true)
-                        epoxyController.setShowCloseSeason(true)
-//                        categoryAdapter.submitList(it)
-//                        productionAdapter.uiState =  OpeningSeasonProductionListItemUiState(
-//                                Instant.now(), BigDecimal.ONE
-//                        )
-//                        binding.recyclerView.postDelayed(Runnable {
-//                            binding.recyclerView.scrollToPosition(0)
-//                        }, 700)
                     }
             }
+            launch {
+                viewModel.uiState.map { it.isProducible }
+                    .distinctUntilChanged()
+                    .collect {
+                        epoxyController.setShowProduction(it)
+                    }
+            }
+            launch {
+                viewModel.uiState.map { it.isFcrRecordable }
+                    .distinctUntilChanged()
+                    .collect {
+                        epoxyController.setShowFcr(it)
+                    }
+            }
+            launch {
+                viewModel.uiState.map { it.isCloseableSeason }
+                    .distinctUntilChanged()
+                    .collect {
+                        epoxyController.setShowCloseSeason(it)
+                    }
+            }
+
         }
     }
 

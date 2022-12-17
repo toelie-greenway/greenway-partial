@@ -6,5 +6,7 @@ data class OpeningSeasonUiState(
     val isLoading: Boolean = false,
     val categories: List<OpeningSeasonCategoryListItemUiState> = emptyList(),
     val error: Text? = null,
-    val shouldScrollToTop: Boolean = false
+    val isCloseableSeason: Boolean = false,
+    val isProducible: Boolean = false,
+    val isFcrRecordable: Boolean = false
 )

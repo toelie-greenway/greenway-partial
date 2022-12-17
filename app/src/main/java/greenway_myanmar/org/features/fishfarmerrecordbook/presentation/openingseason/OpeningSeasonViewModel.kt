@@ -22,7 +22,7 @@ class OpeningSeasonViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
-       loadExpenseCategories()
+        loadExpenseCategories()
     }
 
     private fun loadExpenseCategories() {
@@ -37,14 +37,19 @@ class OpeningSeasonViewModel @Inject constructor(
                     }
                     is Result.Success -> {
                         _uiState.update {
-                            it.copy(categories = result.data.map { categoryWithTotalExpenses ->
-                                OpeningSeasonCategoryListItemUiState(
-                                    categoryId = categoryWithTotalExpenses.category.id,
-                                    categoryName = categoryWithTotalExpenses.category.name,
-                                    lastRecordDate = categoryWithTotalExpenses.lastRecordDate,
-                                    totalCategoryExpense = categoryWithTotalExpenses.totalExpenses
-                                )
-                            })
+                            it.copy(
+                                categories = result.data.map { categoryWithTotalExpenses ->
+                                    OpeningSeasonCategoryListItemUiState(
+                                        categoryId = categoryWithTotalExpenses.category.id,
+                                        categoryName = categoryWithTotalExpenses.category.name,
+                                        lastRecordDate = categoryWithTotalExpenses.lastRecordDate,
+                                        totalCategoryExpense = categoryWithTotalExpenses.totalExpenses
+                                    )
+                                },
+                                isCloseableSeason = true,
+                                isProducible = true,
+                                isFcrRecordable = true,
+                            )
                         }
                     }
                 }
