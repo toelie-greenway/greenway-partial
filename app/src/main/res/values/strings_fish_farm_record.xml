@@ -23,9 +23,11 @@
     <string name="ffrb_action_add_new_expense">ကုန်ကျစရိတ်</string>
     <string name="ffr_action_record_again">ထပ်မှတ်မည်</string>
     <string name="ffr_action_view_detail">အသေးစိတ်သို့</string>
+    <string name="ffr_action_close_season">ရာသီပိတ်သိမ်း</string>
 
     <string name="ffrb_label_no_ongoing_season">မွေးမြူရာသီမရှိသေး</string>
     <string name="ffr_label_production_record">Production record</string>
+    <string name="ffr_label_fcr_record">FCR မှတ်တမ်း</string>
 
     <string name="ffrb_transition_name_new_pond">new_pond</string>
     <string name="ffrb_transition_name_pond_detail">pond_detail</string>

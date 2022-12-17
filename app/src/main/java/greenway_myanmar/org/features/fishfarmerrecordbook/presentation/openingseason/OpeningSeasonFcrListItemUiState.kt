@@ -3,13 +3,13 @@ package greenway_myanmar.org.features.fishfarmerrecordbook.presentation.openings
 import java.math.BigDecimal
 import java.time.Instant
 
-data class OpeningSeasonProductionListItemUiState(
+data class OpeningSeasonFcrListItemUiState(
     val lastRecordDate: Instant? = null,
-    val totalIncome: BigDecimal
+    val fcrRatio: BigDecimal
 ) {
     val hasRecord: Boolean = lastRecordDate != null
 
     companion object {
-        val Empty = OpeningSeasonProductionListItemUiState(totalIncome = BigDecimal.ZERO)
+        val Empty = OpeningSeasonFcrListItemUiState(fcrRatio = BigDecimal.ZERO)
     }
 }

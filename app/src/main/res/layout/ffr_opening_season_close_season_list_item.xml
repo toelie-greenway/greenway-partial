@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacing_16"
+    android:layout_marginTop="72dp"
+    android:layout_marginEnd="@dimen/spacing_16"
+    android:minHeight="48dp"
+    android:elevation="0dp"
+    app:contentPaddingBottom="@dimen/spacing_4"
+    app:contentPaddingLeft="@dimen/spacing_4"
+    app:contentPaddingRight="@dimen/spacing_4"
+    app:contentPaddingTop="@dimen/spacing_4"
+    app:strokeColor="@color/app_red"
+    app:strokeWidth="1dp">
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/ffr_action_close_season"
+        android:textAppearance="?textAppearanceBody1"
+        android:textColor="@color/app_red" />
+
+</com.google.android.material.card.MaterialCardView>
