@@ -42,5 +42,9 @@
         android:id="@+id/pondDetailFragment"
         android:name="greenway_myanmar.org.features.fishfarmerrecordbook.presentation.ponddetail.PondDetailFragment"
         android:label="PondDetailFragment"
-        tools:layout="@layout/ffrb_pond_detail_fragment" />
+        tools:layout="@layout/ffrb_pond_detail_fragment" >
+        <argument
+            android:name="pond_id"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -2,12 +2,22 @@ package greenway_myanmar.org.features.fishfarmerrecordbook.presentation.home
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.transition.addListener
+import androidx.core.view.ViewCompat
+import androidx.core.view.ViewGroupCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionManager
+import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialFade
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
@@ -32,7 +42,6 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FfrbHomeFragmentBinding.bind(view)
-
         setupFragmentResultListener()
         setupUi()
         observeViewModel()
@@ -49,7 +58,36 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
     }
 
     private fun setupUi() {
+        setupSwipeRefresh()
+        setupNewPondFab()
         setupPondListUi()
+    }
+
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setScrollUpChild(binding.pondList)
+    }
+
+    private fun setupNewPondFab() {
+        ViewCompat.setTransitionName(
+            binding.addNewPondFab,
+            getString(R.string.ffrb_transition_name_new_pond)
+        )
+        binding.addNewPondFab.apply {
+            setOnClickListener(this) { openAddEditFishPondScreen() }
+        }
+    }
+
+    private fun fadeVisible(view: View) {
+        val materialFade = MaterialFade().apply {
+            duration = resources.getInteger(R.integer.greenway_motion_duration_large).toLong()
+        }
+        materialFade.addTarget(view)
+        TransitionManager.beginDelayedTransition(binding.coordinatorLayout, materialFade)
+        view.visibility = View.VISIBLE
+    }
+
+    private fun setOnClickListener(view: View, onClick: () -> Unit) {
+        view.setOnClickListener { onClick() }
     }
 
     private fun setupPondListUi() {
@@ -76,8 +114,16 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
     }
 
     private fun openAddEditFishPondScreen() {
+        exitTransition = Hold().apply {
+            duration = resources.getInteger(R.integer.greenway_motion_duration_large).toLong()
+        }
+        val extras =
+            FragmentNavigatorExtras(
+                binding.addNewPondFab to getString(R.string.ffrb_transition_name_new_pond)
+            )
         navController.navigate(
-            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditPondFragment()
+            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditPondFragment(),
+            extras
         )
     }
 
@@ -93,9 +139,12 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
         )
     }
 
-    private fun openPondDetailScreen(pondListItemUiState: PondListItemUiState) {
+    private fun openPondDetailScreen(item: PondListItemUiState) {
+        exitTransition = null
         navController.navigate(
-            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToPondDetailFragment()
+            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToPondDetailFragment(
+                pondId = item.id
+            )
         )
     }
 

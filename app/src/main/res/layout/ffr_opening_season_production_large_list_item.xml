@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?><!--    android:onClick="@{() -> itemClickCallback.onItemClick(item)}"-->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/app_divider"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/spacing_8">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/category_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:layout_marginTop="@dimen/spacing_16"
+            android:text="@string/ffr_label_production_record"
+            android:textAppearance="?textAppearanceBody1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--        android:text="@{MyanmarZarConverter.toMyanmarPrice(item.totalExpense)}"-->
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/category_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_16"
+            android:textAppearance="?textAppearanceBody1"
+            app:layout_constraintBaseline_toBaselineOf="@id/category_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="၄၀,၀၀၀ ကျပ်" />
+
+        <!--        android:text="@{MyanmarZarConverter.getUserFriendlyDateInMyanmar(item.lastCostCreatedDate, true)}"-->
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_8"
+            app:layout_constraintStart_toStartOf="@id/category_name"
+            app:layout_constraintTop_toBottomOf="@id/category_name" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/spacing_16"
+            android:background="@color/app_divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date" />
+
+        <!--        android:onClick="@{() -> itemClickCallback.onAddNewItem(item)}"-->
+        <greenway_myanmar.org.ui.widget.GreenWayButton
+            style="@style/Widget.GreenWay.Button.TextButton.Icon.Blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_micro"
+            android:text="@string/ffr_action_record_again"
+            app:icon="@drawable/ic_add_black_24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <!--        android:onClick="@{() -> itemClickCallback.onItemClick(item)}"-->
+        <greenway_myanmar.org.ui.widget.GreenWayButton
+            style="@style/Widget.GreenWay.Button.TextButton.Icon.Blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_micro"
+            android:text="@string/ffr_action_view_detail"
+            app:icon="@drawable/ic_arrow_right_black_24dp"
+            app:iconGravity="textEnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -5,6 +5,10 @@
 
     <string name="area_acre_symbol">ဧက</string>
     <string name="formatted_area">%s %s</string>
+    <string name="separator_small_circle">•</string>
+
+    <string name="ffr_tab_opening_season">မွေးမြူစဲ</string>
+    <string name="ffr_tab_closed_seasons">မွေးမြူပြီး</string>
 
     <string name="ffrb_nav_title_home">ငါးမွေးမြူမှတ်တမ်း</string>
     <string name="ffrb_nav_title_add_new_fish_pond">New Fish Pond</string>
@@ -14,10 +18,16 @@
 
     <string name="ffrb_action_done">Done</string>
     <string name="ffrb_action_confirm">Confirm</string>
-    <string name="ffrb_action_add_new_pond">ကန်အသစ် ထည့်ရန်</string>
+    <string name="ffrb_action_add_new_pond">ကန်အသစ်ထည့်ရန်</string>
     <string name="ffrb_action_add_new_season">မွေးမြူရာသီထည့်ရန်</string>
     <string name="ffrb_action_add_new_expense">ကုန်ကျစရိတ်</string>
+    <string name="ffr_action_record_again">ထပ်မှတ်မည်</string>
+    <string name="ffr_action_view_detail">အသေးစိတ်သို့</string>
 
     <string name="ffrb_label_no_ongoing_season">မွေးမြူရာသီမရှိသေး</string>
+    <string name="ffr_label_production_record">Production record</string>
+
+    <string name="ffrb_transition_name_new_pond">new_pond</string>
+    <string name="ffrb_transition_name_pond_detail">pond_detail</string>
 
 </resources>

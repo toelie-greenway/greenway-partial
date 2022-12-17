@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <bool name="use_light_system_bars">false</bool>
 
     <style name="Platform.Theme.GreenWay" parent="Platform.V14.Theme.GreenWay" />
 

@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmerrecordbook.presentation.ongoingseason
+package greenway_myanmar.org.features.fishfarmerrecordbook.presentation.closedseasons
 
 import android.os.Bundle
 import android.view.View
@@ -8,22 +8,21 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
-import greenway_myanmar.org.databinding.FfrbAddEditExpenseFragmentBinding
-import greenway_myanmar.org.databinding.FfrbOngoingSeasonFragmentBinding
+import greenway_myanmar.org.databinding.FfrClosedSeasonsFragmentBinding
 import greenway_myanmar.org.util.kotlin.autoCleared
 
 @AndroidEntryPoint
-class OngoingSeasonFragment : Fragment(R.layout.ffrb_ongoing_season_fragment){
+class ClosedSeasonsFragment : Fragment(R.layout.ffr_closed_seasons_fragment){
 
-    private val viewModel: OngoingSeasonViewModel by viewModels()
-    private var binding: FfrbOngoingSeasonFragmentBinding by autoCleared()
+    private val viewModel: ClosedSeasonsViewModel by viewModels()
+    private var binding: FfrClosedSeasonsFragmentBinding by autoCleared()
     private val navController: NavController by lazy {
         findNavController()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FfrbOngoingSeasonFragmentBinding.bind(view)
+        binding = FfrClosedSeasonsFragmentBinding.bind(view)
 
         setupUi()
         observeViewModel()

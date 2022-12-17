@@ -19,3 +19,12 @@ fun <T> Flow<T>.asResult(): Flow<Result<T>> {
         .onStart { emit(Result.Loading) }
         .catch { emit(Result.Error(it)) }
 }
+
+fun <I, O> Flow<I>.asResult(mapper: (input: I) -> O): Flow<Result<O>> {
+    return this
+        .map<I, Result<O>> {
+            Result.Success(mapper(it))
+        }
+        .onStart { emit(Result.Loading) }
+        .catch { emit(Result.Error(it)) }
+}

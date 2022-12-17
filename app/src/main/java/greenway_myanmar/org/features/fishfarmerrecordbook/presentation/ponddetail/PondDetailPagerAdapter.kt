@@ -2,8 +2,8 @@ package greenway_myanmar.org.features.fishfarmerrecordbook.presentation.ponddeta
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import greenway_myanmar.org.features.fishfarmerrecordbook.presentation.finishedseasons.FinishedSeasonsFragment
-import greenway_myanmar.org.features.fishfarmerrecordbook.presentation.ongoingseason.OngoingSeasonFragment
+import greenway_myanmar.org.features.fishfarmerrecordbook.presentation.closedseasons.ClosedSeasonsFragment
+import greenway_myanmar.org.features.fishfarmerrecordbook.presentation.openingseason.OpeningSeasonFragment
 
 class PondDetailPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 2
@@ -11,10 +11,10 @@ class PondDetailPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> {
-                OngoingSeasonFragment()
+                OpeningSeasonFragment()
             }
             1 -> {
-                FinishedSeasonsFragment()
+                ClosedSeasonsFragment()
             }
             else -> {
                 throw IllegalArgumentException("Unsupported position: $position")

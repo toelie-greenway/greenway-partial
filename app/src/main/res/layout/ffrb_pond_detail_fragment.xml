@@ -1,18 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabMode="scrollable" />
+        android:theme="@style/GreenWay.AppBarOverlay">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|snap">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!--                app:placeholder="@{@drawable/farm_greyscale_placeholder}"-->
+                <!--                app:imageUrl='@{farm.photos[0]}'-->
+                <greenway_myanmar.org.ui.widget.AspectRatioImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/farm_greyscale_placeholder"
+                    app:imgAspectRatio="@dimen/aspect_16_9" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/scrim_pond_detail_hero_image" />
+
+                <!--                app:visibleGone="@{farm.openingSeason != null}"-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/season_info_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="@dimen/padding_normal"
+                    android:layout_marginEnd="@dimen/padding_normal"
+                    android:layout_marginBottom="@dimen/spacing_normal"
+                    app:cardBackgroundColor="#ff000000"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="0dp"
+                    app:contentPaddingBottom="@dimen/padding_normal"
+                    app:contentPaddingLeft="@dimen/padding_normal"
+                    app:contentPaddingRight="@dimen/padding_normal"
+                    app:contentPaddingTop="@dimen/padding_normal">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!--                        android:background="@drawable/image_placeholder_circle"-->
+                        <!--                        app:imageUrl="@{farm.openingSeason.crop.image}"-->
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/fish_icon"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.GreenWay.Image.Circle" />
+
+                        <!--                        android:text='@{farm.openingSeason.season ?? "စိုက်ပျိုးရာသီ"}'-->
+                        <com.greenwaymyanmar.ui.widgets.AsylTextView
+                            android:id="@+id/season_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_normal"
+                            android:textAppearance="?textAppearanceBody2"
+                            app:layout_constraintBottom_toTopOf="@+id/total_expense"
+                            app:layout_constraintStart_toEndOf="@id/fish_icon"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_chainStyle="packed"
+                            tools:text="ကညွတ်" />
+
+                        <com.greenwaymyanmar.ui.widgets.AsylTextView
+                            android:id="@+id/season_crop_separator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_normal"
+                            android:text="@string/separator_small_circle"
+                            android:textAppearance="?textAppearanceBody2"
+                            app:layout_constraintBaseline_toBaselineOf="@id/season_name"
+                            app:layout_constraintStart_toEndOf="@id/season_name"
+                            tools:text="ကညွတ်" />
+
+                        <!--                        android:text='@{farm.openingSeason.getUserFriendlyCrop ?? ""}'-->
+                        <com.greenwaymyanmar.ui.widgets.AsylTextView
+                            android:id="@+id/fish_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_normal"
+                            android:textAppearance="?textAppearanceBody2"
+                            app:layout_constraintBaseline_toBaselineOf="@id/season_name"
+                            app:layout_constraintStart_toEndOf="@id/season_crop_separator"
+                            tools:text="ကညွတ်" />
+
+                        <!--                        android:text='@{"စုစုပေါင်းကုန်ကျစရိတ် " + MyanmarZarConverter.toMyanmarPrice(farm.openingSeason.totalCost)}'-->
+                        <com.greenwaymyanmar.ui.widgets.AsylTextView
+                            android:id="@+id/total_expense"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_micro"
+                            android:textAppearance="?textAppearanceCaption"
+                            android:textColor="@color/app_white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/season_name"
+                            app:layout_constraintTop_toBottomOf="@+id/season_name"
+                            tools:text="စုစုပေါင်းကုန်ကျစရိတ်" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </FrameLayout>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:elevation="0dp"
+                app:contentInsetStart="0dp"
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                app:popupTheme="@style/GreenWay.PopupOverlay">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!--                    android:text='@{farm.name ?? "လယ်ကွက်အမည်"}'-->
+                    <com.greenwaymyanmar.ui.widgets.AsylTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:text="အမွှာကန်"
+                        android:textColor="?colorOnPrimary"
+                        android:textSize="18sp"
+                        tools:text="သောင်ကွက်" />
+
+                    <!--                    android:text="@{MyanmarZarConverter.toMyanmarAcre(farm.area)}"-->
+                    <com.greenwaymyanmar.ui.widgets.AsylTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_micro"
+                        android:text="8 ဧက"
+                        android:textColor="?colorOnPrimary"
+                        android:textSize="16sp"
+                        tools:text="၈ ဧက" />
+
+                </LinearLayout>
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:minHeight="?actionBarSize"
+            app:layout_collapseMode="pin"
+            app:tabContentStart="56dp"
+            app:tabMode="scrollable" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

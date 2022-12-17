@@ -14,6 +14,6 @@ class ObservePondsUseCase @Inject constructor(
     @IoDispatcher ioDispatcher: CoroutineDispatcher
 ) : FlowUseCase<Unit, List<Pond>>(ioDispatcher) {
     override fun execute(params: Unit): Flow<Result<List<Pond>>> {
-        return pondRepository.getPondsStream()
+        return pondRepository.observePonds()
     }
 }

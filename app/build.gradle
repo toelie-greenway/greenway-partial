@@ -8,6 +8,10 @@ plugins {
     id 'kotlinx-serialization'
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 android {
     compileSdk 32
 
@@ -138,4 +142,10 @@ dependencies {
     implementation("androidx.datastore:datastore:1.0.0")
 
     implementation("androidx.preference:preference-ktx:1.2.0")
+
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+
+    def epoxyVersion = "5.1.1"
+    implementation "com.airbnb.android:epoxy:$epoxyVersion"
+    kapt "com.airbnb.android:epoxy-processor:$epoxyVersion"
 }
