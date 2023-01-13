@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@drawable/asymt_outlined_stroke_background"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="12dp"
+    android:paddingEnd="@dimen/spacing_micro">
+
+    <com.greenwaymyanmar.ui.widgets.AsylTextView
+        android:id="@+id/date_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="?attr/textAppearanceSubtitle1"
+        android:textColor="@color/app_primary_text"
+        tools:text="Today • Oct 31, 2019" />
+
+    <ImageButton
+        android:id="@+id/decrease_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:background="?selectableItemBackground"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        app:srcCompat="@drawable/ic_chevron_left_black_24dp"
+        app:tint="@color/app_active_icon" />
+
+    <ImageButton
+        android:id="@+id/increase_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        app:srcCompat="@drawable/ic_chevron_right_black_24dp"
+        app:tint="@color/app_active_icon" />
+
+</LinearLayout>

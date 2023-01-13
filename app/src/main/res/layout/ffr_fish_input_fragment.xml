@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/scroll_view">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetStartWithNavigation="0dp"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
+                style="?textAppearanceToolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/ffr_nav_title_fish_input" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="?actionBarSize">
+
+            <greenway_myanmar.org.ui.widget.AspectRatioFrameLayout
+                android:id="@+id/image_frame"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="#E6E6E6"
+                android:paddingTop="@dimen/padding_normal"
+                android:paddingBottom="@dimen/padding_normal"
+                app:frameAspectRatio="@dimen/aspect_16_9">
+
+                <ImageView
+                    android:id="@+id/fish_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter" />
+
+            </greenway_myanmar.org.ui.widget.AspectRatioFrameLayout>
+
+            <!--            android:text='@{"သင်၏" + seasonName+ " သီးနှံ"}'-->
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
+                android:id="@+id/season_subtitle_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_normal"
+                android:layout_marginTop="@dimen/padding_normal"
+                android:textAppearance="?textAppearanceCaption"
+                tools:text="သင်၏ဆောင်းရာသီ သီးနှံ" />
+
+
+            <!--            android:text="@{crop.title}"-->
+            <!--            <greenway_myanmar.org.ui.widget.GreenWayButton-->
+            <!--                android:id="@+id/fish_button"-->
+            <!--                style="@style/Widget.GreenWay.Button.OutlinedButton"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="56dp"-->
+            <!--                android:layout_marginStart="@dimen/padding_normal"-->
+            <!--                android:layout_marginTop="@dimen/spacing_nano"-->
+            <!--                android:layout_marginEnd="@dimen/padding_normal"-->
+            <!--                android:gravity="start|center_vertical"-->
+            <!--                android:textAppearance="?textAppearanceSubtitle1"-->
+            <!--                android:textColor="@color/app_primary_text"-->
+            <!--                app:icon="@drawable/ic_chevron_right_black_24dp"-->
+            <!--                app:iconGravity="end"-->
+            <!--                app:iconTint="@color/app_active_icon"-->
+            <!--                tools:text="ကညွတ်" />-->
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+                android:id="@+id/fish_input_layout"
+                style="@style/Widget.GreenWay.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_nano"
+                app:endIconDrawable="@drawable/ic_chevron_right_black_24dp"
+                app:endIconMode="custom"
+                tools:text="ကညွတ်">
+
+                <greenway_myanmar.org.ui.widget.GreenWayUneditableTextInputEditText
+                    android:id="@+id/fish_input_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_normal"
+                android:id="@+id/species_text_input_layout"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/padding_normal"
+                android:hint="@string/ffr_add_edit_season_hint_fish_species">
+
+                <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/species_text_input_edit_text"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+            <!-- TODO: solve TIL helper text myanmar font issue and use as helper text -->
+            <com.greenwaymyanmar.ui.widgets.AsylTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_normal"
+                android:layout_marginTop="@dimen/spacing_micro"
+                android:text="@string/ffr_add_edit_season_helper_text_fish_species"
+                android:textAppearance="?textAppearanceCaption" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/padding_normal"
+                android:paddingEnd="@dimen/padding_normal"
+                android:paddingBottom="@dimen/padding_normal">
+
+                <greenway_myanmar.org.ui.widget.GreenWayButton
+                    android:id="@+id/cancel_button"
+                    style="@style/Widget.Asymt.Button.Negative"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/ffr_add_edit_season_action_cancel_fish_selection"
+                    app:layout_constraintBottom_toBottomOf="@+id/crop_button"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Space
+                    android:layout_width="@dimen/spacing_normal"
+                    android:layout_height="0dp" />
+
+                <greenway_myanmar.org.ui.widget.GreenWayButton
+                    android:id="@+id/submit_button"
+                    style="@style/Widget.Asymt.Button.Secondary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/ffr_add_edit_season_action_confirm_fish_selection" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="greenway_myanmar.org.features.fishfarmerrecordbook.presentation.home.FishFarmerRecordBookHomeFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.home.FishFarmerRecordBookHomeFragment"
         android:label="FishFarmerRecordBookHomeFragment"
         tools:layout="@layout/ffrb_home_fragment">
         <action
@@ -25,26 +25,44 @@
     </fragment>
     <fragment
         android:id="@+id/addEditPondFragment"
-        android:name="greenway_myanmar.org.features.fishfarmerrecordbook.presentation.addeditpond.AddEditPondFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditpond.AddEditPondFragment"
         android:label="AddEditPondFragment"
-        tools:layout="@layout/ffrb_add_edit_pond_fragment" />
+        tools:layout="@layout/ffr_add_edit_pond_fragment" />
     <fragment
         android:id="@+id/addEditSeasonFragment"
-        android:name="greenway_myanmar.org.features.fishfarmerrecordbook.presentation.addeditseason.AddEditSeasonFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.AddEditSeasonFragment"
         android:label="AddEditSeasonFragment"
-        tools:layout="@layout/ffrb_add_edit_season_fragment" />
+        tools:layout="@layout/ffrb_add_edit_season_fragment">
+        <action
+            android:id="@+id/action_addEditSeasonFragment_to_fishInputFragment"
+            app:destination="@id/fishInputFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addEditExpenseFragment"
-        android:name="greenway_myanmar.org.features.fishfarmerrecordbook.presentation.addeditexpense.AddEditExpenseFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.AddEditExpenseFragment"
         android:label="AddEditExpenseFragment"
         tools:layout="@layout/ffrb_add_edit_expense_fragment" />
     <fragment
         android:id="@+id/pondDetailFragment"
-        android:name="greenway_myanmar.org.features.fishfarmerrecordbook.presentation.ponddetail.PondDetailFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.ponddetail.PondDetailFragment"
         android:label="PondDetailFragment"
-        tools:layout="@layout/ffrb_pond_detail_fragment" >
+        tools:layout="@layout/ffrb_pond_detail_fragment">
         <argument
             android:name="pond_id"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/fishInputFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.fishinput.FishInputFragment"
+        android:label="FishInputFragment"
+        tools:layout="@layout/ffr_fish_input_fragment">
+        <action
+            android:id="@+id/action_fishInputFragment_to_fishPickerFragment"
+            app:destination="@id/fishPickerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fishPickerFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.fishpicker.FishPickerFragment"
+        android:label="FishPickerFragment"
+        tools:layout="@layout/fish_picker_fragment" />
 </navigation>

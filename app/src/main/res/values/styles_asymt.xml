@@ -38,6 +38,7 @@
     <style name="ThemeOverlay.Asymt.RadioButton" parent="">
         <item name="colorOnSurface">@color/app_inactive_icon</item>
         <item name="colorSecondary">?colorPrimary</item>
+        <item name="colorSecondaryVariant">?colorPrimary</item>
     </style>
 
     <!-- ExtendedFloatingActionButton style -->

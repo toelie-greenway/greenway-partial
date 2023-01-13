@@ -2,6 +2,7 @@ package greenway_myanmar.org.util.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
@@ -51,4 +52,28 @@ fun Context.themeInterpolator(@AttrRes attr: Int): Interpolator {
 
 fun Context.getDrawableOrNull(@DrawableRes id: Int?): Drawable? {
     return if (id == null || id == 0) null else AppCompatResources.getDrawable(this, id)
+}
+
+inline fun <reified T : Context> Context.findBaseContext(): T? {
+    var ctx: Context? = this
+    do {
+        if (ctx is T) {
+            return ctx
+        }
+        if (ctx is ContextWrapper) {
+            ctx = ctx.baseContext
+        }
+    } while (ctx != null)
+
+    // If we reach here, there's not an Context of type T in our Context hierarchy
+    return null
+}
+
+fun Int.dp(context: Context): Int {
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        this.toFloat(),
+        context.resources.displayMetrics
+    )
+        .toInt()
 }

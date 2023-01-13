@@ -7,15 +7,18 @@
     <string name="formatted_area">%s %s</string>
     <string name="separator_small_circle">•</string>
 
+    <string name="hint_search_in_picker">တိုက်ရိုက်ရှာဖွေရန်</string>
     <string name="ffr_tab_opening_season">မွေးမြူစဲ</string>
     <string name="ffr_tab_closed_seasons">မွေးမြူပြီး</string>
 
     <string name="ffrb_nav_title_home">ငါးမွေးမြူမှတ်တမ်း</string>
-    <string name="ffrb_nav_title_add_new_fish_pond">New Fish Pond</string>
-    <string name="ffrb_nav_title_edit_fish_pond">Edit Fish Pond</string>
-    <string name="ffrb_nav_title_add_new_farming_season">New Farming Season</string>
-    <string name="ffrb_nav_title_edit_farming_season">Edit Farming Season</string>
+    <string name="ffrb_nav_title_add_new_fish_pond">မွေးမြူရာသီမှတ်တမ်း</string>
+    <string name="ffrb_nav_title_edit_fish_pond">မွေးမြူရာသီမှတ်တမ်းပြင်ဆင်</string>
+    <string name="ffrb_nav_title_add_new_farming_season">မွေးမြူရာသီမှတ်တမ်း</string>
+    <string name="ffrb_nav_title_edit_farming_season">မွေးမြူရာသီမှတ်တမ်း</string>
+    <string name="ffr_nav_title_fish_input">ငါးအမည်</string>
 
+    <string name="action_next">ရှေ့သို့</string>
     <string name="ffrb_action_done">Done</string>
     <string name="ffrb_action_confirm">Confirm</string>
     <string name="ffrb_action_add_new_pond">ကန်အသစ်ထည့်ရန်</string>
@@ -28,8 +31,34 @@
     <string name="ffrb_label_no_ongoing_season">မွေးမြူရာသီမရှိသေး</string>
     <string name="ffr_label_production_record">Production record</string>
     <string name="ffr_label_fcr_record">FCR မှတ်တမ်း</string>
+    
+    <string name="ffr_label_closed_season_formatted_season_info">%s • %s</string>
 
     <string name="ffrb_transition_name_new_pond">new_pond</string>
     <string name="ffrb_transition_name_pond_detail">pond_detail</string>
+
+    <!-- Add/Edit Pond Screen -->
+    <string name="ffr_label_add_edit_pond_subtitle">မွေးမြူမှတ်တမ်းစတင်ရန် ကန်စာရင်း သွင်းရန်လိုအပ်ပါသည်</string>
+    <string name="ffr_add_edit_pond_hint_pond_name">ကန်အမည်</string>
+    <string name="ffr_add_edit_pond_label_location_and_area">တည်နေရာ နှင့် အကျယ်အဝန်း</string>
+    <string name="ffr_add_edit_pond_label_map">အောက်ပါမြေပုံအားနှိပ်၍ထည့်သွင်းတိုင်းတာပါ</string>
+    <string name="ffr_add_edit_pond_hint_area">အကျယ်အဝန်း (ဧက)</string>
+    <string name="ffr_add_edit_pond_label_pond_image">ကန် ဓာတ်ပုံထည့်သွင်းရန်</string>
+    <string name="ffr_add_edit_pond_ownership_own">ကိုယ်ပိုင်</string>
+    <string name="ffr_add_edit_pond_ownership_rent">အငှား</string>
+    <string name="ffr_add_edit_pond_label_detail">အသေးစိတ်အချက်အလက်များ ဖြည့်မည်</string>
+    <string name="ffr_add_edit_pond_hint_upaing_no">ဦးပိုင်အမှတ်</string>
+    <string name="ffr_add_edit_pond_hint_pond_depth">ကန်အနက်</string>
+    
+    <!-- Add/Edit Season Screen -->
+    <string name="ffr_add_edit_season_update_pond">မွေးမြူကန်အချက်အလက်များ ပြင်ဆင်မည်</string>
+    <string name="ffr_add_edit_season_subtitle_season">မွေးမြူရာသီဖြည့်ပါ</string>
+    <string name="ffr_add_edit_season_hint_season">ဇန်နဝါရီ</string>
+    <string name="ffr_add_edit_season_label_start_farming_date">စတင်စိုက်ပျိုးသည့်နေ့</string>
+    <string name="ffr_add_edit_season_action_pick_fish">ငါးအမျိုးအစားရွေးချယ်ပါ</string>
+    <string name="ffr_add_edit_season_hint_fish_species">အမျိုးအမည် (ရှိပါက)</string>
+    <string name="ffr_add_edit_season_helper_text_fish_species">ဥပမာ နိုင်းတီလာပီးယား၊ တီလာပီးယားအပြာ</string>
+    <string name="ffr_add_edit_season_action_confirm_fish_selection">စာရင်းသွင်းမည်</string>
+    <string name="ffr_add_edit_season_action_cancel_fish_selection">မသွင်းတော့ပါ</string>
 
 </resources>

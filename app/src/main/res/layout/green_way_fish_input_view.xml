@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--    app:visibleGone="@{item !=null}"-->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/crop_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp"
+        app:contentPaddingBottom="@dimen/spacing_16"
+        app:contentPaddingLeft="@dimen/spacing_16"
+        app:contentPaddingRight="@dimen/spacing_16"
+        app:contentPaddingTop="@dimen/spacing_16"
+        app:strokeColor="@color/app_divider"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--            android:background="@drawable/image_placeholder_circle"-->
+            <!--            app:imageUrl="@{item.crop.image}"-->
+            <greenway_myanmar.org.ui.widget.AspectRatioImageView
+                android:id="@+id/fish_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--            android:text="@{item.crop.title}"-->
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
+                android:id="@+id/fish_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:textAppearance="?textAppearanceBody2"
+                app:layout_constraintBottom_toTopOf="@+id/fish_variety"
+                app:layout_constraintStart_toEndOf="@id/fish_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="တီလားပီယား" />
+
+            <!--            android:text='@{!MMFontUtils.isSupportUnicode() ? (GreenWayFontUtils.isZawgyi(item.variety.name ?? "") ? GreenWayFontUtils.convertZawgyiToUnicode(item.variety.name ?? "") : (item.variety.name ?? "")) : (item.variety.name)}'-->
+            <com.greenwaymyanmar.ui.widgets.AsylTextView
+                android:id="@+id/fish_variety"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_micro"
+                android:textAppearance="?textAppearanceCaption"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/fish_name"
+                app:layout_constraintTop_toBottomOf="@+id/fish_name"
+                tools:text="နိုင်း" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_chevron_right_black_24dp"
+                app:tint="@color/app_inactive_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!--    app:visibleGone="@{item == null}"-->
+    <greenway_myanmar.org.ui.widget.GreenWayButton
+        android:id="@+id/fish_picker_button"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start|center_vertical"
+        android:minHeight="56dp"
+        android:text="@string/ffr_add_edit_season_action_pick_fish"
+        android:textColor="@color/app_blue"
+        app:backgroundTint="@color/app_white"
+        app:icon="@drawable/ic_add_black_24dp"
+        app:iconGravity="start"
+        app:iconTint="@color/app_blue"
+        app:strokeColor="@color/app_blue" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/error_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/error_field_required"
+        android:textAppearance="?textAppearanceCaption"
+        android:textColor="@color/app_error" />
+
+</LinearLayout>

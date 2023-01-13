@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:contentPaddingBottom="@dimen/spacing_16"
+    app:contentPaddingTop="@dimen/spacing_16">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/thumbnail_frame"
+            android:layout_width="143dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/padding_normal"
+            android:background="@drawable/image_placeholder"
+            android:padding="@dimen/padding_normal"
+            app:layout_constraintDimensionRatio="H,3:2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <!--            app:imageUrl="@{season.crop.image}"-->
+            <!--            app:placeholder="@{@drawable/image_placeholder_circle}"-->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true" />
+
+        </FrameLayout>
+
+        <!--        android:text='@{season.season + " • " + MyanmarZarConverter.toMyanmarNumber(GreenWayDateUtils.getYearFromDate(season.seasonStartDate))}'-->
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/season_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:textAppearance="?textAppearanceCaption"
+            app:layout_constraintBottom_toTopOf="@+id/pond_name"
+            app:layout_constraintStart_toEndOf="@id/thumbnail_frame"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            tools:text="မိုးရာသီ • ၂၀၁၉" />
+
+        <!--        android:text="@{farm.name}"-->
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/pond_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?textAppearanceBody1"
+            android:textColor="@color/app_primary_text"
+            app:layout_constraintBottom_toTopOf="@+id/info"
+            app:layout_constraintStart_toStartOf="@id/season_info"
+            app:layout_constraintTop_toBottomOf="@+id/season_info"
+            tools:text="သောင်ကွက်" />
+
+        <!--        android:text='@{MyanmarZarConverter.toMyanmarAcre(farm.area) + " · " + season.crop.title}'-->
+        <com.greenwaymyanmar.ui.widgets.AsylTextView
+            android:id="@+id/info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="?textAppearanceBody2"
+            android:textColor="@color/app_primary_text"
+            app:layout_constraintBottom_toBottomOf="@+id/thumbnail_frame"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/season_info"
+            app:layout_constraintTop_toBottomOf="@+id/pond_name"
+            tools:text="၂ ဧက · စပါး" />
+
+        <View
+            android:id="@+id/bottom_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:background="@color/app_divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/thumbnail_frame" />
+
+        <com.greenwaymyanmar.ui.widgets.AsylTextView
+            android:id="@+id/end_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:text="ပိတ်သိမ်းပြီး"
+            android:textAppearance="?textAppearanceBody1"
+            android:textColor="@color/app_secondary_text"
+            app:layout_constraintStart_toStartOf="@id/thumbnail_frame"
+            app:layout_constraintTop_toBottomOf="@+id/bottom_divider" />
+
+        <!--        android:text="@{MyanmarZarConverter.toMyanmarPrice(season.totalCost)}"-->
+        <greenway_myanmar.org.ui.widget.GreenWayMoneyTextView
+            android:id="@+id/total_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_normal"
+            android:textAppearance="?textAppearanceBody1"
+            android:textColor="@color/app_secondary_text"
+            app:layout_constraintBaseline_toBaselineOf="@id/end_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text=" ၂၀၆,၀၀၀ ကျပ်" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

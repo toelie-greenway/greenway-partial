@@ -14,7 +14,7 @@ sealed interface Result<out T> {
 fun <T> Flow<T>.asResult(): Flow<Result<T>> {
     return this
         .map<T, Result<T>> {
-          Result.Success(it)
+            Result.Success(it)
         }
         .onStart { emit(Result.Loading) }
         .catch { emit(Result.Error(it)) }
@@ -27,4 +27,36 @@ fun <I, O> Flow<I>.asResult(mapper: (input: I) -> O): Flow<Result<O>> {
         }
         .onStart { emit(Result.Loading) }
         .catch { emit(Result.Error(it)) }
+}
+
+fun <I, O> Result<I>.map(mapper: (input: I) -> O): Result<O> {
+    return when (this) {
+        is Result.Success -> {
+            Result.Success(mapper(this.data))
+        }
+        is Result.Error -> {
+            Result.Error(this.exception)
+        }
+        Result.Loading -> {
+            Result.Loading
+        }
+    }
+}
+
+fun <I, O> Result<List<I>>.mapList(mapper: (input: I) -> O): Result<List<O>> {
+    return when (this) {
+        is Result.Success -> {
+            Result.Success(
+                this.data.map {
+                    mapper(it)
+                }
+            )
+        }
+        is Result.Error -> {
+            Result.Error(this.exception)
+        }
+        Result.Loading -> {
+            Result.Loading
+        }
+    }
 }
