@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultExpenseCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.fake.FakeExpenseCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.fake.FakeFishRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.fake.FakePondRepository
@@ -29,7 +30,9 @@ abstract class DataModule {
 
     @Singleton
     @Binds
-    abstract fun provideExpenseCategoryRepository(repository: FakeExpenseCategoryRepository): ExpenseCategoryRepository
+    abstract fun provideExpenseCategoryRepository(
+        repository: DefaultExpenseCategoryRepository
+    ): ExpenseCategoryRepository
 
     @Singleton
     @Binds

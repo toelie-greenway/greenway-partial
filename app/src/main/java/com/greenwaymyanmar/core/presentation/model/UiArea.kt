@@ -2,7 +2,7 @@ package com.greenwaymyanmar.core.presentation.model
 
 import android.content.Context
 import androidx.annotation.StringRes
-import com.greenwaymyanmar.core.domain.model.Area
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.R
 import greenway_myanmar.org.util.MyanmarZarConverter
 import java.math.BigDecimal

@@ -1,4 +1,4 @@
-package com.greenwaymyanmar.core.domain.model
+package greenway_myanmar.org.features.fishfarmrecord.domain.model
 
 import java.math.BigDecimal
 
@@ -6,6 +6,6 @@ sealed class Area(open val value: BigDecimal, val unit: String) {
     data class Acre(override val value: BigDecimal) : Area(value, "acre")
 
     companion object {
-        val Empty = Area.Acre(BigDecimal(-1))
+        val Empty = Acre(BigDecimal(-1))
     }
 }

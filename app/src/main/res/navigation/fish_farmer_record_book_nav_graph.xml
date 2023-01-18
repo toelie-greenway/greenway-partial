@@ -41,7 +41,11 @@
         android:id="@+id/addEditExpenseFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.AddEditExpenseFragment"
         android:label="AddEditExpenseFragment"
-        tools:layout="@layout/ffrb_add_edit_expense_fragment" />
+        tools:layout="@layout/ffr_add_edit_expense_fragment">
+        <action
+            android:id="@+id/action_addEditExpenseFragment_to_expenseCategoryPickerBottomSheetFragment"
+            app:destination="@id/expenseCategoryPickerBottomSheetFragment" />
+    </fragment>
     <fragment
         android:id="@+id/pondDetailFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.ponddetail.PondDetailFragment"
@@ -65,4 +69,9 @@
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.fishpicker.FishPickerFragment"
         android:label="FishPickerFragment"
         tools:layout="@layout/fish_picker_fragment" />
+    <dialog
+        android:id="@+id/expenseCategoryPickerBottomSheetFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.expensecategorypicker.ExpenseCategoryPickerBottomSheetFragment"
+        android:label="ExpenseCategoryPickerBottomSheetFragment"
+        tools:layout="@layout/ffr_expense_category_picker_bottom_sheet_fragment" />
 </navigation>

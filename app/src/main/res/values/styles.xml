@@ -89,6 +89,11 @@
         <item name="android:textColor">?colorOnPrimary</item>
     </style>
 
+    <style name="Widget.GreenWay2.Button.Secondary" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@drawable/app_btn_bg_secondary_selector</item>
+        <item name="android:textColor">?colorOnSecondary</item>
+    </style>
+
     <style name="Widget.GreenWay.Button.SecondaryVariant" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@drawable/app_btn_bg_secondary_variant_selector</item>
         <item name="android:textColor">?colorOnPrimary</item>

@@ -16,6 +16,7 @@
     <string name="ffrb_nav_title_edit_fish_pond">မွေးမြူရာသီမှတ်တမ်းပြင်ဆင်</string>
     <string name="ffrb_nav_title_add_new_farming_season">မွေးမြူရာသီမှတ်တမ်း</string>
     <string name="ffrb_nav_title_edit_farming_season">မွေးမြူရာသီမှတ်တမ်း</string>
+    <string name="ffr_nav_title_add_expense">ကုန်ကျစားရိတ်ထည့်သွင်းခြင်း</string>
     <string name="ffr_nav_title_fish_input">ငါးအမည်</string>
 
     <string name="action_next">ရှေ့သို့</string>
@@ -60,5 +61,16 @@
     <string name="ffr_add_edit_season_helper_text_fish_species">ဥပမာ နိုင်းတီလာပီးယား၊ တီလာပီးယားအပြာ</string>
     <string name="ffr_add_edit_season_action_confirm_fish_selection">စာရင်းသွင်းမည်</string>
     <string name="ffr_add_edit_season_action_cancel_fish_selection">မသွင်းတော့ပါ</string>
+
+    <!-- Add/Edit Expense Screen -->
+    <string name="ffr_action_save">သိမ်းမည်</string>
+    <string name="ffr_add_edit_expense_label_expense_category">ကုန်ကျသည့်အကြောင်းအရင်း</string>
+    <string name="ffr_add_edit_expense_placeholder_expense_category">ရွေးချယ်ပါ</string>
+    <string name="ffr_add_edit_expense_label_date">ရက်စွဲ</string>
+    <string name="ffr_add_edit_expense_label_labour_cost">လုပ်အားခ/လူ/ကျွဲနွား/မိသားစု</string>
+    <string name="ffr_add_edit_expense_hint_note">မှတ်ချက်ရေးသားရန်</string>
+
+    <!-- Expense category chooser screen -->
+    <string name="ffr_expense_category_chooser_title">ကုန်ကျသည့်အကြောင်းအရင်း</string>
 
 </resources>

@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.common.result.asResult
-import com.greenwaymyanmar.common.result.mapList
 import dagger.hilt.android.lifecycle.HiltViewModel
-import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FishRepository
-import greenway_myanmar.org.features.fishfarmrecord.domain.repository.UserFishRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFishesStreamUseCase
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,9 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.transformLatest
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)

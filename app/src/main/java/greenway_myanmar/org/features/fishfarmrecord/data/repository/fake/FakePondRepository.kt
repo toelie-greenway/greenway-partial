@@ -1,14 +1,13 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.repository.fake
 
 import com.greenwaymyanmar.common.result.Result
-import com.greenwaymyanmar.core.domain.model.Area
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.di.ApplicationScope
 import greenway_myanmar.org.di.IoDispatcher
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ContractFarmingCompany
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Pond
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.PondRepository
-import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.CreateNewPondUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.CreateNewPondUseCase.CreateNewPondResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +19,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
-import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.UUID

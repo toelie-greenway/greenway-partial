@@ -14,6 +14,6 @@ class ObserveExpenseCategoriesWithTotalExpensesUseCase @Inject constructor(
     @IoDispatcher ioDispatcher: CoroutineDispatcher
 ) : FlowUseCase<Unit, List<ExpenseCategoryWithTotalExpenses>>(ioDispatcher) {
     override fun execute(params: Unit): Flow<Result<List<ExpenseCategoryWithTotalExpenses>>> {
-        return expenseCategoryRepository.observeExpenseCategoriesWithTotalExpenses()
+        return expenseCategoryRepository.getExpenseCategoriesWithTotalExpensesStream()
     }
 }

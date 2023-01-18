@@ -6,25 +6,28 @@ import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.greenwaymyanmar.common.data.api.util.ApiResponseCallAdapterFactory
 import com.greenwaymyanmar.common.data.api.util.LiveDataCallAdapterFactory
 import com.greenwaymyanmar.common.data.api.v1.gson.AnnotationExclusionStrategy
 import com.greenwaymyanmar.common.data.api.v1.services.GreenWayWebservice
 import com.greenwaymyanmar.common.data.api.v2.interceptors.AuthenticationInterceptor
 import com.greenwaymyanmar.common.data.api.v2.interceptors.NetworkStatusInterceptor
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import greenway_myanmar.org.BuildConfig
+import kotlinx.serialization.json.Json
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-import javax.net.SocketFactory
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -48,12 +51,17 @@ class ApiModule {
       .create()
   }
 
+  @Provides
+  @Singleton
+  fun providesNetworkJson(): Json = Json {
+    ignoreUnknownKeys = true
+  }
+
   @Singleton
   @Provides
   fun provideOkHttpClientBuilder(
     app: Application,
     connectionSpec: ConnectionSpec,
-    socketFactory: SocketFactory,
     networkStatusInterceptor: NetworkStatusInterceptor,
     loggingInterceptor: HttpLoggingInterceptor,
     authenticationInterceptor: AuthenticationInterceptor
@@ -67,16 +75,15 @@ class ApiModule {
         .alwaysReadResponseBody(false)
         .build(),
     )
-    builder.connectTimeout(1, TimeUnit.MINUTES)
-    builder.readTimeout(1, TimeUnit.MINUTES)
-    builder.writeTimeout(5, TimeUnit.MINUTES)
+    builder.connectTimeout(15, TimeUnit.SECONDS)
+    builder.readTimeout(15, TimeUnit.SECONDS)
+    builder.writeTimeout(15, TimeUnit.SECONDS)
     builder.addInterceptor(networkStatusInterceptor)
     builder.addInterceptor(authenticationInterceptor)
     if (BuildConfig.DEBUG) {
       builder.addInterceptor(loggingInterceptor)
     }
 
-    builder.socketFactory(socketFactory)
     if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
       builder.connectionSpecs(listOf(connectionSpec))
     }
@@ -94,13 +101,16 @@ class ApiModule {
   fun provideRetrofitBuilder(
     url: HttpUrl,
     okHttpClient: OkHttpClient,
-    gson: Gson
+    gson: Gson,
+    networkJson: Json,
   ): Retrofit.Builder {
     return Retrofit.Builder()
       .baseUrl(url)
       .addConverterFactory(ScalarsConverterFactory.create())
       .addConverterFactory(GsonConverterFactory.create(gson))
       .addCallAdapterFactory(LiveDataCallAdapterFactory())
+      .addCallAdapterFactory(ApiResponseCallAdapterFactory())
+      .addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType()))
       .client(okHttpClient)
   }
 
@@ -113,7 +123,7 @@ class ApiModule {
   @Singleton
   @Provides
   fun provideHttpUrl(): HttpUrl {
-    return "https://upgrade.greenwaymyanmar.com/api/v9/".toHttpUrl()
+    return "https://upgrade.greenwaymyanmar.com/api/v9/".toHttpUrl()// "http://10.0.2.2:3003/api/v9/".toHttpUrl()
   }
 
   @Provides

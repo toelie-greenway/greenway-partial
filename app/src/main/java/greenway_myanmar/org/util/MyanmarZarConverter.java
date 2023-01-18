@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class MyanmarZarConverter {
 
@@ -196,6 +197,16 @@ public class MyanmarZarConverter {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+
+        return getUserFriendlyDateInMyanmar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), shorten);
+    }
+
+    public static String getUserFriendlyDateInMyanmar(long utcTimeInMillis, boolean shorten) {
+        if (utcTimeInMillis == 0) return "";
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(utcTimeInMillis);
+        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         return getUserFriendlyDateInMyanmar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), shorten);
     }

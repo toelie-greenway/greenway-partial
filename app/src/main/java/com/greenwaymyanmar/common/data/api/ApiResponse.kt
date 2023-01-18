@@ -3,8 +3,10 @@ package com.greenwaymyanmar.common.data.api
 import com.google.gson.Gson
 import com.greenwaymyanmar.common.data.api.v2.interceptors.NoConnectivityException
 import com.greenwaymyanmar.common.data.api.v2.response.AsylErrorResponse
+import com.greenwaymyanmar.common.data.api.v3.NetworkDomainException
+import com.greenwaymyanmar.common.data.api.v3.UnknownDomainException
 import com.greenwaymyanmar.utils.errorMessage
-import greenway_myanmar.org.BuildConfig
+import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.ResourceError
 import greenway_myanmar.org.common.domain.entities.Text
 import retrofit2.Response
@@ -100,22 +102,27 @@ fun Response<*>.errorMessage(): String {
 }
 
 fun Throwable?.errorText(): Text {
-    val errorMessage: String =
-        if (BuildConfig.DEBUG) {
-            this?.message ?: "unknown error"
-        } else {
-            "ချိတ်ဆက်မှု မအောင်မြင်ပါ။\nမိတ်ဆွေရဲ့ အင်တာနက်လိုင်းအား စစ်ဆေး၍ ပြန်လည်ကြိုးစားကြည့်ပါ။"
-        }
+//    val errorMessage: String = "ချိတ်ဆက်မှု မအောင်မြင်ပါ။\nမိတ်ဆွေရဲ့ အင်တာနက်လိုင်းအား စစ်ဆေး၍ ပြန်လည်ကြိုးစားကြည့်ပါ။"
+//        if (BuildConfig.DEBUG) {
+//            this?.message ?: "unknown error"
+//        } else {
+//            "ချိတ်ဆက်မှု မအောင်မြင်ပါ။\nမိတ်ဆွေရဲ့ အင်တာနက်လိုင်းအား စစ်ဆေး၍ ပြန်လည်ကြိုးစားကြည့်ပါ။"
+//        }
+    val networkError = Text.ResourceText(R.string.error_no_network)
     return when (this) {
+        is UnknownDomainException -> {
+            Text.StringText(this.message)
+        }
+        is NetworkDomainException,
         is NoConnectivityException,
         is SocketTimeoutException,
         is UnknownHostException,
         is ConnectException,
         is SSLHandshakeException -> {
-            Text.StringText(errorMessage)
+            networkError
         }
         else -> {
-            Text.StringText(errorMessage)
+            networkError
         }
     }
 }

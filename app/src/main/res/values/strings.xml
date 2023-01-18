@@ -845,4 +845,6 @@
     <string name="account_delete_ok">သေချာပါသည်</string>
     <string name="account_delete_rollback">မဖျက်သိမ်းသေးပါ</string>
     <string name="account_delete">ဖျက်သိမ်းမည်</string>
+    
+    <string name="label_today_user_friendly_formatted_date">ယနေ့ • %s</string>
 </resources>

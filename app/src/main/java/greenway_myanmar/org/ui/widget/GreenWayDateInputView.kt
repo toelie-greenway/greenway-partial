@@ -1,29 +1,35 @@
 package greenway_myanmar.org.ui.widget
 
 import android.content.Context
-import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.CalendarConstraints.DateValidator
+import com.google.android.material.datepicker.CompositeDateValidator
+import com.google.android.material.datepicker.DateValidatorPointBackward
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.GreenWayDateInputViewBinding
 import greenway_myanmar.org.util.MyanmarZarConverter
 import greenway_myanmar.org.util.extensions.findBaseContext
-import greenway_myanmar.org.util.extensions.toCalendar
-import java.util.*
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneOffset
 
 class GreenWayDateInputView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) :
-    LinearLayout(context, attrs) {
+    FrameLayout(context, attrs) {
 
-    private var _mandatory = false
+    private var _minDate: LocalDate? = null
+    private var _maxDate: LocalDate? = null
+    private var selectedDate: LocalDate = LocalDate.now()
 
-    private var _minDate: Date? = null
-    private var _maxDate: Date? = null
-    private var selectedDate: Calendar = Calendar.getInstance()
+    var onDateChangeListener: OnDateChangeListener? = null
 
     var binding: GreenWayDateInputViewBinding =
         GreenWayDateInputViewBinding.inflate(LayoutInflater.from(context), this, true)
@@ -32,28 +38,10 @@ class GreenWayDateInputView @JvmOverloads constructor(
         updateDate(selectedDate)
         binding.root.setOnClickListener { showMaterialDesignDatePicker() }
         binding.increaseButton.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            calendar.time = selectedDate.time
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-            if (_maxDate != null) {
-                if (!calendar.after(_maxDate?.toCalendar())) {
-                    updateDate(calendar)
-                }
-            } else {
-                updateDate(calendar)
-            }
+            increaseDate()
         }
         binding.decreaseButton.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            calendar.time = selectedDate.time
-            calendar.add(Calendar.DAY_OF_MONTH, -1)
-            if (_minDate != null) {
-                if (!calendar.before(_minDate?.toCalendar())) {
-                    updateDate(calendar)
-                }
-            } else {
-                updateDate(calendar)
-            }
+            decreaseDate()
         }
     }
 
@@ -61,56 +49,101 @@ class GreenWayDateInputView @JvmOverloads constructor(
         val activity: AppCompatActivity = context.findBaseContext() ?: return
 
         val now = selectedDate
+        val listValidators = ArrayList<DateValidator>()
+        _minDate?.let {
+            val dateValidatorMin: DateValidator = DateValidatorPointForward.from(it.toEpochMilli())
+            listValidators.add(dateValidatorMin)
+        }
+        _maxDate?.let {
+            val dateValidatorMax: DateValidator =
+                DateValidatorPointBackward.before(it.toEpochMilli())
+            listValidators.add(dateValidatorMax)
+        }
+        val constraintsBuilderRange = CalendarConstraints.Builder()
+        val validators = CompositeDateValidator.allOf(listValidators)
+        constraintsBuilderRange.setValidator(validators)
+        val calendarConstraints = constraintsBuilderRange.build()
+
         val datePicker = MaterialDatePicker.Builder.datePicker()
-        datePicker.build().show(activity.supportFragmentManager, "DATE_PICKER_DIALOG")
-//
-//            DatePickerDialog.newInstance(
-//                this,
-//                now[Calendar.YEAR],
-//                now[Calendar.MONTH],
-//                now[Calendar.DAY_OF_MONTH]
-//            )
-//        _minDate?.let { dpd.minDate = it.toCalendar() }
-//        _maxDate?.let { dpd.maxDate = it.toCalendar() }
-//
-//        dpd.accentColor = ContextCompat.getColor(context, R.color.theme_primary)
-//        dpd.setOkColor(ContextCompat.getColor(context, R.color.theme_primary))
-//        dpd.setCancelColor(ContextCompat.getColor(context, R.color.theme_primary))
-//        dpd.show(activity.supportFragmentManager, "DATE_PICKER_DIALOG")
-    }
-//
-//    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-//        val calendar = Calendar.getInstance()
-//        calendar[Calendar.YEAR] = year
-//        calendar[Calendar.MONTH] = monthOfYear
-//        calendar[Calendar.DAY_OF_MONTH] = dayOfMonth
-//
-//        updateDate(calendar)
-//    }
-
-    private fun updateDate(calendar: Calendar) {
-        selectedDate = calendar
-        binding.dateTextView.text = getUserFriendlyDate(calendar)
+            .setSelection(now.toEpochMilli())
+            .setCalendarConstraints(calendarConstraints)
+            .build()
+        datePicker.addOnPositiveButtonClickListener { selection ->
+            onDateSet(selection)
+        }
+        datePicker.show(activity.supportFragmentManager, "DATE_PICKER_DIALOG")
     }
 
-    fun setDate(date: Date) {
-        updateDate(date.toCalendar())
+    private fun onDateSet(epochMilli: Long) {
+        updateDate(epochMilli.toLocalDate())
     }
 
-    fun setMinDate(date: Date) {
+    private fun increaseDate() {
+        val newDate = selectedDate.plusDays(1)
+        if (_maxDate != null) {
+            if (newDate <= _maxDate) {
+                updateDate(newDate)
+            }
+        } else {
+            updateDate(newDate)
+        }
+    }
+
+    private fun decreaseDate() {
+        val newDate = selectedDate.minusDays(1)
+        if (_minDate != null) {
+            if (newDate >= _minDate) {
+                updateDate(newDate)
+            }
+        } else {
+            updateDate(newDate)
+        }
+    }
+
+    private fun updateDate(date: LocalDate) {
+        selectedDate = date
+        binding.dateTextView.text = getUserFriendlyDate(date)
+        onDateChangeListener?.onDateChanged(date)
+    }
+
+    fun setDate(date: LocalDate) {
+        updateDate(date)
+    }
+
+    fun setMinDate(date: LocalDate) {
         _minDate = date
     }
 
-    fun setMaxDate(date: Date) {
+    fun setMaxDate(date: LocalDate) {
         _maxDate = date
     }
 
-    private fun getUserFriendlyDate(calendar: Calendar): String {
-        val sb = StringBuilder()
-        if (DateUtils.isToday(calendar.timeInMillis)) {
-            sb.append("ယနေ့ • ")
+    private fun getUserFriendlyDate(date: LocalDate): String {
+        val userFriendlyDate =
+            MyanmarZarConverter.getUserFriendlyDateInMyanmar(date.toEpochMilli(), true)
+        return if (isToday(date)) {
+            resources.getString(R.string.label_today_user_friendly_formatted_date, userFriendlyDate)
+        } else {
+            userFriendlyDate
         }
-        sb.append(MyanmarZarConverter.getUserFriendlyDateInMyanmar(calendar.time, true))
-        return sb.toString()
+    }
+
+    private fun isToday(date: LocalDate) =
+        date == LocalDate.now()
+
+    private fun LocalDate.toEpochMilli() =
+        this.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli()
+
+    private fun Long.toLocalDate() =
+        Instant.ofEpochMilli(this).atZone(ZoneOffset.UTC).toLocalDate()
+
+    fun bindDate(date: LocalDate) {
+        if (selectedDate == date) return
+
+        updateDate(date)
+    }
+
+    interface OnDateChangeListener {
+        fun onDateChanged(date: LocalDate)
     }
 }

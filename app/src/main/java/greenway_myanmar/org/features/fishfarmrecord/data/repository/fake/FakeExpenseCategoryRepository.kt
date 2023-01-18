@@ -1,6 +1,5 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.repository.fake
 
-import com.bumptech.glide.Glide
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.common.result.asResult
 import greenway_myanmar.org.di.ApplicationScope
@@ -14,7 +13,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 import java.time.Instant
@@ -137,7 +135,7 @@ class FakeExpenseCategoryRepository @Inject constructor(
         }
     }
 
-    override fun observeExpenseCategoriesWithTotalExpenses(): Flow<Result<List<ExpenseCategoryWithTotalExpenses>>> {
+    override fun getExpenseCategoriesWithTotalExpensesStream(): Flow<Result<List<ExpenseCategoryWithTotalExpenses>>> {
         return observableCategories.asResult {
             it.map { category ->
                 val hasExpenses = Random.nextBoolean()
@@ -150,6 +148,10 @@ class FakeExpenseCategoryRepository @Inject constructor(
         }
     }
 
+    override fun getExpenseCategoriesStream(): Flow<List<ExpenseCategory>> {
+        return observableCategories
+    }
+
     private suspend fun addCategories(vararg categories: ExpenseCategory) {
         categories.forEach { category ->
             addCategory(category.id, category)
@@ -160,5 +162,4 @@ class FakeExpenseCategoryRepository @Inject constructor(
     private suspend fun addCategory(id: String, newCategory: ExpenseCategory) {
         SERVICE_DATA[id] = newCategory
     }
-
 }
