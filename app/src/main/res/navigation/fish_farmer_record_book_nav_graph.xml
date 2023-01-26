@@ -25,9 +25,16 @@
     </fragment>
     <fragment
         android:id="@+id/addEditPondFragment"
-        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditpond.AddEditPondFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditfarm.AddEditFarmFragment"
         android:label="AddEditPondFragment"
-        tools:layout="@layout/ffr_add_edit_pond_fragment" />
+        tools:layout="@layout/ffr_add_edit_farm_fragment" >
+        <action
+            android:id="@+id/action_addEditPondFragment_to_areaMeasureMethodFragment"
+            app:destination="@id/areaMeasureMethodFragment" />
+        <action
+            android:id="@+id/action_addEditPondFragment_to_areaMeasureMapFragment"
+            app:destination="@id/areaMeasureMapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addEditSeasonFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.AddEditSeasonFragment"
@@ -45,6 +52,15 @@
         <action
             android:id="@+id/action_addEditExpenseFragment_to_expenseCategoryPickerBottomSheetFragment"
             app:destination="@id/expenseCategoryPickerBottomSheetFragment" />
+        <action
+            android:id="@+id/action_addEditExpenseFragment_to_labourCostInputBottomSheetFragment"
+            app:destination="@id/labourCostInputBottomSheetFragment" />
+        <action
+            android:id="@+id/action_addEditExpenseFragment_to_machineryCostInputBottomSheetFragment"
+            app:destination="@id/machineryCostInputBottomSheetFragment" />
+        <action
+            android:id="@+id/action_addEditExpenseFragment_to_farmInputInputFragment"
+            app:destination="@id/farmInputInputFragment" />
     </fragment>
     <fragment
         android:id="@+id/pondDetailFragment"
@@ -74,4 +90,46 @@
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.expensecategorypicker.ExpenseCategoryPickerBottomSheetFragment"
         android:label="ExpenseCategoryPickerBottomSheetFragment"
         tools:layout="@layout/ffr_expense_category_picker_bottom_sheet_fragment" />
+    <dialog
+        android:id="@+id/labourCostInputBottomSheetFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.labourcost.LabourCostInputBottomSheetFragment"
+        android:label="LabourCostBottomSheetFragment"
+        tools:layout="@layout/ffr_labour_cost_input_bottom_sheet_fragment" />
+    <dialog
+        android:id="@+id/machineryCostInputBottomSheetFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.machinerycost.MachineryCostInputBottomSheetFragment"
+        android:label="MachineryCostInputBottomSheetFragment"
+        tools:layout="@layout/ffr_machinery_cost_input_bottom_sheet_fragment" />
+    <fragment
+        android:id="@+id/farmInputInputFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.farminput.FarmInputInputFragment"
+        android:label="FarmInputInputFragment"
+        tools:layout="@layout/ffr_farm_input_input_fragment">
+        <action
+            android:id="@+id/action_farmInputInputFragment_to_farmInputProductPickerFragment"
+            app:destination="@id/farmInputProductPickerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/farmInputProductPickerFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.farminput.products.FarmInputProductPickerFragment"
+        android:label="FarmInputProductPickerFragment"
+        tools:layout="@layout/ffr_farm_input_product_picker_fragment" />
+
+    <dialog
+        android:id="@+id/areaMeasureMethodFragment"
+        android:name="greenway_myanmar.org.features.areameasure.presentation.AreaMeasureMethodFragment"
+        android:label="AreaMeasureMethodFragment" />
+
+    <fragment
+        android:id="@+id/areaMeasureMapFragment"
+        android:name="greenway_myanmar.org.features.areameasure.presentation.AreaMeasureMapFragment"
+        android:label="AreaMeasureMapFragment">
+        <action
+            android:id="@+id/action_areaMeasureMapFragment_to_areaMeasureMethodFragment"
+            app:destination="@id/areaMeasureMethodFragment" />
+        <argument
+            android:name="measureMethod"
+            app:argType="greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod" />
+    </fragment>
+
 </navigation>

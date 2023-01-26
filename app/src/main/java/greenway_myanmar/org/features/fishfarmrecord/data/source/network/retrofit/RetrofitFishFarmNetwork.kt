@@ -5,8 +5,11 @@ import com.greenwaymyanmar.common.data.api.v3.getDataOrThrow
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.FishFarmRecordNetworkDataSource
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.ApiDataWrapper
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpenseCategory
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProduct
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProductCategory
 import retrofit2.Retrofit
 import retrofit2.http.GET
+import retrofit2.http.Query
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,6 +21,18 @@ private interface RetrofitFishFarmRecordNetworkApi {
 
     @GET(value = "ffr/expense-categories")
     suspend fun getExpenseCategories(): ApiResponse<ApiDataWrapper<List<NetworkExpenseCategory>>>
+
+    // TODO: use existing asymt/inputs api?
+    @GET(value = "ffr/inputs")
+    suspend fun getFarmInputProducts(
+        @Query("page") page: Int = 1,
+        @Query("category_id") categoryId: String,
+        @Query("q") query: String
+    ): ApiResponse<ApiDataWrapper<List<NetworkFarmInputProduct>>>
+
+    // TODO: use existing marketplace/categories api?
+    @GET(value = "ffr/product-categories")
+    suspend fun getProductCategories(): ApiResponse<List<NetworkFarmInputProductCategory>>
 
 }
 
@@ -35,5 +50,17 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
 
     override suspend fun getExpenseCategories(): List<NetworkExpenseCategory> =
         networkApi.getExpenseCategories().getDataOrThrow().data
+
+    override suspend fun getFarmInputProducts(
+        query: String,
+        categoryId: String
+    ): List<NetworkFarmInputProduct> =
+        networkApi.getFarmInputProducts(
+            query = query,
+            categoryId = categoryId
+        ).getDataOrThrow().data
+
+    override suspend fun getFarmInputProductCategories(): List<NetworkFarmInputProductCategory> =
+        networkApi.getProductCategories().getDataOrThrow()
 
 }

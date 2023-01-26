@@ -2,40 +2,40 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FfrAddEditExpenseFragmentBinding
+import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.labourcost.LabourCostInputBottomSheetFragment
+import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.machinerycost.MachineryCostInputBottomSheetFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.views.ExpenseCategoryInputView
-import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.AddEditSeasonUiEvent
+import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.views.FarmInputListInputView
+import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.views.LabourCostInputView
+import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.views.MachineryCostInputView
 import greenway_myanmar.org.features.fishfarmrecord.presentation.expensecategorypicker.ExpenseCategoryPickerBottomSheetFragment
-import greenway_myanmar.org.features.fishfarmrecord.presentation.fishinput.FishInputFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
-import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiLabourCost
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiMachineryCost
 import greenway_myanmar.org.ui.widget.GreenWayDateInputView.OnDateChangeListener
+import greenway_myanmar.org.util.extensions.bindText
 import greenway_myanmar.org.util.extensions.getParcelableExtraCompat
 import greenway_myanmar.org.util.kotlin.autoCleared
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.util.*
 
 @AndroidEntryPoint
 class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) {
 
     private val viewModel: AddEditExpenseViewModel by viewModels()
     private var binding: FfrAddEditExpenseFragmentBinding by autoCleared()
-    private val navController: NavController by lazy {
-        findNavController()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,11 +58,39 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
                 )
             }
         }
+        setFragmentResultListener(
+            LabourCostInputBottomSheetFragment.REQUEST_KEY_LABOUR_COST
+        ) { _, bundle ->
+            val cost = bundle.getParcelableExtraCompat<UiLabourCost>(
+                LabourCostInputBottomSheetFragment.KEY_LABOUR_COST
+            )
+            if (cost != null) {
+                viewModel.handleEvent(
+                    AddEditExpenseEvent.OnLabourCostChanged(cost)
+                )
+            }
+        }
+        setFragmentResultListener(
+            MachineryCostInputBottomSheetFragment.REQUEST_KEY_MACHINERY_COST
+        ) { _, bundle ->
+            val cost = bundle.getParcelableExtraCompat<UiMachineryCost>(
+                MachineryCostInputBottomSheetFragment.KEY_MACHINERY_COST
+            )
+            if (cost != null) {
+                viewModel.handleEvent(
+                    AddEditExpenseEvent.OnMachineryCostChanged(cost)
+                )
+            }
+        }
     }
 
     private fun setupUi() {
         setupDateInputUi()
         setupCategoryInputUi()
+        setupLabourCostInputUi()
+        setupMachineryCostInputUi()
+        setupFarmInputListInputUi()
+        setupNoteInputUi()
     }
 
     private fun setupDateInputUi() {
@@ -81,10 +109,51 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
         })
     }
 
+    private fun setupLabourCostInputUi() {
+        binding.labourCostInputView.setClickCall(object : LabourCostInputView.ClickCallback {
+            override fun onClick() {
+                openLabourCostInputDialog()
+            }
+        })
+    }
+
+    private fun setupMachineryCostInputUi() {
+        binding.machineryCostInputView.setClickCall(object : MachineryCostInputView.ClickCallback {
+            override fun onClick() {
+                openMachineryCostInputDialog()
+            }
+        })
+    }
+
+    private fun setupFarmInputListInputUi() {
+        binding.farmInputListInputView.setOnItemClickListener(object :
+            FarmInputListInputView.OnItemClickListener {
+            override fun onAddNewFarmInput() {
+                openFarmInputScreen()
+            }
+
+            override fun onFarmInputItemClick() {
+
+            }
+        })
+    }
+
+    private fun setupNoteInputUi() {
+        binding.noteTextInputEditText.doAfterTextChanged {
+            viewModel.handleEvent(
+                AddEditExpenseEvent.OnNoteChanged(it?.toString().orEmpty())
+            )
+        }
+    }
+
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
             observeDate()
             observeCategory()
+            observeLabourCost()
+            observeMachineryCost()
+            observeFarmInputs()
+            observeNote()
         }
     }
 
@@ -104,6 +173,38 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
             }
     }
 
+    private fun CoroutineScope.observeLabourCost() = launch {
+        viewModel.uiState.map { it.labourCost }
+            .distinctUntilChanged()
+            .collect {
+                binding.labourCostInputView.bind(it)
+            }
+    }
+
+    private fun CoroutineScope.observeMachineryCost() = launch {
+        viewModel.uiState.map { it.machineryCost }
+            .distinctUntilChanged()
+            .collect {
+                binding.machineryCostInputView.bind(it)
+            }
+    }
+
+    private fun CoroutineScope.observeFarmInputs() = launch {
+        viewModel.uiState.map { it.farmInputs }
+            .distinctUntilChanged()
+            .collect {
+                binding.farmInputListInputView.setItems(it)
+            }
+    }
+
+    private fun CoroutineScope.observeNote() = launch {
+        viewModel.uiState.map { it.note }
+            .distinctUntilChanged()
+            .collect {
+                binding.noteTextInputEditText.bindText(it)
+            }
+    }
+
     private fun openCategoryPickerDialog() {
         findNavController().navigate(
             AddEditExpenseFragmentDirections
@@ -111,4 +212,24 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
         )
     }
 
+    private fun openLabourCostInputDialog() {
+        findNavController().navigate(
+            AddEditExpenseFragmentDirections
+                .actionAddEditExpenseFragmentToLabourCostInputBottomSheetFragment()
+        )
+    }
+
+    private fun openMachineryCostInputDialog() {
+        findNavController().navigate(
+            AddEditExpenseFragmentDirections
+                .actionAddEditExpenseFragmentToMachineryCostInputBottomSheetFragment()
+        )
+    }
+
+    private fun openFarmInputScreen() {
+        findNavController().navigate(
+            AddEditExpenseFragmentDirections
+                .actionAddEditExpenseFragmentToFarmInputInputFragment()
+        )
+    }
 }

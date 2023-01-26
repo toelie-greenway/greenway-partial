@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.common.decoration.GreenWayDividerItemDecoration
@@ -52,6 +53,7 @@ class ExpenseCategoryPickerBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun setupUi() {
         setupList()
+        setupLoadingStateUi()
     }
 
     private fun setupList() {
@@ -67,6 +69,12 @@ class ExpenseCategoryPickerBottomSheetFragment : BottomSheetDialogFragment() {
         )
     }
 
+    private fun setupLoadingStateUi() {
+        binding.loadingStateView.setRetryCallback {
+            viewModel.handleEvent(ExpenseCategoryPickerEvent.RetryLoadingCategories)
+        }
+    }
+
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
             observeCategories()
@@ -75,10 +83,10 @@ class ExpenseCategoryPickerBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun CoroutineScope.observeCategories() = launch {
         viewModel.expenseCategoryListUiState.collect { uiState ->
-            if (uiState is ExpenseCategoryListUiState.Success) {
+            if (uiState is LoadingState.Success) {
                 adapter.submitList(uiState.data)
             }
-            binding.loadingStateView.bind(uiState.asLoadingState())
+            binding.loadingStateView.bind(uiState)
         }
     }
 

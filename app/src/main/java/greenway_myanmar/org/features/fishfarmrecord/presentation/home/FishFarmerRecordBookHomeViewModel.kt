@@ -5,11 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
-import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.ObservePondsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,7 +39,7 @@ class FishFarmerRecordBookHomeViewModel @Inject constructor(
                             it.copy(
                                 isLoading = false,
                                 ponds = result.data.map { pond ->
-                                    PondListItemUiState.fromDomain(pond)
+                                    FarmListItemUiState.fromDomain(pond)
                                 })
                         }
                     }

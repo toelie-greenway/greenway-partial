@@ -33,6 +33,7 @@ open class GreenWayUneditableTextInputEditText : GreenWayTextInputEditText {
     isFocusable = true
     isLongClickable = false
     isClickable = true
+    isCursorVisible = false
 
     setOnFocusChangeListener { v, hasFocus ->
       if (hasFocus) {

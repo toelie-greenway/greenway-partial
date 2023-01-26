@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/padding_normal"
+        android:paddingTop="24dp"
+        android:paddingEnd="@dimen/padding_normal"
+        android:paddingBottom="@dimen/padding_normal">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ffr_add_edit_expense_subtitle_labour_cost"
+            android:textAppearance="?textAppearanceBody1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:orientation="horizontal">
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+                android:id="@+id/labour_quantity_text_input_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/ffr_add_edit_expense_hint_labour_quantity"
+                app:suffixText="@string/ffr_add_edit_expense_suffix_labour_quantity">
+
+                <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+                    android:id="@+id/labour_quantity_text_input_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:nextFocusForward="@id/labour_cost_text_input_edit_text" />
+            </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+            <Space
+                android:layout_width="@dimen/padding_normal"
+                android:layout_height="wrap_content" />
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+                android:id="@+id/labour_cost_text_input_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/ffr_add_edit_expense_hint_labour_cost"
+                app:suffixText="@string/ffr_add_edit_expense_suffix_labour_cost">
+
+                <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+                    android:id="@+id/labour_cost_text_input_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:nextFocusForward="@id/animal_quantity_text_input_edit_text" />
+            </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:orientation="horizontal">
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+                android:id="@+id/animal_quantity_text_input_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/ffr_add_edit_expense_hint_animal_quantity"
+                app:suffixText="@string/ffr_add_edit_expense_suffix_animal_quantity">
+
+                <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+                    android:id="@+id/animal_quantity_text_input_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:nextFocusForward="@id/animal_cost_text_input_edit_text" />
+            </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+            <Space
+                android:layout_width="@dimen/padding_normal"
+                android:layout_height="wrap_content" />
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+                android:id="@+id/animal_cost_text_input_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/ffr_add_edit_expense_hint_labour_cost"
+                app:suffixText="@string/ffr_add_edit_expense_suffix_labour_cost">
+
+                <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+                    android:id="@+id/animal_cost_text_input_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:nextFocusForward="@id/family_member_quantity_text_input_layout" />
+            </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:orientation="horizontal">
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+                android:id="@+id/family_member_quantity_text_input_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/ffr_add_edit_expense_hint_family_member_quantity"
+                app:suffixText="@string/ffr_add_edit_expense_suffix_family_member_quantity">
+
+                <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+                    android:id="@+id/family_member_quantity_text_input_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:nextFocusForward="@id/family_member_cost_text_input_edit_text" />
+            </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+            <Space
+                android:layout_width="@dimen/padding_normal"
+                android:layout_height="wrap_content" />
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+                android:id="@+id/family_member_cost_text_input_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/ffr_add_edit_expense_hint_labour_cost"
+                app:suffixText="@string/ffr_add_edit_expense_suffix_labour_cost">
+
+                <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+                    android:id="@+id/family_member_cost_text_input_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLines="1" />
+            </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+        </LinearLayout>
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:text="@string/ffr_add_edit_expense_label_total_labour_cost"
+            android:textAppearance="?textAppearanceBody1" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+            android:id="@+id/total_cost_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:suffixText="ကျပ်">
+
+            <!--            android:text='@{total == 0 ? "" : MyanmarZarConverter.toMyanmarNumber(total)}'-->
+            <greenway_myanmar.org.ui.widget.GreenWayUneditableTextInputEditText
+                android:id="@+id/total_cost_text_input_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:maxLines="1"
+                android:textColor="@color/app_primary_text" />
+
+        </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+        <greenway_myanmar.org.ui.widget.GreenWayButton
+            android:id="@+id/submit_button"
+            style="@style/Widget.GreenWay2.Button.Secondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_triple"
+            android:text="@string/ffr_action_save" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/padding_normal"
+    android:paddingTop="24dp"
+    android:paddingEnd="@dimen/padding_normal"
+    android:paddingBottom="@dimen/padding_normal">
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ffr_add_edit_expense_subtitle_machine_cost"
+        android:textAppearance="?textAppearanceBody1" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+        android:id="@+id/machine_cost_text_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_16"
+        android:hint="@string/ffr_add_edit_expense_hint_machine_cost"
+        app:suffixText="@string/ffr_add_edit_expense_suffix_machine_cost">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+            android:id="@+id/machine_cost_text_input_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="number" />
+
+    </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+    <greenway_myanmar.org.ui.widget.GreenWayButton
+        android:id="@+id/submit_button"
+        style="@style/Widget.GreenWay2.Button.Secondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:text="@string/ffr_action_save" />
+
+</LinearLayout>

@@ -62,32 +62,38 @@
                 android:id="@+id/category_input_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_8" />
+                android:layout_marginTop="@dimen/spacing_16" />
+
+            <greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.views.LabourCostInputView
+                android:id="@+id/labour_cost_input_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_16" />
+
+            <greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.views.MachineryCostInputView
+                android:id="@+id/machinery_cost_input_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_16" />
+
+            <greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.views.FarmInputListInputView
+                android:id="@+id/farm_input_list_input_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_16" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-<!--                <com.greenwaymyanmar.ui.widgets.asymt.AsymtLabourCostInputView-->
-<!--                    android:id="@+id/labour_cost_inputView"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/padding_normal_minus_4dp"-->
-<!--                    app:mandatory="@{true}" />-->
 
-                <greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.views.LabourCostInputView
-                    android:id="@+id/machinery_cost_inputView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_8" />
-
-<!--                <com.greenwaymyanmar.ui.widgets.asymt.AsymtFarmInputInputView-->
-<!--                    android:id="@+id/farm_input_input_view"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="@dimen/padding_normal_minus_8dp"-->
-<!--                    app:mandatory="@{true}" />-->
+                <!--                <com.greenwaymyanmar.ui.widgets.asymt.AsymtFarmInputInputView-->
+                <!--                    android:id="@+id/farm_input_input_view"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/padding_normal_minus_8dp"-->
+                <!--                    app:mandatory="@{true}" />-->
 
                 <!--                <com.greenwaymyanmar.ui.widgets.AsylMultiImageInputView-->
                 <!--                    android:id="@+id/multi_image_input_view"-->
@@ -96,8 +102,8 @@
                 <!--                    android:layout_marginTop="@dimen/padding_normal" />-->
 
                 <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/note_text_input_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_8"
                     android:hint="@string/ffr_add_edit_expense_hint_note">

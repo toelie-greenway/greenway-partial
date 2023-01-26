@@ -13,6 +13,18 @@ fun <T> ValidationResult<T>.getDataOrThrow() = if (this is ValidationResult.Succ
     throw IllegalStateException("ValidationResult, $this must be ValidationResult.Success")
 }
 
+fun <T> ValidationResult<T>.getDataOrNull() = if (this is ValidationResult.Success) {
+    this.data
+} else {
+    null
+}
+
+fun <T> ValidationResult<T>.getDataOrDefault(default: T) = if (this is ValidationResult.Success) {
+    this.data
+} else {
+    default
+}
+
 fun <T> ValidationResult<T>.getErrorOrThrow() = if (this is ValidationResult.Error) {
     this.message
 } else {
@@ -20,3 +32,9 @@ fun <T> ValidationResult<T>.getErrorOrThrow() = if (this is ValidationResult.Err
 }
 
 fun <T> ValidationResult<T>.getErrorOrNull() = (this as? ValidationResult.Error)?.message
+
+fun <T> ValidationResult<T>.isError() = (this is ValidationResult.Error)
+
+fun hasError(vararg validationResults: ValidationResult<Any>): Boolean {
+    return validationResults.toList().any { !it.isSuccessful }
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><!--    android:onClick="@{() -> itemClickCallback.onItemClick(item)}"-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:orientation="vertical">
+
+    <greenway_myanmar.org.ui.widget.AspectRatioImageView
+        android:id="@+id/product_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:imgAspectRatio="@dimen/aspect_1_1" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/product_name_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_normal"
+        android:lineSpacingMultiplier="1.3"
+        android:textAppearance="?textAppearanceBody2"
+        android:textColor="@color/app_secondary_text"
+        tools:text="အာမိုဂျီအေသရီး ၁၀%" />
+
+</LinearLayout>

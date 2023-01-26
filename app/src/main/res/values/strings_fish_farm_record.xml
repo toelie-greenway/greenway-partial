@@ -2,8 +2,10 @@
 <resources>
     <string name="myanmar_kyat_without_symbol">%s</string>
     <string name="myanmar_kyat_with_symbol">%s ကျပ်</string>
+    <string name="myanmar_currency_symbol">ကျပ်</string>
 
     <string name="area_acre_symbol">ဧက</string>
+    <string name="measurement_feet_symbol">ပေ</string>
     <string name="formatted_area">%s %s</string>
     <string name="separator_small_circle">•</string>
 
@@ -28,6 +30,9 @@
     <string name="ffr_action_record_again">ထပ်မှတ်မည်</string>
     <string name="ffr_action_view_detail">အသေးစိတ်သို့</string>
     <string name="ffr_action_close_season">ရာသီပိတ်သိမ်း</string>
+    <string name="ffr_action_cancel">မသွင်းတော့ပါ</string>
+    <string name="ffr_action_submit_form">စာရင်းသွင်းမည်</string>
+
 
     <string name="ffrb_label_no_ongoing_season">မွေးမြူရာသီမရှိသေး</string>
     <string name="ffr_label_production_record">Production record</string>
@@ -35,21 +40,21 @@
     
     <string name="ffr_label_closed_season_formatted_season_info">%s • %s</string>
 
-    <string name="ffrb_transition_name_new_pond">new_pond</string>
-    <string name="ffrb_transition_name_pond_detail">pond_detail</string>
+    <string name="ffrb_transition_name_new_farm">new_farm</string>
+    <string name="ffrb_transition_name_farm_detail">farm_detail</string>
 
-    <!-- Add/Edit Pond Screen -->
+    <!-- Add/Edit Farm Screen -->
     <string name="ffr_label_add_edit_pond_subtitle">မွေးမြူမှတ်တမ်းစတင်ရန် ကန်စာရင်း သွင်းရန်လိုအပ်ပါသည်</string>
     <string name="ffr_add_edit_pond_hint_pond_name">ကန်အမည်</string>
     <string name="ffr_add_edit_pond_label_location_and_area">တည်နေရာ နှင့် အကျယ်အဝန်း</string>
     <string name="ffr_add_edit_pond_label_map">အောက်ပါမြေပုံအားနှိပ်၍ထည့်သွင်းတိုင်းတာပါ</string>
     <string name="ffr_add_edit_pond_hint_area">အကျယ်အဝန်း (ဧက)</string>
-    <string name="ffr_add_edit_pond_label_pond_image">ကန် ဓာတ်ပုံထည့်သွင်းရန်</string>
+    <string name="ffr_add_edit_farm_label_farm_image">ကန် ဓာတ်ပုံထည့်သွင်းရန်</string>
     <string name="ffr_add_edit_pond_ownership_own">ကိုယ်ပိုင်</string>
     <string name="ffr_add_edit_pond_ownership_rent">အငှား</string>
     <string name="ffr_add_edit_pond_label_detail">အသေးစိတ်အချက်အလက်များ ဖြည့်မည်</string>
     <string name="ffr_add_edit_pond_hint_upaing_no">ဦးပိုင်အမှတ်</string>
-    <string name="ffr_add_edit_pond_hint_pond_depth">ကန်အနက်</string>
+    <string name="ffr_add_edit_pond_hint_pond_depth">ကန်အနက် (ပေ)</string>
     
     <!-- Add/Edit Season Screen -->
     <string name="ffr_add_edit_season_update_pond">မွေးမြူကန်အချက်အလက်များ ပြင်ဆင်မည်</string>
@@ -68,9 +73,42 @@
     <string name="ffr_add_edit_expense_placeholder_expense_category">ရွေးချယ်ပါ</string>
     <string name="ffr_add_edit_expense_label_date">ရက်စွဲ</string>
     <string name="ffr_add_edit_expense_label_labour_cost">လုပ်အားခ/လူ/ကျွဲနွား/မိသားစု</string>
+    <string name="ffr_add_edit_expense_label_machinery_cost">စက်ပစ္စည်းအသုံးစားရိတ်</string>
     <string name="ffr_add_edit_expense_hint_note">မှတ်ချက်ရေးသားရန်</string>
 
     <!-- Expense category chooser screen -->
     <string name="ffr_expense_category_chooser_title">ကုန်ကျသည့်အကြောင်းအရင်း</string>
+
+    <!-- Expense labour cost screen -->
+    <string name="ffr_add_edit_expense_subtitle_labour_cost">လုပ်အားခ</string>
+
+    <string name="ffr_add_edit_expense_hint_labour_quantity">လူဦးရေ</string>
+    <string name="ffr_add_edit_expense_suffix_labour_quantity">ဦး</string>
+    <string name="ffr_add_edit_expense_hint_labour_cost">ကုန်ကျစရိတ်</string>
+    <string name="ffr_add_edit_expense_suffix_labour_cost">@string/myanmar_currency_symbol</string>
+
+    <string name="ffr_add_edit_expense_hint_animal_quantity">ကျွဲ/နွား</string>
+    <string name="ffr_add_edit_expense_suffix_animal_quantity">ကောင်</string>
+
+    <string name="ffr_add_edit_expense_hint_family_member_quantity">မိသားစုလုပ်အား</string>
+    <string name="ffr_add_edit_expense_suffix_family_member_quantity">ဦး</string>
+
+    <string name="ffr_add_edit_expense_label_total_labour_cost">စုစုပေါင်း</string>
+
+    <!-- Expense machine  cost screen -->
+    <string name="ffr_add_edit_expense_subtitle_machine_cost">စက်ပစ္စည်းအငှါးစားရိတ်</string>
+    <string name="ffr_add_edit_expense_hint_machine_cost">ကုန်ကျစရိတ် (ကျပ်)</string>
+    <string name="ffr_add_edit_expense_suffix_machine_cost">@string/myanmar_currency_symbol</string>
+
+    <!-- Expense farm input scree -->
+    <string name="ffr_add_edit_expense_action_pick_farm_input">သွင်းအားစု</string>
+    <string name="ffr_add_edit_expense_hint_farm_input_amount">အသုံးပြုသည့် ပမာဏ</string>
+    <string name="ffr_add_edit_expense_hint_farm_input_unit_price">တစ်ခုစျေးနှုန်း</string>
+    <string name="ffr_add_edit_expense_label_farm_input_total_cost">စုစုပေါင်းကုန်ကျငွေ</string>
+    <string name="ffr_add_edit_expense_label_farm_input_unit">ယူနစ်</string>
+    <string name="ffr_add_edit_expense_title_farm_input">သွင်းအားစုဖြည့်သွင်းပါ</string>
+    <string name="ffr_add_edit_expense_hint_search_product">တိုက်ရိုက်ရှာဖွေရန်</string>
+
+
 
 </resources>

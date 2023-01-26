@@ -3,6 +3,10 @@ package greenway_myanmar.org.util.extensions
 import java.math.BigDecimal
 import java.util.*
 
+fun String?.toIntOrZero(): Int {
+    return this?.toIntOrNull() ?: 0
+}
+
 fun String?.toBigDecimalOrZero(): BigDecimal {
     return this?.toBigDecimalOrNull() ?: BigDecimal.ZERO
 }

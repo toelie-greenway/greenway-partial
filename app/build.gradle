@@ -151,5 +151,6 @@ dependencies {
     kapt "com.airbnb.android:epoxy-processor:$epoxyVersion"
 
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
 
 }

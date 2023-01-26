@@ -10,7 +10,7 @@
     android:paddingStart="12dp"
     android:paddingEnd="@dimen/spacing_micro">
 
-    <com.greenwaymyanmar.ui.widgets.AsylTextView
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
         android:id="@+id/date_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

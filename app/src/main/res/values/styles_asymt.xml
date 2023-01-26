@@ -19,6 +19,9 @@
 
     <style name="Widget.Asymt.TextInputLayout.Dense.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
         <item name="boxBackgroundColor">@color/app_white</item>
+        <item name="boxStrokeColor">@color/asymt_outlined_stroke_color</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Asymt.TextInputEditText.OutlinedBox
+        </item>
     </style>
 
     <style name="Widget.Asymt.TextInputLayout.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- TextInputLayout style -->
+    <style name="Widget.GreenWay2.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxBackgroundColor">@color/app_white</item>
+        <item name="boxStrokeColor">@color/app_outlined_stroke_color</item>
+        <item name="materialThemeOverlay">
+            @style/ThemeOverlay.GreenWay2.TextInputEditText.OutlinedBox
+        </item>
+    </style>
+
+    <style name="ThemeOverlay.GreenWay2.TextInputEditText.OutlinedBox" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="editTextStyle">@style/Widget.GreenWay2.TextInputEditText.OutlinedBox</item>
+    </style>
+
+    <style name="Widget.GreenWay2.TextInputEditText.OutlinedBox" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Widget.GreenWay2.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxBackgroundColor">@color/app_white</item>
+    </style>
+</resources>

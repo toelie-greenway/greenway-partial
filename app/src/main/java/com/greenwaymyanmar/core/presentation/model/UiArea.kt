@@ -2,8 +2,8 @@ package com.greenwaymyanmar.core.presentation.model
 
 import android.content.Context
 import androidx.annotation.StringRes
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.R
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.util.MyanmarZarConverter
 import java.math.BigDecimal
 import java.text.NumberFormat
@@ -13,7 +13,7 @@ sealed class UiArea(
     open val unit: String,
     @StringRes val symbolResId: Int
 ) {
-    data class Acre(override val value: BigDecimal, override val unit: String) :
+    data class Acre(override val value: BigDecimal, override val unit: String = "acre") :
         UiArea(value, unit, R.string.area_acre_symbol)
 
     companion object {

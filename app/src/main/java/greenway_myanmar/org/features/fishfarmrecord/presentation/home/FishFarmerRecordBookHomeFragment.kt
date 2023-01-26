@@ -2,23 +2,16 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.home
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.transition.addListener
 import androidx.core.view.ViewCompat
-import androidx.core.view.ViewGroupCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import androidx.transition.TransitionManager
 import com.google.android.material.transition.Hold
-import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFade
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,14 +23,13 @@ import greenway_myanmar.org.util.kotlin.autoCleared
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
 
     private val viewModel: FishFarmerRecordBookHomeViewModel by viewModels()
     private var binding: FfrbHomeFragmentBinding by autoCleared()
-    private var adapter: PondListAdapter by autoCleared()
+    private var adapter: FarmListAdapter by autoCleared()
     private val navController: NavController by lazy {
         findNavController()
     }
@@ -73,7 +65,7 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
     private fun setupNewPondFab() {
         ViewCompat.setTransitionName(
             binding.addNewPondFab,
-            getString(R.string.ffrb_transition_name_new_pond)
+            getString(R.string.ffrb_transition_name_new_farm)
         )
         binding.addNewPondFab.apply {
             setOnClickListener(this) { openAddEditFishPondScreen() }
@@ -94,7 +86,7 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
     }
 
     private fun setupPondListUi() {
-        adapter = PondListAdapter(
+        adapter = FarmListAdapter(
             onItemClick = {
                 openPondDetailScreen(it)
             },
@@ -122,7 +114,7 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
         }
         val extras =
             FragmentNavigatorExtras(
-                binding.addNewPondFab to getString(R.string.ffrb_transition_name_new_pond)
+                binding.addNewPondFab to getString(R.string.ffrb_transition_name_new_farm)
             )
         navController.navigate(
             FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditPondFragment(),
@@ -136,13 +128,13 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
         )
     }
 
-    private fun openAddEditExpenseScreen(item: PondListItemUiState) {
+    private fun openAddEditExpenseScreen(item: FarmListItemUiState) {
         navController.navigate(
             FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditExpenseFragment()
         )
     }
 
-    private fun openPondDetailScreen(item: PondListItemUiState) {
+    private fun openPondDetailScreen(item: FarmListItemUiState) {
         exitTransition = null
         navController.navigate(
             FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToPondDetailFragment(

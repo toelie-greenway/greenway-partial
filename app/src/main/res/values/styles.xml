@@ -42,7 +42,6 @@
     </style>
 
 
-
     <style name="Widget.GreenWay.Toolbar.Button.Navigation.Primary" parent="Widget.AppCompat.Toolbar.Button.Navigation">
         <item name="tint">?colorOnPrimary</item>
     </style>
@@ -91,6 +90,12 @@
 
     <style name="Widget.GreenWay2.Button.Secondary" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@drawable/app_btn_bg_secondary_selector</item>
+        <item name="android:textColor">?colorOnSecondary</item>
+    </style>
+
+    <style name="Widget.GreenWay2.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton" />
+
+    <style name="Widget.GreenWay2.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?colorOnSecondary</item>
     </style>
 

@@ -5,14 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.greenwaymyanmar.common.result.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.Pond
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.Farm
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.ObserveClosedSeasonsUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.ObservePondUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.ObservePondUseCase.ObservePondRequest
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -70,14 +69,14 @@ class ClosedSeasonsViewModel @Inject constructor(
     }
 
 
-    private fun loadCloseSeasons(pond: Pond) {
+    private fun loadCloseSeasons(farm: Farm) {
         viewModelScope.launch {
             observeClosedSeasonsUseCase(Unit).collect { result ->
                 when (result) {
                     is Result.Success -> {
                         _uiState.update {
                             it.copy(closedSeasons = result.data.map { item ->
-                                ClosedSeasonListItemUiState.from(item, pond.name, pond.area)
+                                ClosedSeasonListItemUiState.from(item, farm.name, farm.area)
                             })
                         }
                     }

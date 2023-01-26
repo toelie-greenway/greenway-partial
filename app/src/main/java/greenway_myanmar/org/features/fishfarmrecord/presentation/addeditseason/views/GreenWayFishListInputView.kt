@@ -9,7 +9,6 @@ import android.widget.LinearLayout
 import android.widget.Space
 import greenway_myanmar.org.databinding.GreenWayFishListInputViewBinding
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
-import greenway_myanmar.org.features.fishfarmrecord.presentation.widgets.GreenWayFishInputItemView
 import greenway_myanmar.org.util.UIUtils
 
 class GreenWayFishListInputView @JvmOverloads constructor(

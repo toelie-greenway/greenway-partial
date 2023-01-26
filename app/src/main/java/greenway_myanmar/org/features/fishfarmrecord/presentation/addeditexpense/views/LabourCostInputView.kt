@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import greenway_myanmar.org.databinding.FfrLabourCostInputViewBinding
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiLabourCost
 
@@ -20,19 +21,12 @@ constructor(context: Context, attrs: AttributeSet? = null) :
             costCard.setOnClickListener { _clickCallback?.onClick() }
         }
 
-    var labourCost: UiLabourCost? = null
-        set(value) {
-            if (field != value) {
-                field = value
-
-                if (value != null) {
-                    bindData(value)
-                }
-            }
+    fun bind(data: UiLabourCost?) {
+        binding.costCard.isVisible = data != null
+        binding.costInputButton.isVisible = data == null
+        if (data != null) {
+            binding.costTextView.setAmount(data.totalCost)
         }
-
-    private fun bindData(data: UiLabourCost) {
-
     }
 
     fun setClickCall(callback: ClickCallback) {

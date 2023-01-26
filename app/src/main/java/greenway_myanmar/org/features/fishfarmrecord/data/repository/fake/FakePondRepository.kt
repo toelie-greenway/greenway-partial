@@ -5,7 +5,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.di.ApplicationScope
 import greenway_myanmar.org.di.IoDispatcher
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ContractFarmingCompany
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.Pond
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.Farm
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.PondRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.CreateNewPondUseCase.CreateNewPondResult
@@ -31,16 +31,16 @@ class FakePondRepository @Inject constructor(
     @ApplicationScope private val externalScope: CoroutineScope,
 ) : PondRepository {
 
-    private val PONDS_SERVICE_DATA: LinkedHashMap<String, Pond> = LinkedHashMap()
+    private val PONDS_SERVICE_DATA: LinkedHashMap<String, Farm> = LinkedHashMap()
 
-    private val observablePonds = MutableStateFlow<List<Pond>>(emptyList())
+    private val observablePonds = MutableStateFlow<List<Farm>>(emptyList())
 
     private var shouldReturnError = false
 
     init {
         externalScope.launch {
             addPonds(
-                Pond(
+                Farm(
                     id = "1",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
@@ -50,7 +50,7 @@ class FakePondRepository @Inject constructor(
 //                        "https://picsum.photos/id/1/124/124"
 //                    ),
                 ),
-                Pond(
+                Farm(
                     id = "2",
                     name = "အမွှာကန်",
                     images = listOf(
@@ -70,151 +70,151 @@ class FakePondRepository @Inject constructor(
                             .atZone(ZoneId.systemDefault()).toInstant()
                     )
                 ),
-                Pond(
+                Farm(
                     id = "3",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "4",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "5",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "6",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "7",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "8",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "9",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "10",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "11",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "12",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "13",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "14",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "15",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "16",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "17",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "18",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "19",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "20",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "21",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "22",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "23",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "24",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "25",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "26",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
                     images = emptyList(),
                 ),
-                Pond(
+                Farm(
                     id = "27",
                     name = "ကန်တစ်",
                     area = Area.Acre(BigDecimal(2.0)),
@@ -236,7 +236,7 @@ class FakePondRepository @Inject constructor(
         observablePonds.value = getPonds()
     }
 
-    suspend fun getPonds(): List<Pond> {
+    suspend fun getPonds(): List<Farm> {
         return withContext(ioDispatcher) {
             // Simulate network by delaying the execution.
             val records = PONDS_SERVICE_DATA.values.toList()
@@ -245,11 +245,11 @@ class FakePondRepository @Inject constructor(
         }
     }
 
-    override fun observePonds(): Flow<Result<List<Pond>>> {
+    override fun observePonds(): Flow<Result<List<Farm>>> {
         return observablePonds.map { Result.Success(it) }
     }
 
-    override fun observePond(pondId: String): Flow<Result<Pond>> {
+    override fun observePond(pondId: String): Flow<Result<Farm>> {
         return flow {
             emit(PONDS_SERVICE_DATA.get(pondId)?.let {
                 Result.Success(it)
@@ -259,21 +259,21 @@ class FakePondRepository @Inject constructor(
         }
     }
 
-    private suspend fun addPonds(vararg ponds: Pond) {
-        ponds.forEach { pond ->
+    private suspend fun addPonds(vararg farms: Farm) {
+        farms.forEach { pond ->
             addPond(pond.id, pond)
         }
         refreshPonds()
     }
 
-    private suspend fun addPond(id: String, newPond: Pond) {
-        PONDS_SERVICE_DATA[id] = newPond
+    private suspend fun addPond(id: String, newFarm: Farm) {
+        PONDS_SERVICE_DATA[id] = newFarm
     }
 
     override suspend fun createPond(pondName: String): Result<CreateNewPondResult> {
         val newPondId = UUID.randomUUID().toString()
         addPonds(
-            Pond(
+            Farm(
                 newPondId, pondName, emptyList(), null, Area.Acre(
                     BigDecimal(1.2)
                 )

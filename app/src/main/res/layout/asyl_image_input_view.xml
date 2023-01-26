@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="imagePath"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/title_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="လယ်ကွက် ဓာတ်ပုံထည့်သွင်းရန်"
+            android:textAppearance="?textAppearanceSubtitle2"
+            android:textColor="@color/asymt_text_color" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal">
+
+            <greenway_myanmar.org.ui.widget.AspectRatioImageView
+                android:id="@+id/preview_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sample_square_shape"
+                app:imgAspectRatio="@dimen/aspect_16_9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:visibleGone="@{!TextUtils.isEmpty(imagePath)}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@{TextUtils.isEmpty(imagePath) ? @drawable/app_4dp_rounded_dashed_grey_border : @drawable/app_4dp_rounded_dashed_grey_border_light_white_bg}"
+                android:orientation="horizontal">
+
+                <greenway_myanmar.org.ui.widget.GreenWayButton
+                    android:id="@+id/take_photo_button"
+                    style="@style/Widget.GreenWay.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ပုံရိုက်"
+                    android:textAppearance="?textAppearanceBody1"
+                    android:textColor="@color/app_secondary_text"
+                    app:icon="@drawable/ic_photo_camera_black_24dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="@dimen/padding_normal"
+                    app:iconTint="@color/app_inactive_icon" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginBottom="@dimen/spacing_normal"
+                    android:background="@color/app_divider" />
+
+                <greenway_myanmar.org.ui.widget.GreenWayButton
+                    android:id="@+id/pick_image_button"
+                    style="@style/Widget.GreenWay.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ပုံရွေး"
+                    android:textAppearance="?textAppearanceBody1"
+                    android:textColor="@color/app_secondary_text"
+                    app:icon="@drawable/ic_image_multiple"
+                    app:iconGravity="textStart"
+                    app:iconPadding="@dimen/padding_normal"
+                    app:iconTint="@color/app_inactive_icon" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>

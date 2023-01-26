@@ -847,4 +847,6 @@
     <string name="account_delete">ဖျက်သိမ်းမည်</string>
     
     <string name="label_today_user_friendly_formatted_date">ယနေ့ • %s</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyChLFBZ7-nz9OG_rjzP_bPol2fhSfeZHhw</string>
+
 </resources>

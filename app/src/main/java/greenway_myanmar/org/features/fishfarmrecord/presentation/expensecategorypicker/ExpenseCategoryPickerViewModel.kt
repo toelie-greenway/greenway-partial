@@ -5,22 +5,24 @@ import androidx.lifecycle.viewModelScope
 import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.common.result.asResult
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetExpenseCategoriesStreamUseCase
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
-import greenway_myanmar.org.ui.widget.LoadingState
 import greenway_myanmar.org.util.WhileViewSubscribed
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.transformLatest
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,19 +42,44 @@ constructor(
         emitAll(refreshSignal)
     }
 
+    init {
+        viewModelScope.launch {
+            loadDataSignal.collect {
+                Timber.d("loadDataSignal")
+            }
+        }
+        viewModelScope.launch {
+            refreshSignal.collect {
+                Timber.d("refreshSignal")
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
     val expenseCategoryListUiState: StateFlow<ExpenseCategoryListUiState> =
-        loadDataSignal.flatMapLatest {
-            expenseCategoryListStream(
-                _selectedCategoryIdStream,
-                getExpenseCategoriesStreamUseCase
+        loadDataSignal.transformLatest {
+            emitAll(
+                expenseCategoryListStream(
+                    _selectedCategoryIdStream,
+                    getExpenseCategoriesStreamUseCase
+                )
             )
-        }.stateIn(viewModelScope, WhileViewSubscribed, ExpenseCategoryListUiState.Loading)
+        }.stateIn(viewModelScope, WhileViewSubscribed, LoadingState.Idle)
 
     fun handleEvent(event: ExpenseCategoryPickerEvent) {
         when (event) {
             is ExpenseCategoryPickerEvent.ToggleCategorySelection -> {
                 toggleCategorySelection(event.categoryId)
             }
+            ExpenseCategoryPickerEvent.RetryLoadingCategories -> {
+                retryLoadingCategories()
+            }
+        }
+    }
+
+    private fun retryLoadingCategories() {
+        viewModelScope.launch {
+            refreshSignal.tryEmit(Unit)
         }
     }
 
@@ -78,7 +105,7 @@ private fun expenseCategoryListStream(
         when (result) {
             is Result.Success -> {
                 val (categories, selectedCategoryId) = result.data
-                ExpenseCategoryListUiState.Success(
+                LoadingState.Success(
                     categories.map { category ->
                         ExpenseCategoryPickerListItemUiState(
                             category = UiExpenseCategory.fromDomain(category),
@@ -88,25 +115,27 @@ private fun expenseCategoryListStream(
                 )
             }
             is Result.Error -> {
-                ExpenseCategoryListUiState.Error(result.exception.errorText())
+                LoadingState.Error(result.exception.errorText())
             }
             Result.Loading -> {
-                ExpenseCategoryListUiState.Loading
+                LoadingState.Loading
             }
         }
     }
 }
 
-sealed interface ExpenseCategoryListUiState {
-    data class Success(val data: List<ExpenseCategoryPickerListItemUiState>) :
-        ExpenseCategoryListUiState
+//sealed interface ExpenseCategoryListUiState {
+//    data class Success(val data: List<ExpenseCategoryPickerListItemUiState>) :
+//        ExpenseCategoryListUiState
+//
+//    data class Error(val message: Text) : ExpenseCategoryListUiState
+//    object Loading : ExpenseCategoryListUiState
+//}
+//
+//fun ExpenseCategoryListUiState.asLoadingState() = when (this) {
+//    is ExpenseCategoryListUiState.Error -> LoadingState.Error(message)
+//    ExpenseCategoryListUiState.Loading -> LoadingState.Loading
+//    is ExpenseCategoryListUiState.Success -> LoadingState.Success
+//}
 
-    data class Error(val message: Text) : ExpenseCategoryListUiState
-    object Loading : ExpenseCategoryListUiState
-}
-
-fun ExpenseCategoryListUiState.asLoadingState() = when (this) {
-    is ExpenseCategoryListUiState.Error -> LoadingState.Error(message)
-    ExpenseCategoryListUiState.Loading -> LoadingState.Loading
-    is ExpenseCategoryListUiState.Success -> LoadingState.Success
-}
+typealias ExpenseCategoryListUiState = LoadingState<List<ExpenseCategoryPickerListItemUiState>>
