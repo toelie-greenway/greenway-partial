@@ -1,19 +1,21 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.source.database.util
 
+import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
-class LatLngConverter {
+@ProvidedTypeConverter
+class LatLngTypeConverter @Inject constructor(
+    private val json: Json
+) {
     @TypeConverter
     fun stringToLatLng(value: String?): LatLng? {
         if (value.isNullOrEmpty()) return null
 
-        val json = Json {
-            ignoreUnknownKeys = true
-        }
         return json.decodeFromString(value)
     }
 
@@ -21,19 +23,6 @@ class LatLngConverter {
     fun latLngToString(latLng: LatLng?): String? {
         if (latLng == null) return null
 
-        val json = Json {
-            ignoreUnknownKeys = true
-        }
         return json.encodeToString(latLng)
     }
 }
-//
-//class NewsResourceTypeConverter {
-//    @TypeConverter
-//    fun newsResourceTypeToString(value: NewsResourceType?): String? =
-//        value?.let(NewsResourceType::serializedName)
-//
-//    @TypeConverter
-//    fun stringToNewsResourceType(serializedName: String?): NewsResourceType =
-//        serializedName.asNewsResourceType()
-//}

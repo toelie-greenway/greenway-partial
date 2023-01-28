@@ -5,6 +5,7 @@
     <string name="myanmar_currency_symbol">ကျပ်</string>
 
     <string name="area_acre_symbol">ဧက</string>
+    <string name="area_unsupported_symbol" />
     <string name="measurement_feet_symbol">ပေ</string>
     <string name="formatted_area">%s %s</string>
     <string name="separator_small_circle">•</string>
@@ -40,8 +41,17 @@
     
     <string name="ffr_label_closed_season_formatted_season_info">%s • %s</string>
 
-    <string name="ffrb_transition_name_new_farm">new_farm</string>
-    <string name="ffrb_transition_name_farm_detail">farm_detail</string>
+    <!-- Motion transaction names -->
+    <string name="ffr_transition_name_screen_farm_list">farm_list_screen</string>
+
+    <string name="ffr_transition_name_fab_add_farm">add_farm_fab</string>
+    <string name="ffr_transition_name_screen_add_edit_farm">add_edit_farm_screen</string>
+
+    <string name="ffr_transition_name_list_item_add_season">add_season_list_item_%1$s</string>
+    <string name="ffr_transition_name_screen_add_edit_season">add_edit_season_screen</string>
+
+    <string name="ffr_transition_name_list_item_farm_detail">farm_detail_list_item_%1$s</string>
+    <string name="ffr_transition_name_screen_farm_detail">farm_detail_screen</string>
 
     <!-- Add/Edit Farm Screen -->
     <string name="ffr_label_add_edit_pond_subtitle">မွေးမြူမှတ်တမ်းစတင်ရန် ကန်စာရင်း သွင်းရန်လိုအပ်ပါသည်</string>

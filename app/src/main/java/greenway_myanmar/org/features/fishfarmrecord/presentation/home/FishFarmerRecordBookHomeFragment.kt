@@ -2,8 +2,11 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.home
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.ViewCompat
+import androidx.core.view.ViewGroupCompat
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -12,6 +15,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
 import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFade
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,9 +41,17 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FfrbHomeFragmentBinding.bind(view)
+        ViewCompat.setTransitionName(view, getString(R.string.ffr_transition_name_screen_farm_list))
+        ViewGroupCompat.setTransitionGroup(view as ViewGroup, true)
+        postponeTransition()
         setupFragmentResultListener()
         setupUi()
         observeViewModel()
+    }
+
+    private fun postponeTransition() {
+        postponeEnterTransition()
+        requireView().doOnPreDraw { startPostponedEnterTransition() }
     }
 
     private fun setupFragmentResultListener() {
@@ -47,7 +59,7 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
             val newPondCreated = bundle.getBoolean(BUNDLE_KEY_NEW_POND_CREATED)
             val pondId = bundle.getString(BUNDLE_KEY_POND_ID)
             if (newPondCreated && !pondId.isNullOrEmpty()) {
-                openAddEditFarmingSeasonScreen(pondId)
+                openAddEditSeasonScreen(requireView(), pondId)
             }
         }
     }
@@ -58,6 +70,18 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
         setupPondListUi()
     }
 
+    private fun observeViewModel() {
+        launchAndRepeatWithViewLifecycle {
+            launch {
+                viewModel.uiState.map { it.ponds }
+                    .distinctUntilChanged()
+                    .collect {
+                        adapter.submitList(it)
+                    }
+            }
+        }
+    }
+
     private fun setupSwipeRefresh() {
         binding.swipeRefreshLayout.setScrollUpChild(binding.pondList)
     }
@@ -65,7 +89,7 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
     private fun setupNewPondFab() {
         ViewCompat.setTransitionName(
             binding.addNewPondFab,
-            getString(R.string.ffrb_transition_name_new_farm)
+            getString(R.string.ffr_transition_name_fab_add_farm)
         )
         binding.addNewPondFab.apply {
             setOnClickListener(this) { openAddEditFishPondScreen() }
@@ -87,14 +111,14 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
 
     private fun setupPondListUi() {
         adapter = FarmListAdapter(
-            onItemClick = {
-                openPondDetailScreen(it)
+            onItemClick = { view, item ->
+                openPondDetailScreen(view, item)
             },
             onCompanyClick = {
                 openCompanyScreen(it)
             },
-            onAddNewSeasonClick = {
-                openAddEditFarmingSeasonScreen(it.id)
+            onAddNewSeasonClick = { view, item ->
+                openAddEditSeasonScreen(view, item.id)
             },
             onAddNewExpenseClick = {
                 openAddEditExpenseScreen(it)
@@ -112,47 +136,71 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
         exitTransition = Hold().apply {
             duration = resources.getInteger(R.integer.greenway_motion_duration_large).toLong()
         }
+        reenterTransition = Hold().apply {
+            duration = resources.getInteger(R.integer.greenway_motion_duration_large).toLong()
+        }
+        val addEditFarmTransitionName =
+            getString(R.string.ffr_transition_name_screen_add_edit_farm)
         val extras =
             FragmentNavigatorExtras(
-                binding.addNewPondFab to getString(R.string.ffrb_transition_name_new_farm)
+                binding.addNewPondFab to addEditFarmTransitionName
             )
-        navController.navigate(
-            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditPondFragment(),
-            extras
-        )
+        val directions =
+            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditPondFragment()
+        navController.navigate(directions, extras)
     }
 
-    private fun openAddEditFarmingSeasonScreen(pondId: String) {
-        navController.navigate(
-            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditSeasonFragment()
+    private fun openAddEditSeasonScreen(view: View, farmId: String) {
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(
+                R.integer.greenway_motion_duration_large
+            ).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(
+                R.integer.greenway_motion_duration_large
+            ).toLong()
+        }
+        val addEditSeasonTransitionName = getString(
+            R.string.ffr_transition_name_screen_add_edit_season
         )
+        val extras = FragmentNavigatorExtras(
+            view to addEditSeasonTransitionName
+        )
+        val directions =
+            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditSeasonFragment()
+        navController.navigate(directions, extras)
     }
 
     private fun openAddEditExpenseScreen(item: FarmListItemUiState) {
+
         navController.navigate(
             FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditExpenseFragment()
         )
     }
 
-    private fun openPondDetailScreen(item: FarmListItemUiState) {
-        exitTransition = null
-        navController.navigate(
-            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToPondDetailFragment(
+    private fun openPondDetailScreen(view: View, item: FarmListItemUiState) {
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(
+                R.integer.greenway_motion_duration_large
+            ).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(
+                R.integer.greenway_motion_duration_large
+            ).toLong()
+        }
+        val farmDetailTransitionName = getString(
+            R.string.ffr_transition_name_screen_farm_detail
+        )
+        val extras = FragmentNavigatorExtras(
+            view to farmDetailTransitionName
+        )
+        val directions = FishFarmerRecordBookHomeFragmentDirections
+            .actionHomeFragmentToPondDetailFragment(
                 pondId = item.id
             )
-        )
-    }
-
-    private fun observeViewModel() {
-        launchAndRepeatWithViewLifecycle {
-            launch {
-                viewModel.uiState.map { it.ponds }
-                    .distinctUntilChanged()
-                    .collect {
-                        adapter.submitList(it)
-                    }
-            }
-        }
+        navController.navigate(directions, extras)
     }
 
     companion object {

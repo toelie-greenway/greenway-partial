@@ -1,7 +1,9 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -15,15 +17,16 @@ import java.math.BigDecimal
 
 class FarmListItemViewHolder(
     private val parent: ViewGroup,
-    private val onItemClick: (item: FarmListItemUiState) -> Unit,
+    private val onItemClick: (view: View, item: FarmListItemUiState) -> Unit,
     private val onCompanyClick: (company: ContractFarmingCompany) -> Unit,
-    private val onAddNewSeasonClick: (item: FarmListItemUiState) -> Unit,
+    private val onAddNewSeasonClick: (view: View, item: FarmListItemUiState) -> Unit,
     private val onAddNewExpenseClick: (item: FarmListItemUiState) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
         .inflate(R.layout.ffrb_pond_list_item, parent, false)
 ) {
     private val binding = FfrbPondListItemBinding.bind(itemView)
+    private val context = parent.context
 
     init {
     }
@@ -52,11 +55,14 @@ class FarmListItemViewHolder(
         bindNewExpenseButton(item)
         bindTotalExpenses(item.hasOngoingSeason, item.ongoingSeason?.totalExpenses)
         bindPondArea(item.area)
+
+        setContainerCardViewTransitionName(item)
+        setNewSeasonButtonTransitionName(item)
     }
 
     private fun bindContainerCardView(item: FarmListItemUiState) {
         binding.containerCardView.setOnClickListener {
-            onItemClick(item)
+            onItemClick(it, item)
         }
     }
 
@@ -98,7 +104,7 @@ class FarmListItemViewHolder(
         if (!hasOngoingSeason) {
             binding.createNewSeasonButton.isVisible = true
             binding.createNewSeasonButton.setOnClickListener {
-                onAddNewSeasonClick(item)
+                onAddNewSeasonClick(it, item)
             }
         } else {
             binding.createNewSeasonButton.isVisible = false
@@ -135,4 +141,20 @@ class FarmListItemViewHolder(
             binding.pondArea.isVisible = false
         }
     }
+
+    private fun setContainerCardViewTransitionName(item: FarmListItemUiState) {
+        val transactionName =
+            context.resources.getString(
+                R.string.ffr_transition_name_list_item_farm_detail,
+                item.id
+            )
+        ViewCompat.setTransitionName(binding.containerCardView, transactionName)
+    }
+
+    private fun setNewSeasonButtonTransitionName(item: FarmListItemUiState) {
+        val transactionName =
+            context.resources.getString(R.string.ffr_transition_name_list_item_add_season, item.id)
+        ViewCompat.setTransitionName(binding.createNewSeasonButton, transactionName)
+    }
+
 }

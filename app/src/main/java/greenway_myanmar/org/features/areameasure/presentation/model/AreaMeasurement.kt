@@ -8,7 +8,6 @@ import com.google.android.gms.maps.model.LatLng
 import greenway_myanmar.org.R
 import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
 import kotlinx.parcelize.Parcelize
-import java.math.BigDecimal
 
 sealed class AreaMeasurement : Parcelable {
     @Parcelize
@@ -20,7 +19,7 @@ sealed class AreaMeasurement : Parcelable {
     @Parcelize
     data class Area(
         val coordinates: List<LatLng>,
-        val acre: BigDecimal,
+        val acre: Double,
         override val measurementType: AreaMeasureMethod
     ) : AreaMeasurement(), Parcelable
 

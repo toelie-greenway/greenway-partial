@@ -76,7 +76,7 @@ class ClosedSeasonsViewModel @Inject constructor(
                     is Result.Success -> {
                         _uiState.update {
                             it.copy(closedSeasons = result.data.map { item ->
-                                ClosedSeasonListItemUiState.from(item, farm.name, farm.area)
+                                ClosedSeasonListItemUiState.from(item, farm.name, farm.measurement.area)
                             })
                         }
                     }

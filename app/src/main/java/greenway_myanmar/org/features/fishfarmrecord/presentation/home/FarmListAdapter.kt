@@ -1,14 +1,15 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.home
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ContractFarmingCompany
 
 class FarmListAdapter(
-    private val onItemClick: (item: FarmListItemUiState) -> Unit,
+    private val onItemClick: (view: View, item: FarmListItemUiState) -> Unit,
     private val onCompanyClick: (company: ContractFarmingCompany) -> Unit,
-    private val onAddNewSeasonClick: (item: FarmListItemUiState) -> Unit,
+    private val onAddNewSeasonClick: (view: View, item: FarmListItemUiState) -> Unit,
     private val onAddNewExpenseClick: (item: FarmListItemUiState) -> Unit
 ) : ListAdapter<FarmListItemUiState, FarmListItemViewHolder>(PondDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FarmListItemViewHolder {

@@ -5,29 +5,32 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.greenwaymyanmar.core.presentation.model.UiArea
+import com.greenwaymyanmar.core.presentation.model.asDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
+import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
 import greenway_myanmar.org.features.areameasure.presentation.model.AreaMeasurement
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
-import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.CreateNewPondUseCase
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCase
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmOwnership
-import greenway_myanmar.org.util.extensions.toBigDecimalOrZero
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.asDomainModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.math.BigDecimal
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditFarmViewModel @Inject constructor(
-    private val createNewPondUseCase: CreateNewPondUseCase
+    private val saveFarmUseCase: SaveFarmUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddEditFarmUiState())
@@ -78,7 +81,7 @@ class AddEditFarmViewModel @Inject constructor(
     }
 
     private fun updateFarmAreaMeasurement(measurement: AreaMeasurement) {
-      _uiState.update {
+        _uiState.update {
             it.copy(
                 farmMeasurement = measurement
             )
@@ -136,7 +139,7 @@ class AddEditFarmViewModel @Inject constructor(
 
     private fun updateFarmUPaingNumber(uPaingNumber: String?) {
         _uiState.update {
-            it.copy(uPaingNumber = uPaingNumber)
+            it.copy(plotId = uPaingNumber)
         }
     }
 
@@ -171,16 +174,19 @@ class AddEditFarmViewModel @Inject constructor(
         val name = nameValidationResult.getDataOrThrow()
         val area = areaValidationResult.getDataOrThrow()
         val measurement = currentUiState.farmMeasurement
+        var measureMethod: AreaMeasureMethod? = null
         var location: LatLng? = null
         var coordinates: List<LatLng>? = null
-        var measuredArea: BigDecimal? = null
+        var measuredArea: Double? = null
         when (measurement) {
             is AreaMeasurement.Location -> {
                 location = measurement.latLng
+                measureMethod = measurement.measurementType
             }
             is AreaMeasurement.Area -> {
                 measuredArea = measurement.acre
                 coordinates = measurement.coordinates
+                measureMethod = measurement.measurementType
             }
             else -> {
                 /* no-op */
@@ -188,7 +194,7 @@ class AddEditFarmViewModel @Inject constructor(
         }
         val farmImageUri = currentUiState.farmImageUri
         val ownership = ownershipValidationResult.getDataOrThrow()
-        val uPaingNumber = currentUiState.uPaingNumber
+        val plotId = currentUiState.plotId
         val farmDepth = currentUiState.farmDepth?.toDoubleOrNull()
         Timber.d("Name: $name")
         Timber.d("Area: $area")
@@ -196,11 +202,42 @@ class AddEditFarmViewModel @Inject constructor(
         Timber.d("Coordinates: $coordinates")
         Timber.d("Measured area: $measuredArea")
         Timber.d("Farm Image Uri: $farmImageUri")
-        Timber.d("Farm UPaingNumber: $uPaingNumber")
+        Timber.d("Farm UPaingNumber: $plotId")
         Timber.d("Farm Depth: $farmDepth")
-//        val input = AddEditFarmUiState.FarmInput(
-//            farmName = name,
-//        )
+
+        saveFarm(
+            SaveFarmUseCase.SaveFarmRequest(
+                id = "", //TODO: change when support edit
+                name = name,
+                measurement = FarmMeasurement(
+                    location = location,
+                    coordinates = coordinates,
+                    area = area.asDomain(),
+                    measuredArea = Area.acreOrNull(measuredArea),
+                    measuredType = measureMethod
+                ),
+                ownership = ownership.asDomainModel(),
+                imageUri = farmImageUri,
+                plotId = plotId
+            )
+        )
+    }
+
+    private fun saveFarm(saveFarmRequest: SaveFarmUseCase.SaveFarmRequest) {
+        viewModelScope.launch {
+            try {
+                val result = saveFarmUseCase(saveFarmRequest)
+                _uiState.update {
+                    it.copy(
+                        newFarmResult = AddEditFarmUiState.AddEditFarmResult(
+                            farmId = result.id
+                        )
+                    )
+                }
+            } catch (e: Exception) {
+                // TODO: Handle exception
+            }
+        }
     }
 
     private fun validateFarmName(name: String?): ValidationResult<String> {
@@ -212,11 +249,11 @@ class AddEditFarmViewModel @Inject constructor(
     }
 
     private fun validateFarmArea(areaString: String?): ValidationResult<UiArea> {
-        val area = areaString.toBigDecimalOrZero()
-        return if (area <= BigDecimal.ZERO) {
+        val area = areaString?.toDoubleOrNull()
+        return if (area == null) {
             ValidationResult.Error(Text.ResourceText(R.string.error_field_required))
         } else {
-            ValidationResult.Success(UiArea.Acre(area))
+            ValidationResult.Success(UiArea.acre(area))
         }
     }
 

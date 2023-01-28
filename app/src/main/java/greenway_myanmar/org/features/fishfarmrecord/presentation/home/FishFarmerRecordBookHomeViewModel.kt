@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
+import com.greenwaymyanmar.common.result.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.ObservePondsUseCase
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFarmsStreamUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FishFarmerRecordBookHomeViewModel @Inject constructor(
-    private val observePondsUseCase: ObservePondsUseCase
+    private val getFarmsStreamUseCase: GetFarmsStreamUseCase
 ) : ViewModel() {
 
     private val _uiState =
@@ -27,7 +28,7 @@ class FishFarmerRecordBookHomeViewModel @Inject constructor(
 
     private fun loadPonds() {
         viewModelScope.launch {
-            observePondsUseCase(Unit).collect { result ->
+            getFarmsStreamUseCase().asResult().collect { result ->
                 when (result) {
                     Result.Loading -> {
                         _uiState.update {

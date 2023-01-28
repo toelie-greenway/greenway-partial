@@ -32,8 +32,8 @@ data class FarmListItemUiState(
         fun fromDomain(farm: Farm) = FarmListItemUiState(
             id = farm.id,
             name = farm.name,
-            images = farm.images,
-            area = farm.area?.let { UiArea.fromDomain(it) },
+            images = farm.images.orEmpty(),
+            area = farm.measurement.area.let { UiArea.fromDomain(it) },
             ongoingSeason = farm.ongoingSeason,
             contractFarmingCompany = farm.ongoingSeason?.contractFarmingCompany
         )

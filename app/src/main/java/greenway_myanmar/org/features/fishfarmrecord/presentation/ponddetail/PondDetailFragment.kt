@@ -3,24 +3,18 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.ponddetail
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
-import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
-import greenway_myanmar.org.databinding.FfrbHomeFragmentBinding
 import greenway_myanmar.org.databinding.FfrbPondDetailFragmentBinding
-import greenway_myanmar.org.features.fishfarmrecord.presentation.home.FishFarmerRecordBookHomeViewModel
+import greenway_myanmar.org.util.extensions.themeColor
 import greenway_myanmar.org.util.kotlin.autoCleared
-import timber.log.Timber
-import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class PondDetailFragment : Fragment(R.layout.ffrb_pond_detail_fragment) {
@@ -33,27 +27,34 @@ class PondDetailFragment : Fragment(R.layout.ffrb_pond_detail_fragment) {
         requireActivity().window.statusBarColor
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupTransition()
+    }
+
     private val navController: NavController by lazy {
         findNavController()
     }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        requireActivity().window.statusBarColor = Color.parseColor("#1F000000")
-//    }
-//
-//    override fun onPause() {
-//        super.onPause()
-//        requireActivity().window.statusBarColor =
-//            ContextCompat.getColor(requireContext(), R.color.color_primary_variant)
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FfrbPondDetailFragmentBinding.bind(view)
-
+        ViewCompat.setTransitionName(view, getString(R.string.ffr_transition_name_screen_farm_detail))
         setupUi()
         observeViewModel()
+    }
+
+    private fun setupTransition() {
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            // The drawing view is the id of the view above which the container transform
+            // will play in z-space.
+            drawingViewId = R.id.nav_host_fragment
+            duration = resources.getInteger(R.integer.greenway_motion_duration_large).toLong()
+            // Set the color of the scrim to transparent as we also want to animate the
+            // list fragment out of view
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(requireContext().themeColor(com.google.android.material.R.attr.colorSurface))
+        }
     }
 
     private fun setupUi() {

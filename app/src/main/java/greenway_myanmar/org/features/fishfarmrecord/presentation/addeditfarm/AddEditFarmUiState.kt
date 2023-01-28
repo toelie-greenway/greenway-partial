@@ -13,13 +13,13 @@ data class AddEditFarmUiState(
     val farmImageUri: Uri? = null,
     val farmOwnership: UiFarmOwnership? = null,
     val showDetail: Boolean = false,
-    val uPaingNumber: String? = null,
+    val plotId: String? = null,
     val farmDepth: String? = null,
 
     val farmNameError: Text? = null,
     val farmAreaError: Text? = null,
     val farmOwnershipError: Text? = null,
-    val inputResult: AddEditFarmResult? = null,
+    val newFarmResult: AddEditFarmResult? = null,
 ) {
     val showUPaingNumber: Boolean = showDetail
     val showFarmDepth: Boolean = showDetail

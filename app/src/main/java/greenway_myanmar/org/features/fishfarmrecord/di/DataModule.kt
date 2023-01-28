@@ -7,14 +7,14 @@ import dagger.hilt.components.SingletonComponent
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultExpenseCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmInputProductCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmInputProductRepository
+import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.fake.FakeFishRepository
-import greenway_myanmar.org.features.fishfarmrecord.data.repository.fake.FakePondRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.fake.FakeSeasonRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ExpenseCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmInputProductCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmInputProductRepository
+import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FishRepository
-import greenway_myanmar.org.features.fishfarmrecord.domain.repository.PondRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.SeasonRepository
 import javax.inject.Singleton
 
@@ -24,7 +24,7 @@ abstract class DataModule {
 
     @Singleton
     @Binds
-    abstract fun providePondRepository(repository: FakePondRepository): PondRepository
+    abstract fun provideFarmRepository(repository: DefaultFarmRepository): FarmRepository
 
     @Singleton
     @Binds

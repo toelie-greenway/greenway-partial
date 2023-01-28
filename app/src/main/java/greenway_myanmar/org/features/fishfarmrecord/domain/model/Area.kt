@@ -1,11 +1,17 @@
 package greenway_myanmar.org.features.fishfarmrecord.domain.model
 
-import java.math.BigDecimal
+const val AREA_UNIT_ACRE = "acre"
 
-sealed class Area(open val value: BigDecimal, val unit: String) {
-    data class Acre(override val value: BigDecimal) : Area(value, "acre")
-
+data class Area(
+    val value: Double,
+    val unit: String
+) {
     companion object {
-        val Empty = Acre(BigDecimal(-1))
+        fun acre(value: Double) = Area(value, AREA_UNIT_ACRE)
+        fun acreOrNull(value: Double?) = if (value != null) {
+            acre(value)
+        } else {
+            null
+        }
     }
 }

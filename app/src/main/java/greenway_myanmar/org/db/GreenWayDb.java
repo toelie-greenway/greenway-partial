@@ -19,11 +19,13 @@ import greenway_myanmar.org.db.converter.UUIDStringConverter;
 import greenway_myanmar.org.db.converter.UriStringConverter;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFarmDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFarmEntity;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.LatLngTypeConverter;
 
 @Database(entities = {
         FfrFarmEntity.class
 }, version = 1)
 @TypeConverters({
+        LatLngTypeConverter.class,
         DateConverter.class,
         IntegerListConverter.class,
         LongListConverter.class,

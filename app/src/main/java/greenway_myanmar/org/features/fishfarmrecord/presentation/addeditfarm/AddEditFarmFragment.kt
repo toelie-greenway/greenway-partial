@@ -82,7 +82,10 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupTransition()
+    }
 
+    private fun setupTransition() {
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             setAllContainerColors(requireContext().themeColor(com.google.android.material.R.attr.colorSurface))
             scrimColor = Color.TRANSPARENT
@@ -96,9 +99,9 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FfrAddEditFarmFragmentBinding.bind(view)
+        ViewCompat.setTransitionName(view, getString(R.string.ffr_transition_name_screen_add_edit_farm))
         registerImagePickerObserver()
         observeAreaMeasureResults()
-        ViewCompat.setTransitionName(view, getString(R.string.ffrb_transition_name_new_farm))
         setupToolbar()
         setupUi()
         observeViewModel()
@@ -412,16 +415,16 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
 
 
     private fun CoroutineScope.observeNewFarmResult() {
-//        launch {
-//            viewModel.uiState.map { it.result }
-//                .distinctUntilChanged()
-//                .collect { createdPond ->
-//                    if (createdPond != null) {
-//                        navigateBackWithResult(createdPond.farmId)
-//                        onHandledCreatedPond()
-//                    }
-//                }
-//        }
+        launch {
+            viewModel.uiState.map { it.newFarmResult }
+                .distinctUntilChanged()
+                .collect { newFarmResult ->
+                    if (newFarmResult != null) {
+                        navigateBackWithResult(newFarmResult.farmId)
+                       // onHandledCreatedPond()
+                    }
+                }
+        }
     }
 
     private fun navigateBackWithResult(pondId: String) {

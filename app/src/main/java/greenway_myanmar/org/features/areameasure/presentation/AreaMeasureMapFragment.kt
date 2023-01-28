@@ -15,7 +15,6 @@ import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
 import greenway_myanmar.org.features.areameasure.presentation.model.AreaMeasurement
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
 
 @AndroidEntryPoint
 class AreaMeasureMapFragment : Fragment() {
@@ -43,20 +42,20 @@ class AreaMeasureMapFragment : Fragment() {
     private fun setResult() {
         findNavController().previousBackStackEntry?.savedStateHandle?.set(
             RESULT_KEY_MEASURE_MAP,
-            AreaMeasurement.Area(
-                coordinates = listOf(
-                    LatLng(2.1, 2.2),
-                    LatLng(2.5, 2.5),
-                    LatLng(2.7, 2.7),
-                    LatLng(2.1, 2.1),
-                ),
-                acre = BigDecimal.valueOf(5.69),
-                measurementType = AreaMeasureMethod.Walk
-            ),
-//            AreaMeasurement.Location(
-//                latLng = LatLng(2.0, 9.8912),
-//                measurementType = AreaMeasureMethod.Pin
+//            AreaMeasurement.Area(
+//                coordinates = listOf(
+//                    LatLng(2.1, 2.2),
+//                    LatLng(2.5, 2.5),
+//                    LatLng(2.7, 2.7),
+//                    LatLng(2.1, 2.1),
+//                ),
+//                acre = 5.69,
+//                measurementType = AreaMeasureMethod.Walk
 //            ),
+            AreaMeasurement.Location(
+                latLng = LatLng(2.0, 9.8912),
+                measurementType = AreaMeasureMethod.Pin
+            ),
         )
         findNavController().popBackStack()
     }
