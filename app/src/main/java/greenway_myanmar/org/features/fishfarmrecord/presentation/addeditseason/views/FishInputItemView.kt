@@ -7,17 +7,17 @@ import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import greenway_myanmar.org.R
-import greenway_myanmar.org.databinding.GreenWayFishInputItemViewBinding
+import greenway_myanmar.org.databinding.FfrFishInputItemViewBinding
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 
-class GreenWayFishInputItemView @JvmOverloads constructor(
+class FishInputItemView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
 
     private var _fish: UiFish? = null
 
-    private val binding = GreenWayFishInputItemViewBinding.inflate(
+    private val binding = FfrFishInputItemViewBinding.inflate(
         LayoutInflater.from(context),
         this,
         true

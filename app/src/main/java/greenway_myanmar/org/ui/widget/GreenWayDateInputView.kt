@@ -107,6 +107,8 @@ class GreenWayDateInputView @JvmOverloads constructor(
     }
 
     fun setDate(date: LocalDate) {
+        if (this.selectedDate == date) return
+
         updateDate(date)
     }
 

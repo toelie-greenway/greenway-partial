@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Space
-import greenway_myanmar.org.databinding.GreenWayFishListInputViewBinding
+import androidx.core.view.isVisible
+import greenway_myanmar.org.common.domain.entities.Text
+import greenway_myanmar.org.common.domain.entities.asString
+import greenway_myanmar.org.databinding.FfrFishListInputViewBinding
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 import greenway_myanmar.org.util.UIUtils
 
-class GreenWayFishListInputView @JvmOverloads constructor(
+class FishListInputView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : LinearLayout(context, attrs) {
@@ -19,8 +22,8 @@ class GreenWayFishListInputView @JvmOverloads constructor(
     private var _onDataSetChangeListener: OnDataSetChangeListener = NoOpOnDataSetChangeListener()
     private var _onItemClickListener: OnItemClickListener = NoOpOnItemClickListener()
 
-    private val binding: GreenWayFishListInputViewBinding =
-        GreenWayFishListInputViewBinding.inflate(
+    private val binding: FfrFishListInputViewBinding =
+        FfrFishListInputViewBinding.inflate(
             LayoutInflater.from(context),
             this
         )
@@ -61,7 +64,7 @@ class GreenWayFishListInputView @JvmOverloads constructor(
         _onDataSetChangeListener.onDataSetChanged(_items)
     }
 
-    private fun createFishCardView(item: UiFish): View = GreenWayFishInputItemView(context).apply {
+    private fun createFishCardView(item: UiFish): View = FishInputItemView(context).apply {
         this.setFish(item)
     }
 
@@ -75,6 +78,11 @@ class GreenWayFishListInputView @JvmOverloads constructor(
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         _onItemClickListener = listener
+    }
+
+    fun setError(error: Text?) {
+        binding.errorTextView.isVisible = error != null
+        binding.errorTextView.text = error?.asString(context).orEmpty()
     }
 
     interface OnDataSetChangeListener {

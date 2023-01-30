@@ -4,6 +4,7 @@ import com.greenwaymyanmar.common.data.api.v3.ApiResponse
 import com.greenwaymyanmar.common.data.api.v3.getDataOrThrow
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.FishFarmRecordNetworkDataSource
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.ApiDataWrapper
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkContractFarmingCompany
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpenseCategory
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProduct
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProductCategory
@@ -34,8 +35,13 @@ private interface RetrofitFishFarmRecordNetworkApi {
     @GET(value = "ffr/product-categories")
     suspend fun getProductCategories(): ApiResponse<List<NetworkFarmInputProductCategory>>
 
-}
+    // TODO: use existing asymt/check-company api?
+    @GET(value = "ffr/check-company")
+    suspend fun getCompanyByCode(
+        @Query("company_code") code: String
+    ): ApiResponse<ApiDataWrapper<NetworkContractFarmingCompany>>
 
+}
 
 /**
  * [Retrofit] backed [FishFarmRecordNetworkDataSource]
@@ -62,5 +68,8 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
 
     override suspend fun getFarmInputProductCategories(): List<NetworkFarmInputProductCategory> =
         networkApi.getProductCategories().getDataOrThrow()
+
+    override suspend fun getCompanyByCode(code: String): NetworkContractFarmingCompany =
+        networkApi.getCompanyByCode(code).getDataOrThrow().data
 
 }

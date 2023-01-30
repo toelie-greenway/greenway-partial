@@ -35,6 +35,6 @@ fun <T> ValidationResult<T>.getErrorOrNull() = (this as? ValidationResult.Error)
 
 fun <T> ValidationResult<T>.isError() = (this is ValidationResult.Error)
 
-fun hasError(vararg validationResults: ValidationResult<Any>): Boolean {
+fun hasError(vararg validationResults: ValidationResult<Any?>): Boolean {
     return validationResults.toList().any { !it.isSuccessful }
 }

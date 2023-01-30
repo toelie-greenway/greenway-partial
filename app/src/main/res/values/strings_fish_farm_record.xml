@@ -9,6 +9,7 @@
     <string name="measurement_feet_symbol">ပေ</string>
     <string name="formatted_area">%s %s</string>
     <string name="separator_small_circle">•</string>
+    <string name="month_symbol">လ</string>
 
     <string name="hint_search_in_picker">တိုက်ရိုက်ရှာဖွေရန်</string>
     <string name="ffr_tab_opening_season">မွေးမြူစဲ</string>
@@ -32,13 +33,15 @@
     <string name="ffr_action_view_detail">အသေးစိတ်သို့</string>
     <string name="ffr_action_close_season">ရာသီပိတ်သိမ်း</string>
     <string name="ffr_action_cancel">မသွင်းတော့ပါ</string>
+    <string name="ffr_action_save">သိမ်းမည်</string>
+    <string name="ffr_action_add_later">နောက်မှထည့်မည်</string>
     <string name="ffr_action_submit_form">စာရင်းသွင်းမည်</string>
 
 
     <string name="ffrb_label_no_ongoing_season">မွေးမြူရာသီမရှိသေး</string>
     <string name="ffr_label_production_record">Production record</string>
     <string name="ffr_label_fcr_record">FCR မှတ်တမ်း</string>
-    
+
     <string name="ffr_label_closed_season_formatted_season_info">%s • %s</string>
 
     <!-- Motion transaction names -->
@@ -65,20 +68,33 @@
     <string name="ffr_add_edit_pond_label_detail">အသေးစိတ်အချက်အလက်များ ဖြည့်မည်</string>
     <string name="ffr_add_edit_pond_hint_upaing_no">ဦးပိုင်အမှတ်</string>
     <string name="ffr_add_edit_pond_hint_pond_depth">ကန်အနက် (ပေ)</string>
-    
+
     <!-- Add/Edit Season Screen -->
     <string name="ffr_add_edit_season_update_pond">မွေးမြူကန်အချက်အလက်များ ပြင်ဆင်မည်</string>
     <string name="ffr_add_edit_season_subtitle_season">မွေးမြူရာသီဖြည့်ပါ</string>
     <string name="ffr_add_edit_season_hint_season">ဇန်နဝါရီ</string>
-    <string name="ffr_add_edit_season_label_start_farming_date">စတင်စိုက်ပျိုးသည့်နေ့</string>
+    <string name="ffr_add_edit_season_label_season_start_date">စတင်သည့်နေ့</string>
     <string name="ffr_add_edit_season_action_pick_fish">ငါးအမျိုးအစားရွေးချယ်ပါ</string>
     <string name="ffr_add_edit_season_hint_fish_species">အမျိုးအမည် (ရှိပါက)</string>
     <string name="ffr_add_edit_season_helper_text_fish_species">ဥပမာ နိုင်းတီလာပီးယား၊ တီလာပီးယားအပြာ</string>
+    <string name="ffr_add_edit_season_label_company_code">ကုမ္ပဏီကုဒ် ( ကုဒ်ရှိပါကထည့်သွင်းရန် )</string>
+    <string name="ffr_add_edit_season_hint_company_code">ဥပမာ - အက္ခရာခြောက်လုံး</string>
     <string name="ffr_add_edit_season_action_confirm_fish_selection">စာရင်းသွင်းမည်</string>
     <string name="ffr_add_edit_season_action_cancel_fish_selection">မသွင်းတော့ပါ</string>
+    <string name="ffr_add_edit_season_error_company_code">ကုဒ်နံပါတ်ပြန်စစ်ကြည့်ပါ</string>
+    <string name="ffr_add_edit_season_label_loan_information">Add loan information</string>
+    <string name="ffr_add_edit_season_hint_loan_total_amount">Total Amount in MMK</string>
+    <string name="ffr_add_edit_season_label_select_loan_duration">Select loan duration in *month</string>
+    <string name="ffr_add_edit_season_subtitle_loan_duration">Enter loan duration in *month</string>
+    <string name="ffr_add_edit_season_label_loan_duration_3_months">3 mths</string>
+    <string name="ffr_add_edit_season_label_loan_duration_6_months">6 mths</string>
+    <string name="ffr_add_edit_season_label_loan_duration_12_months">12 mths</string>
+    <string name="ffr_add_edit_season_label_loan_duration_custom_months">%d mths</string>
+    <string name="ffr_add_edit_season_label_loan_duration_custom">Custom</string>
+    <string name="ffr_add_edit_season_hint_loan_organization">Landing organization</string>
+    <string name="ffr_add_edit_season_hint_loan_remark">Add a Remark</string>
 
     <!-- Add/Edit Expense Screen -->
-    <string name="ffr_action_save">သိမ်းမည်</string>
     <string name="ffr_add_edit_expense_label_expense_category">ကုန်ကျသည့်အကြောင်းအရင်း</string>
     <string name="ffr_add_edit_expense_placeholder_expense_category">ရွေးချယ်ပါ</string>
     <string name="ffr_add_edit_expense_label_date">ရက်စွဲ</string>
@@ -118,7 +134,6 @@
     <string name="ffr_add_edit_expense_label_farm_input_unit">ယူနစ်</string>
     <string name="ffr_add_edit_expense_title_farm_input">သွင်းအားစုဖြည့်သွင်းပါ</string>
     <string name="ffr_add_edit_expense_hint_search_product">တိုက်ရိုက်ရှာဖွေရန်</string>
-
 
 
 </resources>

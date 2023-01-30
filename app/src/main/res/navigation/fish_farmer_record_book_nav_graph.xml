@@ -27,7 +27,7 @@
         android:id="@+id/addEditPondFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditfarm.AddEditFarmFragment"
         android:label="AddEditPondFragment"
-        tools:layout="@layout/ffr_add_edit_farm_fragment" >
+        tools:layout="@layout/ffr_add_edit_farm_fragment">
         <action
             android:id="@+id/action_addEditPondFragment_to_areaMeasureMethodFragment"
             app:destination="@id/areaMeasureMethodFragment" />
@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_addEditSeasonFragment_to_fishInputFragment"
             app:destination="@id/fishInputFragment" />
+        <action
+            android:id="@+id/action_addEditSeasonFragment_to_customLoadDurationInputBottomSheetFragment"
+            app:destination="@id/customLoadDurationInputBottomSheetFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditExpenseFragment"
@@ -131,5 +134,14 @@
             android:name="measureMethod"
             app:argType="greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod" />
     </fragment>
+    <dialog
+        android:id="@+id/customLoadDurationInputBottomSheetFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.loanduration.CustomLoadDurationInputBottomSheetFragment"
+        android:label="CustomLoadDurationInputBottomSheetFragment"
+        tools:layout="@layout/ffr_custom_loan_duration_input_bottom_sheet_fragment" >
+        <argument
+            android:name="month"
+            app:argType="integer" />
+    </dialog>
 
 </navigation>
