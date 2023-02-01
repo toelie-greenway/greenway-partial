@@ -1,6 +1,7 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason
 
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.ViewCompat
@@ -11,6 +12,7 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.transition.MaterialContainerTransform
 import com.greenwaymyanmar.core.presentation.model.LoadingState
@@ -18,7 +20,12 @@ import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.asString
-import greenway_myanmar.org.databinding.FfrbAddEditSeasonFragmentBinding
+import greenway_myanmar.org.databinding.FfrAddEditSeasonFragmentBinding
+import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
+import greenway_myanmar.org.features.areameasure.presentation.AreaMeasureMapFragment
+import greenway_myanmar.org.features.areameasure.presentation.AreaMeasureMethodFragment
+import greenway_myanmar.org.features.areameasure.presentation.model.AreaMeasurement
+import greenway_myanmar.org.features.areameasure.presentation.model.toStaticMapUrl
 import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.loanduration.CustomLoadDurationInputBottomSheetFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.views.FishListInputView
 import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.views.FishListInputView.OnItemClickListener
@@ -29,6 +36,7 @@ import greenway_myanmar.org.ui.widget.GreenWayDateInputView.OnDateChangeListener
 import greenway_myanmar.org.util.extensions.bindText
 import greenway_myanmar.org.util.extensions.getNavigationResult
 import greenway_myanmar.org.util.extensions.getParcelableExtraCompat
+import greenway_myanmar.org.util.extensions.load
 import greenway_myanmar.org.util.extensions.setError
 import greenway_myanmar.org.util.extensions.themeColor
 import greenway_myanmar.org.util.kotlin.autoCleared
@@ -40,10 +48,10 @@ import timber.log.Timber
 import java.time.LocalDate
 
 @AndroidEntryPoint
-class AddEditSeasonFragment : Fragment(R.layout.ffrb_add_edit_season_fragment) {
+class AddEditSeasonFragment : Fragment(R.layout.ffr_add_edit_season_fragment) {
 
     private val viewModel: AddEditSeasonViewModel by viewModels()
-    private var binding: FfrbAddEditSeasonFragmentBinding by autoCleared()
+    private var binding: FfrAddEditSeasonFragmentBinding by autoCleared()
     private val navController: NavController by lazy {
         findNavController()
     }
@@ -55,7 +63,7 @@ class AddEditSeasonFragment : Fragment(R.layout.ffrb_add_edit_season_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FfrbAddEditSeasonFragmentBinding.bind(view)
+        binding = FfrAddEditSeasonFragmentBinding.bind(view)
         setScreenTransactionName(view)
         setupFragmentResultListener()
         setupToolbar()
@@ -80,11 +88,13 @@ class AddEditSeasonFragment : Fragment(R.layout.ffrb_add_edit_season_fragment) {
     }
 
     private fun setupFragmentResultListener() {
+        setAreaMeasureResultListener()
         setFishInputFragmentResultListener()
         setCustomLoanDurationResultListener()
     }
 
     private fun setupUi() {
+        setupFarmMeasurementInputUi()
         setupSeasonNameInputUi()
         setupSeasonStartDateInputUi()
         setupFishListInputView()
@@ -96,6 +106,11 @@ class AddEditSeasonFragment : Fragment(R.layout.ffrb_add_edit_season_fragment) {
 
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
+            observeEditFarmMeasurementCheck()
+            observeFarmArea()
+            observeFarmAreaError()
+            observeFarmMeasurement()
+
             observeSeasonName()
             observeSeasonNameError()
 
@@ -120,6 +135,27 @@ class AddEditSeasonFragment : Fragment(R.layout.ffrb_add_edit_season_fragment) {
             observeLoanOrganizationError()
         }
     }
+
+
+    private fun setAreaMeasureResultListener() {
+        getNavigationResult<AreaMeasureMethod>(
+            R.id.addEditSeasonFragment,
+            AreaMeasureMethodFragment.RESULT_KEY_MEASURE_METHOD
+        ) { result ->
+            openAreaMeasureMapScreen(result)
+        }
+        getNavigationResult<AreaMeasurement>(
+            R.id.addEditSeasonFragment,
+            AreaMeasureMapFragment.RESULT_KEY_MEASURE_MAP
+        ) { result ->
+            onAreaMeasureResult(result)
+        }
+    }
+
+    private fun onAreaMeasureResult(result: AreaMeasurement) {
+        viewModel.handleEvent(AddEditSeasonEvent.OnFarmAreaMeasurementChanged(result))
+    }
+
 
     private fun setFishInputFragmentResultListener() {
         setFragmentResultListener(FishInputFragment.REQUEST_KEY_FISH) { _, bundle ->
@@ -153,6 +189,31 @@ class AddEditSeasonFragment : Fragment(R.layout.ffrb_add_edit_season_fragment) {
             } else {
                 false
             }
+        }
+    }
+
+    private fun setupFarmMeasurementInputUi() {
+        setupEditFarmMeasurementCheckBox()
+        setupFarmLocationInputUi()
+        setupFarmAreaInputUi()
+    }
+
+    private fun setupEditFarmMeasurementCheckBox() {
+        binding.editFarmMeasurementCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.handleEvent(AddEditSeasonEvent.OnEditFarmMeasurementCheckChanged(isChecked))
+        }
+    }
+
+
+    private fun setupFarmLocationInputUi() {
+        binding.farmMapImageView.setOnClickListener {
+            openAreaMeasureMethodScreen()
+        }
+    }
+
+    private fun setupFarmAreaInputUi() {
+        binding.farmAreaTextInputEditText.doAfterTextChanged {
+            viewModel.handleEvent(AddEditSeasonEvent.OnFarmAreaChanged(it?.toString()))
         }
     }
 
@@ -202,8 +263,8 @@ class AddEditSeasonFragment : Fragment(R.layout.ffrb_add_edit_season_fragment) {
     }
 
     private fun setupInputLoanInformationCheckBox() {
-        binding.inputLoanCheckBox.setOnCheckedChangeListener { _, _ ->
-            viewModel.handleEvent(AddEditSeasonEvent.OnInputLoanInformationCheckChanged)
+        binding.inputLoanCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.handleEvent(AddEditSeasonEvent.OnInputLoanInformationCheckChanged(isChecked))
         }
     }
 
@@ -272,6 +333,46 @@ class AddEditSeasonFragment : Fragment(R.layout.ffrb_add_edit_season_fragment) {
     private fun setupCancelButton() {
         binding.cancelButton.setOnClickListener {
             navController.popBackStack()
+        }
+    }
+
+    private fun CoroutineScope.observeEditFarmMeasurementCheck() = launch {
+        viewModel.uiState.map { it.editFarmMeasurement }
+            .distinctUntilChanged()
+            .collect { newValue ->
+                val oldValue = binding.editFarmMeasurementCheckBox.isChecked
+                if (oldValue != newValue) {
+                    binding.editFarmMeasurementCheckBox.isChecked = newValue
+                }
+                binding.farmMeasurementContainer.isVisible = newValue
+            }
+    }
+
+    private fun CoroutineScope.observeFarmArea() = launch {
+        viewModel.uiState.map { it.farmArea }
+            .distinctUntilChanged()
+            .collect {
+                binding.farmAreaTextInputEditText.bindText(it)
+            }
+    }
+
+    private fun CoroutineScope.observeFarmAreaError() = launch {
+        launch {
+            viewModel.uiState.map { it.farmAreaError }
+                .distinctUntilChanged()
+                .collect {
+                    binding.farmAreaTextInputLayout.setError(it)
+                }
+        }
+    }
+
+    private fun CoroutineScope.observeFarmMeasurement() = launch {
+        launch {
+            viewModel.uiState.map { it.farmMeasurement }
+                .distinctUntilChanged()
+                .collect {
+                    bindMapPreviewImage(it)
+                }
         }
     }
 
@@ -458,4 +559,44 @@ class AddEditSeasonFragment : Fragment(R.layout.ffrb_add_edit_season_fragment) {
         )
     }
 
+    private fun openAreaMeasureMethodScreen() {
+        findNavController().navigate(
+            AddEditSeasonFragmentDirections.actionAddEditSeasonFragmentToAreaMeasureMethodFragment()
+        )
+    }
+
+    private fun openAreaMeasureMapScreen(measureMethod: AreaMeasureMethod) {
+        findNavController().navigate(
+            AddEditSeasonFragmentDirections.actionAddEditSeasonFragmentToAreaMeasureMapFragment(
+                measureMethod,
+            )
+        )
+    }
+
+    private fun bindMapPreviewImage(measurement: AreaMeasurement?) {
+        when (measurement) {
+            is AreaMeasurement.Location -> {
+                showMapPreview(measurement.toStaticMapUrl(requireContext().resources))
+            }
+            is AreaMeasurement.Area -> {
+                showMapPreview(measurement.toStaticMapUrl(requireContext().resources))
+            }
+            else -> {
+                showMapDefaultPreview()
+            }
+        }
+    }
+
+    private fun showMapPreview(mapImageUri: Uri?) {
+        binding.farmMapImageView.load(
+            requireContext(),
+            mapImageUri?.toString()
+        )
+    }
+
+    private fun showMapDefaultPreview() {
+        Glide.with(context)
+            .load(R.drawable.farm_map_placeholder)
+            .into(binding.farmMapImageView)
+    }
 }

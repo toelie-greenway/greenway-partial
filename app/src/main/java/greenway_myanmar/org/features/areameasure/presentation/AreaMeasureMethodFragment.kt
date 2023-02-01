@@ -41,7 +41,7 @@ class AreaMeasureMethodFragment : BottomSheetDialogFragment() {
             RESULT_KEY_MEASURE_METHOD,
             method
         )
-        dismiss()
+        findNavController().popBackStack()
     }
 
     companion object {

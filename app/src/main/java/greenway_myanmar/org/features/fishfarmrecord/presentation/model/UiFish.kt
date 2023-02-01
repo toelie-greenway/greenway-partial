@@ -15,8 +15,15 @@ data class UiFish(
         fun fromDomain(domainModel: Fish) = UiFish(
             id = domainModel.id,
             name = domainModel.name,
-            imageUrl = domainModel.imageUrl,
+            imageUrl = domainModel.iconImageUrl,
             species = ""
         )
     }
 }
+
+fun UiFish.asDomainModel() = Fish(
+    id = id,
+    name = name,
+    iconImageUrl = imageUrl,
+    species = species
+)

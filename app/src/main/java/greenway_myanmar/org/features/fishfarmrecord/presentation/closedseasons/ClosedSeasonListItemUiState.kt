@@ -3,8 +3,8 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.closedseasons
 import com.greenwaymyanmar.core.presentation.model.UiArea
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
+import kotlinx.datetime.Instant
 import java.math.BigDecimal
-import java.time.Instant
 
 data class ClosedSeasonListItemUiState(
     val id: String,

@@ -10,7 +10,7 @@ public class BigDecimalStringConverter {
 
     @TypeConverter
     public static String fromBigDecimal(BigDecimal bigDecimal) {
-        return bigDecimal == null ? null : String.valueOf(bigDecimal);
+        return bigDecimal == null ? null : bigDecimal.toPlainString();
     }
 
     @TypeConverter

@@ -39,13 +39,19 @@
         android:id="@+id/addEditSeasonFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.AddEditSeasonFragment"
         android:label="AddEditSeasonFragment"
-        tools:layout="@layout/ffrb_add_edit_season_fragment">
+        tools:layout="@layout/ffr_add_edit_season_fragment">
         <action
             android:id="@+id/action_addEditSeasonFragment_to_fishInputFragment"
             app:destination="@id/fishInputFragment" />
         <action
             android:id="@+id/action_addEditSeasonFragment_to_customLoadDurationInputBottomSheetFragment"
             app:destination="@id/customLoadDurationInputBottomSheetFragment" />
+        <action
+            android:id="@+id/action_addEditSeasonFragment_to_areaMeasureMapFragment"
+            app:destination="@id/areaMeasureMapFragment" />
+        <action
+            android:id="@+id/action_addEditSeasonFragment_to_areaMeasureMethodFragment"
+            app:destination="@id/areaMeasureMethodFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditExpenseFragment"

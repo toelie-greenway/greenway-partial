@@ -9,8 +9,8 @@ import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultExpen
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmInputProductCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmInputProductRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmRepository
+import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultSeasonRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.fake.FakeFishRepository
-import greenway_myanmar.org.features.fishfarmrecord.data.repository.fake.FakeSeasonRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ContractFarmingCompanyRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ExpenseCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmInputProductCategoryRepository
@@ -30,7 +30,7 @@ abstract class DataModule {
 
     @Singleton
     @Binds
-    abstract fun provideSeasonRepository(repository: FakeSeasonRepository): SeasonRepository
+    abstract fun provideSeasonRepository(repository: DefaultSeasonRepository): SeasonRepository
 
     @Singleton
     @Binds

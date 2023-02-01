@@ -17,7 +17,7 @@ data class UiFarm(
             id = domainEntity.id,
             name = domainEntity.name,
             images = domainEntity.images.orEmpty(),
-            ongoingSeason = domainEntity.ongoingSeason,
+            ongoingSeason = domainEntity.openingSeason,
             area = mapArea(domainEntity.measurement.area)
         )
 

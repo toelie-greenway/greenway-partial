@@ -18,14 +18,22 @@ import greenway_myanmar.org.db.converter.StringListConverter;
 import greenway_myanmar.org.db.converter.UUIDStringConverter;
 import greenway_myanmar.org.db.converter.UriStringConverter;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFarmDao;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonDao;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FFrContractFarmingCompanyEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFarmEntity;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFishEntity;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrSeasonEntity;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.FfrFishListConverter;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.InstantConverter;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.LatLngTypeConverter;
 
 @Database(entities = {
-        FfrFarmEntity.class
-}, version = 1)
+        FfrFarmEntity.class,
+        FfrSeasonEntity.class,
+        FfrFishEntity.class,
+        FFrContractFarmingCompanyEntity.class
+}, version = 3)
 @TypeConverters({
-        LatLngTypeConverter.class,
         DateConverter.class,
         IntegerListConverter.class,
         LongListConverter.class,
@@ -38,10 +46,15 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.La
         ImageListConverter.class,
         PendingActionConverter.class,
         LatLngListConverter.class,
-        BigDecimalStringConverter.class
+        BigDecimalStringConverter.class,
+        LatLngTypeConverter.class,
+        InstantConverter.class,
+        FfrFishListConverter.class,
 })
 public abstract class GreenWayDb extends RoomDatabase {
 
     public abstract FfrFarmDao ffrFarmDao();
+
+    public abstract FfrSeasonDao ffrSeasonDao();
 
 }

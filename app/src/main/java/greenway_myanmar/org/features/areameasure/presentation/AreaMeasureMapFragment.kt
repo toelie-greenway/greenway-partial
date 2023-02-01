@@ -26,7 +26,7 @@ class AreaMeasureMapFragment : Fragment() {
     ): View {
         return TextView(requireContext())
             .apply {
-                text = "Area Measure"
+                text = "Area Measure@!!!!"
             }
     }
 

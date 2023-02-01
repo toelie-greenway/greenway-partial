@@ -3,6 +3,7 @@ package greenway_myanmar.org.features.fishfarmrecord.data.repository
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.vo.PendingAction
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFarmDao
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFarmEntity
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.asDomainModel
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Farm
@@ -14,12 +15,24 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class DefaultFarmRepository @Inject constructor(
-    private val farmDao: FfrFarmDao
+    private val farmDao: FfrFarmDao,
+    private val seasonDao: FfrSeasonDao,
 ) : FarmRepository {
 
     override fun getFarmsStream(): Flow<List<Farm>> {
-        return farmDao.getFarmsStream().map {
-            it.map(FfrFarmEntity::asDomainModel)
+        return farmDao.getFarmsStream().map { list ->
+            list.map { farm ->
+                if (!farm.openingSeasonId.isNullOrEmpty()) {
+                    val season = seasonDao.getSeasonById(farm.openingSeasonId)
+                    if (season != null) {
+                        farm.asDomainModel(season)
+                    } else {
+                        farm.asDomainModel()
+                    }
+                } else {
+                    farm.asDomainModel()
+                }
+            }
         }
     }
 

@@ -14,9 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -38,6 +35,7 @@ import greenway_myanmar.org.features.areameasure.presentation.model.toStaticMapU
 import greenway_myanmar.org.features.fishfarmrecord.presentation.home.FishFarmerRecordBookHomeFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmOwnership
 import greenway_myanmar.org.util.extensions.bindText
+import greenway_myanmar.org.util.extensions.getNavigationResult
 import greenway_myanmar.org.util.extensions.load
 import greenway_myanmar.org.util.extensions.setError
 import greenway_myanmar.org.util.extensions.themeColor
@@ -99,7 +97,10 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FfrAddEditFarmFragmentBinding.bind(view)
-        ViewCompat.setTransitionName(view, getString(R.string.ffr_transition_name_screen_add_edit_farm))
+        ViewCompat.setTransitionName(
+            view,
+            getString(R.string.ffr_transition_name_screen_add_edit_farm)
+        )
         registerImagePickerObserver()
         observeAreaMeasureResults()
         setupToolbar()
@@ -112,41 +113,18 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
     }
 
     private fun observeAreaMeasureResults() {
-        val navBackStackEntry = findNavController().getBackStackEntry(R.id.addEditPondFragment)
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                val savedStateHandle = navBackStackEntry.savedStateHandle
-                val measureMethodResultKey = AreaMeasureMethodFragment.RESULT_KEY_MEASURE_METHOD
-                val measureMapResultKey = AreaMeasureMapFragment.RESULT_KEY_MEASURE_MAP
-                when {
-                    containsIn(savedStateHandle, measureMethodResultKey) -> {
-                        val result =
-                            getFrom<AreaMeasureMethod>(savedStateHandle, measureMethodResultKey)
-                        if (result != null) {
-                            removeFrom<AreaMeasureMethod>(savedStateHandle, measureMethodResultKey)
-                            openAreaMeasureMapScreen(result)
-                        }
-                    }
-                    containsIn(savedStateHandle, measureMapResultKey) -> {
-                        val result =
-                            getFrom<AreaMeasurement>(savedStateHandle, measureMapResultKey)
-                        if (result != null) {
-                            removeFrom<AreaMeasurement>(savedStateHandle, measureMapResultKey)
-                            onAreaMeasureResult(result)
-                        }
-                    }
-                }
-            }
+        getNavigationResult<AreaMeasureMethod>(
+            R.id.addEditPondFragment,
+            AreaMeasureMethodFragment.RESULT_KEY_MEASURE_METHOD
+        ) { result ->
+            openAreaMeasureMapScreen(result)
         }
-        navBackStackEntry.lifecycle.addObserver(observer)
-
-        viewLifecycleOwner.lifecycle.addObserver(
-            LifecycleEventObserver { _, event ->
-                if (event == Lifecycle.Event.ON_DESTROY) {
-                    navBackStackEntry.lifecycle.removeObserver(observer)
-                }
-            },
-        )
+        getNavigationResult<AreaMeasurement>(
+            R.id.addEditPondFragment,
+            AreaMeasureMapFragment.RESULT_KEY_MEASURE_MAP
+        ) { result ->
+            onAreaMeasureResult(result)
+        }
     }
 
     private fun onAreaMeasureResult(result: AreaMeasurement) {
@@ -273,8 +251,10 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
             observeFarmOwnership()
             observeFarmOwnershipError()
 
-            observeUPaingNumberVisibility()
-            observeFarmDepthVisibility()
+            observeInputFarmDetailCheck()
+
+            observePlotId()
+            observeFarmDepth()
 
             observeNewFarmResult()
         }
@@ -393,26 +373,36 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
         }
     }
 
-    private fun CoroutineScope.observeFarmDepthVisibility() {
+    private fun CoroutineScope.observeInputFarmDetailCheck() {
         launch {
-            viewModel.uiState.map { it.showFarmDepth }
+            viewModel.uiState.map { it.inputFarmDetail }
                 .distinctUntilChanged()
-                .collect { show ->
-                    binding.upaingNoTextInputLayout.isVisible = show
+                .collect { newValue ->
+                    val oldValue = binding.detailCheckBox.isChecked
+                    if (oldValue != newValue) {
+                        binding.detailCheckBox.isChecked = newValue
+                    }
+                    binding.upaingNoTextInputLayout.isVisible = newValue
+                    binding.farmDepthTextInputLayout.isVisible = newValue
                 }
         }
     }
 
-    private fun CoroutineScope.observeUPaingNumberVisibility() {
-        launch {
-            viewModel.uiState.map { it.showUPaingNumber }
-                .distinctUntilChanged()
-                .collect { show ->
-                    binding.farmDepthTextInputLayout.isVisible = show
-                }
-        }
+    private fun CoroutineScope.observePlotId() = launch {
+        viewModel.uiState.map { it.plotId }
+            .distinctUntilChanged()
+            .collect {
+                binding.upaingNoTextInputEditText.bindText(it)
+            }
     }
 
+    private fun CoroutineScope.observeFarmDepth() = launch {
+        viewModel.uiState.map { it.farmDepth }
+            .distinctUntilChanged()
+            .collect {
+                binding.farmDepthTextInputEditText.bindText(it)
+            }
+    }
 
     private fun CoroutineScope.observeNewFarmResult() {
         launch {
@@ -421,7 +411,6 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
                 .collect { newFarmResult ->
                     if (newFarmResult != null) {
                         navigateBackWithResult(newFarmResult.farmId)
-                       // onHandledCreatedPond()
                     }
                 }
         }
@@ -437,26 +426,10 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
         navController.popBackStack()
     }
 
-    private fun onHandledCreatedPond() {
-        viewModel.handleEvent(AddEditFarmEvent.OnCreatedFarmHandled)
-    }
-
     private fun onSubmit() {
         viewModel.handleEvent(
             AddEditFarmEvent.OnSubmit
         )
-    }
-
-    private fun containsIn(savedStateHandle: SavedStateHandle, key: String): Boolean {
-        return savedStateHandle.contains(key)
-    }
-
-    private fun <T> getFrom(savedStateHandle: SavedStateHandle, key: String): T? {
-        return savedStateHandle.get<T>(key)
-    }
-
-    private fun <T> removeFrom(savedStateHandle: SavedStateHandle, key: String) {
-        savedStateHandle.remove<T>(key)
     }
 
     private fun showMapPreview(mapImageUri: Uri?) {

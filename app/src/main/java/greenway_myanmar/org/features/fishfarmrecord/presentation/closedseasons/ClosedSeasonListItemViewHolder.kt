@@ -1,14 +1,13 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.closedseasons
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FfrClosedSeasonListItemBinding
 import greenway_myanmar.org.util.DateUtils
-import java.time.Instant
+import kotlinx.datetime.Instant
+import kotlinx.datetime.toJavaInstant
 
 class ClosedSeasonListItemViewHolder(
     parent: ViewGroup,
@@ -60,7 +59,7 @@ class ClosedSeasonListItemViewHolder(
     }
 
     private fun formatSeasonStartDate(seasonStartDate: Instant): String {
-        return DateUtils.format(seasonStartDate, "yyyy")
+        return DateUtils.format(seasonStartDate.toJavaInstant(), "yyyy")
     }
 
 }

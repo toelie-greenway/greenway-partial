@@ -2,22 +2,34 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.maps.model.LatLng
 import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.core.presentation.model.LoadingState
+import com.greenwaymyanmar.core.presentation.model.UiArea
+import com.greenwaymyanmar.core.presentation.model.asDomain
 import com.greenwaymyanmar.utils.runCancellableCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
+import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
+import greenway_myanmar.org.features.areameasure.presentation.model.AreaMeasurement
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmMeasurement
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.Loan
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetContractFarmingCompanyByCode
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveSeasonUseCase
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiContractFarmingCompany
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiLoanDuration
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.asDomainModel
+import greenway_myanmar.org.util.extensions.orZero
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -25,14 +37,17 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.toKotlinInstant
 import timber.log.Timber
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.ZoneOffset
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditSeasonViewModel @Inject constructor(
-    private val getContractFarmingCompanyByCode: GetContractFarmingCompanyByCode
+    private val getContractFarmingCompanyByCode: GetContractFarmingCompanyByCode,
+    private val saveSeasonUseCase: SaveSeasonUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddEditSeasonUiState())
@@ -84,6 +99,15 @@ class AddEditSeasonViewModel @Inject constructor(
 
     fun handleEvent(event: AddEditSeasonEvent) {
         when (event) {
+            is AddEditSeasonEvent.OnEditFarmMeasurementCheckChanged -> {
+                updateFarmMeasurementEditCheck(event.checked)
+            }
+            is AddEditSeasonEvent.OnFarmAreaChanged -> {
+                updateFarmArea(event.area)
+            }
+            is AddEditSeasonEvent.OnFarmAreaMeasurementChanged -> {
+                updateFarmAreaMeasurement(event.measurement)
+            }
             is AddEditSeasonEvent.OnSeasonNameChanged -> {
                 updateSeasonName(event.name)
             }
@@ -100,7 +124,7 @@ class AddEditSeasonViewModel @Inject constructor(
                 updateCompanyCode(event.code)
             }
             is AddEditSeasonEvent.OnInputLoanInformationCheckChanged -> {
-                toggleLoanInformationInputCheck()
+                updateLoanInformationInputCheck(event.checked)
             }
             is AddEditSeasonEvent.OnLoanAmountChanged -> {
                 updateLoanAmount(event.amount)
@@ -117,6 +141,39 @@ class AddEditSeasonViewModel @Inject constructor(
             AddEditSeasonEvent.OnSubmit -> {
                 onSubmit()
             }
+        }
+    }
+
+    private fun updateFarmMeasurementEditCheck(checked: Boolean) {
+        _uiState.update {
+            it.copy(editFarmMeasurement = checked)
+        }
+    }
+
+    private fun updateFarmAreaMeasurement(measurement: AreaMeasurement) {
+        _uiState.update {
+            it.copy(
+                farmMeasurement = measurement
+            )
+        }
+
+        if (measurement is AreaMeasurement.Area) {
+            viewModelScope.launch {
+                // FIXME: Have to use delay because the measured farm area
+                //  is overridden by EditText's doAfterTextChanged on resume
+                delay(400)
+                _uiState.update {
+                    it.copy(
+                        farmArea = measurement.acre.toString()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun updateFarmArea(area: String?) {
+        _uiState.update {
+            it.copy(farmArea = area)
         }
     }
 
@@ -169,9 +226,9 @@ class AddEditSeasonViewModel @Inject constructor(
         }
     }
 
-    private fun toggleLoanInformationInputCheck() {
+    private fun updateLoanInformationInputCheck(checked: Boolean) {
         _uiState.update {
-            it.copy(inputLoanInformation = currentUiState.inputLoanInformation.not())
+            it.copy(inputLoanInformation = checked)
         }
     }
 
@@ -203,6 +260,7 @@ class AddEditSeasonViewModel @Inject constructor(
 
     private fun onSubmit() {
         // validate inputs
+        val areaValidationResult = validateFarmArea(currentUiState.farmArea)
         val seasonNameValidationResult = validateSeasonName(currentUiState.seasonName)
         val fishesValidationResult = validateFishes(currentUiState.fishes)
         val companyCodeValidateResult =
@@ -218,6 +276,7 @@ class AddEditSeasonViewModel @Inject constructor(
 
         // set/reset error
         _uiState.value = currentUiState.copy(
+            farmAreaError = areaValidationResult.getErrorOrNull(),
             seasonNameError = seasonNameValidationResult.getErrorOrNull(),
             fishesError = fishesValidationResult.getErrorOrNull(),
             companyCodeError = companyCodeValidateResult.getErrorOrNull(),
@@ -228,6 +287,7 @@ class AddEditSeasonViewModel @Inject constructor(
 
         // return if there is any error
         if (hasError(
+                areaValidationResult,
                 seasonNameValidationResult,
                 fishesValidationResult,
                 companyCodeValidateResult,
@@ -240,15 +300,49 @@ class AddEditSeasonViewModel @Inject constructor(
         }
 
         // collect result
+        val area = areaValidationResult.getDataOrThrow()
+        val measurement = currentUiState.farmMeasurement
+        var measureMethod: AreaMeasureMethod? = null
+        var location: LatLng? = null
+        var coordinates: List<LatLng>? = null
+        var measuredArea: Double? = null
+        when (measurement) {
+            is AreaMeasurement.Location -> {
+                location = measurement.latLng
+                measureMethod = measurement.measurementType
+            }
+            is AreaMeasurement.Area -> {
+                measuredArea = measurement.acre
+                coordinates = measurement.coordinates
+                measureMethod = measurement.measurementType
+            }
+            else -> {
+                /* no-op */
+            }
+        }
         val seasonName = seasonNameValidationResult.getDataOrThrow()
         val seasonStartDate = currentUiState.seasonStartDate
         val fishes = fishesValidationResult.getDataOrThrow()
         val company = companyCodeValidateResult.getDataOrNull()
+        val loan = if (currentUiState.inputLoanInformation) {
+            Loan(
+                amount = loanAmountValidationResult.getDataOrThrow().orZero(),
+                duration = loanDurationValidationResult.getDataOrThrow()?.month ?: 0,
+                organization = loanOrganizationValidationResult.getDataOrNull().orEmpty(),
+                remark = currentUiState.loanRemark
+            )
+        } else {
+            null
+        }
         val loanAmount = loanAmountValidationResult.getDataOrNull()
         val loanDuration = loanDurationValidationResult.getDataOrNull()
         val loanOrganization = loanOrganizationValidationResult.getDataOrNull()
         val loanRemark = currentUiState.loanRemark
 
+        Timber.d("Area: $area")
+        Timber.d("Location: $location")
+        Timber.d("Coordinates: $coordinates")
+        Timber.d("Measured area: $measuredArea")
         Timber.d("SeasonName: $seasonName")
         Timber.d("SeasonStartDate: $seasonStartDate")
         Timber.d("Fishes: $fishes")
@@ -257,11 +351,51 @@ class AddEditSeasonViewModel @Inject constructor(
         Timber.d("loanDuration: $loanDuration")
         Timber.d("loanOrganization: $loanOrganization")
         Timber.d("loanRemark: $loanRemark")
-//        _uiState.value = currentUiState.copy(
-//            inputResult = InputResult(
-//                seasonName = seasonName,
-//            )
-//        )
+
+        val request = SaveSeasonUseCase.SaveSeasonRequest(
+            id = null, // TODO: change when support edit
+            farmMeasurement = FarmMeasurement(
+                location = location,
+                coordinates = coordinates,
+                area = area.asDomain(),
+                measuredArea = Area.acreOrNull(measuredArea),
+                measuredType = measureMethod
+            ),
+            seasonName = seasonName,
+            seasonStartDate = seasonStartDate.atStartOfDay().toInstant(ZoneOffset.UTC)
+                .toKotlinInstant(),
+            fishes = fishes.map(UiFish::asDomainModel),
+            company = company?.asDomainModel(),
+            loan = loan
+        )
+        saveSeason(request)
+    }
+
+    private fun saveSeason(request: SaveSeasonUseCase.SaveSeasonRequest) {
+        viewModelScope.launch {
+            try {
+                val result = saveSeasonUseCase(request)
+                _uiState.update {
+                    it.copy(
+                        addEditSeasonResult = AddEditSeasonUiState.AddEditSeasonResult(
+                            seasonId = result.id
+                        )
+                    )
+                }
+            } catch (e: Exception) {
+                // TODO: Handle exception
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun validateFarmArea(areaString: String?): ValidationResult<UiArea> {
+        val area = areaString?.toDoubleOrNull()
+        return if (area == null) {
+            ValidationResult.Error(Text.ResourceText(R.string.error_field_required))
+        } else {
+            ValidationResult.Success(UiArea.acre(area))
+        }
     }
 
     private fun validateSeasonName(name: String?): ValidationResult<String> {

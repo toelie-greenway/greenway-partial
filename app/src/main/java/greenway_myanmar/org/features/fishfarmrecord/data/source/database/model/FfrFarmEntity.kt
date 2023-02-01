@@ -34,7 +34,8 @@ data class FfrFarmEntity(
     val coordinates: List<LatLng>? = null,
     val area: Double,
     val measuredArea: Double? = null,
-    val measuredType: String? = null
+    val measuredType: String? = null,
+    val openingSeasonId: String? = null
 ) {
     companion object {
         fun from(request: SaveFarmRequest, pendingAction: PendingAction) =
@@ -72,7 +73,7 @@ data class FarmAreaEntity(
     private val measurement: List<LatLng>? = null
 )
 
-fun FfrFarmEntity.asDomainModel() = Farm(
+fun FfrFarmEntity.asDomainModel(openingSeason: FfrSeasonEntity? = null) = Farm(
     id = id,
     name = name,
     images = imageUrls,
@@ -84,5 +85,6 @@ fun FfrFarmEntity.asDomainModel() = Farm(
         measuredType = AreaMeasureMethod.fromStringOrNull(measuredType)
     ),
     plotId = plotId,
-    ownership = FarmOwnership.fromString(ownership)
+    ownership = FarmOwnership.fromString(ownership),
+    openingSeason = openingSeason?.asDomainModel()
 )

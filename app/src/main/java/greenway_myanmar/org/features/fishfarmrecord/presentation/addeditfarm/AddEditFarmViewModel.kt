@@ -91,7 +91,7 @@ class AddEditFarmViewModel @Inject constructor(
             viewModelScope.launch {
                 // FIXME: Have to use delay because the measured farm area
                 //  is overridden by EditText's doAfterTextChanged on resume
-                delay(400)
+                delay(300)
                 _uiState.update {
                     it.copy(
                         farmArea = measurement.acre.toString()
@@ -127,7 +127,7 @@ class AddEditFarmViewModel @Inject constructor(
 
     private fun updateDetail(showDetail: Boolean) {
         _uiState.update {
-            it.copy(showDetail = showDetail)
+            it.copy(inputFarmDetail = showDetail)
         }
     }
 
@@ -236,6 +236,7 @@ class AddEditFarmViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 // TODO: Handle exception
+                e.printStackTrace()
             }
         }
     }

@@ -7,6 +7,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.SeasonRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class ObserveClosedSeasonsUseCase @Inject constructor(
@@ -14,6 +15,7 @@ class ObserveClosedSeasonsUseCase @Inject constructor(
     @IoDispatcher ioDispatcher: CoroutineDispatcher
 ) : FlowUseCase<Unit, List<Season>>(ioDispatcher) {
     override fun execute(params: Unit): Flow<Result<List<Season>>> {
-        return seasonRepository.observeClosedSeasons()
+        //TODO:
+        return flow {  }
     }
 }
