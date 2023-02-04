@@ -8,8 +8,6 @@ import java.math.BigDecimal
 data class UiLabourCost(
     val labourQuantity: Int = 0,
     val labourCost: BigDecimal = BigDecimal.ZERO,
-    val animalResourceQuantity: Int = 0,
-    val animalResourceCost: BigDecimal = BigDecimal.ZERO,
     val familyMemberQuantity: Int = 0,
     val familyMemberCost: BigDecimal = BigDecimal.ZERO,
     val totalCost: BigDecimal = BigDecimal.ZERO,

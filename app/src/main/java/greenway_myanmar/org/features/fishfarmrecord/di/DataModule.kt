@@ -9,6 +9,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultExpen
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmInputProductCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmInputProductRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmRepository
+import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFcrRecordRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultSeasonRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.fake.FakeFishRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ContractFarmingCompanyRepository
@@ -16,6 +17,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ExpenseCat
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmInputProductCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmInputProductRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmRepository
+import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FcrRecordRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FishRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.SeasonRepository
 import javax.inject.Singleton
@@ -57,4 +59,8 @@ abstract class DataModule {
     @Singleton
     @Binds
     abstract fun provideContractFarmingCompanyRepository(repository: DefaultContractFarmingCompanyRepository): ContractFarmingCompanyRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideFcrRecordRepository(repository: DefaultFcrRecordRepository): FcrRecordRepository
 }

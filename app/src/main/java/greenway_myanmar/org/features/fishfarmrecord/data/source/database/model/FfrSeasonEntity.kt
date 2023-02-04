@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.greenwaymyanmar.vo.PendingAction
 import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
 import greenway_myanmar.org.features.areameasure.domain.model.asStringOrNull
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.EntityIdGenerator.generateIdIfRequired
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
@@ -45,12 +46,12 @@ data class FfrSeasonEntity(
     @Embedded(prefix = "loan_")
     val loan: FfrLoanEntity? = null,
     @ColumnInfo("pending_action")
-    val pendingAction: PendingAction? = null,
+    val pendingAction: PendingAction = PendingAction.NOTHING
 ) {
     companion object {
         fun from(request: SaveSeasonUseCase.SaveSeasonRequest, pendingAction: PendingAction) =
             FfrSeasonEntity(
-                id = generateIdIfRequired(request),
+                id = generateIdIfRequired(request.id),
                 location = request.farmMeasurement.location,
                 coordinates = request.farmMeasurement.coordinates,
                 area = request.farmMeasurement.area.value,
@@ -65,9 +66,6 @@ data class FfrSeasonEntity(
                 loan = request.loan?.let { FfrLoanEntity.fromDomainModel(it) },
                 pendingAction = pendingAction
             )
-
-        private fun generateIdIfRequired(request: SaveSeasonUseCase.SaveSeasonRequest) =
-            if (request.id.isNullOrEmpty()) UUID.randomUUID().toString() else request.id
     }
 }
 

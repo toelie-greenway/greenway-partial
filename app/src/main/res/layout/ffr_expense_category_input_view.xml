@@ -51,6 +51,8 @@
         android:id="@+id/error_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_16"
+        android:layout_marginTop="@dimen/spacing_4"
         android:text="@string/error_field_required"
         android:textAppearance="?textAppearanceCaption"
         android:textColor="@color/app_error"

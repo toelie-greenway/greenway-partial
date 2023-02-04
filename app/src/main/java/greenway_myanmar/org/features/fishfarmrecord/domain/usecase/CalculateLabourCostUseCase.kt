@@ -7,12 +7,11 @@ class CalculateLabourCostUseCase @Inject constructor() {
 
     operator fun invoke(request: CalculateLabourCostRequest): CalculateLabourCostResult {
         return CalculateLabourCostResult(
-            total = request.labourResourceCost + request.animalResourceCost
+            total = request.labourResourceCost
         )
     }
 
     data class CalculateLabourCostRequest(
-        val animalResourceCost: BigDecimal,
         val labourResourceCost: BigDecimal
     )
 

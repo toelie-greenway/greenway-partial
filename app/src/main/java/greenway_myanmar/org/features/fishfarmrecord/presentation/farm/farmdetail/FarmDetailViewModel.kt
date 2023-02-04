@@ -1,11 +1,11 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.ponddetail
+package greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class PondDetailViewModel @Inject constructor(
+class FarmDetailViewModel @Inject constructor(
 
 ) : ViewModel() {
 }

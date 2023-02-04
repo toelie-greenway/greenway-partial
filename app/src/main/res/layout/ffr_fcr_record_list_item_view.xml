@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:contentPaddingTop="@dimen/spacing_16">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:text="မတ် ၃ ၊ ၂၀၂၀ · ဂါ"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/ratio_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:text="အချိုး ၁.၂၅"
+            app:layout_constraintBaseline_toBaselineOf="@id/date_text_view"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/feed_weight_label_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:text="@string/ffr_fcr_label_total_feed_weight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date_text_view" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/feed_weight_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            app:layout_constraintBaseline_toBaselineOf="@id/feed_weight_label_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="5,000 ပိဿာ" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/gain_weight_label_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:text="@string/ffr_fcr_label_total_gain_weight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/feed_weight_label_text_view" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/gain_weight_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:text="@string/ffr_fcr_label_total_feed_weight"
+            app:layout_constraintBaseline_toBaselineOf="@id/gain_weight_label_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="4,000 ပိဿာ" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

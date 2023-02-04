@@ -13,4 +13,6 @@ sealed class AddEditExpenseEvent {
     data class OnMachineryCostChanged(val machineryCost: UiMachineryCost): AddEditExpenseEvent()
     data class OnFarmInputAdded(val farmInput: UiFarmInputCost): AddEditExpenseEvent()
     data class OnNoteChanged(val note: String): AddEditExpenseEvent()
+    object OnSubmit: AddEditExpenseEvent()
+    object CostErrorShown : AddEditExpenseEvent()
 }

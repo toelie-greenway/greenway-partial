@@ -11,6 +11,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmReposi
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCase.SaveFarmRequest
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -48,6 +49,8 @@ class DefaultFarmRepository @Inject constructor(
     }
 
     override fun observePond(pondId: String): Flow<Result<Farm>> {
-        TODO("Not yet implemented")
+        return flow {
+            // TODO: Implement
+        }
     }
 }

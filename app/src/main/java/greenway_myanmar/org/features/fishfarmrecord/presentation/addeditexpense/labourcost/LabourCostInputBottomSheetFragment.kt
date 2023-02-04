@@ -66,8 +66,6 @@ class LabourCostInputBottomSheetFragment : BottomSheetDialogFragment() {
     private fun setupUi() {
         setupLabourQuantityUi()
         setupLabourCostUi()
-        setupAnimalResourceQuantityUi()
-        setupAnimalResourceCostUi()
         setupFamilyMemberQuantityUi()
         setupFamilyMemberCostUi()
         setupSubmitButton()
@@ -85,22 +83,6 @@ class LabourCostInputBottomSheetFragment : BottomSheetDialogFragment() {
         binding.labourCostTextInputEditText.doAfterTextChanged {
             viewModel.handleEvent(
                 LabourCostInputEvent.OnLabourCostChanged(it?.toString().orEmpty())
-            )
-        }
-    }
-
-    private fun setupAnimalResourceQuantityUi() {
-        binding.animalQuantityTextInputEditText.doAfterTextChanged {
-            viewModel.handleEvent(
-                LabourCostInputEvent.OnAnimalResourceQuantityChanged(it?.toString().orEmpty())
-            )
-        }
-    }
-
-    private fun setupAnimalResourceCostUi() {
-        binding.animalCostTextInputEditText.doAfterTextChanged {
-            viewModel.handleEvent(
-                LabourCostInputEvent.OnAnimalResourceCostChanged(it?.toString().orEmpty())
             )
         }
     }
@@ -133,10 +115,6 @@ class LabourCostInputBottomSheetFragment : BottomSheetDialogFragment() {
             observeLabourQuantityError()
             observeLabourCost()
             observeLabourCostError()
-            observeAnimalResourceQuantity()
-            observeAnimalResourceQuantityError()
-            observeAnimalResourceCost()
-            observeAnimalResourceCostError()
             observeFamilyMemberQuantity()
             observeFamilyMemberCost()
             observeTotalCost()
@@ -173,39 +151,6 @@ class LabourCostInputBottomSheetFragment : BottomSheetDialogFragment() {
             .distinctUntilChanged()
             .collect {
                 binding.labourCostTextInputLayout.setError(it)
-            }
-    }
-
-    private fun CoroutineScope.observeAnimalResourceQuantity() = launch {
-        viewModel.uiState.map { it.animalResourceQuantity }
-            .distinctUntilChanged()
-            .collect {
-                binding.animalQuantityTextInputEditText.bindText(it)
-            }
-    }
-
-    private fun CoroutineScope.observeAnimalResourceQuantityError() = launch {
-        viewModel.uiState.map { it.animalResourceQuantityError }
-            .distinctUntilChanged()
-            .collect {
-                binding.animalQuantityTextInputLayout.setError(it)
-            }
-    }
-
-
-    private fun CoroutineScope.observeAnimalResourceCost() = launch {
-        viewModel.uiState.map { it.animalResourceCost }
-            .distinctUntilChanged()
-            .collect {
-                binding.animalCostTextInputEditText.bindText(it)
-            }
-    }
-
-    private fun CoroutineScope.observeAnimalResourceCostError() = launch {
-        viewModel.uiState.map { it.animalResourceCostError }
-            .distinctUntilChanged()
-            .collect {
-                binding.animalCostTextInputLayout.setError(it)
             }
     }
 

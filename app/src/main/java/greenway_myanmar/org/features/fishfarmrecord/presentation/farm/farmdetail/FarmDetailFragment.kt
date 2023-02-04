@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.ponddetail
+package greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail
 
 import android.graphics.Color
 import android.os.Bundle
@@ -12,16 +12,16 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
-import greenway_myanmar.org.databinding.FfrbPondDetailFragmentBinding
+import greenway_myanmar.org.databinding.FfrbFarmDetailFragmentBinding
 import greenway_myanmar.org.util.extensions.themeColor
 import greenway_myanmar.org.util.kotlin.autoCleared
 
 @AndroidEntryPoint
-class PondDetailFragment : Fragment(R.layout.ffrb_pond_detail_fragment) {
+class FarmDetailFragment : Fragment(R.layout.ffrb_farm_detail_fragment) {
 
-    private val viewModel: PondDetailViewModel by viewModels()
-    private var binding: FfrbPondDetailFragmentBinding by autoCleared()
-    private var adapter: PondDetailPagerAdapter by autoCleared()
+    private val viewModel: FarmDetailViewModel by viewModels()
+    private var binding: FfrbFarmDetailFragmentBinding by autoCleared()
+    private var adapter: FarmDetailPagerAdapter by autoCleared()
 
     private val statusBarColor by lazy {
         requireActivity().window.statusBarColor
@@ -38,8 +38,11 @@ class PondDetailFragment : Fragment(R.layout.ffrb_pond_detail_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FfrbPondDetailFragmentBinding.bind(view)
-        ViewCompat.setTransitionName(view, getString(R.string.ffr_transition_name_screen_farm_detail))
+        binding = FfrbFarmDetailFragmentBinding.bind(view)
+        ViewCompat.setTransitionName(
+            view,
+            getString(R.string.ffr_transition_name_screen_farm_detail)
+        )
         setupUi()
         observeViewModel()
     }
@@ -70,20 +73,13 @@ class PondDetailFragment : Fragment(R.layout.ffrb_pond_detail_fragment) {
     }
 
     private fun setupViewPager() {
-        adapter = PondDetailPagerAdapter(this)
+        adapter = FarmDetailPagerAdapter(this)
         binding.viewPager.adapter = adapter
     }
 
     private fun setupTabLayout() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            when (position) {
-                0 -> {
-                    tab.text = getString(R.string.ffr_tab_opening_season)
-                }
-                1 -> {
-                    tab.text = getString(R.string.ffr_tab_closed_seasons)
-                }
-            }
+            tab.text = getString(FarmDetailTabUiState.values()[position].textResId)
         }.attach()
     }
 

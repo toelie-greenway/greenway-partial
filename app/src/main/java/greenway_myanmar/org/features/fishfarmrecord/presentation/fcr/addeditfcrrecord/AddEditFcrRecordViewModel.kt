@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense
+package greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcrrecord
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,6 +8,8 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResul
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
+import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.AddEditExpenseEvent
+import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.AddEditExpenseUiState
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputCost
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiLabourCost
@@ -20,9 +22,9 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class AddEditExpenseViewModel @Inject constructor(
+class AddEditFcrRecordViewModel @Inject constructor(
 
-) : ViewModel() {
+): ViewModel() {
 
     private val _uiState = MutableStateFlow(AddEditExpenseUiState())
     val uiState = _uiState.asStateFlow()

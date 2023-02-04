@@ -7,8 +7,6 @@ import java.math.BigDecimal
 data class LabourCostInputUiState(
     val labourQuantity: String? = null,
     val labourCost: String? = null,
-    val animalResourceQuantity: String? = null,
-    val animalResourceCost: String? = null,
     val familyMemberQuantity: String? = null,
     val familyMemberCost: String? = null,
     val totalCost: BigDecimal = BigDecimal.ZERO,

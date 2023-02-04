@@ -16,7 +16,6 @@ import greenway_myanmar.org.util.extensions.toIntOrZero
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -34,7 +33,6 @@ class LabourCostInputViewModel @Inject constructor(
         get() = uiState.value
 
     private val labourResourceCostStream: Flow<String?> = uiState.map { it.labourCost }
-    private val animalResourceCostStream: Flow<String?> = uiState.map { it.animalResourceCost }
 
     init {
         observeCostChanges()
@@ -42,15 +40,10 @@ class LabourCostInputViewModel @Inject constructor(
 
     private fun observeCostChanges() {
         viewModelScope.launch {
-            combine(
-                labourResourceCostStream,
-                animalResourceCostStream,
-                ::Pair
-            ).collect { (labourResourceCost, animalResourceCostStream) ->
+            labourResourceCostStream.collect { labourResourceCost ->
                 val result = calculateLabourCostUseCase(
                     CalculateLabourCostUseCase.CalculateLabourCostRequest(
-                        labourResourceCost = labourResourceCost.toBigDecimalOrZero(),
-                        animalResourceCost = animalResourceCostStream.toBigDecimalOrZero()
+                        labourResourceCost = labourResourceCost.toBigDecimalOrZero()
                     )
                 )
                 updateTotalCost(result.total)
@@ -65,12 +58,6 @@ class LabourCostInputViewModel @Inject constructor(
             }
             is LabourCostInputEvent.OnLabourCostChanged -> {
                 updateLabourCost(event.cost)
-            }
-            is LabourCostInputEvent.OnAnimalResourceQuantityChanged -> {
-                updateAnimalResourceQuantity(event.quantity)
-            }
-            is LabourCostInputEvent.OnAnimalResourceCostChanged -> {
-                updateAnimalResourceCost(event.cost)
             }
             is LabourCostInputEvent.OnFamilyMemberQuantityChanged -> {
                 updateFamilyMemberQuantity(event.quantity)
@@ -90,14 +77,6 @@ class LabourCostInputViewModel @Inject constructor(
 
     private fun updateLabourCost(cost: String) {
         _uiState.value = currentUiState.copy(labourCost = cost)
-    }
-
-    private fun updateAnimalResourceQuantity(quantity: String) {
-        _uiState.value = currentUiState.copy(animalResourceQuantity = quantity)
-    }
-
-    private fun updateAnimalResourceCost(cost: String) {
-        _uiState.value = currentUiState.copy(animalResourceCost = cost)
     }
 
     private fun updateFamilyMemberQuantity(quantity: String) {
@@ -121,8 +100,6 @@ class LabourCostInputViewModel @Inject constructor(
     private fun onSubmit() {
         var labourQuantity = 0
         var labourCost = BigDecimal.ZERO
-        var animalResourceQuantity = 0
-        var animalResourceCost = BigDecimal.ZERO
         val totalCost = currentUiState.totalCost
         val familyMemberQuantity = currentUiState.familyMemberQuantity.toIntOrZero()
         val familyMemberCost = currentUiState.familyMemberCost.toBigDecimalOrZero()
@@ -150,34 +127,8 @@ class LabourCostInputViewModel @Inject constructor(
             )
         }
 
-        // animal resource cost validation
-        val animalResourceValidationResult =
-            validateAnimalResource(
-                currentUiState.animalResourceQuantity,
-                currentUiState.animalResourceCost
-            )
-        if (animalResourceValidationResult.isError()) {
-            val animalResourceQuantityValidationResult =
-                validateLabourResourceQuantity(currentUiState.animalResourceQuantity)
-            val animalResourceCostValidationResult =
-                validateLabourResourceCost(currentUiState.animalResourceCost)
-            animalResourceQuantity = animalResourceQuantityValidationResult.getDataOrDefault(0)
-            animalResourceCost =
-                animalResourceCostValidationResult.getDataOrDefault(BigDecimal.ZERO)
-            _uiState.value = currentUiState.copy(
-                animalResourceQuantityError = animalResourceQuantityValidationResult.getErrorOrNull(),
-                animalResourceCostError = animalResourceCostValidationResult.getErrorOrNull(),
-            )
-        } else {
-            _uiState.value = currentUiState.copy(
-                animalResourceQuantityError = null,
-                animalResourceCostError = null
-            )
-        }
-
         if (hasError(
-                labourResourceValidationResult,
-                animalResourceValidationResult
+                labourResourceValidationResult
             )
         ) {
             return
@@ -187,8 +138,6 @@ class LabourCostInputViewModel @Inject constructor(
             inputResult = UiLabourCost(
                 labourQuantity = labourQuantity,
                 labourCost = labourCost,
-                animalResourceQuantity = animalResourceQuantity,
-                animalResourceCost = animalResourceCost,
                 familyMemberQuantity = familyMemberQuantity,
                 familyMemberCost = familyMemberCost,
                 totalCost = totalCost

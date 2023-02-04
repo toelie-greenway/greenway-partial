@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.greenwaymyanmar.vo.PendingAction
 import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
 import greenway_myanmar.org.features.areameasure.domain.model.asStringOrNull
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.EntityIdGenerator.generateIdIfRequired
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area.Companion.acre
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area.Companion.acreOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Farm
@@ -15,7 +16,6 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmOwnership
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.asString
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCase.SaveFarmRequest
-import java.util.*
 
 @Entity(
     tableName = "ffr_farms"
@@ -29,7 +29,7 @@ data class FfrFarmEntity(
     val imageUrls: List<String>? = null,
     @ColumnInfo(name = "plot_id")
     val plotId: String? = null,
-    val pendingAction: PendingAction? = null,
+    val pendingAction: PendingAction = PendingAction.NOTHING,
     val location: LatLng? = null,
     val coordinates: List<LatLng>? = null,
     val area: Double,
@@ -40,7 +40,7 @@ data class FfrFarmEntity(
     companion object {
         fun from(request: SaveFarmRequest, pendingAction: PendingAction) =
             FfrFarmEntity(
-                id = generateIdIfRequired(request),
+                id = generateIdIfRequired(request.id),
                 name = request.name,
                 ownership = request.ownership.asString(),
                 imageUrls = mapImageUri(request.imageUri),
@@ -59,8 +59,6 @@ data class FfrFarmEntity(
             return listOf(imageUri.toString())
         }
 
-        private fun generateIdIfRequired(request: SaveFarmRequest) =
-            if (request.id.isNullOrEmpty()) UUID.randomUUID().toString() else request.id
     }
 }
 

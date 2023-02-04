@@ -4,7 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import greenway_myanmar.org.R
+import greenway_myanmar.org.common.domain.entities.Text
+import greenway_myanmar.org.common.domain.entities.asString
 import greenway_myanmar.org.databinding.FfrExpenseCategoryInputViewBinding
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
 
@@ -40,38 +43,11 @@ constructor(context: Context, attrs: AttributeSet? = null) :
     fun setClickCall(callback: ClickCallback) {
         _clickCallback = callback
     }
-//
-//  override fun setMandatory(mandatory: Boolean) {
-//    _mandatory = mandatory
-//  }
-//
-//  override fun isMandatory(): Boolean = _mandatory
-//
-//  override fun getValue(): AsymtExpenseCategory? {
-//    return category
-//  }
-//
-//  override fun validate(): Boolean {
-//    return if (_mandatory && category == null) {
-//      showError()
-//      false
-//    } else {
-//      clearError()
-//      true
-//    }
-//  }
-//
-//  override fun isEmpty(): Boolean {
-//    return category != null
-//  }
-//
-//  override fun showError() {
-//    binding.errorTextView.visibility = View.VISIBLE
-//  }
-//
-//  override fun clearError() {
-//    binding.errorTextView.visibility = View.GONE
-//  }
+
+    fun setError(error: Text?) {
+        binding.errorTextView.isVisible = error != null
+        binding.errorTextView.text = error?.asString(context).orEmpty()
+    }
 
     interface ClickCallback {
         fun onClick()

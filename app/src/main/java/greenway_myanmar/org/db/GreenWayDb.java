@@ -32,7 +32,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.La
         FfrSeasonEntity.class,
         FfrFishEntity.class,
         FFrContractFarmingCompanyEntity.class
-}, version = 3)
+}, version = 1)
 @TypeConverters({
         DateConverter.class,
         IntegerListConverter.class,

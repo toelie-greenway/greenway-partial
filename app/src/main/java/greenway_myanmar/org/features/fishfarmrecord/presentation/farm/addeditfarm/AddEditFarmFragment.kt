@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditfarm
+package greenway_myanmar.org.features.fishfarmrecord.presentation.farm.addeditfarm
 
 import android.graphics.Color
 import android.net.Uri

@@ -172,8 +172,7 @@
             android:layout_gravity="bottom"
             android:minHeight="?actionBarSize"
             app:layout_collapseMode="pin"
-            app:tabContentStart="56dp"
-            app:tabMode="scrollable" />
+            app:tabMode="fixed" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

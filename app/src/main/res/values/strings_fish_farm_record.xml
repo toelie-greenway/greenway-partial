@@ -13,6 +13,8 @@
 
     <string name="hint_search_in_picker">တိုက်ရိုက်ရှာဖွေရန်</string>
     <string name="ffr_tab_opening_season">မွေးမြူစဲ</string>
+    <string name="ffr_tab_fcr">FCR</string>
+    <string name="ffr_tab_crop_income">Crop Income</string>
     <string name="ffr_tab_closed_seasons">မွေးမြူပြီး</string>
 
     <string name="ffrb_nav_title_home">ငါးမွေးမြူမှတ်တမ်း</string>
@@ -101,6 +103,7 @@
     <string name="ffr_add_edit_expense_label_labour_cost">လုပ်အားခ/လူ/ကျွဲနွား/မိသားစု</string>
     <string name="ffr_add_edit_expense_label_machinery_cost">စက်ပစ္စည်းအသုံးစားရိတ်</string>
     <string name="ffr_add_edit_expense_hint_note">မှတ်ချက်ရေးသားရန်</string>
+    <string name="ffr_add_edit_expense_error_cost_required">ကုန်ကျစရိတ် အနည်းဆုံး တစ်မျိုးဖြည့်ရန်လိုအပ်ပါသည်</string>
 
     <!-- Expense category chooser screen -->
     <string name="ffr_expense_category_chooser_title">ကုန်ကျသည့်အကြောင်းအရင်း</string>
@@ -126,7 +129,7 @@
     <string name="ffr_add_edit_expense_hint_machine_cost">ကုန်ကျစရိတ် (ကျပ်)</string>
     <string name="ffr_add_edit_expense_suffix_machine_cost">@string/myanmar_currency_symbol</string>
 
-    <!-- Expense farm input scree -->
+    <!-- Expense farm input screen -->
     <string name="ffr_add_edit_expense_action_pick_farm_input">သွင်းအားစု</string>
     <string name="ffr_add_edit_expense_hint_farm_input_amount">အသုံးပြုသည့် ပမာဏ</string>
     <string name="ffr_add_edit_expense_hint_farm_input_unit_price">တစ်ခုစျေးနှုန်း</string>
@@ -135,5 +138,20 @@
     <string name="ffr_add_edit_expense_title_farm_input">သွင်းအားစုဖြည့်သွင်းပါ</string>
     <string name="ffr_add_edit_expense_hint_search_product">တိုက်ရိုက်ရှာဖွေရန်</string>
 
+    <!-- ** FCR feature ** -->
+    <!-- FCR List screen -->
+    <string name="ffr_fcr_label_formatted_date">%s | %s · %s</string>
+    <string name="ffr_fcr_label_total_feed_weight">ကျွေးလိုက်သော အစာစုစုပေါင်း</string>
+    <string name="ffr_fcr_label_total_gain_weight">စုစုပေါင်းတိုးလာသောအလေးချိန်</string>
+    <string name="ffr_fcr_label_formatted_ratio">အချိုး %s</string>
+    <string name="ffr_fcr_action_edit">ပြင်မည်</string>
+    <string name="ffr_fcr_action_delete">ဖျက်မည်</string>
+
+    <!-- Add/Edit FCR screen -->
+    <string name="ffr_add_edit_fcr_label_date">ရက်စွဲ</string>
+    <string name="ffr_add_edit_fcr_subtitle_fcr_ratio">အစာမှ အသားတိုးနှုန်းအချိုး (FCR)</string>
+    <string name="ffr_add_edit_fcr_hint_feed_weight">ကျွေးလိုက်သောအစာစုစုပေါင်း</string>
+    <string name="ffr_add_edit_fcr_hint_gain_weight">စုပေါင်းတိုးလာသောငါးအလေးချိန်</string>
+    <string name="ffr_add_edit_fcr_formatted_label_fcr">အစာမှ အသားတိုးနှုန်းအချိုး = ၁.၂၅</string>
 
 </resources>

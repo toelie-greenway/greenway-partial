@@ -10,6 +10,8 @@ import androidx.navigation.fragment.findNavController
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
+import greenway_myanmar.org.common.domain.entities.Text
+import greenway_myanmar.org.common.presentation.extensions.showSnackbar
 import greenway_myanmar.org.databinding.FfrAddEditExpenseFragmentBinding
 import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.labourcost.LabourCostInputBottomSheetFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.machinerycost.MachineryCostInputBottomSheetFragment
@@ -43,6 +45,29 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
         setupFragmentResultListener()
         setupUi()
         observeViewModel()
+    }
+
+    private fun setupUi() {
+        setupDateInputUi()
+        setupCategoryInputUi()
+        setupLabourCostInputUi()
+        setupMachineryCostInputUi()
+        setupFarmInputListInputUi()
+        setupNoteInputUi()
+        setupSubmitButton()
+    }
+
+    private fun observeViewModel() {
+        launchAndRepeatWithViewLifecycle {
+            observeDate()
+            observeCategory()
+            observeCategoryError()
+            observeLabourCost()
+            observeMachineryCost()
+            observeFarmInputs()
+            observeNote()
+            observeCostError()
+        }
     }
 
     private fun setupFragmentResultListener() {
@@ -82,15 +107,6 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
                 )
             }
         }
-    }
-
-    private fun setupUi() {
-        setupDateInputUi()
-        setupCategoryInputUi()
-        setupLabourCostInputUi()
-        setupMachineryCostInputUi()
-        setupFarmInputListInputUi()
-        setupNoteInputUi()
     }
 
     private fun setupDateInputUi() {
@@ -146,14 +162,9 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
         }
     }
 
-    private fun observeViewModel() {
-        launchAndRepeatWithViewLifecycle {
-            observeDate()
-            observeCategory()
-            observeLabourCost()
-            observeMachineryCost()
-            observeFarmInputs()
-            observeNote()
+    private fun setupSubmitButton() {
+        binding.submitButton.setOnClickListener {
+            viewModel.handleEvent(AddEditExpenseEvent.OnSubmit)
         }
     }
 
@@ -170,6 +181,14 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
             .distinctUntilChanged()
             .collect {
                 binding.categoryInputView.category = it
+            }
+    }
+
+    private fun CoroutineScope.observeCategoryError() = launch {
+        viewModel.uiState.map { it.categoryError }
+            .distinctUntilChanged()
+            .collect {
+                binding.categoryInputView.setError(it)
             }
     }
 
@@ -190,7 +209,7 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
     }
 
     private fun CoroutineScope.observeFarmInputs() = launch {
-        viewModel.uiState.map { it.farmInputs }
+        viewModel.uiState.map { it.farmInputCosts }
             .distinctUntilChanged()
             .collect {
                 binding.farmInputListInputView.setItems(it)
@@ -203,6 +222,21 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
             .collect {
                 binding.noteTextInputEditText.bindText(it)
             }
+    }
+
+    private fun CoroutineScope.observeCostError() = launch {
+        viewModel.uiState.map { it.costError }
+            .distinctUntilChanged()
+            .collect { error ->
+                if (error != null) {
+                    showCostRequiredError(error)
+                }
+            }
+    }
+
+    private fun showCostRequiredError(error: Text) {
+        showSnackbar(error)
+        viewModel.handleEvent(AddEditExpenseEvent.CostErrorShown)
     }
 
     private fun openCategoryPickerDialog() {
