@@ -19,7 +19,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.Loan
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorsOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetContractFarmingCompanyByCode
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveSeasonUseCase
@@ -276,13 +276,13 @@ class AddEditSeasonViewModel @Inject constructor(
 
         // set/reset error
         _uiState.value = currentUiState.copy(
-            farmAreaError = areaValidationResult.getErrorOrNull(),
-            seasonNameError = seasonNameValidationResult.getErrorOrNull(),
-            fishesError = fishesValidationResult.getErrorOrNull(),
-            companyCodeError = companyCodeValidateResult.getErrorOrNull(),
-            loanAmountError = loanAmountValidationResult.getErrorOrNull(),
-            loanDurationError = loanDurationValidationResult.getErrorOrNull(),
-            loanOrganizationError = loanOrganizationValidationResult.getErrorOrNull()
+            farmAreaError = areaValidationResult.getErrorsOrNull(),
+            seasonNameError = seasonNameValidationResult.getErrorsOrNull(),
+            fishesError = fishesValidationResult.getErrorsOrNull(),
+            companyCodeError = companyCodeValidateResult.getErrorsOrNull(),
+            loanAmountError = loanAmountValidationResult.getErrorsOrNull(),
+            loanDurationError = loanDurationValidationResult.getErrorsOrNull(),
+            loanOrganizationError = loanOrganizationValidationResult.getErrorsOrNull()
         )
 
         // return if there is any error

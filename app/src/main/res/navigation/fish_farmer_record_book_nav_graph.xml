@@ -21,7 +21,7 @@
             app:destination="@id/addEditExpenseFragment" />
         <action
             android:id="@+id/action_homeFragment_to_pondDetailFragment"
-            app:destination="@id/pondDetailFragment" />
+            app:destination="@id/farmDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditPondFragment"
@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/addEditExpenseFragment"
-        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.AddEditExpenseFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.AddEditExpenseFragment"
         android:label="AddEditExpenseFragment"
         tools:layout="@layout/ffr_add_edit_expense_fragment">
         <action
@@ -72,13 +72,16 @@
             app:destination="@id/farmInputInputFragment" />
     </fragment>
     <fragment
-        android:id="@+id/pondDetailFragment"
+        android:id="@+id/farmDetailFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmDetailFragment"
         android:label="PondDetailFragment"
-        tools:layout="@layout/ffrb_farm_detail_fragment">
+        tools:layout="@layout/ffr_farm_detail_fragment">
         <argument
             android:name="pond_id"
             app:argType="string" />
+        <action
+            android:id="@+id/action_farmDetailFragment_to_addEditFcrRecordFragment"
+            app:destination="@id/addEditFcrRecordFragment" />
     </fragment>
     <fragment
         android:id="@+id/fishInputFragment"
@@ -149,5 +152,9 @@
             android:name="month"
             app:argType="integer" />
     </dialog>
+    <fragment
+        android:id="@+id/addEditFcrRecordFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcrrecord.AddEditFcrRecordFragment"
+        android:label="AddEditFcrRecordFragment" />
 
 </navigation>

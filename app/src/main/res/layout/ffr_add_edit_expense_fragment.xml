@@ -58,25 +58,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_8" />
 
-            <greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.views.ExpenseCategoryInputView
+            <greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.views.ExpenseCategoryInputView
                 android:id="@+id/category_input_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_16" />
 
-            <greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.views.LabourCostInputView
+            <greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.views.LabourCostInputView
                 android:id="@+id/labour_cost_input_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_16" />
 
-            <greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.views.MachineryCostInputView
+            <greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.views.MachineryCostInputView
                 android:id="@+id/machinery_cost_input_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_16" />
 
-            <greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.views.FarmInputListInputView
+            <greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.views.FarmInputListInputView
                 android:id="@+id/farm_input_list_input_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

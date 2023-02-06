@@ -1,5 +1,6 @@
 package greenway_myanmar.org.common.presentation.extensions
 
+import android.os.Build
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -11,11 +12,18 @@ import greenway_myanmar.org.common.domain.entities.asString
 fun Fragment.showSnackbar(text: Text, longDuration: Boolean = true) {
     val contentView = activity?.findViewById<View>(android.R.id.content)
     if (contentView != null) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            requireActivity().window.setDecorFitsSystemWindows(false)
+        }
         Snackbar.make(
             contentView,
             text.asString(requireContext()),
             if (longDuration) Snackbar.LENGTH_LONG else Snackbar.LENGTH_SHORT
         ).show()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            requireActivity().window.setDecorFitsSystemWindows(true)
+        }
     } else {
         // just in case if can't get content view
         Toast.makeText(

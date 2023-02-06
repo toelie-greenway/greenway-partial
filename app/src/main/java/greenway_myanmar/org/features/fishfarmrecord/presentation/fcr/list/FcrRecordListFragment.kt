@@ -9,6 +9,8 @@ import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.decoration.SpaceMarginDecoration
+import greenway_myanmar.org.common.domain.entities.Text
+import greenway_myanmar.org.common.presentation.extensions.showSnackbar
 import greenway_myanmar.org.databinding.FfrFcrRecordListFragmentBinding
 import greenway_myanmar.org.util.kotlin.autoCleared
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +43,11 @@ class FcrRecordListFragment : Fragment(R.layout.ffr_fcr_record_list_fragment) {
     }
 
     private fun setupList() {
-        adapter = FcrRecordListAdapter()
+        adapter = FcrRecordListAdapter(
+            onItemClicked = { onItemClicked(it) },
+            onEditClicked = { onEdit(it) },
+            onDeleteClicked = { onDelete(it) }
+        )
         binding.list.addItemDecoration(SpaceMarginDecoration(requireContext(), 0, 0, 0, 16))
         binding.list.adapter = adapter
     }
@@ -54,6 +60,22 @@ class FcrRecordListFragment : Fragment(R.layout.ffr_fcr_record_list_fragment) {
                 }
                 binding.loadingStateView.bind(uiState)
             }
+    }
+
+    private fun onItemClicked(item: FcrRecordListItemUiState) {
+        
+    }
+
+    private fun onDelete(item: FcrRecordListItemUiState) {
+        showComingSoonMessage()
+    }
+
+    private fun onEdit(item: FcrRecordListItemUiState) {
+        showComingSoonMessage()
+    }
+
+    private fun showComingSoonMessage() {
+        showSnackbar(Text.ResourceText(R.string.ffr_message_coming_soon))
     }
 
 }

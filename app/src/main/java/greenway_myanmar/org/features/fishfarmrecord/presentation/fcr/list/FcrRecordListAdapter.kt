@@ -4,10 +4,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 
-class FcrRecordListAdapter : ListAdapter<FcrRecordListItemUiState, FcrRecordListItemViewHolder>(DiffItemCallback) {
+class FcrRecordListAdapter constructor(
+    private val onItemClicked: (FcrRecordListItemUiState) -> Unit,
+    private val onDeleteClicked: (FcrRecordListItemUiState) -> Unit,
+    private val onEditClicked: (FcrRecordListItemUiState) -> Unit
+) : ListAdapter<FcrRecordListItemUiState, FcrRecordListItemViewHolder>(DiffItemCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FcrRecordListItemViewHolder {
-        return FcrRecordListItemViewHolder(parent)
+        return FcrRecordListItemViewHolder(
+            parent = parent,
+            onItemClicked = onItemClicked,
+            onEditClicked = onEditClicked,
+            onDeleteClicked = onDeleteClicked
+        )
     }
 
     override fun onBindViewHolder(holder: FcrRecordListItemViewHolder, position: Int) {
@@ -17,7 +26,7 @@ class FcrRecordListAdapter : ListAdapter<FcrRecordListItemUiState, FcrRecordList
         }
     }
 
-    object DiffItemCallback: ItemCallback<FcrRecordListItemUiState>() {
+    object DiffItemCallback : ItemCallback<FcrRecordListItemUiState>() {
         override fun areItemsTheSame(
             oldItem: FcrRecordListItemUiState,
             newItem: FcrRecordListItemUiState

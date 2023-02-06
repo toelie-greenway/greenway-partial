@@ -5,6 +5,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.Fcr
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFcrRecordUseCase.SaveFcrRecordRequest
 import java.math.BigDecimal
 import java.util.*
@@ -15,12 +16,12 @@ import java.util.*
     foreignKeys = [
         ForeignKey(
             entity = FfrFcrRecordEntity::class,
-            parentColumns = ["recordId"],
-            childColumns = ["id"],
+            parentColumns = ["id"],
+            childColumns = ["record_id"],
         )
     ],
     indices = [
-        Index(value = ["recordId"]),
+        Index(value = ["record_id"]),
     ]
 )
 data class FfrFcrEntity(
@@ -46,3 +47,9 @@ data class FfrFcrEntity(
         }
     }
 }
+
+fun FfrFcrEntity.asDomainModel() = Fcr(
+    fish = fish.asDomainModel(),
+    feedWeight = feedWeight,
+    gainWeight = gainWeight
+)

@@ -4,27 +4,31 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
-import greenway_myanmar.org.databinding.FfrbFarmDetailFragmentBinding
+import greenway_myanmar.org.databinding.FfrFarmDetailFragmentBinding
 import greenway_myanmar.org.util.extensions.themeColor
 import greenway_myanmar.org.util.kotlin.autoCleared
+import greenway_myanmar.org.util.kotlin.viewBinding
 
 @AndroidEntryPoint
-class FarmDetailFragment : Fragment(R.layout.ffrb_farm_detail_fragment) {
+class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
 
     private val viewModel: FarmDetailViewModel by viewModels()
-    private var binding: FfrbFarmDetailFragmentBinding by autoCleared()
+    private val binding by viewBinding(FfrFarmDetailFragmentBinding::bind)
     private var adapter: FarmDetailPagerAdapter by autoCleared()
-
-    private val statusBarColor by lazy {
-        requireActivity().window.statusBarColor
+    private val onPageChangeCallback = object : OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            binding.addNewFcrButton.isVisible = position == FarmDetailTabUiState.Fcr.index
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +42,6 @@ class FarmDetailFragment : Fragment(R.layout.ffrb_farm_detail_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FfrbFarmDetailFragmentBinding.bind(view)
         ViewCompat.setTransitionName(
             view,
             getString(R.string.ffr_transition_name_screen_farm_detail)
@@ -64,6 +67,7 @@ class FarmDetailFragment : Fragment(R.layout.ffrb_farm_detail_fragment) {
         setupToolbar()
         setupViewPager()
         setupTabLayout()
+        setupAddNewFcrButton()
     }
 
     private fun setupToolbar() {
@@ -75,6 +79,7 @@ class FarmDetailFragment : Fragment(R.layout.ffrb_farm_detail_fragment) {
     private fun setupViewPager() {
         adapter = FarmDetailPagerAdapter(this)
         binding.viewPager.adapter = adapter
+        binding.viewPager.registerOnPageChangeCallback(onPageChangeCallback)
     }
 
     private fun setupTabLayout() {
@@ -83,8 +88,25 @@ class FarmDetailFragment : Fragment(R.layout.ffrb_farm_detail_fragment) {
         }.attach()
     }
 
+    private fun setupAddNewFcrButton() {
+        binding.addNewFcrButton.setOnClickListener {
+            navigateToAddEditFcrRecordScreen()
+        }
+    }
+
+    private fun navigateToAddEditFcrRecordScreen() {
+        navController.navigate(
+            FarmDetailFragmentDirections.actionFarmDetailFragmentToAddEditFcrRecordFragment()
+        )
+    }
+
     private fun observeViewModel() {
 
+    }
+
+    override fun onDestroyView() {
+        binding.viewPager.registerOnPageChangeCallback(onPageChangeCallback)
+        super.onDestroyView()
     }
 
 }

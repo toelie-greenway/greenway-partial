@@ -1,63 +1,140 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcrrecord
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorsOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
-import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.AddEditExpenseEvent
-import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.AddEditExpenseUiState
-import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
-import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputCost
-import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiLabourCost
-import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiMachineryCost
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFcrRecordUseCase
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFcrRecordUseCase.SaveFcrRecordRequest
+import greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcrrecord.views.FcrRatioInputErrorUiState
+import greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcrrecord.views.FcrRatioInputUiState
+import greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcrrecord.views.asDomainModel
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
+import greenway_myanmar.org.util.extensions.toBigDecimalOrZero
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.datetime.toKotlinInstant
 import timber.log.Timber
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.time.LocalDate
+import java.time.ZoneOffset
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditFcrRecordViewModel @Inject constructor(
+    private val saveFcrRecordUseCase: SaveFcrRecordUseCase
+) : ViewModel() {
 
-): ViewModel() {
-
-    private val _uiState = MutableStateFlow(AddEditExpenseUiState())
+    private val _uiState = MutableStateFlow(AddEditFcrRecordUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val currentUiState: AddEditExpenseUiState
+    private val currentUiState: AddEditFcrRecordUiState
         get() = uiState.value
 
-    fun handleEvent(event: AddEditExpenseEvent) {
+    init {
+        _uiState.value = currentUiState.copy(
+            fishes = listOf(
+                UiFish(
+                    "1",
+                    "ကကတစ်",
+                    "https://cdn-icons-png.flaticon.com/512/811/811643.png",
+                    ""
+                ),
+                UiFish(
+                    "2",
+                    "ငါးကြင်း",
+                    "https://cdn-icons-png.flaticon.com/512/1134/1134431.png",
+                    ""
+                )
+            )
+        )
+        calculateRatios()
+    }
+
+    private fun calculateRatios() {
+        viewModelScope.launch {
+            combine(
+                uiState.map { it.fishes }.distinctUntilChanged(),
+                uiState.map { it.feedWeights }.distinctUntilChanged(),
+                uiState.map { it.gainWeights }.distinctUntilChanged(),
+            ) { fishes, feedWeights, gainWeights ->
+                val map = mutableMapOf<Int, BigDecimal?>()
+                List(fishes.size) { index ->
+                    val feedWeight = feedWeights[index]?.toBigDecimalOrNull()
+                    val gainWeight = gainWeights[index]?.toBigDecimalOrNull()
+                    if (feedWeight != null && gainWeight != null) {
+                        map[index] = try {
+                            feedWeight.divide(gainWeight, 2, RoundingMode.HALF_UP)
+                        } catch (e: ArithmeticException) {
+                            BigDecimal.ZERO
+                        }
+                    } else {
+                        map[index] = null
+                    }
+                }
+                map
+            }.collect { ratios ->
+                _uiState.update {
+                    it.copy(calculatedRatios = ratios)
+                }
+            }
+        }
+    }
+
+    fun handleEvent(event: AddEditFcrRecordEvent) {
         when (event) {
-            is AddEditExpenseEvent.OnDateChanged -> {
+            is AddEditFcrRecordEvent.OnDateChanged -> {
                 updateDate(event.date)
             }
-            is AddEditExpenseEvent.OnCategoryChanged -> {
-                updateCategory(event.category)
+            is AddEditFcrRecordEvent.OnFeedWeightChanged -> {
+                updateFeedWeight(event.index, event.weight)
             }
-            is AddEditExpenseEvent.OnLabourCostChanged -> {
-                updateLabourCost(event.labourCost)
+            is AddEditFcrRecordEvent.OnGainWeightChanged -> {
+                updateGainWeight(event.index, event.weight)
             }
-            is AddEditExpenseEvent.OnMachineryCostChanged -> {
-                updateMachineryCost(event.machineryCost)
-            }
-            is AddEditExpenseEvent.OnFarmInputAdded -> {
-                updateFarmInput(event.farmInput)
-            }
-            is AddEditExpenseEvent.OnNoteChanged -> {
-                updateNote(event.note)
-            }
-            AddEditExpenseEvent.OnSubmit -> {
+            AddEditFcrRecordEvent.OnSubmit -> {
                 onSubmit()
             }
-            AddEditExpenseEvent.CostErrorShown -> {
-                clearCostError()
+            AddEditFcrRecordEvent.AllInputErrorShown -> {
+                clearAllInputError()
             }
+        }
+    }
+
+    private fun updateFeedWeight(index: Int, weight: String?) {
+        val currentWeight = currentUiState.feedWeights[index]
+        if (currentWeight == weight) {
+            return
+        }
+
+        val newFeedWeights = currentUiState.feedWeights.toMutableMap()
+        newFeedWeights[index] = weight
+        _uiState.update {
+            it.copy(feedWeights = newFeedWeights)
+        }
+    }
+
+    private fun updateGainWeight(index: Int, weight: String?) {
+        val currentWeight = currentUiState.gainWeights[index]
+        if (currentWeight == weight) {
+            return
+        }
+
+        val newGainWeights = currentUiState.gainWeights.toMutableMap()
+        newGainWeights[index] = weight
+        _uiState.update {
+            it.copy(gainWeights = newGainWeights)
         }
     }
 
@@ -65,109 +142,161 @@ class AddEditFcrRecordViewModel @Inject constructor(
         _uiState.value = currentUiState.copy(date = date)
     }
 
-    private fun updateCategory(category: UiExpenseCategory) {
-        _uiState.value = currentUiState.copy(category = category)
-    }
-
-    private fun updateLabourCost(labourCost: UiLabourCost) {
-        _uiState.value = currentUiState.copy(labourCost = labourCost)
-    }
-
-    private fun updateMachineryCost(machineryCost: UiMachineryCost) {
-        _uiState.value = currentUiState.copy(machineryCost = machineryCost)
-    }
-
-    private fun updateFarmInput(farmInput: UiFarmInputCost) {
-        _uiState.value = currentUiState.copy(
-            farmInputCosts = currentUiState.farmInputCosts
-                .removeIfExists(farmInput)
-                .add(farmInput)
-        )
-    }
-
-    private fun List<UiFarmInputCost>.removeIfExists(
-        item: UiFarmInputCost,
-    ): List<UiFarmInputCost> {
-        val resultList = this.toMutableList()
-        val found = currentUiState.farmInputCosts.find { it.productId == item.productId }
-        if (found != null) {
-            resultList.remove(found)
-        }
-        return resultList
-    }
-
-    private fun List<UiFarmInputCost>.add(item: UiFarmInputCost): List<UiFarmInputCost> {
-        val resultList = this.toMutableList()
-        resultList.add(item)
-        return resultList
-    }
-
-    private fun updateNote(note: String) {
+    private fun clearAllInputError() {
         _uiState.update {
-            it.copy(note = note)
-        }
-    }
-
-    private fun clearCostError() {
-        _uiState.update {
-            it.copy(costError = null)
+            it.copy(allInputError = null)
         }
     }
 
     private fun onSubmit() {
         // validate inputs
-        val categoryValidationResult = validateCategory(currentUiState.category)
-        val costsValidationResult = validateCosts(
-            currentUiState.labourCost,
-            currentUiState.machineryCost,
-            currentUiState.farmInputCosts
-        )
+        val dateValidationResult = validateDate(currentUiState.date)
+        val allWeightInputsValidationResult: ValidationResult<Unit> = validateAllWeightInputs()
+        val individualWeightInputsValidationResult: List<ValidationResult<Pair<Int, FcrRatioInputUiState>>> =
+            validateIndividualWeightInputs()
+        val individualWeightInputErrors = individualWeightInputsValidationResult.getErrorsOrNull()
+        val individualWeightInputResult = individualWeightInputsValidationResult.getData()
 
         // set/reset error
         _uiState.value = currentUiState.copy(
-            categoryError = categoryValidationResult.getErrorOrNull(),
-            costError = costsValidationResult.getErrorOrNull()
+            dateError = dateValidationResult.getErrorsOrNull(),
+            allInputError = allWeightInputsValidationResult.getErrorsOrNull(),
+            individualInputErrors = individualWeightInputErrors
         )
 
         // return if there is any error
         if (hasError(
-                categoryValidationResult,
-                costsValidationResult
-            )
+                dateValidationResult,
+                allWeightInputsValidationResult,
+            ) || !individualWeightInputErrors.isNullOrEmpty()
         ) {
             return
         }
 
         // collect result
-        val category = categoryValidationResult.getDataOrThrow()
-        val labourCost = currentUiState.labourCost
-        val machineryCost = currentUiState.machineryCost
-        val farmInputCosts = currentUiState.farmInputCosts
+        val date = dateValidationResult.getDataOrThrow()
 
-        Timber.d("Category: $category")
-        Timber.d("labourCost: $labourCost")
-        Timber.d("machineryCost: $machineryCost")
-        Timber.d("farmInputCosts: $farmInputCosts")
-
+        Timber.d("Date: $date")
+        Timber.d("Ratios: $individualWeightInputResult")
+        val request = SaveFcrRecordRequest(
+            id = null, //TODO: update when support edit
+            date = date.atStartOfDay().atZone(ZoneOffset.UTC).toInstant().toKotlinInstant(),
+            ratios = individualWeightInputResult.map {
+                it.asDomainModel()
+            }
+        )
+        saveFcrRecord(request)
     }
 
-    private fun validateCategory(category: UiExpenseCategory?): ValidationResult<UiExpenseCategory> {
-        return if (category == null) {
+    private fun validateDate(date: LocalDate?): ValidationResult<LocalDate> {
+        return if (date == null) {
             ValidationResult.Error(Text.ResourceText(R.string.error_field_required))
         } else {
-            ValidationResult.Success(category)
+            ValidationResult.Success(date)
         }
     }
 
-    private fun validateCosts(
-        labourCost: UiLabourCost?,
-        machineryCost: UiMachineryCost?,
-        farmInputCosts: List<UiFarmInputCost>?
-    ): ValidationResult<Unit> {
-        return if (labourCost == null && machineryCost == null && farmInputCosts.isNullOrEmpty()) {
-            ValidationResult.Error(Text.ResourceText(R.string.ffr_add_edit_expense_error_cost_required))
+    private fun validateAllWeightInputs(): ValidationResult<Unit> {
+        List(currentUiState.fishes.size) { index ->
+            val feedWeight = currentUiState.feedWeights[index]
+            val gainWeight = currentUiState.gainWeights[index]
+
+            if (!feedWeight.isNullOrEmpty() || !gainWeight.isNullOrEmpty()) {
+                return ValidationResult.Success(Unit)
+            }
+        }
+        return ValidationResult.Error(Text.ResourceText(R.string.ffr_add_edit_fcr_error_weight_required))
+    }
+
+    private fun validateIndividualWeightInputs(): List<ValidationResult<Pair<Int, FcrRatioInputUiState>>> {
+        return currentUiState.fishes.mapIndexed { index, fish ->
+            val feedWeight = currentUiState.feedWeights[index]
+            val gainWeight = currentUiState.gainWeights[index]
+            validateWeightInput(index, fish, feedWeight, gainWeight)
+        }
+    }
+
+    private fun validateWeightInput(
+        index: Int,
+        fish: UiFish,
+        feedWeightString: String?,
+        gainWeightString: String?
+    ): ValidationResult<Pair<Int, FcrRatioInputUiState>> {
+        val feedWeight = feedWeightString.toBigDecimalOrZero()
+        val gainWeight = gainWeightString.toBigDecimalOrZero()
+        return if (feedWeightString.isNullOrEmpty().xor(gainWeightString.isNullOrEmpty())) {
+            ValidationResult.Error(
+                message = Text.ResourceText(R.string.error_field_required),
+                data = Pair(
+                    index,
+                    FcrRatioInputUiState(
+                        fish = fish,
+                        feedWeight = feedWeight,
+                        gainWeight = gainWeight
+                    )
+                )
+            )
         } else {
-            ValidationResult.Success(Unit)
+            ValidationResult.Success(
+                data = Pair(
+                    index,
+                    FcrRatioInputUiState(
+                        fish = fish,
+                        feedWeight = feedWeight,
+                        gainWeight = gainWeight
+                    )
+                )
+            )
+        }
+    }
+
+    private fun List<ValidationResult<Pair<Int, FcrRatioInputUiState>>>.getErrorsOrNull(): Map<Int, FcrRatioInputErrorUiState?>? {
+        if (this.all { it.isSuccessful }) {
+            return null
+        }
+
+        val map = mutableMapOf<Int, FcrRatioInputErrorUiState>()
+        this.forEach { result ->
+            if (result is ValidationResult.Error) {
+                result.data?.let { (index, fcrRatioInputUiState) ->
+                    map.put(
+                        index, FcrRatioInputErrorUiState(
+                            feedWeightError = fcrRatioInputUiState.getFeedWeightErrorOrNull(result.getErrorsOrNull()),
+                            gainWeightError = fcrRatioInputUiState.getGainWeightErrorOrNull(result.getErrorsOrNull())
+                        )
+                    )
+                }
+            }
+        }
+        return map
+    }
+
+    private fun List<ValidationResult<Pair<Int, FcrRatioInputUiState>>>.getData(): List<FcrRatioInputUiState> {
+        val list = mutableListOf<FcrRatioInputUiState>()
+        this.forEach { result ->
+            if (result is ValidationResult.Success) {
+                result.data.let { (_, fcrRatioInputUiState) ->
+                    list.add(fcrRatioInputUiState)
+                }
+            }
+        }
+        return list
+    }
+
+    private fun saveFcrRecord(request: SaveFcrRecordRequest) {
+        viewModelScope.launch {
+            try {
+                val result = saveFcrRecordUseCase(request)
+                _uiState.update {
+                    it.copy(
+                        addEditFcrRecordResult = AddEditFcrRecordUiState.AddEditFcrRecordResult(
+                            recordId = result.id
+                        )
+                    )
+                }
+            } catch (e: Exception) {
+                // TODO: Show Error
+            }
         }
     }
 }

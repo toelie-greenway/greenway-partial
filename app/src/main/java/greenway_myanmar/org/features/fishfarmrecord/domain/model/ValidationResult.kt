@@ -4,7 +4,7 @@ import greenway_myanmar.org.common.domain.entities.Text
 
 sealed class ValidationResult<out T>(val isSuccessful: Boolean) {
     data class Success<T>(val data: T) : ValidationResult<T>(true)
-    data class Error(val message: Text? = null) : ValidationResult<Nothing>(false)
+    data class Error<T>(val message: Text? = null, val data: T? = null) : ValidationResult<T>(false)
 }
 
 fun <T> ValidationResult<T>.getDataOrThrow() = if (this is ValidationResult.Success) {
@@ -31,7 +31,7 @@ fun <T> ValidationResult<T>.getErrorOrThrow() = if (this is ValidationResult.Err
     throw IllegalStateException("ValidationResult, $this must be ValidationResult.Error")
 }
 
-fun <T> ValidationResult<T>.getErrorOrNull() = (this as? ValidationResult.Error)?.message
+fun <T> ValidationResult<T>.getErrorsOrNull() = (this as? ValidationResult.Error)?.message
 
 fun <T> ValidationResult<T>.isError() = (this is ValidationResult.Error)
 

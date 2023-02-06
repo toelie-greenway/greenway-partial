@@ -18,9 +18,13 @@ import greenway_myanmar.org.db.converter.StringListConverter;
 import greenway_myanmar.org.db.converter.UUIDStringConverter;
 import greenway_myanmar.org.db.converter.UriStringConverter;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFarmDao;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrDao;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrRecordDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FFrContractFarmingCompanyEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFarmEntity;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFcrEntity;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFcrRecordEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFishEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrSeasonEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.FfrFishListConverter;
@@ -31,6 +35,8 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.La
         FfrFarmEntity.class,
         FfrSeasonEntity.class,
         FfrFishEntity.class,
+        FfrFcrRecordEntity.class,
+        FfrFcrEntity.class,
         FFrContractFarmingCompanyEntity.class
 }, version = 1)
 @TypeConverters({
@@ -57,4 +63,7 @@ public abstract class GreenWayDb extends RoomDatabase {
 
     public abstract FfrSeasonDao ffrSeasonDao();
 
+    public abstract FfrFcrRecordDao ffrFcrRecordDao();
+
+    public abstract FfrFcrDao ffrFcrDao();
 }

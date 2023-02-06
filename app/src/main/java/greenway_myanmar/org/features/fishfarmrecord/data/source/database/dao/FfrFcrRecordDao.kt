@@ -3,12 +3,12 @@ package greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFcrRecordEntity
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.PopulatedFcrRecord
 import kotlinx.coroutines.flow.Flow
-import retrofit2.http.GET
 
 
 /**
@@ -23,15 +23,15 @@ abstract class FfrFcrRecordDao {
     @Upsert
     abstract suspend fun upsertFcrRecord(entity: FfrFcrRecordEntity)
 
-    @GET("SELECT * FROM ffr_fcr_record WHERE rowid = :rowId")
+    @Query("SELECT * FROM ffr_fcr_record WHERE rowid = :rowId")
     abstract suspend fun getFcrRecordByRowId(rowId: Long): FfrFcrRecordEntity
 
-    @GET(
+    @Query(
         value = """
             SELECT * FROM ffr_fcr_record
             ORDER BY date DESC
         """
     )
     @Transaction
-    abstract fun getFcrRecordsStream(): Flow<PopulatedFcrRecord>
+    abstract fun getFcrRecordsStream(): Flow<List<PopulatedFcrRecord>>
 }
