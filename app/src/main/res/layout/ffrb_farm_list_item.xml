@@ -5,12 +5,12 @@
     android:id="@+id/container_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:contentPaddingBottom="@dimen/spacing_nano"
-    app:contentPaddingTop="@dimen/padding_normal">
+    app:contentPaddingBottom="@dimen/spacing_nano">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_normal">
 
         <FrameLayout
             android:id="@+id/pond_image_frame"
@@ -135,11 +135,22 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
+        android:id="@+id/loading_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#DEFFFFFF"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/loading_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:trackThickness="2dp" />
+
+    </FrameLayout>
 
 </com.google.android.material.card.MaterialCardView>

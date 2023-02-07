@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.greenwaymyanmar.common.imagepicker.ImagePickerLifecycleObserver
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.ui.widgets.AsylImageInputView
 import com.greenwaymyanmar.ui.widgets.AsylImageInputView.OnImageInputListener
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
@@ -406,11 +407,21 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
 
     private fun CoroutineScope.observeNewFarmResult() {
         launch {
-            viewModel.uiState.map { it.newFarmResult }
+            viewModel.uiState.map { it.farmUploadState }
                 .distinctUntilChanged()
-                .collect { newFarmResult ->
-                    if (newFarmResult != null) {
-                        navigateBackWithResult(newFarmResult.farmId)
+                .collect { state ->
+                    binding.submitButton.isVisible = state !is LoadingState.Loading
+                    binding.uploadingStateContainer.isVisible = state is LoadingState.Loading
+                    when (state) {
+                        is LoadingState.Error -> {
+                            navigateBackWithoutResult()
+                        }
+                        is LoadingState.Success -> {
+                            navigateBackWithResult(state.data.farmId)
+                        }
+                        else -> {
+                            /* no-op */
+                        }
                     }
                 }
         }
@@ -423,6 +434,10 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
                 FishFarmerRecordBookHomeFragment.BUNDLE_KEY_POND_ID to pondId
             )
         )
+        navController.popBackStack()
+    }
+
+    private fun navigateBackWithoutResult() {
         navController.popBackStack()
     }
 

@@ -10,7 +10,8 @@ data class UiFarm(
     val name: String,
     val images: List<String>,
     val ongoingSeason: Season? = null,
-    val area: UiArea? = null
+    val area: UiArea? = null,
+
 ) {
     companion object {
         fun fromDomain(domainEntity: Farm) = UiFarm(

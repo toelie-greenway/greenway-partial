@@ -6,10 +6,14 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.FishFarm
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.ApiDataWrapper
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkContractFarmingCompany
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpenseCategory
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarm
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProduct
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProductCategory
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmRequest
 import retrofit2.Retrofit
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,6 +23,12 @@ import javax.inject.Singleton
  * Retrofit API declaration for GreenWay Fish Farm Record Feature Network API
  */
 private interface RetrofitFishFarmRecordNetworkApi {
+
+    @POST("ffr/farms")
+    suspend fun postFarm(
+        @Query("user_id") userId: String,
+        @Body body: NetworkFarmRequest
+    ): ApiResponse<ApiDataWrapper<NetworkFarm>>
 
     @GET(value = "ffr/expense-categories")
     suspend fun getExpenseCategories(): ApiResponse<ApiDataWrapper<List<NetworkExpenseCategory>>>
@@ -53,6 +63,9 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
 
     private val networkApi: RetrofitFishFarmRecordNetworkApi =
         retrofit.create(RetrofitFishFarmRecordNetworkApi::class.java)
+
+    override suspend fun postFarm(userId: String, request: NetworkFarmRequest) =
+        networkApi.postFarm(userId, request).getDataOrThrow().data
 
     override suspend fun getExpenseCategories(): List<NetworkExpenseCategory> =
         networkApi.getExpenseCategories().getDataOrThrow().data

@@ -168,7 +168,9 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
             view to addEditSeasonTransitionName
         )
         val directions =
-            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditSeasonFragment()
+            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditSeasonFragment(
+                farmId
+            )
         navController.navigate(directions, extras)
     }
 

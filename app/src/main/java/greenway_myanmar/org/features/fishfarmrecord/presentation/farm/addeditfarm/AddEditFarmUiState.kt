@@ -1,6 +1,7 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.farm.addeditfarm
 
 import android.net.Uri
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.core.presentation.model.UiArea
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.areameasure.presentation.model.AreaMeasurement
@@ -19,7 +20,8 @@ data class AddEditFarmUiState(
     val farmNameError: Text? = null,
     val farmAreaError: Text? = null,
     val farmOwnershipError: Text? = null,
-    val newFarmResult: AddEditFarmResult? = null,
+
+    val farmUploadState: FarmUploadState = LoadingState.Idle
 ) {
     data class FarmInput(
         val farmName: String,
@@ -34,5 +36,6 @@ data class AddEditFarmUiState(
     data class AddEditFarmResult(
         val farmId: String
     )
-
 }
+
+typealias FarmUploadState = LoadingState<AddEditFarmUiState.AddEditFarmResult>

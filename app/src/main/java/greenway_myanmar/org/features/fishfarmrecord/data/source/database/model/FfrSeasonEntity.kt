@@ -33,6 +33,8 @@ data class FfrSeasonEntity(
     val measuredArea: Double? = null,
     @ColumnInfo("measured_type")
     val measuredType: String? = null,
+    @ColumnInfo("depth")
+    val depth: Double? = null,
     @ColumnInfo("season_name")
     val seasonName: String,
     @ColumnInfo("season_start_date")
@@ -57,6 +59,7 @@ data class FfrSeasonEntity(
                 area = request.farmMeasurement.area.value,
                 measuredArea = request.farmMeasurement.measuredArea?.value,
                 measuredType = request.farmMeasurement.measuredType.asStringOrNull(),
+                depth = request.farmMeasurement.depth,
                 seasonName = request.seasonName,
                 seasonStartDate = request.seasonStartDate,
                 fishes = request.fishes.map {
@@ -78,7 +81,8 @@ fun FfrSeasonEntity.asDomainModel() = Season(
         coordinates = coordinates,
         area = Area.acre(area),
         measuredArea = Area.acreOrNull(measuredArea),
-        measuredType = AreaMeasureMethod.fromStringOrNull(measuredType)
+        measuredType = AreaMeasureMethod.fromStringOrNull(measuredType),
+        depth = depth
     ),
     totalExpenses = totalExpenses,
     fishes = mapFishes(fishes),

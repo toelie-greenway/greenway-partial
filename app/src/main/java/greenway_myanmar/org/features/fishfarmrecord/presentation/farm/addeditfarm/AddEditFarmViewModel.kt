@@ -2,15 +2,21 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.farm.addeditfa
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.google.android.gms.maps.model.LatLng
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.core.presentation.model.UiArea
 import com.greenwaymyanmar.core.presentation.model.asDomain
+import com.greenwaymyanmar.utils.runCancellableCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
 import greenway_myanmar.org.features.areameasure.presentation.model.AreaMeasurement
+import greenway_myanmar.org.features.fishfarmrecord.data.source.task.workers.PostFarmWorker
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
@@ -30,7 +36,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEditFarmViewModel @Inject constructor(
-    private val saveFarmUseCase: SaveFarmUseCase
+    private val saveFarmUseCase: SaveFarmUseCase,
+    private val workManager: WorkManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddEditFarmUiState())
@@ -214,7 +221,8 @@ class AddEditFarmViewModel @Inject constructor(
                     coordinates = coordinates,
                     area = area.asDomain(),
                     measuredArea = Area.acreOrNull(measuredArea),
-                    measuredType = measureMethod
+                    measuredType = measureMethod,
+                    depth = farmDepth
                 ),
                 ownership = ownership.asDomainModel(),
                 imageUri = farmImageUri,
@@ -225,19 +233,52 @@ class AddEditFarmViewModel @Inject constructor(
 
     private fun saveFarm(saveFarmRequest: SaveFarmUseCase.SaveFarmRequest) {
         viewModelScope.launch {
-            try {
-                val result = saveFarmUseCase(saveFarmRequest)
-                _uiState.update {
-                    it.copy(
-                        newFarmResult = AddEditFarmUiState.AddEditFarmResult(
-                            farmId = result.id
-                        )
-                    )
-                }
-            } catch (e: Exception) {
-                // TODO: Handle exception
-                e.printStackTrace()
+            runCancellableCatching {
+                saveFarmUseCase(saveFarmRequest)
+            }.onSuccess { result ->
+                observeFarmUploadStatus(result.id)
+            }.onFailure {
+                // TODO: Show Error
             }
+        }
+    }
+
+    private fun observeFarmUploadStatus(farmId: String) {
+        viewModelScope.launch {
+            workManager.getWorkInfosForUniqueWorkLiveData(PostFarmWorker.buildTag(farmId))
+                .asFlow()
+                .collect { list ->
+                    if (!list.isNullOrEmpty()) {
+                        val workInfo = list.first()
+                        val isErrorOccurred = PostFarmWorker.isErrorOccurred(workInfo.progress)
+                        if (isErrorOccurred) {
+                            _uiState.update {
+                                it.copy(farmUploadState = LoadingState.Error())
+                            }
+                        } else if (workInfo.state == WorkInfo.State.ENQUEUED || workInfo.state == WorkInfo.State.RUNNING) {
+                            _uiState.update {
+                                it.copy(
+                                    farmUploadState = LoadingState.Loading
+                                )
+                            }
+                        } else if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                            val newFarmId = PostFarmWorker.getNewFarmId(workInfo.outputData)
+                            if (newFarmId != null) {
+                                _uiState.update {
+                                    it.copy(
+                                        farmUploadState = LoadingState.Success(
+                                            AddEditFarmUiState.AddEditFarmResult(newFarmId)
+                                        )
+                                    )
+                                }
+                            }
+                        } else if (workInfo.state.isFinished) {
+                            _uiState.update {
+                                it.copy(farmUploadState = LoadingState.Error())
+                            }
+                        }
+                    }
+                }
         }
     }
 

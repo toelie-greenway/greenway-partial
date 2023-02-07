@@ -168,8 +168,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_8"
-                app:suffixText="@string/measurement_feet_symbol"
-                android:hint="@string/ffr_add_edit_pond_hint_pond_depth">
+                android:hint="@string/ffr_add_edit_pond_hint_pond_depth"
+                app:suffixText="@string/measurement_feet_symbol">
 
                 <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
                     android:id="@+id/farm_depth_text_input_edit_text"
@@ -192,6 +192,24 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/uploading_state_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DEFFFFFF"
+        android:visibility="gone"
+
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/uploading_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:trackThickness="2dp" />
+
+    </FrameLayout>
 
     <!--    <include-->
     <!--        layout="@layout/uploading_state"-->

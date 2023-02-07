@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.domain.model
 
+import com.greenwaymyanmar.vo.PendingAction
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 
 data class Farm(
@@ -10,4 +11,5 @@ data class Farm(
     val measurement: FarmMeasurement,
     val ownership: FarmOwnership,
     val plotId: String? = null,
+    val pendingAction: PendingAction? = null
 )

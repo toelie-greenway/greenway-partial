@@ -1,5 +1,7 @@
 package greenway_myanmar.org.features.fishfarmrecord.di
 
+import android.app.Application
+import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +23,10 @@ object AppModule {
     fun providesApplicationScope(
         @DefaultDispatcher defaultDispatcher: CoroutineDispatcher
     ): CoroutineScope = CoroutineScope(SupervisorJob() + defaultDispatcher)
+
+    @Singleton
+    @Provides
+    fun provideWorkManager(app: Application): WorkManager {
+        return WorkManager.getInstance(app)
+    }
 }

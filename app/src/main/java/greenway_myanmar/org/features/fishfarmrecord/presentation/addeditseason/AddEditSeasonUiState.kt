@@ -4,6 +4,7 @@ import com.greenwaymyanmar.core.presentation.model.LoadingState
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.areameasure.presentation.model.AreaMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiContractFarmingCompany
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiLoanDuration
 import java.time.LocalDate
@@ -44,3 +45,4 @@ data class AddEditSeasonUiState(
 }
 
 typealias CompanyUiState = LoadingState<UiContractFarmingCompany>
+typealias FarmMeasurementUiState = LoadingState<UiFarmMeasurement>

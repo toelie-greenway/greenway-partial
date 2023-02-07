@@ -19,7 +19,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import greenway_myanmar.org.BuildConfig
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonNamingStrategy
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaType
@@ -56,6 +55,7 @@ class ApiModule {
   @Singleton
   fun providesNetworkJson(): Json = Json {
     ignoreUnknownKeys = true
+    isLenient = true
   }
 
   @Singleton
@@ -124,7 +124,8 @@ class ApiModule {
   @Singleton
   @Provides
   fun provideHttpUrl(): HttpUrl {
-    return "http://10.0.2.2:3003/api/v9/".toHttpUrl()
+//    return "http://10.0.2.2:3003/api/v9/".toHttpUrl()
+    return "https://upgrade.greenwaymyanmar.com/api/v9/".toHttpUrl()
   }
 
   @Provides

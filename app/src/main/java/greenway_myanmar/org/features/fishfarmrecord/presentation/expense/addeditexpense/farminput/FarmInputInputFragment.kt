@@ -14,7 +14,6 @@ import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FfrFarmInputInputFragmentBinding
-import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditexpense.farminput.FarmInputInputFragmentDirections
 import greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.farminput.products.FarmInputProductPickerFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputProduct
 import greenway_myanmar.org.util.extensions.bindMoney

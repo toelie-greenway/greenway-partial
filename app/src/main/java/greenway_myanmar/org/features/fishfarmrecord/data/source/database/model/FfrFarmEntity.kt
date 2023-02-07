@@ -9,6 +9,9 @@ import com.greenwaymyanmar.vo.PendingAction
 import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
 import greenway_myanmar.org.features.areameasure.domain.model.asStringOrNull
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.EntityIdGenerator.generateIdIfRequired
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmAreaLatLng
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmAreaRequest
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmRequest
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area.Companion.acre
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area.Companion.acreOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Farm
@@ -22,21 +25,34 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCa
 )
 data class FfrFarmEntity(
     @PrimaryKey
+    @ColumnInfo(name = "id")
     val id: String,
+    @ColumnInfo(name = "name")
     val name: String,
+    @ColumnInfo(name = "ownership")
     val ownership: String,
     @ColumnInfo(name = "image_urls")
     val imageUrls: List<String>? = null,
     @ColumnInfo(name = "plot_id")
     val plotId: String? = null,
+    @ColumnInfo(name = "depth")
+    val depth: Double? = null,
+    @ColumnInfo(name = "pending_action")
     val pendingAction: PendingAction = PendingAction.NOTHING,
+    @ColumnInfo(name = "location")
     val location: LatLng? = null,
+    @ColumnInfo(name = "coordinates")
     val coordinates: List<LatLng>? = null,
+    @ColumnInfo(name = "area")
     val area: Double,
+    @ColumnInfo(name = "measured_area")
     val measuredArea: Double? = null,
+    @ColumnInfo(name = "measured_type")
     val measuredType: String? = null,
+    @ColumnInfo(name = "opening_season_id")
     val openingSeasonId: String? = null
 ) {
+
     companion object {
         fun from(request: SaveFarmRequest, pendingAction: PendingAction) =
             FfrFarmEntity(
@@ -45,6 +61,7 @@ data class FfrFarmEntity(
                 ownership = request.ownership.asString(),
                 imageUrls = mapImageUri(request.imageUri),
                 plotId = request.plotId,
+                depth = request.measurement.depth,
                 pendingAction = pendingAction,
                 location = request.measurement.location,
                 coordinates = request.measurement.coordinates,
@@ -58,7 +75,6 @@ data class FfrFarmEntity(
 
             return listOf(imageUri.toString())
         }
-
     }
 }
 
@@ -80,9 +96,33 @@ fun FfrFarmEntity.asDomainModel(openingSeason: FfrSeasonEntity? = null) = Farm(
         coordinates = coordinates,
         area = acre(area),
         measuredArea = acreOrNull(measuredArea),
-        measuredType = AreaMeasureMethod.fromStringOrNull(measuredType)
+        measuredType = AreaMeasureMethod.fromStringOrNull(measuredType),
+        depth = depth
     ),
     plotId = plotId,
     ownership = FarmOwnership.fromString(ownership),
-    openingSeason = openingSeason?.asDomainModel()
+    openingSeason = openingSeason?.asDomainModel(),
+    pendingAction = pendingAction
+)
+
+
+fun FfrFarmEntity.asNetworkRequestModel() = NetworkFarmRequest(
+    name = name,
+    ownership = ownership,
+    photos = emptyList(), //TODO:
+    lat = location?.latitude,
+    lon = location?.longitude,
+    plot_id = plotId,
+    area = NetworkFarmAreaRequest(
+        acre = area,
+        measurement_type = measuredType,
+        measured_acre = measuredArea,
+        depth = depth,
+        measurement = coordinates?.map {
+            NetworkFarmAreaLatLng(
+                lat = it.latitude,
+                lng = it.longitude
+            )
+        }
+    )
 )

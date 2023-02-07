@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "54bcdb073a6f2d03381503d49f79d5de",
+    "identityHash": "ac4b390a52b29603b5fcb15636cfccc3",
     "entities": [
       {
         "tableName": "ffr_farms",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `ownership` TEXT NOT NULL, `image_urls` TEXT, `plot_id` TEXT, `pendingAction` TEXT NOT NULL, `location` TEXT, `coordinates` TEXT, `area` REAL NOT NULL, `measuredArea` REAL, `measuredType` TEXT, `openingSeasonId` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `ownership` TEXT NOT NULL, `image_urls` TEXT, `plot_id` TEXT, `depth` REAL, `pending_action` TEXT NOT NULL, `location` TEXT, `coordinates` TEXT, `area` REAL NOT NULL, `measured_area` REAL, `measured_type` TEXT, `opening_season_id` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -39,8 +39,14 @@
             "notNull": false
           },
           {
+            "fieldPath": "depth",
+            "columnName": "depth",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
             "fieldPath": "pendingAction",
-            "columnName": "pendingAction",
+            "columnName": "pending_action",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -64,19 +70,19 @@
           },
           {
             "fieldPath": "measuredArea",
-            "columnName": "measuredArea",
+            "columnName": "measured_area",
             "affinity": "REAL",
             "notNull": false
           },
           {
             "fieldPath": "measuredType",
-            "columnName": "measuredType",
+            "columnName": "measured_type",
             "affinity": "TEXT",
             "notNull": false
           },
           {
             "fieldPath": "openingSeasonId",
-            "columnName": "openingSeasonId",
+            "columnName": "opening_season_id",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -92,7 +98,7 @@
       },
       {
         "tableName": "ffr_seasons",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `location` TEXT, `coordinates` TEXT, `area` REAL NOT NULL, `measured_area` REAL, `measured_type` TEXT, `season_name` TEXT NOT NULL, `season_start_date` INTEGER NOT NULL, `fishes` TEXT NOT NULL, `total_expenses` TEXT NOT NULL, `pending_action` TEXT NOT NULL, `company_id` TEXT, `company_name` TEXT, `company_code` TEXT, `loan_amount` TEXT, `loan_duration` INTEGER, `loan_organization` TEXT, `loan_remark` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `location` TEXT, `coordinates` TEXT, `area` REAL NOT NULL, `measured_area` REAL, `measured_type` TEXT, `depth` REAL, `season_name` TEXT NOT NULL, `season_start_date` INTEGER NOT NULL, `fishes` TEXT NOT NULL, `total_expenses` TEXT NOT NULL, `pending_action` TEXT NOT NULL, `company_id` TEXT, `company_name` TEXT, `company_code` TEXT, `loan_amount` TEXT, `loan_duration` INTEGER, `loan_organization` TEXT, `loan_remark` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -128,6 +134,12 @@
             "fieldPath": "measuredType",
             "columnName": "measured_type",
             "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "depth",
+            "columnName": "depth",
+            "affinity": "REAL",
             "notNull": false
           },
           {
@@ -397,7 +409,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '54bcdb073a6f2d03381503d49f79d5de')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ac4b390a52b29603b5fcb15636cfccc3')"
     ]
   }
 }

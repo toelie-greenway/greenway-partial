@@ -8,5 +8,6 @@ data class FarmMeasurement (
     val coordinates: List<LatLng>? = null,
     val area: Area,
     val measuredArea: Area? = null,
-    val measuredType: AreaMeasureMethod? = null
+    val measuredType: AreaMeasureMethod? = null,
+    val depth: Double?
 )

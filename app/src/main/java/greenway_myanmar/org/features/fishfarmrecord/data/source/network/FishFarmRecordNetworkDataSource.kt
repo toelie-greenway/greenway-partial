@@ -2,13 +2,16 @@ package greenway_myanmar.org.features.fishfarmrecord.data.source.network
 
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkContractFarmingCompany
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpenseCategory
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarm
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProduct
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProductCategory
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmRequest
 
 /**
  * Interface representing network calls to the GreenWay backend
  */
 interface FishFarmRecordNetworkDataSource {
+    suspend fun postFarm(userId: String, request: NetworkFarmRequest): NetworkFarm
     suspend fun getExpenseCategories(): List<NetworkExpenseCategory>
     suspend fun getFarmInputProducts(
         query: String,

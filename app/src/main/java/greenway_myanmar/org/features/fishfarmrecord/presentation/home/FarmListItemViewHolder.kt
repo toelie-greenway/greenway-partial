@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.greenwaymyanmar.core.presentation.model.UiArea
 import com.greenwaymyanmar.core.presentation.model.asString
+import com.greenwaymyanmar.vo.PendingAction
 import greenway_myanmar.org.R
-import greenway_myanmar.org.databinding.FfrbPondListItemBinding
+import greenway_myanmar.org.databinding.FfrbFarmListItemBinding
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ContractFarmingCompany
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 import java.math.BigDecimal
@@ -23,9 +24,9 @@ class FarmListItemViewHolder(
     private val onAddNewExpenseClick: (item: FarmListItemUiState) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
-        .inflate(R.layout.ffrb_pond_list_item, parent, false)
+        .inflate(R.layout.ffrb_farm_list_item, parent, false)
 ) {
-    private val binding = FfrbPondListItemBinding.bind(itemView)
+    private val binding = FfrbFarmListItemBinding.bind(itemView)
     private val context = parent.context
 
     init {
@@ -55,9 +56,14 @@ class FarmListItemViewHolder(
         bindNewExpenseButton(item)
         bindTotalExpenses(item.hasOngoingSeason, item.openingSeason?.totalExpenses)
         bindPondArea(item.area)
+        bindLoadingIndicator(item.pendingAction)
 
         setContainerCardViewTransitionName(item)
         setNewSeasonButtonTransitionName(item)
+    }
+
+    private fun bindLoadingIndicator(pendingAction: PendingAction?) {
+        binding.loadingContainer.isVisible = pendingAction?.isPending() == true
     }
 
     private fun bindContainerCardView(item: FarmListItemUiState) {

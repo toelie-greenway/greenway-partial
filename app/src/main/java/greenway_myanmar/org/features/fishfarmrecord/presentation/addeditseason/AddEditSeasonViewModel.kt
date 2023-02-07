@@ -1,9 +1,12 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.greenwaymyanmar.common.data.api.errorText
+import com.greenwaymyanmar.common.result.Result
+import com.greenwaymyanmar.common.result.asResult
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.core.presentation.model.UiArea
 import com.greenwaymyanmar.core.presentation.model.asDomain
@@ -22,19 +25,29 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorsOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetContractFarmingCompanyByCode
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFarmMeasurementUseCase
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFarmMeasurementUseCase.GetFarmMeasurementRequest
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveSeasonUseCase
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiContractFarmingCompany
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiLoanDuration
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.asDomainModel
+import greenway_myanmar.org.util.WhileViewSubscribed
 import greenway_myanmar.org.util.extensions.orZero
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.toKotlinInstant
@@ -44,14 +57,31 @@ import java.time.LocalDate
 import java.time.ZoneOffset
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class AddEditSeasonViewModel @Inject constructor(
     private val getContractFarmingCompanyByCode: GetContractFarmingCompanyByCode,
-    private val saveSeasonUseCase: SaveSeasonUseCase
+    private val getFarmMeasurementUseCase: GetFarmMeasurementUseCase,
+    private val saveSeasonUseCase: SaveSeasonUseCase,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val farmIdStream = MutableStateFlow("")
+    private val farmId = AddEditSeasonFragmentArgs.fromSavedStateHandle(savedStateHandle).farmId
 
     private val _uiState = MutableStateFlow(AddEditSeasonUiState())
     val uiState = _uiState.asStateFlow()
+
+    val farmMeasurementUiState: StateFlow<FarmMeasurementUiState> =
+        farmIdStream.flatMapLatest { farmId ->
+            farmMeasurementStream(
+                farmId = farmId,
+                getFarmMeasurementUseCase = getFarmMeasurementUseCase,
+                onFarmMeasurementLoaded = {
+                    onFarmMeasurementLoaded(it)
+                }
+            )
+        }.stateIn(viewModelScope, WhileViewSubscribed, LoadingState.Idle)
 
     private val _companyUiState = MutableStateFlow<CompanyUiState>(LoadingState.Idle)
     val companyUiState = _companyUiState.asStateFlow()
@@ -62,6 +92,7 @@ class AddEditSeasonViewModel @Inject constructor(
     private var checkCompanyCodeJob: Job? = null
 
     init {
+        farmIdStream.value = farmId
         observeCompanyCode()
     }
 
@@ -141,6 +172,39 @@ class AddEditSeasonViewModel @Inject constructor(
             AddEditSeasonEvent.OnSubmit -> {
                 onSubmit()
             }
+        }
+    }
+
+    private fun onFarmMeasurementLoaded(measurement: FarmMeasurement) {
+        _uiState.update {
+            it.copy(
+                farmArea = measurement.area.value.toString(),
+                farmMeasurement = when(measurement.measuredType) {
+                    AreaMeasureMethod.Pin -> {
+                        AreaMeasurement.Location(
+                            latLng = measurement.location ?: LatLng(0.0, 0.0),
+                            measurementType = AreaMeasureMethod.Pin
+                        )
+                    }
+                    AreaMeasureMethod.Draw -> {
+                        AreaMeasurement.Area(
+                            coordinates = measurement.coordinates.orEmpty(),
+                            acre = measurement.measuredArea?.value ?: 0.0,
+                            measurementType = AreaMeasureMethod.Draw
+                        )
+                    }
+                    AreaMeasureMethod.Walk -> {
+                        AreaMeasurement.Area(
+                            coordinates = measurement.coordinates.orEmpty(),
+                            acre = measurement.measuredArea?.value ?: 0.0,
+                            measurementType = AreaMeasureMethod.Walk
+                        )
+                    }
+                    else -> {
+                        null
+                    }
+                }
+            )
         }
     }
 
@@ -359,7 +423,8 @@ class AddEditSeasonViewModel @Inject constructor(
                 coordinates = coordinates,
                 area = area.asDomain(),
                 measuredArea = Area.acreOrNull(measuredArea),
-                measuredType = measureMethod
+                measuredType = measureMethod,
+                depth = 0.0 //TODO:
             ),
             seasonName = seasonName,
             seasonStartDate = seasonStartDate.atStartOfDay().toInstant(ZoneOffset.UTC)
@@ -458,4 +523,31 @@ class AddEditSeasonViewModel @Inject constructor(
             ValidationResult.Success(organization)
         }
     }
+}
+
+private fun farmMeasurementStream(
+    farmId: String,
+    getFarmMeasurementUseCase: GetFarmMeasurementUseCase,
+    onFarmMeasurementLoaded : (FarmMeasurement) -> Unit
+): Flow<LoadingState<UiFarmMeasurement>> {
+    if (farmId.isEmpty()) return emptyFlow()
+
+    return getFarmMeasurementUseCase(
+        GetFarmMeasurementRequest(farmId)
+    )
+        .asResult()
+        .map { result ->
+            when (result) {
+                is Result.Success -> {
+                    onFarmMeasurementLoaded(result.data)
+                    LoadingState.Success(UiFarmMeasurement.fromDomain(result.data))
+                }
+                is Result.Error -> {
+                    LoadingState.Error(result.exception.errorText())
+                }
+                Result.Loading -> {
+                    LoadingState.Loading
+                }
+            }
+        }
 }

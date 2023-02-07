@@ -39,7 +39,7 @@ import greenway_myanmar.org.util.extensions.getParcelableExtraCompat
 import greenway_myanmar.org.util.extensions.load
 import greenway_myanmar.org.util.extensions.setError
 import greenway_myanmar.org.util.extensions.themeColor
-import greenway_myanmar.org.util.kotlin.autoCleared
+import greenway_myanmar.org.util.kotlin.viewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -51,7 +51,7 @@ import java.time.LocalDate
 class AddEditSeasonFragment : Fragment(R.layout.ffr_add_edit_season_fragment) {
 
     private val viewModel: AddEditSeasonViewModel by viewModels()
-    private var binding: FfrAddEditSeasonFragmentBinding by autoCleared()
+    private val binding by viewBinding(FfrAddEditSeasonFragmentBinding::bind)
     private val navController: NavController by lazy {
         findNavController()
     }
@@ -63,7 +63,6 @@ class AddEditSeasonFragment : Fragment(R.layout.ffr_add_edit_season_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FfrAddEditSeasonFragmentBinding.bind(view)
         setScreenTransactionName(view)
         setupFragmentResultListener()
         setupToolbar()
@@ -106,6 +105,8 @@ class AddEditSeasonFragment : Fragment(R.layout.ffr_add_edit_season_fragment) {
 
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
+            observeFarmMeasurementLoadingState()
+
             observeEditFarmMeasurementCheck()
             observeFarmArea()
             observeFarmAreaError()
@@ -362,6 +363,15 @@ class AddEditSeasonFragment : Fragment(R.layout.ffr_add_edit_season_fragment) {
                 .distinctUntilChanged()
                 .collect {
                     binding.farmAreaTextInputLayout.setError(it)
+                }
+        }
+    }
+
+    private fun CoroutineScope.observeFarmMeasurementLoadingState() = launch {
+        launch {
+            viewModel.farmMeasurementUiState
+                .collect { uiState ->
+                    binding.farmMeasurementLoadingContainer.isVisible = uiState is LoadingState.Loading
                 }
         }
     }
