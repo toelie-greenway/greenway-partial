@@ -6,7 +6,7 @@ import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorsOrNull
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiMachineryCost
 import greenway_myanmar.org.util.extensions.toBigDecimalOrZero
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,7 +43,7 @@ class MachineryCostInputViewModel @Inject constructor(
         val machineryCostValidationResult = validateMachineryCost(currentUiState.machineCost)
 
         _uiState.value = currentUiState.copy(
-            machineCostError = machineryCostValidationResult.getErrorsOrNull()
+            machineCostError = machineryCostValidationResult.getErrorOrNull()
         )
 
         if (hasError(machineryCostValidationResult)) {

@@ -21,7 +21,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorsOrNull
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCase
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmOwnership
@@ -162,9 +162,9 @@ class AddEditFarmViewModel @Inject constructor(
 
         // set/reset error
         _uiState.value = currentUiState.copy(
-            farmNameError = nameValidationResult.getErrorsOrNull(),
-            farmAreaError = areaValidationResult.getErrorsOrNull(),
-            farmOwnershipError = ownershipValidationResult.getErrorsOrNull()
+            farmNameError = nameValidationResult.getErrorOrNull(),
+            farmAreaError = areaValidationResult.getErrorOrNull(),
+            farmOwnershipError = ownershipValidationResult.getErrorOrNull()
         )
 
         // return if there is any error

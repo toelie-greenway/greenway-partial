@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fish_farmer_record_book_nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/addEditProductionRecordFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -159,5 +159,9 @@
         android:id="@+id/addEditFcrRecordFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcrrecord.AddEditFcrRecordFragment"
         android:label="AddEditFcrRecordFragment" />
+    <fragment
+        android:id="@+id/addEditProductionRecordFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.production.addeditproductionrecord.AddEditProductionRecordFragment"
+        android:label="AddEditProductionRecordFragment" />
 
 </navigation>

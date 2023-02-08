@@ -8,7 +8,6 @@ import androidx.core.widget.doAfterTextChanged
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.databinding.FfrFcrRatioInputViewBinding
-import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFcr
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 import greenway_myanmar.org.util.MyanmarZarConverter
 import greenway_myanmar.org.util.extensions.bindText
@@ -25,7 +24,6 @@ class FcrRatioInputItemView @JvmOverloads constructor(
     attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
 
-    private var _item: UiFcr? = null
     private var _fish: UiFish? = null
     private var _feedWeight: String? = null
     private var _gainWeight: String? = null
@@ -52,7 +50,7 @@ class FcrRatioInputItemView @JvmOverloads constructor(
         ratio: BigDecimal? = null,
         onInputChangeListener: OnFcrRatioInputChangeListener?
     ) {
-        if (_item?.fish == fish && _index == index) {
+        if (_fish == fish && _index == index) {
             return
         }
 
@@ -129,17 +127,6 @@ class FcrRatioInputItemView @JvmOverloads constructor(
     fun getGainWeight() = _gainWeight
 
     fun getRatio() = _ratio
-
-    fun bind(item: UiFcr) {
-        if (_item == item) {
-            return
-        }
-
-//        binding.fishName.text = fish.name
-//        binding.fishSpecies.text = fish.species
-//        binding.fishSpecies.isVisible = fish.species.isNotEmpty()
-//        bindImage(fish.imageUrl)
-    }
 
     fun setOnInputChangeListener(listener: OnFcrRatioInputChangeListener) {
         _onInputChangeListener = listener

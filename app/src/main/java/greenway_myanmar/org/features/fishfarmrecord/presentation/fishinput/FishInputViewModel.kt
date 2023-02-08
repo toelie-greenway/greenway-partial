@@ -6,7 +6,7 @@ import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorsOrNull
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,7 +59,7 @@ class FishInputViewModel @Inject constructor() : ViewModel() {
 
         _uiState.update {
             it.copy(
-                fishValidationError = fishValidationResult.getErrorsOrNull()
+                fishValidationError = fishValidationResult.getErrorOrNull()
             )
         }
 

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/Widget.MaterialComponents.Toolbar.Surface"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetStartWithNavigation="0dp"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:navigationIcon="@drawable/ic_close_grey_24dp"
+            app:navigationIconTint="?colorOnSurface">
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
+                style="?textAppearanceToolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/ffr_nav_title_add_new_production"
+                android:textColor="?colorOnSurface" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/padding_normal"
+            android:paddingTop="@dimen/padding_normal"
+            android:paddingEnd="@dimen/padding_normal"
+            android:paddingBottom="@dimen/padding_normal">
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ffr_add_edit_expense_label_date"
+                android:textColor="#979797"
+                android:textSize="16sp"
+                app:fontFamily="@font/noto_sans_myanmar_regular_400" />
+
+            <greenway_myanmar.org.ui.widget.GreenWayDateInputView
+                android:id="@+id/date_input_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_8" />
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_16"
+                android:text="@string/ffr_add_edit_production_subtitle_detail"
+                android:textColor="#979797"
+                android:textSize="16sp"
+                app:fontFamily="@font/noto_sans_myanmar_regular_400" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_8"
+                android:orientation="horizontal">
+
+                <greenway_myanmar.org.ui.widget.GreenWayTextView
+                    android:id="@+id/fish_name_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="@string/ffr_add_edit_production_label_fish_size"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:fontFamily="@font/noto_sans_myanmar_medium_500" />
+
+                <Space
+                    android:layout_width="@dimen/spacing_8"
+                    android:layout_height="0dp" />
+
+                <greenway_myanmar.org.ui.widget.GreenWayTextView
+                    android:id="@+id/total_weight_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:gravity="end|bottom"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:fontFamily="@font/noto_sans_myanmar_medium_500"
+                    tools:text="၁၁ ပိဿာ" />
+
+                <Space
+                    android:layout_width="@dimen/spacing_8"
+                    android:layout_height="0dp" />
+
+                <greenway_myanmar.org.ui.widget.GreenWayTextView
+                    android:id="@+id/total_price_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:gravity="end"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:fontFamily="@font/noto_sans_myanmar_medium_500"
+                    tools:text="၁၂၃ ကျပ်" />
+
+            </LinearLayout>
+
+            <greenway_myanmar.org.features.fishfarmrecord.presentation.production.addeditproductionrecord.views.ProductionListInputView
+                android:id="@+id/production_list_input_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_8" />
+
+            <greenway_myanmar.org.ui.widget.GreenWayButton
+                android:id="@+id/submit_button"
+                style="@style/Widget.GreenWay2.Button.Secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_triple"
+                android:text="@string/ffr_action_save" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

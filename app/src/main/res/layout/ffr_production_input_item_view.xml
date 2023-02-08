@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/fish_name_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            app:fontFamily="@font/noto_sans_myanmar_medium_500"
+            android:textColor="#979797"
+            android:textSize="12sp"
+            tools:text="တီလာပီးယား(နိုင်း)" />
+
+        <Space
+            android:layout_width="@dimen/spacing_8"
+            android:layout_height="0dp" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/subtotal_weight_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:gravity="end|bottom"
+            app:fontFamily="@font/noto_sans_myanmar_medium_500"
+            android:textColor="#979797"
+            android:textSize="12sp"
+            tools:text="၁၁ ပိဿာ" />
+
+        <Space
+            android:layout_width="@dimen/spacing_8"
+            android:layout_height="0dp" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/subtotal_price_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            app:fontFamily="@font/noto_sans_myanmar_medium_500"
+            android:gravity="end"
+            android:textColor="#979797"
+            android:textSize="12sp"
+            tools:text="၁၂၃ ကျပ်" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fish_size_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

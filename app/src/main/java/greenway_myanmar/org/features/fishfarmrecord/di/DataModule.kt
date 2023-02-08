@@ -10,6 +10,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmI
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmInputProductRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFcrRecordRepository
+import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultProductionRecordRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultSeasonRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.fake.FakeFishRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ContractFarmingCompanyRepository
@@ -19,6 +20,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmInputP
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FcrRecordRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FishRepository
+import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ProductionRecordRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.SeasonRepository
 import javax.inject.Singleton
 
@@ -63,4 +65,8 @@ abstract class DataModule {
     @Singleton
     @Binds
     abstract fun provideFcrRecordRepository(repository: DefaultFcrRecordRepository): FcrRecordRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideProductionRecordRepository(repository: DefaultProductionRecordRepository): ProductionRecordRepository
 }

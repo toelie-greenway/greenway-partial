@@ -7,7 +7,7 @@ import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorsOrNull
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFcrRecordUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFcrRecordUseCase.SaveFcrRecordRequest
@@ -159,8 +159,8 @@ class AddEditFcrRecordViewModel @Inject constructor(
 
         // set/reset error
         _uiState.value = currentUiState.copy(
-            dateError = dateValidationResult.getErrorsOrNull(),
-            allInputError = allWeightInputsValidationResult.getErrorsOrNull(),
+            dateError = dateValidationResult.getErrorOrNull(),
+            allInputError = allWeightInputsValidationResult.getErrorOrNull(),
             individualInputErrors = individualWeightInputErrors
         )
 
@@ -261,8 +261,8 @@ class AddEditFcrRecordViewModel @Inject constructor(
                 result.data?.let { (index, fcrRatioInputUiState) ->
                     map.put(
                         index, FcrRatioInputErrorUiState(
-                            feedWeightError = fcrRatioInputUiState.getFeedWeightErrorOrNull(result.getErrorsOrNull()),
-                            gainWeightError = fcrRatioInputUiState.getGainWeightErrorOrNull(result.getErrorsOrNull())
+                            feedWeightError = fcrRatioInputUiState.getFeedWeightErrorOrNull(result.getErrorOrNull()),
+                            gainWeightError = fcrRatioInputUiState.getGainWeightErrorOrNull(result.getErrorOrNull())
                         )
                     )
                 }

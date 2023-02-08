@@ -6,7 +6,7 @@ import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorsOrNull
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputCost
@@ -123,8 +123,8 @@ class AddEditExpenseViewModel @Inject constructor(
 
         // set/reset error
         _uiState.value = currentUiState.copy(
-            categoryError = categoryValidationResult.getErrorsOrNull(),
-            costError = costsValidationResult.getErrorsOrNull()
+            categoryError = categoryValidationResult.getErrorOrNull(),
+            costError = costsValidationResult.getErrorOrNull()
         )
 
         // return if there is any error

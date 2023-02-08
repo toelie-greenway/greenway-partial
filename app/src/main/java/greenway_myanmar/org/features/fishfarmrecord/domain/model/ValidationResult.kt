@@ -31,7 +31,7 @@ fun <T> ValidationResult<T>.getErrorOrThrow() = if (this is ValidationResult.Err
     throw IllegalStateException("ValidationResult, $this must be ValidationResult.Error")
 }
 
-fun <T> ValidationResult<T>.getErrorsOrNull() = (this as? ValidationResult.Error)?.message
+fun <T> ValidationResult<T>.getErrorOrNull() = (this as? ValidationResult.Error)?.message
 
 fun <T> ValidationResult<T>.isError() = (this is ValidationResult.Error)
 

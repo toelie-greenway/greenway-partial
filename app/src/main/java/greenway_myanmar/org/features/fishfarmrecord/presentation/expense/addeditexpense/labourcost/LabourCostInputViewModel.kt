@@ -7,7 +7,7 @@ import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrDefault
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorsOrNull
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.isError
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.CalculateLabourCostUseCase
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiLabourCost
@@ -117,8 +117,8 @@ class LabourCostInputViewModel @Inject constructor(
             labourQuantity = labourQuantityValidationResult.getDataOrDefault(0)
             labourCost = labourCostValidationResult.getDataOrDefault(BigDecimal.ZERO)
             _uiState.value = currentUiState.copy(
-                labourQuantityError = labourQuantityValidationResult.getErrorsOrNull(),
-                labourCostError = labourCostValidationResult.getErrorsOrNull()
+                labourQuantityError = labourQuantityValidationResult.getErrorOrNull(),
+                labourCostError = labourCostValidationResult.getErrorOrNull()
             )
         } else {
             _uiState.value = currentUiState.copy(

@@ -66,7 +66,7 @@ class GreenWayMoneyTextView : GreenWayTextView {
 
     val stringRes =
       if (_showSymbol) {
-        R.string.myanmar_kyat_with_symbol
+        R.string.format_kyat
       } else {
         R.string.myanmar_kyat_without_symbol
       }

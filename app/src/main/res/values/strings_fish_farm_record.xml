@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="myanmar_kyat_without_symbol">%s</string>
-    <string name="myanmar_kyat_with_symbol">%s ကျပ်</string>
     <string name="myanmar_currency_symbol">ကျပ်</string>
 
     <string name="area_acre_symbol">ဧက</string>
@@ -11,6 +10,8 @@
     <string name="separator_small_circle">•</string>
     <string name="month_symbol">လ</string>
     <string name="viss_symbol">ပိဿာ</string>
+    <string name="formatted_viss">%s ပိဿာ</string>
+    <string name="format_kyat">%s ကျပ်</string>
     <string name="ffr_message_coming_soon">နောက်ဗားရှင်းတွင် ယခုလုပ်ဆောင်ချက် ပါဝင်လာပါမည်</string>
 
     <string name="hint_search_in_picker">တိုက်ရိုက်ရှာဖွေရန်</string>
@@ -26,6 +27,7 @@
     <string name="ffrb_nav_title_edit_farming_season">မွေးမြူရာသီမှတ်တမ်း</string>
     <string name="ffr_nav_title_add_expense">ကုန်ကျစားရိတ်ထည့်သွင်းခြင်း</string>
     <string name="ffr_nav_title_fish_input">ငါးအမည်</string>
+    <string name="ffr_nav_title_add_new_production">ထွက်နှုန်း</string>
 
     <string name="action_next">ရှေ့သို့</string>
     <string name="ffrb_action_done">Done</string>
@@ -157,5 +159,19 @@
     <string name="ffr_add_edit_fcr_hint_gain_weight">စုပေါင်းတိုးလာသောငါးအလေးချိန်</string>
     <string name="ffr_add_edit_fcr_formatted_label_fcr">အစာမှ အသားတိုးနှုန်းအချိုး = %s</string>
     <string name="ffr_add_edit_fcr_error_weight_required">အနည်းဆုံး ငါးတစ်မျိုးအတွက် ဖြည့်ရန်လိုအပ်ပါသည်</string>
+
+    <!-- ** Production feature ** -->
+    <string name="ffr_production_label_fish_size_large">ကြီး</string>
+    <string name="ffr_production_label_fish_size_medium">လတ်</string>
+    <string name="ffr_production_label_fish_size_small">ငယ်</string>
+    <string name="ffr_production_label_fish_size_home_present">ကမ်း</string>
+
+    <!-- Add/Edit Production screen -->
+    <string name="ffr_add_edit_production_label_date">ရက်စွဲ</string>
+    <string name="ffr_add_edit_production_subtitle_detail">ထွက်နှုန်း အသေးစိတ်</string>
+    <string name="ffr_add_edit_production_hint_weight">0.0</string>
+    <string name="ffr_add_edit_production_hint_price">0</string>
+    <string name="ffr_add_edit_production_label_fish_size">အရွယ်အစား</string>
+    <string name="ffr_add_edit_production_error_fields_required">အနည်းဆုံး အရွယ်အစားတစ်မျိုးအတွက် ဖြည့်ရန်လိုအပ်ပါသည်</string>
 
 </resources>

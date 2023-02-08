@@ -9,7 +9,7 @@ import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorsOrNull
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.CalculateAdvancedFarmInputCostUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.CalculateAdvancedFarmInputCostUseCase.CalculateAdvancedFarmInputCostRequest
@@ -133,11 +133,11 @@ class FarmInputInputViewModel @Inject constructor(
 
         // set/reset error
         _uiState.value = currentUiState.copy(
-            productError = productValidationResult.getErrorsOrNull(),
-            usedAmountError = usedAmountValidationResult.getErrorsOrNull(),
-            usedUnitError = usedUnitValidationResult.getErrorsOrNull(),
-            usedUnitPriceError = usedUnitPriceValidationResult.getErrorsOrNull(),
-            totalCostError = totalCostValidationResult.getErrorsOrNull()
+            productError = productValidationResult.getErrorOrNull(),
+            usedAmountError = usedAmountValidationResult.getErrorOrNull(),
+            usedUnitError = usedUnitValidationResult.getErrorOrNull(),
+            usedUnitPriceError = usedUnitPriceValidationResult.getErrorOrNull(),
+            totalCostError = totalCostValidationResult.getErrorOrNull()
         )
 
         // return if there is any error

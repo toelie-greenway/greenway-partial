@@ -1,0 +1,8 @@
+package greenway_myanmar.org.features.fishfarmrecord.domain.repository
+
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveProductionRecordUseCase.SaveProductionRecordRequest
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveProductionRecordUseCase.SaveProductionRecordResult
+
+interface ProductionRecordRepository {
+    suspend fun saveProductionRecord(request: SaveProductionRecordRequest): SaveProductionRecordResult
+}

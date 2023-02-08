@@ -6,7 +6,7 @@ import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorsOrNull
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.loanduration.CustomLoanDurationUiState.CustomLoanDurationInputResult
 import greenway_myanmar.org.util.extensions.toIntOrZero
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,7 +43,7 @@ class CustomLoadDurationInputViewModel @Inject constructor(): ViewModel() {
         val monthValidationResult = validateMonth(currentUiState.month)
 
         _uiState.value = currentUiState.copy(
-            monthError = monthValidationResult.getErrorsOrNull()
+            monthError = monthValidationResult.getErrorOrNull()
         )
 
         if (hasError(monthValidationResult)) {
