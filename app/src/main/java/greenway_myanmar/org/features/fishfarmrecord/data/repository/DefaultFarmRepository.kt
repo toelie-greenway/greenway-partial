@@ -11,15 +11,19 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.F
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.asDomainModel
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.asNetworkRequestModel
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.FishFarmRecordNetworkDataSource
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarm
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Farm
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCase.SaveFarmRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DefaultFarmRepository @Inject constructor(
@@ -30,6 +34,10 @@ class DefaultFarmRepository @Inject constructor(
 ) : FarmRepository {
 
     override fun getFarmsStream(): Flow<List<Farm>> {
+        GlobalScope.launch(Dispatchers.IO) {
+            val networkFarmList = network.getFarms(userHelper.activeUserId.toString())
+            farmDao.upsertFarms(networkFarmList.data.orEmpty().map(NetworkFarm::asEntity))
+        }
         return farmDao.getFarmsStream().map { list ->
             list.map { farm ->
                 farm.asDomainModel()

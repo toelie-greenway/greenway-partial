@@ -10,6 +10,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarm
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProduct
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProductCategory
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmListResponse
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFish
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkExpenseRequest
@@ -43,11 +44,17 @@ private interface RetrofitFishFarmRecordNetworkApi {
         @Body body: NetworkSeasonRequest
     ): ApiResponse<ApiDataWrapper<NetworkSeason>>
 
-    @POST("ffr/expenses?user_id=4")
+    @POST("ffr/expenses")
     suspend fun postExpense(
         @Query("user_id") userId: String,
         @Body body: NetworkExpenseRequest
     ): ApiResponse<ApiDataWrapper<NetworkExpense>>
+
+    @GET(value = "ffr/farms")
+    suspend fun getFarms(
+        @Query("user_id") userId: String,
+        @Query("is_harvest") isHarvest: Int = 0
+    ): ApiResponse<NetworkFarmListResponse>
 
     @GET(value = "ffr/expense-categories")
     suspend fun getExpenseCategories(
@@ -103,6 +110,9 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
 
     override suspend fun postExpense(userId: String, request: NetworkExpenseRequest): NetworkExpense =
         networkApi.postExpense(userId, request).getDataOrThrow().data
+
+    override suspend fun getFarms(userId: String): NetworkFarmListResponse =
+        networkApi.getFarms(userId).getDataOrThrow()
 
     override suspend fun getExpenseCategories(seasonId: String): List<NetworkExpenseCategory> =
         networkApi.getExpenseCategories(seasonId).getDataOrThrow().data

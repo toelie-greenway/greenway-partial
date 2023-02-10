@@ -6,6 +6,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarm
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProduct
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProductCategory
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmListResponse
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFish
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkExpenseRequest
@@ -24,6 +25,7 @@ interface FishFarmRecordNetworkDataSource {
     ): NetworkSeason
 
     suspend fun postExpense(userId: String, request: NetworkExpenseRequest): NetworkExpense
+    suspend fun getFarms(userId: String): NetworkFarmListResponse
 
     suspend fun getExpenseCategories(seasonId: String): List<NetworkExpenseCategory>
     suspend fun getFarmInputProducts(

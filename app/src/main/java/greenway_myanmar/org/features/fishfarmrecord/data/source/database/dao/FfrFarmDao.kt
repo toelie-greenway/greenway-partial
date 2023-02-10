@@ -26,6 +26,9 @@ abstract class FfrFarmDao {
     @Upsert
     abstract suspend fun upsertFarm(entity: FfrFarmEntity)
 
+    @Upsert
+    abstract suspend fun upsertFarms(entities: List<FfrFarmEntity>)
+
     @Query(
         value = """
             SELECT * FROM ffr_farms
