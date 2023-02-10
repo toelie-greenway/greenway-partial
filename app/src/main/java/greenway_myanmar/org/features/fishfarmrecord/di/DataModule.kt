@@ -6,15 +6,17 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultContractFarmingCompanyRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultExpenseCategoryRepository
+import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultExpenseRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmInputProductCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmInputProductRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFcrRecordRepository
+import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFishRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultProductionRecordRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultSeasonRepository
-import greenway_myanmar.org.features.fishfarmrecord.data.repository.fake.FakeFishRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ContractFarmingCompanyRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ExpenseCategoryRepository
+import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ExpenseRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmInputProductCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmInputProductRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmRepository
@@ -38,6 +40,10 @@ abstract class DataModule {
 
     @Singleton
     @Binds
+    abstract fun provideExpenseRepository(repository: DefaultExpenseRepository): ExpenseRepository
+
+    @Singleton
+    @Binds
     abstract fun provideExpenseCategoryRepository(
         repository: DefaultExpenseCategoryRepository
     ): ExpenseCategoryRepository
@@ -56,7 +62,7 @@ abstract class DataModule {
 
     @Singleton
     @Binds
-    abstract fun provideFakeFishRepository(repository: FakeFishRepository): FishRepository
+    abstract fun provideFishRepository(repository: DefaultFishRepository): FishRepository
 
     @Singleton
     @Binds

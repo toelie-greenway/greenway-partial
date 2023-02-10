@@ -20,6 +20,7 @@ import greenway_myanmar.org.db.converter.UriStringConverter;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFarmDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrRecordDao;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFishDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FFrContractFarmingCompanyEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFarmEntity;
@@ -66,4 +67,6 @@ public abstract class GreenWayDb extends RoomDatabase {
     public abstract FfrFcrRecordDao ffrFcrRecordDao();
 
     public abstract FfrFcrDao ffrFcrDao();
+
+    public abstract FfrFishDao ffrFishDao();
 }

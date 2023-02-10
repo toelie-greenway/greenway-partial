@@ -20,4 +20,13 @@
     <style name="Widget.GreenWay2.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
         <item name="boxBackgroundColor">@color/app_white</item>
     </style>
+
+    <style name="TextAppearance.GreenWay2.Title" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">?colorOnPrimary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.GreenWay2.Title.Inverse">
+        <item name="android:textColor">?colorOnSurface</item>
+    </style>
 </resources>

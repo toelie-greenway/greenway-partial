@@ -8,13 +8,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResult
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.CalculateAdvancedFarmInputCostUseCase
-import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.CalculateAdvancedFarmInputCostUseCase.CalculateAdvancedFarmInputCostRequest
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.CalculateSimpleFarmInputCostUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.CalculateSimpleFarmInputCostUseCase.CalculateSimpleFarmInputCostRequest
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputCost
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputProduct
 import greenway_myanmar.org.util.extensions.toBigDecimalOrZero
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +23,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -49,33 +52,29 @@ class FarmInputInputViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             combine(
-                uiState.map { it.isAdvanced }.distinctUntilChanged(),
                 uiState.map { it.usedAmount }.distinctUntilChanged(),
                 uiState.map { it.usedUnitPrice }.distinctUntilChanged()
-            ) { isAdvanced, usedAmount, usedUnitPrice ->
-                if (isAdvanced) {
-                    calculateAdvancedFarmInputCostUseCase(
-                        CalculateAdvancedFarmInputCostRequest(
-                            pricePerPackage = BigDecimal.ZERO,
-                            amountPerPackage = 0.0,
-                            usedAmount = 0.0
-                        )
-                    ).total
-                } else {
-                    calculateSimpleFarmInputCostUseCase(
-                        CalculateSimpleFarmInputCostRequest(
-                            unitPrice = usedUnitPrice.toBigDecimalOrZero(),
-                            amount = usedAmount?.toDoubleOrNull() ?: 0.0
-                        )
-                    ).total
-                }
+            ) { usedAmount, usedUnitPrice ->
+                calculateSimpleFarmInputCostUseCase(
+                    CalculateSimpleFarmInputCostRequest(
+                        unitPrice = usedUnitPrice.toBigDecimalOrZero(),
+                        amount = usedAmount?.toDoubleOrNull() ?: 0.0
+                    )
+                ).total
             }.collect { total ->
                 updateTotalCost(total)
             }
         }
-        _unitsUiState.value = LoadingState.Success(
-            listOf(UiUnitOfMeasurement("Kg"), UiUnitOfMeasurement("lb")).toList()
-        )
+        viewModelScope.launch {
+            uiState.map { it.product }
+                .distinctUntilChanged()
+                .collect { product ->
+                    if (product != null) {
+                        _unitsUiState.value = LoadingState.Success(product.units)
+                    }
+                    clearSelectedUnit()
+                }
+        }
     }
 
     fun handleEvent(event: FarmInputInputEvent) {
@@ -100,7 +99,6 @@ class FarmInputInputViewModel @Inject constructor(
 
     private fun updateProduct(product: UiFarmInputProduct) {
         _uiState.value = currentUiState.copy(product = product)
-        _unitsUiState.value = LoadingState.Success(product.units)
     }
 
     private fun updateUsedAmount(amount: String) {
@@ -123,6 +121,14 @@ class FarmInputInputViewModel @Inject constructor(
         _uiState.value = currentUiState.copy(totalCost = total)
     }
 
+    private fun clearSelectedUnit() {
+        _uiState.update {
+            it.copy(
+                usedUnit = null
+            )
+        }
+    }
+
     private fun onSubmit() {
         // validate inputs
         val productValidationResult = validateProduct(currentUiState.product)
@@ -130,6 +136,13 @@ class FarmInputInputViewModel @Inject constructor(
         val usedUnitValidationResult = validateUsedUnit(currentUiState.usedUnit)
         val usedUnitPriceValidationResult = validateUsedUnitPrice(currentUiState.usedUnitPrice)
         val totalCostValidationResult = validateTotalCost(currentUiState.totalCost)
+
+        val fingerlingWeightValidationResult =
+            validateFingerlingWeight(currentUiState.isFingerling, currentUiState.fingerlingWeight)
+        val fingerlingSizeValidationResult =
+            validateFingerlingSize(currentUiState.isFingerling, currentUiState.fingerlingSize)
+        val fingerlingAgeValidationResult =
+            validateFingerlingAge(currentUiState.isFingerling, currentUiState.fingerlingAge)
 
         // set/reset error
         _uiState.value = currentUiState.copy(
@@ -146,7 +159,10 @@ class FarmInputInputViewModel @Inject constructor(
                 usedAmountValidationResult,
                 usedUnitValidationResult,
                 usedUnitPriceValidationResult,
-                totalCostValidationResult
+                totalCostValidationResult,
+                fingerlingWeightValidationResult,
+                fingerlingSizeValidationResult,
+                fingerlingAgeValidationResult
             )
         ) {
             return
@@ -158,13 +174,31 @@ class FarmInputInputViewModel @Inject constructor(
         val usedUnit = usedUnitValidationResult.getDataOrThrow()
         val usedUnitPrice = usedUnitPriceValidationResult.getDataOrThrow()
         val totalCost = totalCostValidationResult.getDataOrThrow()
+        val fingerlingWeight = fingerlingWeightValidationResult.getDataOrNull()
+        val fingerlingSize = fingerlingSizeValidationResult.getDataOrNull()
+        val fingerlingAge = fingerlingAgeValidationResult.getDataOrNull()
+
+        Timber.d("product: $product")
+        Timber.d("usedAmount: $usedAmount")
+        Timber.d("usedUnit: $usedUnit")
+        Timber.d("usedUnitPrice: $usedUnitPrice")
+        Timber.d("totalCost: $totalCost")
+        Timber.d("fingerlingWeight: $fingerlingWeight")
+        Timber.d("fingerlingSize: $fingerlingSize")
+        Timber.d("fingerlingAge: $fingerlingAge")
+
         _uiState.value = currentUiState.copy(
-            inputResult = FarmInputInputResult(
-                product = product,
-                usedAmount = usedAmount,
-                usedUnit = usedUnit,
-                usedUnitPrice = usedUnitPrice,
+            inputResult = UiFarmInputCost(
+                productId = product.id,
+                productName = product.name,
+                productThumbnail = product.thumbnail,
+                amount = usedAmount,
+                unit = usedUnit.unit,
+                unitPrice = usedUnitPrice,
                 totalCost = totalCost,
+                fingerlingWeight = fingerlingWeightValidationResult.getDataOrNull(),
+                fingerlingSize = fingerlingSizeValidationResult.getDataOrNull(),
+                fingerlingAge = fingerlingAgeValidationResult.getDataOrNull()
             )
         )
     }
@@ -191,6 +225,42 @@ class FarmInputInputViewModel @Inject constructor(
             ValidationResult.Error(Text.ResourceText(R.string.error_field_required))
         } else {
             ValidationResult.Success(unit)
+        }
+    }
+
+    private fun validateFingerlingWeight(
+        isFingerling: Boolean,
+        weightString: String?
+    ): ValidationResult<BigDecimal?> {
+        val weight = weightString?.toBigDecimalOrNull()
+        return if (isFingerling && weight == null) {
+            ValidationResult.Error(Text.ResourceText(R.string.error_field_required))
+        } else {
+            ValidationResult.Success(weight)
+        }
+    }
+
+    private fun validateFingerlingSize(
+        isFingerling: Boolean,
+        sizeString: String?
+    ): ValidationResult<BigDecimal?> {
+        val size = sizeString?.toBigDecimalOrNull()
+        return if (isFingerling && size == null) {
+            ValidationResult.Error(Text.ResourceText(R.string.error_field_required))
+        } else {
+            ValidationResult.Success(size)
+        }
+    }
+
+    private fun validateFingerlingAge(
+        isFingerling: Boolean,
+        ageString: String?
+    ): ValidationResult<BigDecimal?> {
+        val age = ageString?.toBigDecimalOrNull()
+        return if (isFingerling && age == null) {
+            ValidationResult.Error(Text.ResourceText(R.string.error_field_required))
+        } else {
+            ValidationResult.Success(age)
         }
     }
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fish_farmer_record_book_nav_graph"
-    app:startDestination="@id/addEditProductionRecordFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -73,6 +73,12 @@
         <action
             android:id="@+id/action_addEditExpenseFragment_to_farmInputInputFragment"
             app:destination="@id/farmInputInputFragment" />
+        <argument
+            android:name="farm_id"
+            app:argType="string" />
+        <argument
+            android:name="season_id"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/farmDetailFragment"
@@ -104,7 +110,11 @@
         android:id="@+id/expenseCategoryPickerBottomSheetFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.expensecategorypicker.ExpenseCategoryPickerBottomSheetFragment"
         android:label="ExpenseCategoryPickerBottomSheetFragment"
-        tools:layout="@layout/ffr_expense_category_picker_bottom_sheet_fragment" />
+        tools:layout="@layout/ffr_expense_category_picker_bottom_sheet_fragment" >
+        <argument
+            android:name="season_id"
+            app:argType="string" />
+    </dialog>
     <dialog
         android:id="@+id/labourCostInputBottomSheetFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.labourcost.LabourCostInputBottomSheetFragment"

@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.expensecategorypicker
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.greenwaymyanmar.common.data.api.errorText
@@ -8,6 +9,7 @@ import com.greenwaymyanmar.common.result.asResult
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetExpenseCategoriesStreamUseCase
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetExpenseCategoriesStreamUseCase.*
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
 import greenway_myanmar.org.util.WhileViewSubscribed
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -30,9 +33,13 @@ class ExpenseCategoryPickerViewModel
 @Inject
 constructor(
     getExpenseCategoriesStreamUseCase: GetExpenseCategoriesStreamUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _selectedCategoryIdStream = MutableStateFlow<String>("")
+    private val _seasonIdStream = MutableStateFlow("")
+    private val seasonId = ExpenseCategoryPickerBottomSheetFragmentArgs
+        .fromSavedStateHandle(savedStateHandle).seasonId
+    private val _selectedCategoryIdStream = MutableStateFlow("")
     private val currentCategoryId: String
         get() = _selectedCategoryIdStream.value
 
@@ -43,6 +50,7 @@ constructor(
     }
 
     init {
+        _seasonIdStream.value = seasonId
         viewModelScope.launch {
             loadDataSignal.collect {
                 Timber.d("loadDataSignal")
@@ -56,10 +64,11 @@ constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val expenseCategoryListUiState: StateFlow<ExpenseCategoryListUiState> =
-        loadDataSignal.transformLatest {
+    val expenseCategoryListUiState: StateFlow<ExpenseCategoryListUiState> = _seasonIdStream
+        .transformLatest { seasonId ->
             emitAll(
                 expenseCategoryListStream(
+                    seasonId,
                     _selectedCategoryIdStream,
                     getExpenseCategoriesStreamUseCase
                 )
@@ -94,11 +103,14 @@ constructor(
 }
 
 private fun expenseCategoryListStream(
+    seasonId: String,
     selectedFishIdsStream: Flow<String>,
     getExpenseCategoriesStreamUseCase: GetExpenseCategoriesStreamUseCase
 ): Flow<ExpenseCategoryListUiState> {
+    if (seasonId.isEmpty()) return emptyFlow()
+
     return combine(
-        getExpenseCategoriesStreamUseCase(),
+        getExpenseCategoriesStreamUseCase(GetExpenseCategoriesRequest(seasonId)),
         selectedFishIdsStream,
         ::Pair
     ).asResult().map { result ->

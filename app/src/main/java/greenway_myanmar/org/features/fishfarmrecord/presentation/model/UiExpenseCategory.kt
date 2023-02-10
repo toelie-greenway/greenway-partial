@@ -16,3 +16,8 @@ data class UiExpenseCategory(
         )
     }
 }
+
+fun UiExpenseCategory.asDomainModel() = ExpenseCategory(
+    id = id,
+    name = name
+)

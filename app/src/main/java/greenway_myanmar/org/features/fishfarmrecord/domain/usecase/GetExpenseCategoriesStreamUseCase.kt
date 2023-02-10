@@ -9,7 +9,11 @@ class GetExpenseCategoriesStreamUseCase @Inject constructor(
     private val repository: ExpenseCategoryRepository
 ) {
 
-    operator fun invoke(): Flow<List<ExpenseCategory>> {
-        return repository.getExpenseCategoriesStream()
+    operator fun invoke(request: GetExpenseCategoriesRequest): Flow<List<ExpenseCategory>> {
+        return repository.getExpenseCategoriesStream(request.seasonId)
     }
+
+    data class GetExpenseCategoriesRequest(
+        val seasonId: String
+    )
 }

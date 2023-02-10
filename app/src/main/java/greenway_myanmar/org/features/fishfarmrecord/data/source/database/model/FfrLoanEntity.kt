@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.source.database.model
 
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkLoanRequest
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Loan
 import java.math.BigDecimal
 
@@ -23,5 +24,12 @@ fun FfrLoanEntity.asDomainModel() = Loan(
     amount = amount,
     duration = duration,
     organization = organization,
+    remark = remark
+)
+
+fun FfrLoanEntity.asNetworkModel() = NetworkLoanRequest(
+    amount = amount.toDouble(),
+    duration = duration,
+    landing_organization = organization,
     remark = remark
 )

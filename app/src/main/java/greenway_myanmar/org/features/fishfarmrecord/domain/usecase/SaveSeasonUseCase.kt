@@ -17,6 +17,7 @@ class SaveSeasonUseCase @Inject constructor(
 
     data class SaveSeasonRequest(
         val id: String? = null,
+        val farmId: String,
         val farmMeasurement: FarmMeasurement,
         val seasonName: String,
         val seasonStartDate: Instant,

@@ -39,8 +39,8 @@ class FishFarmerRecordBookHomeViewModel @Inject constructor(
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                ponds = result.data.map { pond ->
-                                    FarmListItemUiState.fromDomain(pond)
+                                ponds = result.data.map { farm ->
+                                    FarmListItemUiState.fromDomain(farm)
                                 })
                         }
                     }

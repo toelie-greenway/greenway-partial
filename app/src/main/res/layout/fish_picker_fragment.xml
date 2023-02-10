@@ -57,8 +57,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/app_white"
+        android:paddingStart="@dimen/spacing_8"
         android:paddingTop="@dimen/spacing_8"
+        android:paddingEnd="@dimen/spacing_8"
         android:paddingBottom="@dimen/spacing_16"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayLoadingStateView
+        android:id="@+id/loading_state_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

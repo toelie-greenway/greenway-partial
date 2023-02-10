@@ -7,9 +7,14 @@
     <string name="area_unsupported_symbol" />
     <string name="measurement_feet_symbol">ပေ</string>
     <string name="formatted_area">%s %s</string>
+    <string name="ffr_formatted_farm_area">%1$s ဧက</string>
+    <string name="ffr_formatted_farm_area_with_depth">%1$s ဧက • အနက် %2$s ပေ</string>
     <string name="separator_small_circle">•</string>
     <string name="month_symbol">လ</string>
     <string name="viss_symbol">ပိဿာ</string>
+    <string name="inch_symbol">လက်မ</string>
+    <string name="tical_symbol">ကျပ်သား</string>
+    <string name="day_symbol">ရက်</string>
     <string name="formatted_viss">%s ပိဿာ</string>
     <string name="format_kyat">%s ကျပ်</string>
     <string name="ffr_message_coming_soon">နောက်ဗားရှင်းတွင် ယခုလုပ်ဆောင်ချက် ပါဝင်လာပါမည်</string>
@@ -62,6 +67,9 @@
     <string name="ffr_transition_name_list_item_farm_detail">farm_detail_list_item_%1$s</string>
     <string name="ffr_transition_name_screen_farm_detail">farm_detail_screen</string>
 
+    <string name="ffr_transition_name_list_item_add_expense">add_expense_list_item_%1$s</string>
+    <string name="ffr_transition_name_screen_add_edit_expense">add_edit_expense_screen</string>
+
     <!-- Add/Edit Farm Screen -->
     <string name="ffr_label_add_edit_pond_subtitle">မွေးမြူမှတ်တမ်းစတင်ရန် ကန်စာရင်း သွင်းရန်လိုအပ်ပါသည်</string>
     <string name="ffr_add_edit_pond_hint_pond_name">ကန်အမည်</string>
@@ -88,17 +96,17 @@
     <string name="ffr_add_edit_season_action_confirm_fish_selection">စာရင်းသွင်းမည်</string>
     <string name="ffr_add_edit_season_action_cancel_fish_selection">မသွင်းတော့ပါ</string>
     <string name="ffr_add_edit_season_error_company_code">ကုဒ်နံပါတ်ပြန်စစ်ကြည့်ပါ</string>
-    <string name="ffr_add_edit_season_label_loan_information">Add loan information</string>
-    <string name="ffr_add_edit_season_hint_loan_total_amount">Total Amount in MMK</string>
-    <string name="ffr_add_edit_season_label_select_loan_duration">Select loan duration in *month</string>
-    <string name="ffr_add_edit_season_subtitle_loan_duration">Enter loan duration in *month</string>
-    <string name="ffr_add_edit_season_label_loan_duration_3_months">3 mths</string>
-    <string name="ffr_add_edit_season_label_loan_duration_6_months">6 mths</string>
-    <string name="ffr_add_edit_season_label_loan_duration_12_months">12 mths</string>
-    <string name="ffr_add_edit_season_label_loan_duration_custom_months">%d mths</string>
-    <string name="ffr_add_edit_season_label_loan_duration_custom">Custom</string>
-    <string name="ffr_add_edit_season_hint_loan_organization">Landing organization</string>
-    <string name="ffr_add_edit_season_hint_loan_remark">Add a Remark</string>
+    <string name="ffr_add_edit_season_label_loan_information">ချေးငွေ အချက်အလက်ထည့်ရန်</string>
+    <string name="ffr_add_edit_season_hint_loan_total_amount">စုစုပေါင်း ချေးငွေပမာဏ (ကျပ်)</string>
+    <string name="ffr_add_edit_season_label_select_loan_duration">ချေးငွေကာလ ရွေးချယ်ပါ</string>
+    <string name="ffr_add_edit_season_subtitle_loan_duration">ချေးငွေကာလ ထည့်သွင်းပါ</string>
+    <string name="ffr_add_edit_season_label_loan_duration_3_months">၃ လ</string>
+    <string name="ffr_add_edit_season_label_loan_duration_6_months">၆ လ</string>
+    <string name="ffr_add_edit_season_label_loan_duration_12_months">၁၂ လ</string>
+    <string name="ffr_add_edit_season_label_loan_duration_custom_months">%d လ</string>
+    <string name="ffr_add_edit_season_label_loan_duration_custom">ရိုက်ထည့်</string>
+    <string name="ffr_add_edit_season_hint_loan_organization">ချေးငွေပေးသည့် အဖွဲ့</string>
+    <string name="ffr_add_edit_season_hint_loan_remark">မှတ်ချက်ရေးရန်</string>
 
     <!-- Add/Edit Expense Screen -->
     <string name="ffr_add_edit_expense_label_expense_category">ကုန်ကျသည့်အကြောင်းအရင်း</string>
@@ -108,6 +116,7 @@
     <string name="ffr_add_edit_expense_label_machinery_cost">စက်ပစ္စည်းအသုံးစားရိတ်</string>
     <string name="ffr_add_edit_expense_hint_note">မှတ်ချက်ရေးသားရန်</string>
     <string name="ffr_add_edit_expense_error_cost_required">ကုန်ကျစရိတ် အနည်းဆုံး တစ်မျိုးဖြည့်ရန်လိုအပ်ပါသည်</string>
+    <string name="ffr_add_edit_expense_formatted_farm_input_product_cost">%1$s %2$s • %3$s ကျပ်</string>
 
     <!-- Expense category chooser screen -->
     <string name="ffr_expense_category_chooser_title">ကုန်ကျသည့်အကြောင်းအရင်း</string>
@@ -136,7 +145,11 @@
     <!-- Expense farm input screen -->
     <string name="ffr_add_edit_expense_action_pick_farm_input">သွင်းအားစု</string>
     <string name="ffr_add_edit_expense_hint_farm_input_amount">အသုံးပြုသည့် ပမာဏ</string>
+    <string name="ffr_add_edit_expense_hint_farm_input_fingerling_average_size">ပျမ်းမျှအရွယ်အစား</string>
+    <string name="ffr_add_edit_expense_hint_farm_input_fingerling_average_weight">ပျမ်းမျှအလေးချိန်</string>
+    <string name="ffr_add_edit_expense_hint_farm_input_fingerling_age">သားပေါက်အသက်ရက်</string>
     <string name="ffr_add_edit_expense_hint_farm_input_unit_price">တစ်ခုစျေးနှုန်း</string>
+    <string name="ffr_add_edit_expense_hint_farm_input_formatted_unit_price">တစ်%sစျေးနှုန်း</string>
     <string name="ffr_add_edit_expense_label_farm_input_total_cost">စုစုပေါင်းကုန်ကျငွေ</string>
     <string name="ffr_add_edit_expense_label_farm_input_unit">ယူနစ်</string>
     <string name="ffr_add_edit_expense_title_farm_input">သွင်းအားစုဖြည့်သွင်းပါ</string>
@@ -150,7 +163,7 @@
     <string name="ffr_fcr_label_formatted_weight_with_symbol">%s ပိဿာ</string>
     <string name="ffr_fcr_action_edit">ပြင်မည်</string>
     <string name="ffr_fcr_action_delete">ဖျက်မည်</string>
-    <string name="ffr_fcr_action_add_new_fcr">Record again</string>
+    <string name="ffr_fcr_action_add_new_fcr">ထပ်မှတ်ရန်</string>
 
     <!-- Add/Edit FCR screen -->
     <string name="ffr_add_edit_fcr_label_date">ရက်စွဲ</string>

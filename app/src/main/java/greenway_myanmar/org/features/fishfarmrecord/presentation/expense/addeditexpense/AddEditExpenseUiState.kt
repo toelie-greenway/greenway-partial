@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense
 
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputCost
@@ -15,7 +16,6 @@ data class AddEditExpenseUiState(
     val machineryCost: UiMachineryCost? = null,
     val farmInputCosts: List<UiFarmInputCost> = emptyList(),
     val costError: Text? = null,
-
     val note: String? = null,
 
     val addEditExpenseResult: AddEditExpenseResult? = null,
@@ -24,3 +24,5 @@ data class AddEditExpenseUiState(
         val expenseId: String
     )
 }
+
+typealias ExpenseUploadingUiState = LoadingState<Unit>

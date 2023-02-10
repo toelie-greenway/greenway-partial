@@ -38,6 +38,7 @@ import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmOwn
 import greenway_myanmar.org.util.extensions.bindText
 import greenway_myanmar.org.util.extensions.getNavigationResult
 import greenway_myanmar.org.util.extensions.load
+import greenway_myanmar.org.util.extensions.requireNetworkConnection
 import greenway_myanmar.org.util.extensions.setError
 import greenway_myanmar.org.util.extensions.themeColor
 import greenway_myanmar.org.util.kotlin.autoCleared
@@ -442,9 +443,11 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
     }
 
     private fun onSubmit() {
-        viewModel.handleEvent(
-            AddEditFarmEvent.OnSubmit
-        )
+        requireNetworkConnection {
+            viewModel.handleEvent(
+                AddEditFarmEvent.OnSubmit
+            )
+        }
     }
 
     private fun showMapPreview(mapImageUri: Uri?) {

@@ -239,6 +239,7 @@ class AddEditFarmViewModel @Inject constructor(
                 observeFarmUploadStatus(result.id)
             }.onFailure {
                 // TODO: Show Error
+                it.printStackTrace()
             }
         }
     }

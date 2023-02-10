@@ -19,7 +19,9 @@ import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
+import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.common.domain.entities.asString
+import greenway_myanmar.org.common.presentation.extensions.showSnackbar
 import greenway_myanmar.org.databinding.FfrAddEditSeasonFragmentBinding
 import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
 import greenway_myanmar.org.features.areameasure.presentation.AreaMeasureMapFragment
@@ -134,6 +136,9 @@ class AddEditSeasonFragment : Fragment(R.layout.ffr_add_edit_season_fragment) {
             observeLoanAmountError()
             observeLoanDurationError()
             observeLoanOrganizationError()
+
+            observeSeasonUploadingState()
+            observeAddEditSeasonResult()
         }
     }
 
@@ -205,7 +210,6 @@ class AddEditSeasonFragment : Fragment(R.layout.ffr_add_edit_season_fragment) {
         }
     }
 
-
     private fun setupFarmLocationInputUi() {
         binding.farmMapImageView.setOnClickListener {
             openAreaMeasureMethodScreen()
@@ -245,6 +249,10 @@ class AddEditSeasonFragment : Fragment(R.layout.ffr_add_edit_season_fragment) {
             }
 
             override fun onFishItemClick() {
+            }
+
+            override fun onFishRemoved(fish: UiFish) {
+                viewModel.handleEvent(AddEditSeasonEvent.OnFishRemoved(fish))
             }
         })
     }
@@ -371,7 +379,8 @@ class AddEditSeasonFragment : Fragment(R.layout.ffr_add_edit_season_fragment) {
         launch {
             viewModel.farmMeasurementUiState
                 .collect { uiState ->
-                    binding.farmMeasurementLoadingContainer.isVisible = uiState is LoadingState.Loading
+                    binding.farmMeasurementLoadingContainer.isVisible =
+                        uiState is LoadingState.Loading
                 }
         }
     }
@@ -547,6 +556,31 @@ class AddEditSeasonFragment : Fragment(R.layout.ffr_add_edit_season_fragment) {
             }
     }
 
+    private fun CoroutineScope.observeSeasonUploadingState() = launch {
+        launch {
+            viewModel.seasonUploadingUiState
+                .collect { uiState ->
+                    binding.submitButton.isVisible = uiState !is LoadingState.Loading
+                    binding.seasonUploadingContainer.isVisible = uiState is LoadingState.Loading
+                    if (uiState is LoadingState.Error && uiState.message != null) {
+                        showUploadingSeasonError(uiState.message)
+                    }
+                }
+        }
+    }
+
+    private fun CoroutineScope.observeAddEditSeasonResult() = launch {
+        launch {
+            viewModel.uiState.map { it.addEditSeasonResult }
+                .distinctUntilChanged()
+                .collect { result ->
+                    if (result != null) {
+                        navController.popBackStack()
+                    }
+                }
+        }
+    }
+
     private fun onCustomLoanDurationResult(month: Int) {
         updateLoanDuration(UiLoanDuration.Custom(month))
     }
@@ -608,5 +642,10 @@ class AddEditSeasonFragment : Fragment(R.layout.ffr_add_edit_season_fragment) {
         Glide.with(context)
             .load(R.drawable.farm_map_placeholder)
             .into(binding.farmMapImageView)
+    }
+
+    private fun showUploadingSeasonError(message: Text) {
+        showSnackbar(message)
+        viewModel.handleEvent(AddEditSeasonEvent.OnSeasonUploadingErrorShown)
     }
 }

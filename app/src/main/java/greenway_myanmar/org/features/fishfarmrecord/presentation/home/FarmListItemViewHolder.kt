@@ -6,22 +6,23 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.greenwaymyanmar.core.presentation.model.UiArea
-import com.greenwaymyanmar.core.presentation.model.asString
+import com.greenwaymyanmar.core.presentation.util.numberFormat
 import com.greenwaymyanmar.vo.PendingAction
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FfrbFarmListItemBinding
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ContractFarmingCompany
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
+import greenway_myanmar.org.util.extensions.load
 import java.math.BigDecimal
+
 
 class FarmListItemViewHolder(
     private val parent: ViewGroup,
     private val onItemClick: (view: View, item: FarmListItemUiState) -> Unit,
     private val onCompanyClick: (company: ContractFarmingCompany) -> Unit,
     private val onAddNewSeasonClick: (view: View, item: FarmListItemUiState) -> Unit,
-    private val onAddNewExpenseClick: (item: FarmListItemUiState) -> Unit
+    private val onAddNewExpenseClick: (view: View, item: FarmListItemUiState) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
         .inflate(R.layout.ffrb_farm_list_item, parent, false)
@@ -29,37 +30,21 @@ class FarmListItemViewHolder(
     private val binding = FfrbFarmListItemBinding.bind(itemView)
     private val context = parent.context
 
-    init {
-    }
-
-//    android:onClick="@{() -> itemClickCallback.onItemClick(item)}"
-//    android:onClick="@{() -> itemClickCallback.onCompanyClick(item.openingSeason.company)}"
-//    android:text='@{item.name}'
-//    android:text='@{MyanmarNumberExtensionKt.toMyanmar(item.area) + " " + item.userFriendlyUnit()}'
-//    android:onClick="@{() -> itemClickCallback.onAddSeasonClick(item)}"
-//    app:visibleGone="@{item.openingSeason == null}"
-//    android:onClick="@{() -> itemClickCallback.onAddExpenseClick(item)}"
-//    app:visibleGone="@{item.openingSeason != null}"
-
-//    app:visibleGone="@{item.openingSeason != null}"
-
-//    app:visibleGone='@{item.pendingAction.pending}'
-
-
     fun bind(item: FarmListItemUiState) {
         bindContainerCardView(item)
         bindThumbnailImage(item.thumbnailImageUrl)
-        bindPondName(item.name)
+        bindFarmName(item.name)
         bindOngoingSeason(item.openingSeason)
         bindContractFarmingCompany(item.openingSeason?.company)
         bindNewSeasonButton(item)
         bindNewExpenseButton(item)
         bindTotalExpenses(item.hasOngoingSeason, item.openingSeason?.totalExpenses)
-        bindPondArea(item.area)
+        bindFarmMeasurement(item.area, item.depth)
         bindLoadingIndicator(item.pendingAction)
 
         setContainerCardViewTransitionName(item)
         setNewSeasonButtonTransitionName(item)
+        setNewExpenseButtonTransitionName(item)
     }
 
     private fun bindLoadingIndicator(pendingAction: PendingAction?) {
@@ -72,16 +57,17 @@ class FarmListItemViewHolder(
         }
     }
 
-    private fun bindPondName(pondName: String) {
+    private fun bindFarmName(pondName: String) {
         binding.pondName.text = pondName
     }
 
     private fun bindThumbnailImage(thumbnailImageUrl: String?) {
-        Glide.with(parent.context)
-            .load(thumbnailImageUrl)
-            .placeholder(R.drawable.image_placeholder)
-            .fallback(R.drawable.farm_greyscale_placeholder)
-            .into(binding.pondThumbnailImage)
+        binding.pondThumbnailImage.load(
+            context = parent.context,
+            imageUrl = thumbnailImageUrl,
+            placeholderResourceId = R.drawable.image_placeholder,
+            fallbackResourceId = R.drawable.farm_greyscale_placeholder
+        )
     }
 
     private fun bindOngoingSeason(ongoingSeason: Season?) {
@@ -122,8 +108,8 @@ class FarmListItemViewHolder(
         val hasOngoingSeason = item.hasOngoingSeason
         if (hasOngoingSeason) {
             binding.addExpenseButton.isVisible = true
-            binding.addExpenseButton.setOnClickListener {
-                onAddNewExpenseClick(item)
+            binding.addExpenseButton.setOnClickListener { view ->
+                onAddNewExpenseClick(view, item)
             }
         } else {
             binding.addExpenseButton.isVisible = false
@@ -139,12 +125,23 @@ class FarmListItemViewHolder(
         binding.totalExpenses.setAmount(totalExpenses)
     }
 
-    private fun bindPondArea(area: UiArea?) {
+    private fun bindFarmMeasurement(area: UiArea?, depth: Double?) {
         if (area != null) {
-            binding.pondArea.text = area.asString(parent.context)
-            binding.pondArea.isVisible = true
+            binding.farmArea.text = if (depth != null) {
+                context.getString(
+                    R.string.ffr_formatted_farm_area_with_depth,
+                    numberFormat.format(area.value),
+                    numberFormat.format(depth)
+                )
+            } else {
+                context.getString(
+                    R.string.ffr_formatted_farm_area,
+                    numberFormat.format(area.value)
+                )
+            }
+            binding.farmArea.isVisible = true
         } else {
-            binding.pondArea.isVisible = false
+            binding.farmArea.isVisible = false
         }
     }
 
@@ -161,6 +158,12 @@ class FarmListItemViewHolder(
         val transactionName =
             context.resources.getString(R.string.ffr_transition_name_list_item_add_season, item.id)
         ViewCompat.setTransitionName(binding.createNewSeasonButton, transactionName)
+    }
+
+    private fun setNewExpenseButtonTransitionName(item: FarmListItemUiState) {
+        val transactionName =
+            context.resources.getString(R.string.ffr_transition_name_list_item_add_expense, item.id)
+        ViewCompat.setTransitionName(binding.addExpenseButton, transactionName)
     }
 
 }

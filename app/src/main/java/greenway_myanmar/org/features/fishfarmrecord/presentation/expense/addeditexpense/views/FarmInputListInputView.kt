@@ -44,7 +44,7 @@ class FarmInputListInputView @JvmOverloads constructor(
         rootView.isVisible = newItems.isNotEmpty()
         newItems.forEachIndexed { index, uiFish ->
             if (index > 0) {
-                rootView.addView(space8dp())
+                rootView.addView(space4dp())
             }
 
             val itemView = createFarmInputCardView(uiFish)
@@ -52,12 +52,18 @@ class FarmInputListInputView @JvmOverloads constructor(
         }
     }
 
-    private fun createFarmInputCardView(item: UiFarmInputCost): View = FarmInputInputItemView(context).apply {
-        this.bind(item)
-    }
+    private fun createFarmInputCardView(item: UiFarmInputCost): View =
+        FarmInputInputItemView(context).apply {
+            this.init(
+                onRemoveClicked = {
+                    _onItemClickListener.onRemoveFarmInput(it)
+                }
+            )
+            this.bind(item)
+        }
 
-    private fun space8dp() = Space(context).apply {
-        layoutParams = LayoutParams(0, UIUtils.dpToPx(context, 8))
+    private fun space4dp() = Space(context).apply {
+        layoutParams = LayoutParams(0, UIUtils.dpToPx(context, 4))
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -67,11 +73,16 @@ class FarmInputListInputView @JvmOverloads constructor(
     interface OnItemClickListener {
         fun onAddNewFarmInput()
         fun onFarmInputItemClick()
+        fun onRemoveFarmInput(item: UiFarmInputCost)
     }
 
     private class NoOpOnItemClickListener : OnItemClickListener {
         override fun onAddNewFarmInput() {
             // no-op
+        }
+
+        override fun onRemoveFarmInput(item: UiFarmInputCost) {
+            /* no-op */
         }
 
         override fun onFarmInputItemClick() {

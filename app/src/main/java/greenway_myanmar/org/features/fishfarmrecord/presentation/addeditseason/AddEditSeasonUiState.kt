@@ -46,3 +46,4 @@ data class AddEditSeasonUiState(
 
 typealias CompanyUiState = LoadingState<UiContractFarmingCompany>
 typealias FarmMeasurementUiState = LoadingState<UiFarmMeasurement>
+typealias SeasonUploadingUiState = LoadingState<Unit>

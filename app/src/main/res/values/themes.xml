@@ -150,7 +150,8 @@
         <item name="toolbarNavigationButtonStyle">
             @style/Widget.GreenWay.Toolbar.Button.Navigation.Primary
         </item>
-        <item name="textAppearanceToolbarTitle">@style/TextAppearance.Asymt.Title</item>
+        <item name="textAppearanceToolbarTitle">@style/TextAppearance.GreenWay2.Title</item>
+        <item name="textAppearanceToolbarTitleInverse">@style/TextAppearance.GreenWay2.Title.Inverse</item>
         <item name="tabStyle">@style/Widget.MaterialComponents.TabLayout</item>
         <item name="textInputStyle">@style/Widget.Asymt.TextInputLayout</item>
         <item name="radioButtonStyle">@style/Widget.Asymt.RadioButton</item>

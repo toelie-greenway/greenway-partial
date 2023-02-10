@@ -8,6 +8,7 @@ import greenway_myanmar.org.db.GreenWayDb
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFarmDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrRecordDao
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFishDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonDao
 
 @Module
@@ -33,4 +34,9 @@ object DaosModule {
     fun providesFfrFcrDao(
         db: GreenWayDb,
     ): FfrFcrDao = db.ffrFcrDao()
+
+    @Provides
+    fun providesFfrFishDao(
+        db: GreenWayDb,
+    ): FfrFishDao = db.ffrFishDao()
 }

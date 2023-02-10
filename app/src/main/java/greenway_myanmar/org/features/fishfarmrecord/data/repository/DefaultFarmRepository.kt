@@ -32,16 +32,7 @@ class DefaultFarmRepository @Inject constructor(
     override fun getFarmsStream(): Flow<List<Farm>> {
         return farmDao.getFarmsStream().map { list ->
             list.map { farm ->
-                if (!farm.openingSeasonId.isNullOrEmpty()) {
-                    val season = seasonDao.getSeasonById(farm.openingSeasonId)
-                    if (season != null) {
-                        farm.asDomainModel(season)
-                    } else {
-                        farm.asDomainModel()
-                    }
-                } else {
-                    farm.asDomainModel()
-                }
+                farm.asDomainModel()
             }
         }
     }

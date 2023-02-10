@@ -2,8 +2,9 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.fishpicker
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
-import com.greenwaymyanmar.common.result.asResult
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFishesStreamUseCase
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -40,7 +42,7 @@ class FishPickerViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = WhileSubscribed(5000),
-            initialValue = FishesUiState.Loading
+            initialValue = LoadingState.Loading
         )
 
 //
@@ -84,31 +86,24 @@ private fun fishesUiStateStream(
         getFishesStreamUseCase(query),
         selectedFishIdsStream,
         ::Pair
-    ).asResult()
-        .map { result ->
-            when (result) {
-                is Result.Success -> {
-                    val (fishes, selectedFishIds) = result.data
-                    FishesUiState.Success(fishes.map { fish ->
-                        FishPickerListItemUiState(
-                            UiFish.fromDomain(fish),
-                            selectedFishIds.contains(fish.id)
-                        )
-                    })
-                }
-                is Result.Error -> {
-                    FishesUiState.Error
-                }
-                Result.Loading -> {
-                    FishesUiState.Loading
-                }
+    ).catch { e ->
+        LoadingState.Error(e.errorText())
+    }.map { (fishesResult, selectedFishIds) ->
+        when (fishesResult) {
+            is Result.Success -> {
+                LoadingState.Success(fishesResult.data.map { fish ->
+                    FishPickerListItemUiState(
+                        UiFish.fromDomain(fish),
+                        selectedFishIds.contains(fish.id)
+                    )
+                })
+            }
+            is Result.Error -> {
+                LoadingState.Error(fishesResult.exception.errorText())
+            }
+            Result.Loading -> {
+                LoadingState.Loading
             }
         }
-}
-
-
-sealed interface FishesUiState {
-    data class Success(val data: List<FishPickerListItemUiState>) : FishesUiState
-    object Error : FishesUiState
-    object Loading : FishesUiState
+    }
 }

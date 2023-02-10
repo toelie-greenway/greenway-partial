@@ -111,6 +111,11 @@ class LabourCostInputViewModel @Inject constructor(
                 currentUiState.labourCost
             )
         if (labourResourceValidationResult.isError()) {
+            _uiState.value = currentUiState.copy(
+                labourCostError = null,
+                labourQuantityError = null
+            )
+        } else {
             val labourQuantityValidationResult =
                 validateLabourResourceQuantity(currentUiState.labourQuantity)
             val labourCostValidationResult = validateLabourResourceCost(currentUiState.labourCost)
@@ -119,11 +124,6 @@ class LabourCostInputViewModel @Inject constructor(
             _uiState.value = currentUiState.copy(
                 labourQuantityError = labourQuantityValidationResult.getErrorOrNull(),
                 labourCostError = labourCostValidationResult.getErrorOrNull()
-            )
-        } else {
-            _uiState.value = currentUiState.copy(
-                labourCostError = null,
-                labourQuantityError = null
             )
         }
 

@@ -10,6 +10,7 @@ data class FarmListItemUiState(
     val name: String,
     val images: List<String>,
     val area: UiArea?,
+    val depth: Double? = null,
     val openingSeason: Season?,
     val pendingAction: PendingAction?
 ) {
@@ -18,20 +19,12 @@ data class FarmListItemUiState(
     val hasOngoingSeason = openingSeason != null
 
     companion object {
-        val Empty = FarmListItemUiState(
-            id = "",
-            name = "",
-            area = null,
-            images = emptyList(),
-            openingSeason = null,
-            pendingAction = null
-        )
-
         fun fromDomain(farm: Farm) = FarmListItemUiState(
             id = farm.id,
             name = farm.name,
             images = farm.images.orEmpty(),
             area = farm.measurement.area.let { UiArea.fromDomain(it) },
+            depth = farm.measurement.depth,
             openingSeason = farm.openingSeason,
             pendingAction = farm.pendingAction
         )

@@ -37,7 +37,6 @@ data class UiArea(
     }
 }
 
-
 fun UiArea.asString(context: Context): String {
     val numberFormat = NumberFormat.getInstance(MyanmarZarConverter.getLocale())
     numberFormat.maximumFractionDigits = 2

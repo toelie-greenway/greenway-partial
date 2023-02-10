@@ -35,6 +35,7 @@ import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiLoanDur
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.asDomainModel
 import greenway_myanmar.org.util.WhileViewSubscribed
 import greenway_myanmar.org.util.extensions.orZero
+import greenway_myanmar.org.util.toKotlinInstant
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -50,11 +51,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.toKotlinInstant
 import timber.log.Timber
 import java.math.BigDecimal
 import java.time.LocalDate
-import java.time.ZoneOffset
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -82,6 +81,9 @@ class AddEditSeasonViewModel @Inject constructor(
                 }
             )
         }.stateIn(viewModelScope, WhileViewSubscribed, LoadingState.Idle)
+
+    private val _seasonUploadingUiState = MutableStateFlow<SeasonUploadingUiState>(LoadingState.Idle)
+    val seasonUploadingUiState = _seasonUploadingUiState.asStateFlow()
 
     private val _companyUiState = MutableStateFlow<CompanyUiState>(LoadingState.Idle)
     val companyUiState = _companyUiState.asStateFlow()
@@ -151,6 +153,9 @@ class AddEditSeasonViewModel @Inject constructor(
             is AddEditSeasonEvent.OnFishAdded -> {
                 addFish(event.fish)
             }
+            is AddEditSeasonEvent.OnFishRemoved -> {
+                removeFish(event.fish)
+            }
             is AddEditSeasonEvent.OnCompanyCodeChanged -> {
                 updateCompanyCode(event.code)
             }
@@ -172,6 +177,9 @@ class AddEditSeasonViewModel @Inject constructor(
             AddEditSeasonEvent.OnSubmit -> {
                 onSubmit()
             }
+            AddEditSeasonEvent.OnSeasonUploadingErrorShown -> {
+                clearSeasonUploadingError()
+            }
         }
     }
 
@@ -179,7 +187,7 @@ class AddEditSeasonViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 farmArea = measurement.area.value.toString(),
-                farmMeasurement = when(measurement.measuredType) {
+                farmMeasurement = when (measurement.measuredType) {
                     AreaMeasureMethod.Pin -> {
                         AreaMeasurement.Location(
                             latLng = measurement.location ?: LatLng(0.0, 0.0),
@@ -266,6 +274,10 @@ class AddEditSeasonViewModel @Inject constructor(
         updateFishList(newFishList)
     }
 
+    private fun removeFish(fish: UiFish) {
+        updateFishList(currentUiState.fishes.filterNot { it.id == fish.id })
+    }
+
     private fun updateCompanyCode(code: String?) {
         _uiState.update {
             it.copy(companyCode = code)
@@ -320,6 +332,10 @@ class AddEditSeasonViewModel @Inject constructor(
         _uiState.update {
             it.copy(loanRemark = remark)
         }
+    }
+
+    private fun clearSeasonUploadingError() {
+        _seasonUploadingUiState.value = LoadingState.Idle
     }
 
     private fun onSubmit() {
@@ -417,6 +433,7 @@ class AddEditSeasonViewModel @Inject constructor(
         Timber.d("loanRemark: $loanRemark")
 
         val request = SaveSeasonUseCase.SaveSeasonRequest(
+            farmId = farmId,
             id = null, // TODO: change when support edit
             farmMeasurement = FarmMeasurement(
                 location = location,
@@ -424,11 +441,10 @@ class AddEditSeasonViewModel @Inject constructor(
                 area = area.asDomain(),
                 measuredArea = Area.acreOrNull(measuredArea),
                 measuredType = measureMethod,
-                depth = 0.0 //TODO:
+                depth = farmMeasurementUiState.value.getDepthOrNull()
             ),
             seasonName = seasonName,
-            seasonStartDate = seasonStartDate.atStartOfDay().toInstant(ZoneOffset.UTC)
-                .toKotlinInstant(),
+            seasonStartDate = seasonStartDate.toKotlinInstant(),
             fishes = fishes.map(UiFish::asDomainModel),
             company = company?.asDomainModel(),
             loan = loan
@@ -438,8 +454,11 @@ class AddEditSeasonViewModel @Inject constructor(
 
     private fun saveSeason(request: SaveSeasonUseCase.SaveSeasonRequest) {
         viewModelScope.launch {
-            try {
-                val result = saveSeasonUseCase(request)
+            runCancellableCatching {
+                _seasonUploadingUiState.value = LoadingState.Loading
+                saveSeasonUseCase(request)
+            }.onSuccess { result ->
+                _seasonUploadingUiState.value = LoadingState.Success(Unit)
                 _uiState.update {
                     it.copy(
                         addEditSeasonResult = AddEditSeasonUiState.AddEditSeasonResult(
@@ -447,9 +466,8 @@ class AddEditSeasonViewModel @Inject constructor(
                         )
                     )
                 }
-            } catch (e: Exception) {
-                // TODO: Handle exception
-                e.printStackTrace()
+            }.onFailure {
+                _seasonUploadingUiState.value = LoadingState.Error(it.errorText())
             }
         }
     }
@@ -525,10 +543,14 @@ class AddEditSeasonViewModel @Inject constructor(
     }
 }
 
+private fun FarmMeasurementUiState.getDepthOrNull(): Double? {
+    return (this as? LoadingState.Success)?.data?.depth
+}
+
 private fun farmMeasurementStream(
     farmId: String,
     getFarmMeasurementUseCase: GetFarmMeasurementUseCase,
-    onFarmMeasurementLoaded : (FarmMeasurement) -> Unit
+    onFarmMeasurementLoaded: (FarmMeasurement) -> Unit
 ): Flow<LoadingState<UiFarmMeasurement>> {
     if (farmId.isEmpty()) return emptyFlow()
 

@@ -18,6 +18,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import greenway_myanmar.org.BuildConfig
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
@@ -97,6 +98,7 @@ class ApiModule {
     return builder.build()
   }
 
+  @OptIn(ExperimentalSerializationApi::class)
   @Provides
   @Singleton
   fun provideRetrofitBuilder(

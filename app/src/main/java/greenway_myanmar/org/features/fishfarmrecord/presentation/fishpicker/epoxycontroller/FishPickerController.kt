@@ -1,9 +1,8 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.fishpicker.epoxycontroller
 
-import android.view.View
 import android.view.View.OnClickListener
 import com.airbnb.epoxy.EpoxyController
-import com.airbnb.epoxy.EpoxyModel.SpanSizeOverrideCallback
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import greenway_myanmar.org.EpoxyLoadingStateBindingModel_
 import greenway_myanmar.org.features.fishfarmrecord.presentation.fishpicker.FishPickerListItemUiState
 import greenway_myanmar.org.features.fishfarmrecord.presentation.fishpicker.FishesUiState
@@ -11,12 +10,11 @@ import greenway_myanmar.org.features.fishfarmrecord.presentation.fishpicker.view
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 import greenway_myanmar.org.vo.Resource
 import greenway_myanmar.org.vo.Status
-import timber.log.Timber
 
 class FishPickerController(val clickCallback: ClickCallback) : EpoxyController() {
 
     private var _userFishesResource: Resource<List<UiFish>>? = null
-    private var _fishesUiState: FishesUiState = FishesUiState.Loading
+    private var _fishesUiState: FishesUiState = LoadingState.Loading
 
     override fun buildModels() {
 
@@ -73,20 +71,23 @@ class FishPickerController(val clickCallback: ClickCallback) : EpoxyController()
 
     private fun buildFishListUi() {
         when (_fishesUiState) {
-            is FishesUiState.Success -> {
+            is LoadingState.Success -> {
                 buildFishList()
             }
-            FishesUiState.Error -> {
+            is LoadingState.Error -> {
 
             }
-            FishesUiState.Loading -> {
+            LoadingState.Loading -> {
+
+            }
+            else -> {
 
             }
         }
     }
 
     private fun buildFishList() {
-        (_fishesUiState as FishesUiState.Success).data.forEach { item ->
+        (_fishesUiState as LoadingState.Success).data.forEach { item ->
             FishPickerListItemViewModel_()
                 .id("fish_" + item.fish.id)
                 .item(FishPickerListItemUiState(item.fish, item.checked))

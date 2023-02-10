@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,21 +16,21 @@ import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
+import greenway_myanmar.org.common.presentation.extensions.hideSoftInput
 import greenway_myanmar.org.databinding.FfrFarmInputInputFragmentBinding
 import greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.farminput.products.FarmInputProductPickerFragment
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputCost
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputProduct
 import greenway_myanmar.org.util.extensions.bindMoney
 import greenway_myanmar.org.util.extensions.bindText
 import greenway_myanmar.org.util.extensions.getParcelableExtraCompat
 import greenway_myanmar.org.util.extensions.load
 import greenway_myanmar.org.util.extensions.setError
-import greenway_myanmar.org.util.kotlin.autoCleared
 import greenway_myanmar.org.util.kotlin.viewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) {
@@ -35,8 +38,6 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
     private val viewModel: FarmInputInputViewModel by viewModels()
 
     private val binding by viewBinding(FfrFarmInputInputFragmentBinding::bind)
-
-    private var unitArrayAdapter: ArrayAdapter<String> by autoCleared()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,13 +97,14 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
     }
 
     private fun setupUsedUnitDropdownUi() {
-        unitArrayAdapter = ArrayAdapter(
-            requireContext(),
-            R.layout.greenway_dropdown_menu_popup_item,
-            arrayListOf()
-        )
         binding.usedUnitAutoCompleteTextView.apply {
-            setAdapter(unitArrayAdapter)
+            setAdapter(
+                ArrayAdapter<String>(
+                    requireContext(),
+                    R.layout.greenway_dropdown_menu_popup_item,
+                    mutableListOf()
+                )
+            )
             onItemClickListener =
                 OnItemClickListener { parent, view, position, id ->
                     viewModel.handleEvent(FarmInputInputEvent.OnUsedUnitSelectionChanged(position))
@@ -118,25 +120,6 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
         }
     }
 
-    private fun <T> ArrayAdapter<T>.submitList(items: List<T>) {
-        this.clear()
-        this.addAll(items)
-        this.notifyDataSetChanged()
-    }
-
-    //    private fun setupSpeciesInputUi() {
-//        binding.speciesTextInputEditText.doAfterTextChanged {
-//            viewModel.handleEvent(FishInputUiEvent.OnSpeciesChanged(it?.toString().orEmpty()))
-//        }
-//    }
-//
-//    private fun setupFishInputUi() {
-//        binding.fishInputEditText.setOnClickListener {
-//            viewModel.handleEvent(FishInputUiEvent.ResetFishValidationError)
-//            openFishPicker()
-//        }
-//    }
-//
     private fun setupCancelButton() {
         binding.cancelButton.setOnClickListener {
             findNavController().popBackStack()
@@ -145,6 +128,7 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
 
     private fun setupSubmitButton() {
         binding.submitButton.setOnClickListener {
+            hideSoftInput()
             viewModel.handleEvent(FarmInputInputEvent.OnSubmit)
         }
     }
@@ -161,11 +145,16 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
             observeUsedUnitPrice()
             observeUsedUnitPriceError()
             observeTotalCost()
-            observeTotalCostError()
-//            observeFishError()
-//            observeSpecies()
-//            observeSubmitted()
-//            observeNavigationEvents()
+
+            observeIsFingerling()
+            observeFingerlingWeight()
+            observeFingerlingSize()
+            observeFingerlingAge()
+            observeFingerlingWeightError()
+            observeFingerlingSizeError()
+            observeFingerlingAgeError()
+
+            observeInputResult()
         }
     }
 
@@ -186,7 +175,13 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
             .collect { uiState ->
                 when (uiState) {
                     is LoadingState.Success -> {
-                        unitArrayAdapter.submitList(uiState.data.map { it.unit })
+                        binding.usedUnitAutoCompleteTextView.setAdapter(
+                            ArrayAdapter(
+                                requireContext(),
+                                R.layout.greenway_dropdown_menu_popup_item,
+                                uiState.data.map { it.unit }
+                            )
+                        )
                     }
                     else -> {
                         // no-op
@@ -214,9 +209,13 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
     private fun CoroutineScope.observeUsedUnit() = launch {
         viewModel.uiState.map { it.usedUnit }
             .distinctUntilChanged()
-            .collect {
-                Timber.d("Used unit: ${it?.unit.orEmpty()}")
-                binding.usedUnitAutoCompleteTextView.setText(it?.unit.orEmpty(), false)
+            .collect { unit ->
+                binding.usedUnitPriceTextInputLayout.hint = if (unit != null) {
+                    resources.getString(R.string.ffr_add_edit_expense_hint_farm_input_formatted_unit_price, unit.unit)
+                } else {
+                    resources.getString(R.string.ffr_add_edit_expense_hint_farm_input_unit_price,)
+                }
+                binding.usedUnitAutoCompleteTextView.setText(unit?.unit.orEmpty(), false)
             }
     }
 
@@ -244,6 +243,64 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
             }
     }
 
+    private fun CoroutineScope.observeIsFingerling() = launch {
+        viewModel.uiState.map { it.isFingerling }
+            .distinctUntilChanged()
+            .collect { isFingerling ->
+                binding.fingerlingAverageWeightTextInputLayout.isVisible = isFingerling
+                binding.fingerlingAverageSizeTextInputLayout.isVisible = isFingerling
+                binding.fingerlingAgeTextInputLayout.isVisible = isFingerling
+            }
+    }
+
+    private fun CoroutineScope.observeFingerlingWeight() = launch {
+        viewModel.uiState.map { it.fingerlingWeight }
+            .distinctUntilChanged()
+            .collect {
+                binding.fingerlingAverageWeightTextInputEditText.bindText(it)
+            }
+    }
+
+    private fun CoroutineScope.observeFingerlingSize() = launch {
+        viewModel.uiState.map { it.fingerlingSize }
+            .distinctUntilChanged()
+            .collect {
+                binding.fingerlingAverageSizeTextInputEditText.bindText(it)
+            }
+    }
+
+    private fun CoroutineScope.observeFingerlingAge() = launch {
+        viewModel.uiState.map { it.fingerlingAge }
+            .distinctUntilChanged()
+            .collect {
+                binding.fingerlingAgeTextInputEditText.bindText(it)
+            }
+    }
+
+    private fun CoroutineScope.observeFingerlingWeightError() = launch {
+        viewModel.uiState.map { it.fingerlingWeightError }
+            .distinctUntilChanged()
+            .collect {
+                binding.fingerlingAverageWeightTextInputLayout.setError(it)
+            }
+    }
+
+    private fun CoroutineScope.observeFingerlingSizeError() = launch {
+        viewModel.uiState.map { it.fingerlingSizeError }
+            .distinctUntilChanged()
+            .collect {
+                binding.fingerlingAverageSizeTextInputLayout.setError(it)
+            }
+    }
+
+    private fun CoroutineScope.observeFingerlingAgeError() = launch {
+        viewModel.uiState.map { it.fingerlingAgeError }
+            .distinctUntilChanged()
+            .collect {
+                binding.fingerlingAgeTextInputLayout.setError(it)
+            }
+    }
+
     private fun CoroutineScope.observeTotalCost() = launch {
         viewModel.uiState.map { it.totalCost }
             .distinctUntilChanged()
@@ -264,35 +321,18 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
             }
     }
 
-    //
-//    private fun CoroutineScope.observeNavigationEvents() = launch {
-//        viewModel.navigationEvents.collect { event ->
-//            when (event) {
-//                is FishInputNavigationEvent.NavigateBackWithResult -> {
-//                    navigateBackWithResult(event.fish)
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun CoroutineScope.observeFishError() = launch {
-//        viewModel.uiState.map { it.fishValidationError }
-//            .distinctUntilChanged()
-//            .collect {
-//                binding.fishInputLayout.setError(it)
-//            }
-//    }
-//
-//    private fun CoroutineScope.observeSubmitted() = launch {
-//        viewModel.uiState.map { it.submitted }
-//            .distinctUntilChanged()
-//            .collect {
-//
-//            }
-//    }
-//
+    private fun CoroutineScope.observeInputResult() = launch {
+        viewModel.uiState.map { it.inputResult }
+            .distinctUntilChanged()
+            .collect { result ->
+                if (result != null) {
+                    setResult(result)
+                }
+            }
+    }
+
     private fun bindProduct(product: UiFarmInputProduct) {
-        binding.toolbarTitleTextView.setText(product.name)
+        binding.toolbarTitleTextView.text = product.name
         bindProductImage(product.thumbnail)
     }
 
@@ -309,6 +349,15 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
         )
     }
 
+    private fun setResult(cost: UiFarmInputCost) {
+        setFragmentResult(
+            REQUEST_KEY_FARM_INPUT_COST,
+            bundleOf(KEY_FARM_INPUT_COST to cost)
+        )
+        findNavController().popBackStack()
+    }
+
+
 //    private fun showDiscardConfirmDialog() {
 //        val dialog = GreenwayAlertDialog(requireContext())
 //        dialog.setMessage(R.string.asymt_discard_message)
@@ -321,4 +370,9 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
 //        }
 //        dialog.show()
 //    }
+
+    companion object {
+        const val REQUEST_KEY_FARM_INPUT_COST = "request_key.FARM_INPUT_COST"
+        const val KEY_FARM_INPUT_COST = "key.FARM_INPUT_COST"
+    }
 }

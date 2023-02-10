@@ -5,13 +5,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NetworkContractFarmingCompany(
-    val id: String,
-    val name: String,
-    val company_code: String,
+    val id: String? = null,
+    val name: String? = null,
+    val company_code: String? = null,
 )
 
 fun NetworkContractFarmingCompany.asDomainModel() = ContractFarmingCompany(
-    id = id,
-    name = name,
-    code = company_code
+    id = id ?: throw IllegalStateException("id must not be null"),
+    name = name.orEmpty(),
+    code = company_code.orEmpty()
 )

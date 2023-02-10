@@ -57,16 +57,22 @@ class FishListInputView @JvmOverloads constructor(
                 rootView.addView(space8dp())
             }
 
-            val itemView = createFishCardView(uiFish)
+            val itemView = createFishCardView(
+                item = uiFish,
+                onFishRemoved = {
+                    _onItemClickListener.onFishRemoved(it)
+                })
             rootView.addView(itemView)
         }
 
         _onDataSetChangeListener.onDataSetChanged(_items)
     }
 
-    private fun createFishCardView(item: UiFish): View = FishInputItemView(context).apply {
-        this.setFish(item)
-    }
+    private fun createFishCardView(item: UiFish, onFishRemoved: (UiFish) -> Unit): View =
+        FishInputItemView(context).apply {
+            this.init(onFishRemoved = onFishRemoved)
+            this.setFish(item)
+        }
 
     private fun space8dp() = Space(context).apply {
         layoutParams = LayoutParams(0, UIUtils.dpToPx(context, 8))
@@ -92,6 +98,7 @@ class FishListInputView @JvmOverloads constructor(
     interface OnItemClickListener {
         fun onAddNewFishClick()
         fun onFishItemClick()
+        fun onFishRemoved(fish: UiFish)
     }
 
     private class NoOpOnDataSetChangeListener : OnDataSetChangeListener {
@@ -102,12 +109,15 @@ class FishListInputView @JvmOverloads constructor(
 
     private class NoOpOnItemClickListener : OnItemClickListener {
         override fun onAddNewFishClick() {
-            // no-op
+            /* no-op */
         }
 
         override fun onFishItemClick() {
-            // no-op
+            /* no-op */
         }
 
+        override fun onFishRemoved(fish: UiFish) {
+            /* no-op */
+        }
     }
 }

@@ -1,6 +1,11 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.greenwaymyanmar.common.data.api.errorText
+import com.greenwaymyanmar.core.presentation.model.LoadingState
+import com.greenwaymyanmar.utils.runCancellableCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
@@ -8,24 +13,36 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.ValidationResul
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveExpenseUseCase
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputCost
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiLabourCost
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiMachineryCost
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.asDomainModel
+import greenway_myanmar.org.util.toKotlinInstant
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditExpenseViewModel @Inject constructor(
-
+    savedStateHandle: SavedStateHandle,
+    private val saveExpenseUseCase: SaveExpenseUseCase
 ) : ViewModel() {
+
+    private val args = AddEditExpenseFragmentArgs.fromSavedStateHandle(savedStateHandle)
+    private val seasonId = args.seasonId
 
     private val _uiState = MutableStateFlow(AddEditExpenseUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _expenseUploadingUiState =
+        MutableStateFlow<ExpenseUploadingUiState>(LoadingState.Idle)
+    val expenseUploadingUiState = _expenseUploadingUiState.asStateFlow()
 
     private val currentUiState: AddEditExpenseUiState
         get() = uiState.value
@@ -47,6 +64,9 @@ class AddEditExpenseViewModel @Inject constructor(
             is AddEditExpenseEvent.OnFarmInputAdded -> {
                 updateFarmInput(event.farmInput)
             }
+            is AddEditExpenseEvent.OnFarmInputRemoved -> {
+                removeFarmInput(event.farmInput)
+            }
             is AddEditExpenseEvent.OnNoteChanged -> {
                 updateNote(event.note)
             }
@@ -55,6 +75,9 @@ class AddEditExpenseViewModel @Inject constructor(
             }
             AddEditExpenseEvent.CostErrorShown -> {
                 clearCostError()
+            }
+            AddEditExpenseEvent.OnExpenseUploadingErrorShown -> {
+                clearExpenseUploadingError()
             }
         }
     }
@@ -81,6 +104,14 @@ class AddEditExpenseViewModel @Inject constructor(
                 .removeIfExists(farmInput)
                 .add(farmInput)
         )
+    }
+
+    private fun removeFarmInput(farmInput: UiFarmInputCost) {
+        _uiState.update { currentUiState ->
+            currentUiState.copy(
+                farmInputCosts = currentUiState.farmInputCosts.filterNot { it.productId == farmInput.productId }
+            )
+        }
     }
 
     private fun List<UiFarmInputCost>.removeIfExists(
@@ -110,6 +141,10 @@ class AddEditExpenseViewModel @Inject constructor(
         _uiState.update {
             it.copy(costError = null)
         }
+    }
+
+    private fun clearExpenseUploadingError() {
+        _expenseUploadingUiState.value = LoadingState.Idle
     }
 
     private fun onSubmit() {
@@ -147,6 +182,43 @@ class AddEditExpenseViewModel @Inject constructor(
         Timber.d("machineryCost: $machineryCost")
         Timber.d("farmInputCosts: $farmInputCosts")
 
+        val request = SaveExpenseUseCase.SaveExpenseRequest(
+            seasonId = seasonId,
+            expenseCategory = category.asDomainModel(),
+            date = currentUiState.date.toKotlinInstant(),
+            labourQuantity = labourCost?.labourQuantity,
+            labourCost = labourCost?.labourCost,
+            familyQuantity = labourCost?.familyMemberQuantity,
+            familyCost = labourCost?.familyMemberCost,
+            machineryCost = machineryCost?.totalCost,
+            images = emptyList(), // TODO:
+            remark = currentUiState.note,
+            inputs = farmInputCosts.map(UiFarmInputCost::asDomainModel)
+        )
+        saveExpense(request)
+    }
+
+    private fun saveExpense(request: SaveExpenseUseCase.SaveExpenseRequest) {
+        viewModelScope.launch {
+            runCancellableCatching {
+                Timber.d("Save expense ... loading")
+                _expenseUploadingUiState.value = LoadingState.Loading
+                saveExpenseUseCase(request)
+            }.onSuccess { result ->
+                Timber.d("Save expense ... success")
+                _expenseUploadingUiState.value = LoadingState.Success(Unit)
+                _uiState.update {
+                    it.copy(
+                        addEditExpenseResult = AddEditExpenseUiState.AddEditExpenseResult(
+                            expenseId = result.id
+                        )
+                    )
+                }
+            }.onFailure {
+                Timber.e(it, "Save expense ... error")
+                _expenseUploadingUiState.value = LoadingState.Error(it.errorText())
+            }
+        }
     }
 
     private fun validateCategory(category: UiExpenseCategory?): ValidationResult<UiExpenseCategory> {

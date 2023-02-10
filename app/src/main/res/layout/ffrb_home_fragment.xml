@@ -48,7 +48,7 @@
     </greenway_myanmar.org.ui.widget.ScrollChildSwipeRefreshLayout>
 
     <greenway_myanmar.org.ui.widget.GreenWayExtendedFloatingActionButton
-        android:id="@+id/add_new_pond_fab"
+        android:id="@+id/add_new_farm_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"

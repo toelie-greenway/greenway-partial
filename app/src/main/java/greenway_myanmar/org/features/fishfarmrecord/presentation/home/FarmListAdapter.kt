@@ -10,7 +10,7 @@ class FarmListAdapter(
     private val onItemClick: (view: View, item: FarmListItemUiState) -> Unit,
     private val onCompanyClick: (company: ContractFarmingCompany) -> Unit,
     private val onAddNewSeasonClick: (view: View, item: FarmListItemUiState) -> Unit,
-    private val onAddNewExpenseClick: (item: FarmListItemUiState) -> Unit
+    private val onAddNewExpenseClick: (view: View, item: FarmListItemUiState) -> Unit
 ) : ListAdapter<FarmListItemUiState, FarmListItemViewHolder>(PondDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FarmListItemViewHolder {
         return FarmListItemViewHolder(

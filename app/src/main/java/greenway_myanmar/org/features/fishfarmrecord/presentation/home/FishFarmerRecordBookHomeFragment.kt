@@ -66,7 +66,7 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
 
     private fun setupUi() {
         setupSwipeRefresh()
-        setupNewPondFab()
+        setupNewFarmFab()
         setupPondListUi()
     }
 
@@ -86,12 +86,12 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
         binding.swipeRefreshLayout.setScrollUpChild(binding.pondList)
     }
 
-    private fun setupNewPondFab() {
+    private fun setupNewFarmFab() {
         ViewCompat.setTransitionName(
-            binding.addNewPondFab,
+            binding.addNewFarmFab,
             getString(R.string.ffr_transition_name_fab_add_farm)
         )
-        binding.addNewPondFab.apply {
+        binding.addNewFarmFab.apply {
             setOnClickListener(this) { openAddEditFishPondScreen() }
         }
     }
@@ -112,7 +112,7 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
     private fun setupPondListUi() {
         adapter = FarmListAdapter(
             onItemClick = { view, item ->
-                openPondDetailScreen(view, item)
+                openFarmDetailScreen(view, item)
             },
             onCompanyClick = {
                 openCompanyScreen(it)
@@ -120,8 +120,8 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
             onAddNewSeasonClick = { view, item ->
                 openAddEditSeasonScreen(view, item.id)
             },
-            onAddNewExpenseClick = {
-                openAddEditExpenseScreen(it)
+            onAddNewExpenseClick = { view, item ->
+                openAddEditExpenseScreen(view, item)
             }
         )
         binding.pondList.addItemDecoration(SpaceMarginDecoration(requireContext(), 0, 0, 0, 8))
@@ -143,7 +143,7 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
             getString(R.string.ffr_transition_name_screen_add_edit_farm)
         val extras =
             FragmentNavigatorExtras(
-                binding.addNewPondFab to addEditFarmTransitionName
+                binding.addNewFarmFab to addEditFarmTransitionName
             )
         val directions =
             FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditPondFragment()
@@ -174,14 +174,35 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
         navController.navigate(directions, extras)
     }
 
-    private fun openAddEditExpenseScreen(item: FarmListItemUiState) {
+    private fun openAddEditExpenseScreen(view: View, item: FarmListItemUiState) {
+        val farmId = item.id
+        val seasonId = item.openingSeason?.id ?: return
 
-        navController.navigate(
-            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditExpenseFragment()
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(
+                R.integer.greenway_motion_duration_large
+            ).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(
+                R.integer.greenway_motion_duration_large
+            ).toLong()
+        }
+        val addEditExpenseTransitionName = getString(
+            R.string.ffr_transition_name_screen_add_edit_expense
         )
+        val extras = FragmentNavigatorExtras(
+            view to addEditExpenseTransitionName
+        )
+        val directions =
+            FishFarmerRecordBookHomeFragmentDirections.actionHomeFragmentToAddEditExpenseFragment(
+                farmId = farmId,
+                seasonId = seasonId
+            )
+        navController.navigate(directions, extras)
     }
 
-    private fun openPondDetailScreen(view: View, item: FarmListItemUiState) {
+    private fun openFarmDetailScreen(view: View, item: FarmListItemUiState) {
         exitTransition = MaterialElevationScale(false).apply {
             duration = resources.getInteger(
                 R.integer.greenway_motion_duration_large

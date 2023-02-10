@@ -395,6 +395,7 @@
         android:background="#DEFFFFFF"
         android:clickable="true"
         android:focusable="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:visibility="gone"
         tools:visibility="gone">
 
@@ -403,6 +404,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminate="true"
+            app:trackThickness="2dp" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/season_uploading_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DEFFFFFF"
+        android:clickable="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:focusable="true"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/season_uploading_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:trackColor="?colorSecondaryVariant"
             app:trackThickness="2dp" />
 
     </FrameLayout>

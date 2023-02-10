@@ -14,6 +14,7 @@ sealed class AddEditSeasonEvent {
     data class OnSeasonStartDateChanged(val date: LocalDate): AddEditSeasonEvent()
     data class OnFishListChanged(val fishes: List<UiFish>): AddEditSeasonEvent()
     data class OnFishAdded(val fish: UiFish): AddEditSeasonEvent()
+    data class OnFishRemoved(val fish: UiFish) : AddEditSeasonEvent()
 
     data class OnCompanyCodeChanged(val code: String?): AddEditSeasonEvent()
 
@@ -24,4 +25,5 @@ sealed class AddEditSeasonEvent {
     data class OnLoanRemarkChanged(val remark: String?): AddEditSeasonEvent()
 
     object OnSubmit: AddEditSeasonEvent()
+    object OnSeasonUploadingErrorShown : AddEditSeasonEvent()
 }

@@ -73,7 +73,7 @@
             tools:text="ကန်ဘေး" />
 
         <greenway_myanmar.org.ui.widget.GreenWayTextView
-            android:id="@+id/pond_area"
+            android:id="@+id/farm_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_normal"
@@ -142,15 +142,6 @@
         android:clickable="true"
         android:focusable="true"
         android:visibility="gone"
-        tools:visibility="visible">
-
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/loading_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:trackThickness="2dp" />
-
-    </FrameLayout>
+        tools:visibility="visible" />
 
 </com.google.android.material.card.MaterialCardView>

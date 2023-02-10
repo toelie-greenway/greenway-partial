@@ -102,13 +102,8 @@ fun Response<*>.errorMessage(): String {
 }
 
 fun Throwable?.errorText(): Text {
-//    val errorMessage: String = "ချိတ်ဆက်မှု မအောင်မြင်ပါ။\nမိတ်ဆွေရဲ့ အင်တာနက်လိုင်းအား စစ်ဆေး၍ ပြန်လည်ကြိုးစားကြည့်ပါ။"
-//        if (BuildConfig.DEBUG) {
-//            this?.message ?: "unknown error"
-//        } else {
-//            "ချိတ်ဆက်မှု မအောင်မြင်ပါ။\nမိတ်ဆွေရဲ့ အင်တာနက်လိုင်းအား စစ်ဆေး၍ ပြန်လည်ကြိုးစားကြည့်ပါ။"
-//        }
     val networkError = Text.ResourceText(R.string.error_no_network)
+    val somethingWrongError = Text.ResourceText(R.string.toast_something_wrong)
     return when (this) {
         is UnknownDomainException -> {
             Text.StringText(this.message)
@@ -122,7 +117,7 @@ fun Throwable?.errorText(): Text {
             networkError
         }
         else -> {
-            networkError
+            somethingWrongError
         }
     }
 }

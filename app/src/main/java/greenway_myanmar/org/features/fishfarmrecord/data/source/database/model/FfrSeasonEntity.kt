@@ -9,11 +9,17 @@ import com.greenwaymyanmar.vo.PendingAction
 import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
 import greenway_myanmar.org.features.areameasure.domain.model.asStringOrNull
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.EntityIdGenerator.generateIdIfRequired
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmAreaLatLng
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmAreaRequest
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest.NetworkSeasonFishType
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveSeasonUseCase
+import greenway_myanmar.org.util.DateUtils
 import kotlinx.datetime.Instant
+import kotlinx.datetime.toJavaInstant
 import java.math.BigDecimal
 import java.util.*
 
@@ -92,3 +98,30 @@ fun FfrSeasonEntity.asDomainModel() = Season(
 
 private fun mapFishes(fishes: List<FfrFishEntity>) =
     fishes.map(FfrFishEntity::asDomainModel)
+
+fun FfrSeasonEntity.asNetworkRequestModel() = NetworkSeasonRequest(
+    area = NetworkFarmAreaRequest(
+        acre = area,
+        measurement_type = measuredType,
+        measured_acre = measuredArea,
+        depth = depth,
+        measurement = coordinates?.map {
+            NetworkFarmAreaLatLng(
+                lat = it.latitude,
+                lng = it.longitude
+            )
+        },
+        lat = location?.latitude,
+        lon = location?.longitude
+    ),
+    company_code = this.company?.code,
+    fish_types = this.fishes.map {
+        NetworkSeasonFishType(
+            fish_id = it.id,
+            specie = it.species
+        )
+    },
+    loan = this.loan?.asNetworkModel(),
+    season = this.seasonName,
+    start_date = DateUtils.prepareServerDateFromInstant(this.seasonStartDate.toJavaInstant())
+)

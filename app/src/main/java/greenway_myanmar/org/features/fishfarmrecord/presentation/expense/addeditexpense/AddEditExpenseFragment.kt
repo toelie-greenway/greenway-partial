@@ -1,18 +1,26 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.google.android.material.transition.MaterialContainerTransform
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
+import greenway_myanmar.org.common.presentation.extensions.hideSoftInput
 import greenway_myanmar.org.common.presentation.extensions.showSnackbar
 import greenway_myanmar.org.databinding.FfrAddEditExpenseFragmentBinding
+import greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.farminput.FarmInputInputFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.labourcost.LabourCostInputBottomSheetFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.machinerycost.MachineryCostInputBottomSheetFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.views.ExpenseCategoryInputView
@@ -21,12 +29,15 @@ import greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addedit
 import greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.views.MachineryCostInputView
 import greenway_myanmar.org.features.fishfarmrecord.presentation.expensecategorypicker.ExpenseCategoryPickerBottomSheetFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputCost
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiLabourCost
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiMachineryCost
 import greenway_myanmar.org.ui.widget.GreenWayDateInputView.OnDateChangeListener
 import greenway_myanmar.org.util.extensions.bindText
 import greenway_myanmar.org.util.extensions.getParcelableExtraCompat
-import greenway_myanmar.org.util.kotlin.autoCleared
+import greenway_myanmar.org.util.extensions.requireNetworkConnection
+import greenway_myanmar.org.util.extensions.themeColor
+import greenway_myanmar.org.util.kotlin.viewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -37,17 +48,24 @@ import java.time.LocalDate
 class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) {
 
     private val viewModel: AddEditExpenseViewModel by viewModels()
-    private var binding: FfrAddEditExpenseFragmentBinding by autoCleared()
+    private val binding by viewBinding(FfrAddEditExpenseFragmentBinding::bind)
+    private val args by navArgs<AddEditExpenseFragmentArgs>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupTransition()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FfrAddEditExpenseFragmentBinding.bind(view)
+        setScreenTransactionName(view)
         setupFragmentResultListener()
         setupUi()
         observeViewModel()
     }
 
     private fun setupUi() {
+        setupToolbar()
         setupDateInputUi()
         setupCategoryInputUi()
         setupLabourCostInputUi()
@@ -67,7 +85,25 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
             observeFarmInputs()
             observeNote()
             observeCostError()
+            observeSeasonUploadingState()
+            observeAddEditExpenseResult()
         }
+    }
+
+    private fun setupTransition() {
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.nav_host_fragment
+            duration = resources.getInteger(R.integer.greenway_motion_duration_large).toLong()
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(requireContext().themeColor(com.google.android.material.R.attr.colorSurface))
+        }
+    }
+
+    private fun setScreenTransactionName(view: View) {
+        ViewCompat.setTransitionName(
+            view,
+            getString(R.string.ffr_transition_name_screen_add_edit_expense)
+        )
     }
 
     private fun setupFragmentResultListener() {
@@ -79,7 +115,9 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
             )
             if (category != null) {
                 viewModel.handleEvent(
-                    greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.AddEditExpenseEvent.OnCategoryChanged(category)
+                    AddEditExpenseEvent.OnCategoryChanged(
+                        category
+                    )
                 )
             }
         }
@@ -91,7 +129,9 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
             )
             if (cost != null) {
                 viewModel.handleEvent(
-                    greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.AddEditExpenseEvent.OnLabourCostChanged(cost)
+                    AddEditExpenseEvent.OnLabourCostChanged(
+                        cost
+                    )
                 )
             }
         }
@@ -103,16 +143,42 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
             )
             if (cost != null) {
                 viewModel.handleEvent(
-                    greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.AddEditExpenseEvent.OnMachineryCostChanged(cost)
+                    AddEditExpenseEvent.OnMachineryCostChanged(
+                        cost
+                    )
                 )
             }
+        }
+        setFragmentResultListener(
+            FarmInputInputFragment.REQUEST_KEY_FARM_INPUT_COST
+        ) { _, bundle ->
+            val cost = bundle.getParcelableExtraCompat<UiFarmInputCost>(
+                FarmInputInputFragment.KEY_FARM_INPUT_COST
+            )
+            if (cost != null) {
+                viewModel.handleEvent(
+                    AddEditExpenseEvent.OnFarmInputAdded(
+                        cost
+                    )
+                )
+            }
+        }
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
     private fun setupDateInputUi() {
         binding.dateInputView.onDateChangeListener = object : OnDateChangeListener {
             override fun onDateChanged(date: LocalDate) {
-                viewModel.handleEvent(greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.AddEditExpenseEvent.OnDateChanged(date))
+                viewModel.handleEvent(
+                    greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.AddEditExpenseEvent.OnDateChanged(
+                        date
+                    )
+                )
             }
         }
     }
@@ -134,7 +200,8 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
     }
 
     private fun setupMachineryCostInputUi() {
-        binding.machineryCostInputView.setClickCall(object : MachineryCostInputView.ClickCallback {
+        binding.machineryCostInputView.setClickCall(object :
+            MachineryCostInputView.ClickCallback {
             override fun onClick() {
                 openMachineryCostInputDialog()
             }
@@ -148,6 +215,10 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
                 openFarmInputScreen()
             }
 
+            override fun onRemoveFarmInput(item: UiFarmInputCost) {
+                viewModel.handleEvent(AddEditExpenseEvent.OnFarmInputRemoved(item))
+            }
+
             override fun onFarmInputItemClick() {
 
             }
@@ -157,14 +228,19 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
     private fun setupNoteInputUi() {
         binding.noteTextInputEditText.doAfterTextChanged {
             viewModel.handleEvent(
-                greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.AddEditExpenseEvent.OnNoteChanged(it?.toString().orEmpty())
+                AddEditExpenseEvent.OnNoteChanged(
+                    it?.toString().orEmpty()
+                )
             )
         }
     }
 
     private fun setupSubmitButton() {
         binding.submitButton.setOnClickListener {
-            viewModel.handleEvent(greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.AddEditExpenseEvent.OnSubmit)
+            hideSoftInput()
+            requireNetworkConnection {
+                viewModel.handleEvent(AddEditExpenseEvent.OnSubmit)
+            }
         }
     }
 
@@ -234,15 +310,40 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
             }
     }
 
+    private fun CoroutineScope.observeSeasonUploadingState() = launch {
+        launch {
+            viewModel.expenseUploadingUiState
+                .collect { uiState ->
+                    binding.submitButton.isVisible = uiState !is LoadingState.Loading
+                    binding.expenseUploadingContainer.isVisible = uiState is LoadingState.Loading
+                    if (uiState is LoadingState.Error && uiState.message != null) {
+                        showUploadingSeasonError(uiState.message)
+                    }
+                }
+        }
+    }
+
+    private fun CoroutineScope.observeAddEditExpenseResult() = launch {
+        launch {
+            viewModel.uiState.map { it.addEditExpenseResult }
+                .distinctUntilChanged()
+                .collect { result ->
+                    if (result != null) {
+                        findNavController().popBackStack()
+                    }
+                }
+        }
+    }
+
     private fun showCostRequiredError(error: Text) {
         showSnackbar(error)
-        viewModel.handleEvent(greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.AddEditExpenseEvent.CostErrorShown)
+        viewModel.handleEvent(AddEditExpenseEvent.CostErrorShown)
     }
 
     private fun openCategoryPickerDialog() {
         findNavController().navigate(
             AddEditExpenseFragmentDirections
-                .actionAddEditExpenseFragmentToExpenseCategoryPickerBottomSheetFragment()
+                .actionAddEditExpenseFragmentToExpenseCategoryPickerBottomSheetFragment(args.seasonId)
         )
     }
 
@@ -265,5 +366,10 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
             AddEditExpenseFragmentDirections
                 .actionAddEditExpenseFragmentToFarmInputInputFragment()
         )
+    }
+
+    private fun showUploadingSeasonError(message: Text) {
+        showSnackbar(message)
+        viewModel.handleEvent(AddEditExpenseEvent.OnExpenseUploadingErrorShown)
     }
 }

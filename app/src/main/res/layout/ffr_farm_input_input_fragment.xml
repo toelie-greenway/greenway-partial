@@ -18,7 +18,6 @@
             android:layout_height="?attr/actionBarSize"
             app:contentInsetStartWithNavigation="0dp">
 
-            <!--            android:text="@{product.name}"-->
             <greenway_myanmar.org.ui.widget.GreenWayTextView
                 android:id="@+id/toolbar_title_text_view"
                 style="?textAppearanceToolbarTitle"
@@ -47,8 +46,6 @@
             android:paddingEnd="@dimen/spacing_16"
             android:paddingBottom="@dimen/spacing_16">
 
-
-            <!--            app:imageUrl="@{product.thumbnail}"-->
             <ImageView
                 android:id="@+id/product_thumbnail_image_view"
                 android:layout_width="match_parent"
@@ -109,6 +106,60 @@
         </LinearLayout>
 
         <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+            android:id="@+id/fingerling_average_size_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:layout_marginEnd="@dimen/spacing_16"
+            android:hint="@string/ffr_add_edit_expense_hint_farm_input_fingerling_average_size"
+            app:suffixText="@string/inch_symbol">
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+                android:id="@+id/fingerling_average_size_text_input_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+            android:id="@+id/fingerling_average_weight_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:layout_marginEnd="@dimen/spacing_16"
+            android:hint="@string/ffr_add_edit_expense_hint_farm_input_fingerling_average_weight"
+            app:suffixText="@string/tical_symbol">
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+                android:id="@+id/fingerling_average_weight_text_input_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+            android:id="@+id/fingerling_age_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:layout_marginEnd="@dimen/spacing_16"
+            android:hint="@string/ffr_add_edit_expense_hint_farm_input_fingerling_age"
+            app:suffixText="@string/day_symbol">
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextInputEditText
+                android:id="@+id/fingerling_age_text_input_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
             android:id="@+id/used_unit_price_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -141,18 +192,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
-
-        <!--        <com.greenwaymyanmar.ui.widgets.asymt.AsymtAdvanceFarmInputInputView-->
-        <!--            android:id="@+id/advance_farm_input_inputView"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:padding="@dimen/padding_normal"-->
-        <!--            android:paddingStart="@dimen/padding_normal"-->
-        <!--            android:paddingEnd="@dimen/padding_normal"-->
-        <!--            app:visibleGone="@{viewModel.advance}" />-->
-
-        <!--        android:onClick="@{() -> viewModel.toggleAdvance()}"-->
-        <!--        android:text='@{!viewModel.advance ? "&lt;u&gt;တိတိကျကျထည့်ရန်&lt;/u&gt;" : "&lt;u&gt;ခန့်မှန်းသာ ထည့်တော့မည်&lt;/u&gt;" }'-->
 
         <greenway_myanmar.org.ui.widget.GreenWayButton
             style="@style/Widget.GreenWay2.Button.TextButton"

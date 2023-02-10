@@ -16,6 +16,7 @@ class FishInputItemView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs) {
 
     private var _fish: UiFish? = null
+    private var onFishRemoved: (UiFish) -> Unit = {}
 
     private val binding = FfrFishInputItemViewBinding.inflate(
         LayoutInflater.from(context),
@@ -23,11 +24,26 @@ class FishInputItemView @JvmOverloads constructor(
         true
     )
 
+    init {
+        binding.removeButton.setOnClickListener {
+            _fish?.let {
+                onFishRemoved(it)
+            }
+        }
+    }
+
+    fun init(
+        onFishRemoved: (UiFish) -> Unit
+    ) {
+        this.onFishRemoved = onFishRemoved
+    }
+
     fun setFish(fish: UiFish) {
         if (_fish == fish) {
             return
         }
 
+        _fish = fish
         binding.fishName.text = fish.name
         binding.fishSpecies.text = fish.species
         binding.fishSpecies.isVisible = fish.species.isNotEmpty()

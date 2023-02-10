@@ -13,14 +13,16 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
+            style="@style/Widget.GreenWay.Toolbar.Surface"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:contentInsetStartWithNavigation="0dp"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:navigationIcon="@drawable/ic_close_grey_24dp">
+            app:navigationIcon="@drawable/ic_close_grey_24dp"
+            app:navigationIconTint="?colorOnSurface">
 
             <greenway_myanmar.org.ui.widget.GreenWayTextView
-                style="?textAppearanceToolbarTitle"
+                style="?textAppearanceToolbarTitleInverse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -117,23 +119,6 @@
 
             </LinearLayout>
 
-            <!--            <FrameLayout-->
-            <!--                android:id="@+id/loading_state_container"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_gravity="center_horizontal">-->
-
-            <!--                <include-->
-            <!--                    layout="@layout/loading_state"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_gravity="center_horizontal"-->
-            <!--                    app:resource="@{additionalInputResource}" />-->
-            <!--            </FrameLayout>-->
-
-
-            <!--            android:onClick="@{() -> viewModel.submit()}"-->
-            <!--            app:visibleGone="@{additionalInputResource.status != Status.LOADING}"-->
             <greenway_myanmar.org.ui.widget.GreenWayButton
                 android:id="@+id/submit_button"
                 style="@style/Widget.GreenWay2.Button.Secondary"
@@ -145,5 +130,27 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+
+    <FrameLayout
+        android:id="@+id/expense_uploading_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DEFFFFFF"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:visibility="gone">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/expense_uploading_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:trackColor="?colorSecondaryVariant"
+            app:trackThickness="2dp" />
+
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

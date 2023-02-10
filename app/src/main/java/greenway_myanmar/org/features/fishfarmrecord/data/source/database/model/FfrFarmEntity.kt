@@ -3,6 +3,8 @@ package greenway_myanmar.org.features.fishfarmrecord.data.source.database.model
 import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.android.gms.maps.model.LatLng
 import com.greenwaymyanmar.vo.PendingAction
@@ -10,8 +12,8 @@ import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
 import greenway_myanmar.org.features.areameasure.domain.model.asStringOrNull
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.EntityIdGenerator.generateIdIfRequired
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmAreaLatLng
-import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmAreaRequest
-import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmRequest
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmAreaRequest
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmRequest
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area.Companion.acre
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area.Companion.acreOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Farm
@@ -19,9 +21,21 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmOwnership
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.asString
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCase.SaveFarmRequest
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 
 @Entity(
-    tableName = "ffr_farms"
+    tableName = "ffr_farms",
+    foreignKeys = [
+        ForeignKey(
+            entity = FfrSeasonEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["opening_season_id"]
+        )
+    ],
+    indices = [
+        Index("opening_season_id")
+    ]
 )
 data class FfrFarmEntity(
     @PrimaryKey
@@ -50,7 +64,9 @@ data class FfrFarmEntity(
     @ColumnInfo(name = "measured_type")
     val measuredType: String? = null,
     @ColumnInfo(name = "opening_season_id")
-    val openingSeasonId: String? = null
+    val openingSeasonId: String? = null,
+    @ColumnInfo(name = "created_at")
+    val createdAt: Instant
 ) {
 
     companion object {
@@ -67,7 +83,8 @@ data class FfrFarmEntity(
                 coordinates = request.measurement.coordinates,
                 area = request.measurement.area.value,
                 measuredArea = request.measurement.measuredArea?.value,
-                measuredType = request.measurement.measuredType.asStringOrNull()
+                measuredType = request.measurement.measuredType.asStringOrNull(),
+                createdAt = Clock.System.now()
             )
 
         private fun mapImageUri(imageUri: Uri?): List<String>? {
@@ -110,14 +127,14 @@ fun FfrFarmEntity.asNetworkRequestModel() = NetworkFarmRequest(
     name = name,
     ownership = ownership,
     photos = emptyList(), //TODO:
-    lat = location?.latitude,
-    lon = location?.longitude,
     plot_id = plotId,
     area = NetworkFarmAreaRequest(
         acre = area,
         measurement_type = measuredType,
         measured_acre = measuredArea,
         depth = depth,
+        lat = location?.latitude,
+        lon = location?.longitude,
         measurement = coordinates?.map {
             NetworkFarmAreaLatLng(
                 lat = it.latitude,

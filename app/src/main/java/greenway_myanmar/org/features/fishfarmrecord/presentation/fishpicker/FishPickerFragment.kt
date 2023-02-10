@@ -2,6 +2,7 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.fishpicker
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -38,7 +39,7 @@ class FishPickerFragment : Fragment() {
 
     private var binding: FishPickerFragmentBinding by autoCleared()
 
-    private val autoSearchHandler = Handler { msg ->
+    private val autoSearchHandler = Handler(Looper.getMainLooper()) { _ ->
         search()
         true
     }
@@ -95,7 +96,7 @@ class FishPickerFragment : Fragment() {
         binding.epoxyRecyclerView.apply {
             setController(controller)
             layoutManager = GridLayoutManager(requireContext(), 3)
-            addItemDecoration(EpoxyItemSpacingDecorator(4.dp(requireContext())))
+            addItemDecoration(EpoxyItemSpacingDecorator(8.dp(requireContext())))
         }
     }
 
@@ -139,6 +140,7 @@ class FishPickerFragment : Fragment() {
     private fun CoroutineScope.observeFishes() = launch {
         viewModel.fishesUiState.collect {
             controller.setFishesUiState(it)
+            binding.loadingStateView.bind(it)
         }
     }
 
