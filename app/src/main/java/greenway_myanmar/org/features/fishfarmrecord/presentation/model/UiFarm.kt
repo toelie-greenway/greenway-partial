@@ -1,7 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.model
 
 import com.greenwaymyanmar.core.presentation.model.UiArea
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Farm
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 
@@ -10,7 +9,7 @@ data class UiFarm(
     val name: String,
     val images: List<String>,
     val ongoingSeason: Season? = null,
-    val area: UiArea? = null,
+    val area: UiArea,
 
 ) {
     companion object {
@@ -19,13 +18,7 @@ data class UiFarm(
             name = domainEntity.name,
             images = domainEntity.images.orEmpty(),
             ongoingSeason = domainEntity.openingSeason,
-            area = mapArea(domainEntity.measurement.area)
+            area = UiArea.fromDomain(domainEntity.measurement.area)
         )
-
-        private fun mapArea(area: Area?): UiArea? {
-            if (area == null) return null
-
-            return UiArea.fromDomain(area)
-        }
     }
 }

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetFarmMeasurementUseCase @Inject constructor(
     private val farmRepository: FarmRepository
 ) {
-    operator fun invoke(request: GetFarmMeasurementRequest): Flow<FarmMeasurement> {
+    operator fun invoke(request: GetFarmMeasurementRequest): Flow<FarmMeasurement?> {
         return farmRepository.getFarmMeasurementStream(
             farmId = request.farmId
         )

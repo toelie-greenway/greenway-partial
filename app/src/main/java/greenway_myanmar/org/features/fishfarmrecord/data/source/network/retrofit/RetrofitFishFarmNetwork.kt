@@ -56,6 +56,12 @@ private interface RetrofitFishFarmRecordNetworkApi {
         @Query("is_harvest") isHarvest: Int = 0
     ): ApiResponse<NetworkFarmListResponse>
 
+    @GET(value = "ffr/farms/{farm_id}")
+    suspend fun getFarm(
+        @Path("farm_id") farmId: String,
+        @Query("user_id") userId: String
+    ): ApiResponse<ApiDataWrapper<NetworkFarm>>
+
     @GET(value = "ffr/expense-categories")
     suspend fun getExpenseCategories(
         @Query("season_id") seasonId: String
@@ -108,11 +114,17 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
         body = request
     ).getDataOrThrow().data
 
-    override suspend fun postExpense(userId: String, request: NetworkExpenseRequest): NetworkExpense =
+    override suspend fun postExpense(
+        userId: String,
+        request: NetworkExpenseRequest
+    ): NetworkExpense =
         networkApi.postExpense(userId, request).getDataOrThrow().data
 
     override suspend fun getFarms(userId: String): NetworkFarmListResponse =
         networkApi.getFarms(userId).getDataOrThrow()
+
+    override suspend fun getFarm(farmId: String, userId: String): NetworkFarm =
+        networkApi.getFarm(farmId, userId).getDataOrThrow().data
 
     override suspend fun getExpenseCategories(seasonId: String): List<NetworkExpenseCategory> =
         networkApi.getExpenseCategories(seasonId).getDataOrThrow().data

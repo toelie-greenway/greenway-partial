@@ -561,8 +561,12 @@ private fun farmMeasurementStream(
         .map { result ->
             when (result) {
                 is Result.Success -> {
-                    onFarmMeasurementLoaded(result.data)
-                    LoadingState.Success(UiFarmMeasurement.fromDomain(result.data))
+                    if (result.data != null) {
+                        onFarmMeasurementLoaded(result.data)
+                        LoadingState.Success(UiFarmMeasurement.fromDomain(result.data))
+                    } else {
+                        LoadingState.Empty()
+                    }
                 }
                 is Result.Error -> {
                     LoadingState.Error(result.exception.errorText())

@@ -220,8 +220,8 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
             view to farmDetailTransitionName
         )
         val directions = FishFarmerRecordBookHomeFragmentDirections
-            .actionHomeFragmentToPondDetailFragment(
-                pondId = item.id
+            .actionHomeFragmentToFarmDetailFragment(
+                farmId = item.id
             )
         navController.navigate(directions, extras)
     }

@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -12,12 +13,21 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
+import com.greenwaymyanmar.core.presentation.model.LoadingState
+import com.greenwaymyanmar.core.presentation.util.numberFormat
+import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FfrFarmDetailFragmentBinding
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarm
+import greenway_myanmar.org.util.extensions.load
 import greenway_myanmar.org.util.extensions.themeColor
 import greenway_myanmar.org.util.kotlin.autoCleared
 import greenway_myanmar.org.util.kotlin.viewBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
@@ -101,7 +111,89 @@ class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
     }
 
     private fun observeViewModel() {
+        launchAndRepeatWithViewLifecycle {
+            observeFarm()
+        }
+    }
 
+    private fun CoroutineScope.observeFarm() = launch {
+        viewModel.farmUiState.collect { uiState ->
+            Timber.d("UiState: $uiState")
+            when (uiState) {
+                is LoadingState.Success -> {
+                    bindFarmUi(uiState.data)
+                }
+                else -> {
+                    /* no-op */
+                }
+            }
+        }
+    }
+
+    private fun bindFarmUi(farm: UiFarm) {
+        binding.farmNameTextView.text = farm.name
+        binding.farmSeasonInfoTextView.text = buildFarmSeasonInfo(farm)
+        binding.seasonInfoCard.isVisible = farm.ongoingSeason != null
+
+        if (farm.ongoingSeason != null) {
+            bindSeasonUi(farm.ongoingSeason)
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun bindSeasonUi(season: Season) {
+        binding.totalExpenseTextView.setAmount(season.totalExpenses)
+        if (season.fishes.isNotEmpty()) {
+            binding.fishIconImageView.load(requireContext(), season.fishes.first().iconImageUrl)
+        }
+
+        val fishCount = season.fishes.size
+        if (fishCount > 1) {
+            binding.moreFishGroup.isVisible = true
+            binding.moreFishCountTextView.text = "+${numberFormat.format(fishCount - 1)}"
+            binding.fishIconMoreImageView.load(requireContext(), season.fishes[1].iconImageUrl)
+        } else {
+            binding.moreFishGroup.isVisible = false
+        }
+    }
+
+    private fun buildFarmSeasonInfo(
+        farm: UiFarm
+    ): String {
+        val farmSeasonInfo = StringBuilder()
+        farmSeasonInfo.append(
+            resources.getString(
+                R.string.ffr_formatted_farm_area, numberFormat.format(
+                    farm.area.value
+                )
+            )
+        )
+        val season = farm.ongoingSeason
+        if (season != null) {
+            farmSeasonInfo.append(" · ")
+
+            if (season.fishes.isNotEmpty()) {
+                val firstFish = season.fishes.first()
+                farmSeasonInfo.append(firstFish.name)
+                if (firstFish.species.isNotEmpty()) {
+                    farmSeasonInfo.append("(")
+                    farmSeasonInfo.append(firstFish.species)
+                    farmSeasonInfo.append(")")
+                }
+            }
+
+            val fishCount = season.fishes.size
+            if (fishCount > 1) {
+                farmSeasonInfo.append("+")
+                farmSeasonInfo.append(numberFormat.format(fishCount - 1))
+            }
+
+            if (season.name.isNotEmpty()) {
+                farmSeasonInfo.append(" · ")
+                farmSeasonInfo.append(season.name)
+            }
+        }
+        return farmSeasonInfo.toString()
     }
 
     override fun onDestroyView() {

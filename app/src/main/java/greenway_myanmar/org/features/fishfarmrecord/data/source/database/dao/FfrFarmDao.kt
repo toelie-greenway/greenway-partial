@@ -51,7 +51,8 @@ abstract class FfrFarmDao {
             WHERE id = :id
         """
     )
-    abstract fun getFarmStreamById(id: String): Flow<FfrFarmEntity>
+    @Transaction
+    abstract fun getFarmStreamById(id: String): Flow<PopulatedFarm?>
 
     @Query(
         value = """

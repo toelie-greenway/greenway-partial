@@ -70,6 +70,9 @@
     <string name="ffr_transition_name_list_item_add_expense">add_expense_list_item_%1$s</string>
     <string name="ffr_transition_name_screen_add_edit_expense">add_edit_expense_screen</string>
 
+    <!-- Farm Detail screen -->
+    <string name="ffr_farm_detail_label_total_expense">စုစုပေါင်းကုန်ကျစရိတ်</string>
+
     <!-- Add/Edit Farm Screen -->
     <string name="ffr_label_add_edit_pond_subtitle">မွေးမြူမှတ်တမ်းစတင်ရန် ကန်စာရင်း သွင်းရန်လိုအပ်ပါသည်</string>
     <string name="ffr_add_edit_pond_hint_pond_name">ကန်အမည်</string>

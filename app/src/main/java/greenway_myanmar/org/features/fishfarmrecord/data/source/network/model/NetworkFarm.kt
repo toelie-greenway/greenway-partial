@@ -10,7 +10,8 @@ data class NetworkFarm(
     val photos: List<String>?,
     val plot_id: String?,
     val area: NetworkFarmArea,
-    val created_at: String?
+    val created_at: String?,
+    val opening_season: NetworkSeason? = null
 )
 
 @Serializable

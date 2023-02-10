@@ -17,7 +17,8 @@ fun NetworkFarm.asEntity() = FfrFarmEntity(
     area = area.acre,
     measuredArea = area.measured_acre?.toDoubleOrNull(),
     measuredType = area.measurement_type,
-    createdAt = created_at.toInstantOrNow()
+    createdAt = created_at.toInstantOrNow(),
+    openingSeasonId = opening_season?.id
 )
 
 private fun mapLocationOrNull(lat: Double?, lng: Double?): LatLng? {

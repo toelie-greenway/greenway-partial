@@ -26,6 +26,7 @@ interface FishFarmRecordNetworkDataSource {
 
     suspend fun postExpense(userId: String, request: NetworkExpenseRequest): NetworkExpense
     suspend fun getFarms(userId: String): NetworkFarmListResponse
+    suspend fun getFarm(farmId: String, userId: String): NetworkFarm
 
     suspend fun getExpenseCategories(seasonId: String): List<NetworkExpenseCategory>
     suspend fun getFarmInputProducts(
