@@ -13,6 +13,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmListResponse
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFish
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkExpenseRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest
@@ -70,6 +71,10 @@ private interface RetrofitFishFarmRecordNetworkApi {
     @GET(value = "ffr/fish-types")
     suspend fun getFishes(): ApiResponse<List<NetworkFish>>
 
+    // TODO: use new ffr/inputs api
+    @GET(value = "asymt/season-end-reasons")
+    suspend fun getSeasonEndReasons(): ApiResponse<ApiDataWrapper<List<NetworkSeasonEndReason>>>
+
     // TODO: use existing asymt/inputs api?
     @GET(value = "ffr/inputs")
     suspend fun getFarmInputProducts(
@@ -120,14 +125,14 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
     ): NetworkExpense =
         networkApi.postExpense(userId, request).getDataOrThrow().data
 
-    override suspend fun getFarms(userId: String): NetworkFarmListResponse =
-        networkApi.getFarms(userId).getDataOrThrow()
+    override suspend fun getCompanyByCode(code: String): NetworkContractFarmingCompany =
+        networkApi.getCompanyByCode(code).getDataOrThrow().data
 
     override suspend fun getFarm(farmId: String, userId: String): NetworkFarm =
         networkApi.getFarm(farmId, userId).getDataOrThrow().data
 
-    override suspend fun getExpenseCategories(seasonId: String): List<NetworkExpenseCategory> =
-        networkApi.getExpenseCategories(seasonId).getDataOrThrow().data
+    override suspend fun getFarms(userId: String): NetworkFarmListResponse =
+        networkApi.getFarms(userId).getDataOrThrow()
 
     override suspend fun getFarmInputProducts(
         query: String,
@@ -141,9 +146,13 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
     override suspend fun getFarmInputProductCategories(): List<NetworkFarmInputProductCategory> =
         networkApi.getProductCategories().getDataOrThrow()
 
-    override suspend fun getCompanyByCode(code: String): NetworkContractFarmingCompany =
-        networkApi.getCompanyByCode(code).getDataOrThrow().data
+
+    override suspend fun getExpenseCategories(seasonId: String): List<NetworkExpenseCategory> =
+        networkApi.getExpenseCategories(seasonId).getDataOrThrow().data
 
     override suspend fun getFishes(): List<NetworkFish> =
         networkApi.getFishes().getDataOrThrow()
+
+    override suspend fun getSeasonEndReasons(): List<NetworkSeasonEndReason> =
+        networkApi.getSeasonEndReasons().getDataOrThrow().data
 }

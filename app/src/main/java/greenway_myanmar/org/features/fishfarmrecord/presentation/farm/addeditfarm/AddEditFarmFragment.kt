@@ -116,13 +116,13 @@ class AddEditFarmFragment : Fragment(R.layout.ffr_add_edit_farm_fragment) {
 
     private fun observeAreaMeasureResults() {
         getNavigationResult<AreaMeasureMethod>(
-            R.id.addEditPondFragment,
+            R.id.addEditFarmFragment,
             AreaMeasureMethodFragment.RESULT_KEY_MEASURE_METHOD
         ) { result ->
             openAreaMeasureMapScreen(result)
         }
         getNavigationResult<AreaMeasurement>(
-            R.id.addEditPondFragment,
+            R.id.addEditFarmFragment,
             AreaMeasureMapFragment.RESULT_KEY_MEASURE_MAP
         ) { result ->
             onAreaMeasureResult(result)

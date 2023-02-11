@@ -13,6 +13,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFarmR
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFcrRecordRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFishRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultProductionRecordRepository
+import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultSeasonEndReasonRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultSeasonRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ContractFarmingCompanyRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ExpenseCategoryRepository
@@ -23,6 +24,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmReposi
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FcrRecordRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FishRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ProductionRecordRepository
+import greenway_myanmar.org.features.fishfarmrecord.domain.repository.SeasonEndReasonRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.SeasonRepository
 import javax.inject.Singleton
 
@@ -32,21 +34,13 @@ abstract class DataModule {
 
     @Singleton
     @Binds
+    abstract fun provideContractFarmingCompanyRepository(
+        repository: DefaultContractFarmingCompanyRepository
+    ): ContractFarmingCompanyRepository
+
+    @Singleton
+    @Binds
     abstract fun provideFarmRepository(repository: DefaultFarmRepository): FarmRepository
-
-    @Singleton
-    @Binds
-    abstract fun provideSeasonRepository(repository: DefaultSeasonRepository): SeasonRepository
-
-    @Singleton
-    @Binds
-    abstract fun provideExpenseRepository(repository: DefaultExpenseRepository): ExpenseRepository
-
-    @Singleton
-    @Binds
-    abstract fun provideExpenseCategoryRepository(
-        repository: DefaultExpenseCategoryRepository
-    ): ExpenseCategoryRepository
 
     @Singleton
     @Binds
@@ -62,17 +56,38 @@ abstract class DataModule {
 
     @Singleton
     @Binds
+    abstract fun provideFcrRecordRepository(
+        repository: DefaultFcrRecordRepository
+    ): FcrRecordRepository
+
+    @Singleton
+    @Binds
     abstract fun provideFishRepository(repository: DefaultFishRepository): FishRepository
 
     @Singleton
     @Binds
-    abstract fun provideContractFarmingCompanyRepository(repository: DefaultContractFarmingCompanyRepository): ContractFarmingCompanyRepository
+    abstract fun provideExpenseRepository(repository: DefaultExpenseRepository): ExpenseRepository
 
     @Singleton
     @Binds
-    abstract fun provideFcrRecordRepository(repository: DefaultFcrRecordRepository): FcrRecordRepository
+    abstract fun provideExpenseCategoryRepository(
+        repository: DefaultExpenseCategoryRepository
+    ): ExpenseCategoryRepository
 
     @Singleton
     @Binds
-    abstract fun provideProductionRecordRepository(repository: DefaultProductionRecordRepository): ProductionRecordRepository
+    abstract fun provideProductionRecordRepository(
+        repository: DefaultProductionRecordRepository
+    ): ProductionRecordRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideSeasonRepository(repository: DefaultSeasonRepository): SeasonRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideSeasonEndReasonRepository(
+        repository: DefaultSeasonEndReasonRepository
+    ): SeasonEndReasonRepository
+
 }

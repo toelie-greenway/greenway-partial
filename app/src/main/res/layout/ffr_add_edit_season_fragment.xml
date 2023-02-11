@@ -134,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_8" />
 
-            <greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.views.FishListInputView
+            <greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason.views.FishListInputView
                 android:id="@+id/fish_list_input_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

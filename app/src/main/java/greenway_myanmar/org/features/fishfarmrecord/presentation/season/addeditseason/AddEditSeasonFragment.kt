@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason
+package greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason
 
 import android.graphics.Color
 import android.net.Uri
@@ -28,9 +28,9 @@ import greenway_myanmar.org.features.areameasure.presentation.AreaMeasureMapFrag
 import greenway_myanmar.org.features.areameasure.presentation.AreaMeasureMethodFragment
 import greenway_myanmar.org.features.areameasure.presentation.model.AreaMeasurement
 import greenway_myanmar.org.features.areameasure.presentation.model.toStaticMapUrl
-import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.loanduration.CustomLoadDurationInputBottomSheetFragment
-import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.views.FishListInputView
-import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.views.FishListInputView.OnItemClickListener
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason.loanduration.CustomLoadDurationInputBottomSheetFragment
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason.views.FishListInputView
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason.views.FishListInputView.OnItemClickListener
 import greenway_myanmar.org.features.fishfarmrecord.presentation.fishinput.FishInputFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiLoanDuration

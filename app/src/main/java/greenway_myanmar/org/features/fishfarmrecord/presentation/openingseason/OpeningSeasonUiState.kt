@@ -1,12 +1,9 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason
 
-import greenway_myanmar.org.common.domain.entities.Text
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 
 data class OpeningSeasonUiState(
-    val isLoading: Boolean = false,
-    val categories: List<OpeningSeasonCategoryListItemUiState> = emptyList(),
-    val error: Text? = null,
-    val isCloseableSeason: Boolean = false,
-    val isProducible: Boolean = false,
-    val isFcrRecordable: Boolean = false
+    val seasonId: String = "",
 )
+
+typealias CategoryListUiState = LoadingState<List<OpeningSeasonCategoryListItemUiState>>

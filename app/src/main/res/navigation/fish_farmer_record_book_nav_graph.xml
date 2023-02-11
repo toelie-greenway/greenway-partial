@@ -9,10 +9,10 @@
         android:id="@+id/homeFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.home.FishFarmerRecordBookHomeFragment"
         android:label="FishFarmerRecordBookHomeFragment"
-        tools:layout="@layout/ffrb_home_fragment">
+        tools:layout="@layout/ffr_home_fragment">
         <action
             android:id="@+id/action_homeFragment_to_addEditPondFragment"
-            app:destination="@id/addEditPondFragment" />
+            app:destination="@id/addEditFarmFragment" />
         <action
             android:id="@+id/action_homeFragment_to_addEditSeasonFragment"
             app:destination="@id/addEditSeasonFragment" />
@@ -24,9 +24,9 @@
             app:destination="@id/farmDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addEditPondFragment"
+        android:id="@+id/addEditFarmFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.farm.addeditfarm.AddEditFarmFragment"
-        android:label="AddEditPondFragment"
+        android:label="AddEditFarmFragment"
         tools:layout="@layout/ffr_add_edit_farm_fragment">
         <action
             android:id="@+id/action_addEditPondFragment_to_areaMeasureMethodFragment"
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/addEditSeasonFragment"
-        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.AddEditSeasonFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason.AddEditSeasonFragment"
         android:label="AddEditSeasonFragment"
         tools:layout="@layout/ffr_add_edit_season_fragment">
         <action
@@ -91,6 +91,9 @@
         <action
             android:id="@+id/action_farmDetailFragment_to_addEditFcrRecordFragment"
             app:destination="@id/addEditFcrRecordFragment" />
+        <action
+            android:id="@+id/action_farmDetailFragment_to_seasonEndFragment"
+            app:destination="@id/seasonEndFragment" />
     </fragment>
     <fragment
         android:id="@+id/fishInputFragment"
@@ -110,7 +113,7 @@
         android:id="@+id/expenseCategoryPickerBottomSheetFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.expensecategorypicker.ExpenseCategoryPickerBottomSheetFragment"
         android:label="ExpenseCategoryPickerBottomSheetFragment"
-        tools:layout="@layout/ffr_expense_category_picker_bottom_sheet_fragment" >
+        tools:layout="@layout/ffr_expense_category_picker_bottom_sheet_fragment">
         <argument
             android:name="season_id"
             app:argType="string" />
@@ -158,7 +161,7 @@
     </fragment>
     <dialog
         android:id="@+id/customLoadDurationInputBottomSheetFragment"
-        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.loanduration.CustomLoadDurationInputBottomSheetFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason.loanduration.CustomLoadDurationInputBottomSheetFragment"
         android:label="CustomLoadDurationInputBottomSheetFragment"
         tools:layout="@layout/ffr_custom_loan_duration_input_bottom_sheet_fragment">
         <argument
@@ -173,5 +176,10 @@
         android:id="@+id/addEditProductionRecordFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.production.addeditproductionrecord.AddEditProductionRecordFragment"
         android:label="AddEditProductionRecordFragment" />
+    <fragment
+        android:id="@+id/seasonEndFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.season.seasonend.SeasonEndFragment"
+        android:label="SeasonEndFragment"
+        tools:layout="@layout/ffr_season_end_fragment" />
 
 </navigation>

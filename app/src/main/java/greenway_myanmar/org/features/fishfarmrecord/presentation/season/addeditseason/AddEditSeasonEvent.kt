@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason
+package greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason
 
 import greenway_myanmar.org.features.areameasure.presentation.model.AreaMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish

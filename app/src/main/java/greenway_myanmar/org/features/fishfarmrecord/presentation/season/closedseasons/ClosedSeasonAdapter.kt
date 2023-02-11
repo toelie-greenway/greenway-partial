@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.closedseasons
+package greenway_myanmar.org.features.fishfarmrecord.presentation.season.closedseasons
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil

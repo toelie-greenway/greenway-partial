@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.views
+package greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason.views
 
 import android.content.Context
 import android.util.AttributeSet

@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.loanduration
+package greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason.loanduration
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.databinding.FfrCustomLoanDurationInputBottomSheetFragmentBinding
-import greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.loanduration.CustomLoanDurationUiState.CustomLoanDurationInputResult
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason.loanduration.CustomLoanDurationUiState.CustomLoanDurationInputResult
 import greenway_myanmar.org.util.extensions.bindText
 import greenway_myanmar.org.util.extensions.setError
 import greenway_myanmar.org.util.extensions.setNavigationResult

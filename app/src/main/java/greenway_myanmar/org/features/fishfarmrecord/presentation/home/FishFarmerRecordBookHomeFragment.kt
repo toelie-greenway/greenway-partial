@@ -21,7 +21,7 @@ import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.decoration.SpaceMarginDecoration
-import greenway_myanmar.org.databinding.FfrbHomeFragmentBinding
+import greenway_myanmar.org.databinding.FfrHomeFragmentBinding
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ContractFarmingCompany
 import greenway_myanmar.org.util.kotlin.autoCleared
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -29,10 +29,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
+class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffr_home_fragment) {
 
     private val viewModel: FishFarmerRecordBookHomeViewModel by viewModels()
-    private var binding: FfrbHomeFragmentBinding by autoCleared()
+    private var binding: FfrHomeFragmentBinding by autoCleared()
     private var adapter: FarmListAdapter by autoCleared()
     private val navController: NavController by lazy {
         findNavController()
@@ -40,7 +40,7 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffrb_home_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FfrbHomeFragmentBinding.bind(view)
+        binding = FfrHomeFragmentBinding.bind(view)
         ViewCompat.setTransitionName(view, getString(R.string.ffr_transition_name_screen_farm_list))
         ViewGroupCompat.setTransitionGroup(view as ViewGroup, true)
         postponeTransition()

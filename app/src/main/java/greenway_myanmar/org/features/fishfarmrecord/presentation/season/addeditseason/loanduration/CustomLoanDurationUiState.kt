@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason.loanduration
+package greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason.loanduration
 
 import greenway_myanmar.org.common.domain.entities.Text
 

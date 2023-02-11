@@ -8,11 +8,14 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.F
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.asDomainModel
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.FishFarmRecordNetworkDataSource
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.SeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.SeasonRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveSeasonUseCase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 
 class DefaultSeasonRepository @Inject constructor(
@@ -38,6 +41,11 @@ class DefaultSeasonRepository @Inject constructor(
         seasonDao.upsertSeason(entity)
         farmDao.updateSeasonId(request.farmId, response.id)
         return SaveSeasonUseCase.SaveSeasonResult(entity.id)
+    }
+
+    override suspend fun endSeason(reason: SeasonEndReason) {
+        delay(1500)
+        Timber.d("Ending season ...")
     }
 
 }

@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason
+package greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

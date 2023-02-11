@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -31,6 +32,8 @@ class FarmDetailViewModel @Inject constructor(
     private val farmIdStream = MutableStateFlow("")
     private val farmId = FarmDetailFragmentArgs.fromSavedStateHandle(savedStateHandle).farmId
 
+    val seasonIdStream = MutableStateFlow("")
+
     val farmUiState: StateFlow<FarmUiState> =
         farmIdStream.flatMapLatest { farmId ->
             farmUiStateStream(
@@ -40,6 +43,12 @@ class FarmDetailViewModel @Inject constructor(
 
     init {
         farmIdStream.value = farmId
+        viewModelScope.launch {
+            farmUiState.collect {
+                seasonIdStream.value =
+                    (it as? LoadingState.Success)?.data?.ongoingSeason?.id.orEmpty()
+            }
+        }
     }
 }
 

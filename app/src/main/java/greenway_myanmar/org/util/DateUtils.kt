@@ -103,11 +103,34 @@ object DateUtils {
             Instant.now(Clock.systemUTC())
         }
     }
+
+    fun parseServerDateTimeToInstantOrNull(string: String?): Instant? {
+        if (string.isNullOrEmpty()) return null
+
+        return try {
+            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
+            LocalDateTime.parse(string, formatter)
+                .atZone(ZoneId.systemDefault())
+                .toInstant()
+        } catch (e: NullPointerException) {
+            null
+        } catch (e: DateTimeParseException) {
+            null
+        } catch (e: RuntimeException) {
+            null
+        } catch (e: Exception) {
+            null
+        }
+    }
 }
 
 
 fun String?.toInstantOrNow(): kotlinx.datetime.Instant {
     return DateUtils.parseServerDateTimeToInstantOrNow(this).toKotlinInstant()
+}
+
+fun String?.toInstantOrNull(): kotlinx.datetime.Instant? {
+    return DateUtils.parseServerDateTimeToInstantOrNull(this)?.toKotlinInstant()
 }
 
 fun kotlinx.datetime.Instant.toServerDateString(): String {

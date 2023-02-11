@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.closedseasons
+package greenway_myanmar.org.features.fishfarmrecord.presentation.season.closedseasons
 
 import android.os.Bundle
 import android.view.View
@@ -6,18 +6,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.decoration.SpaceMarginDecoration
 import greenway_myanmar.org.databinding.FfrClosedSeasonsFragmentBinding
 import greenway_myanmar.org.util.kotlin.autoCleared
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ClosedSeasonsFragment : Fragment(R.layout.ffr_closed_seasons_fragment) {

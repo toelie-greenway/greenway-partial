@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.closedseasons
+package greenway_myanmar.org.features.fishfarmrecord.presentation.season.closedseasons
 
 import com.greenwaymyanmar.core.presentation.model.UiArea
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area

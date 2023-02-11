@@ -7,26 +7,33 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyItemSpacingDecorator
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FfrOpeningSeasonFragmentBinding
+import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmDetailFragmentDirections
+import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmDetailViewModel
 import greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.epoxycontroller.OpeningSeasonEpoxyController
 import greenway_myanmar.org.util.UIUtils
 import greenway_myanmar.org.util.kotlin.autoCleared
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import greenway_myanmar.org.util.kotlin.viewBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
 
     private val viewModel: OpeningSeasonViewModel by viewModels()
-    private var binding: FfrOpeningSeasonFragmentBinding by autoCleared()
+    private val parentViewModel: FarmDetailViewModel by viewModels(
+        ownerProducer = { requireParentFragment() }
+    )
+    private val binding by viewBinding(FfrOpeningSeasonFragmentBinding::bind)
     private val navController: NavController by lazy {
         findNavController()
     }
@@ -34,8 +41,6 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FfrOpeningSeasonFragmentBinding.bind(view)
-
         setupUi()
         observeViewModel()
     }
@@ -63,14 +68,8 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
             onViewProductionsClick = {
 
             },
-            onAddFcrClick = {
-
-            },
-            onViewFcrsClick = {
-
-            },
             onCloseSeasonClick = {
-
+                navigateToSeasonEndScreen()
             }
         )
         epoxyController.adapter.registerAdapterDataObserver(object :
@@ -97,39 +96,37 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
 //        binding.recyclerView.adapter = adapter
     }
 
+
     private fun observeViewModel() {
-
         launchAndRepeatWithViewLifecycle {
-            launch {
-                viewModel.uiState.map { it.categories }
-                    .distinctUntilChanged()
-                    .collect {
-                        epoxyController.setCategories(it)
-                    }
-            }
-            launch {
-                viewModel.uiState.map { it.isProducible }
-                    .distinctUntilChanged()
-                    .collect {
-                        epoxyController.setShowProduction(it)
-                    }
-            }
-            launch {
-                viewModel.uiState.map { it.isFcrRecordable }
-                    .distinctUntilChanged()
-                    .collect {
-                        epoxyController.setShowFcr(it)
-                    }
-            }
-            launch {
-                viewModel.uiState.map { it.isCloseableSeason }
-                    .distinctUntilChanged()
-                    .collect {
-                        epoxyController.setShowCloseSeason(it)
-                    }
-            }
-
+            observeItemsUiState()
+            observeSeasonIdFromParentViewModel()
         }
     }
 
+    private fun CoroutineScope.observeSeasonIdFromParentViewModel() = launch {
+        parentViewModel.seasonIdStream.collect {
+            Timber.d("Parent Season Id: $it")
+            viewModel.handleEvent(OpeningSeasonEvent.OnSeasonIdChanged(it))
+        }
+    }
+
+    private fun CoroutineScope.observeItemsUiState() = launch {
+        viewModel.categoryListUiState.collect { uiState ->
+            when (uiState) {
+                is LoadingState.Success -> {
+                    epoxyController.setItems(uiState.data)
+                }
+                else -> {
+                    Timber.d("UiState: $uiState")
+                }
+            }
+        }
+    }
+
+    private fun navigateToSeasonEndScreen() {
+        navController.navigate(
+            FarmDetailFragmentDirections.actionFarmDetailFragmentToSeasonEndFragment()
+        )
+    }
 }

@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.addeditseason
+package greenway_myanmar.org.features.fishfarmrecord.presentation.season.addeditseason
 
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import greenway_myanmar.org.common.domain.entities.Text

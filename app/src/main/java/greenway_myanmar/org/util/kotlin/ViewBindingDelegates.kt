@@ -50,7 +50,3 @@ inline fun <T : ViewBinding> DialogFragment.viewBinding(crossinline factory: (La
 /** Not really a delegate, just a small helper for Custom View */
 inline fun <T : ViewBinding> ViewGroup.customViewBinding(factory: (LayoutInflater, ViewGroup, Boolean) -> T) =
     factory(LayoutInflater.from(context), this, true)
-
-/** Not really a delegate, just a small helper for RecyclerView.ViewHolders */
-inline fun <T : ViewBinding> ViewGroup.holderViewBinding(factory: (LayoutInflater, ViewGroup, Boolean) -> T) =
-    factory(LayoutInflater.from(context), this, false)

@@ -33,6 +33,7 @@
     <string name="ffr_nav_title_add_expense">ကုန်ကျစားရိတ်ထည့်သွင်းခြင်း</string>
     <string name="ffr_nav_title_fish_input">ငါးအမည်</string>
     <string name="ffr_nav_title_add_new_production">ထွက်နှုန်း</string>
+    <string name="ffr_nav_title_season_end">မွေးမြူရာသီ ပိတ်သိမ်းခြင်း</string>
 
     <string name="action_next">ရှေ့သို့</string>
     <string name="ffrb_action_done">Done</string>
@@ -70,6 +71,7 @@
     <string name="ffr_transition_name_list_item_add_expense">add_expense_list_item_%1$s</string>
     <string name="ffr_transition_name_screen_add_edit_expense">add_edit_expense_screen</string>
 
+    <!-- ** Farm feature ** -->
     <!-- Farm Detail screen -->
     <string name="ffr_farm_detail_label_total_expense">စုစုပေါင်းကုန်ကျစရိတ်</string>
 
@@ -86,6 +88,7 @@
     <string name="ffr_add_edit_pond_hint_upaing_no">ဦးပိုင်အမှတ်</string>
     <string name="ffr_add_edit_pond_hint_pond_depth">ကန်အနက် (ပေ)</string>
 
+    <!-- ** Season feature ** -->
     <!-- Add/Edit Season Screen -->
     <string name="ffr_add_edit_season_update_pond">မွေးမြူကန်အချက်အလက်များ ပြင်ဆင်မည်</string>
     <string name="ffr_add_edit_season_subtitle_season">မွေးမြူရာသီဖြည့်ပါ</string>
@@ -110,7 +113,12 @@
     <string name="ffr_add_edit_season_label_loan_duration_custom">ရိုက်ထည့်</string>
     <string name="ffr_add_edit_season_hint_loan_organization">ချေးငွေပေးသည့် အဖွဲ့</string>
     <string name="ffr_add_edit_season_hint_loan_remark">မှတ်ချက်ရေးရန်</string>
+    <!-- Season End screen -->
+    <string name="ffr_season_end_subtitle">ရာသီပိတ်သိမ်းခြင်းအကြောင်းအရင်း</string>
+    <string name="ffr_season_end_action_end">ပိတ်သိမ်း</string>
+    <string name="ffr_season_end_error_reason_required">ရာသီပိတ်သိမ်းခြင်းအကြောင်းအရင်းတစ်ခုရွေးချယ်ပါ</string>
 
+    <!-- ** Expense feature ** -->
     <!-- Add/Edit Expense Screen -->
     <string name="ffr_add_edit_expense_label_expense_category">ကုန်ကျသည့်အကြောင်းအရင်း</string>
     <string name="ffr_add_edit_expense_placeholder_expense_category">ရွေးချယ်ပါ</string>
@@ -189,5 +197,6 @@
     <string name="ffr_add_edit_production_hint_price">0</string>
     <string name="ffr_add_edit_production_label_fish_size">အရွယ်အစား</string>
     <string name="ffr_add_edit_production_error_fields_required">အနည်းဆုံး အရွယ်အစားတစ်မျိုးအတွက် ဖြည့်ရန်လိုအပ်ပါသည်</string>
+
 
 </resources>

@@ -1,4 +1,4 @@
-package greenway_myanmar.org.features.fishfarmrecord.presentation.closedseasons
+package greenway_myanmar.org.features.fishfarmrecord.presentation.season.closedseasons
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -76,7 +76,11 @@ class ClosedSeasonsViewModel @Inject constructor(
                     is Result.Success -> {
                         _uiState.update {
                             it.copy(closedSeasons = result.data.map { item ->
-                                ClosedSeasonListItemUiState.from(item, farm.name, farm.measurement.area)
+                                ClosedSeasonListItemUiState.from(
+                                    item,
+                                    farm.name,
+                                    farm.measurement.area
+                                )
                             })
                         }
                     }

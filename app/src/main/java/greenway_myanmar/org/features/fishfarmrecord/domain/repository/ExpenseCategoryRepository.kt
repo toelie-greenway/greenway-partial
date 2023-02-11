@@ -5,6 +5,6 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.ExpenseCategory
 import kotlinx.coroutines.flow.Flow
 
 interface ExpenseCategoryRepository {
-    fun getExpenseCategoriesWithTotalExpensesStream(): Flow<List<ExpenseByCategory>>
+    fun getExpensesByCategoryStream(): Flow<List<ExpenseByCategory>>
     fun getExpenseCategoriesStream(seasonId: String): Flow<List<ExpenseCategory>>
 }

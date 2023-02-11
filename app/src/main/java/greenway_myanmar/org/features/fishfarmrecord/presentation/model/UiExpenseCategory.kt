@@ -7,17 +7,20 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class UiExpenseCategory(
     val id: String,
-    val name: String
+    val name: String,
+    val isHarvesting: Boolean
 ) : Parcelable {
     companion object {
         fun fromDomain(domainModel: ExpenseCategory) = UiExpenseCategory(
             id = domainModel.id,
-            name = domainModel.name
+            name = domainModel.name,
+            isHarvesting = domainModel.isHarvesting
         )
     }
 }
 
 fun UiExpenseCategory.asDomainModel() = ExpenseCategory(
     id = id,
-    name = name
+    name = name,
+    isHarvesting = isHarvesting
 )

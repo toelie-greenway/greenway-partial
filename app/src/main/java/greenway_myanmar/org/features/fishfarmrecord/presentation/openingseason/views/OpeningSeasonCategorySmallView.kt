@@ -24,7 +24,7 @@ class OpeningSeasonCategorySmallView @JvmOverloads constructor(
             true
         )
 
-    var item: OpeningSeasonCategoryListItemUiState? = null
+    var item: OpeningSeasonCategoryListItemUiState.CategoryItem? = null
         @ModelProp set(item) {
             if (field != item) {
                 if (item != null) {

@@ -8,7 +8,6 @@ import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import greenway_myanmar.org.databinding.FfrOpeningSeasonCategoryLargeListItemBinding
-import greenway_myanmar.org.databinding.FfrOpeningSeasonCategorySmallListItemBinding
 import greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.OpeningSeasonCategoryListItemUiState
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
@@ -25,7 +24,7 @@ class OpeningSeasonCategoryLargeView @JvmOverloads constructor(
             true
         )
 
-    var item: OpeningSeasonCategoryListItemUiState? = null
+    var item: OpeningSeasonCategoryListItemUiState.CategoryItem? = null
         @ModelProp set(item) {
             if (field != item) {
                 if (item != null) {

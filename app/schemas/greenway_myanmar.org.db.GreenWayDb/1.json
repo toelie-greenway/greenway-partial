@@ -2,8 +2,40 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ecd9aa08789bc8448ead6bb013b45955",
+    "identityHash": "b7aca72df0037f19884ec946f131c5f1",
     "entities": [
+      {
+        "tableName": "ffr_contract_farming_companies",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `code` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "code",
+            "columnName": "code",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
       {
         "tableName": "ffr_farms",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `ownership` TEXT NOT NULL, `image_urls` TEXT, `plot_id` TEXT, `depth` REAL, `pending_action` TEXT NOT NULL, `location` TEXT, `coordinates` TEXT, `area` REAL NOT NULL, `measured_area` REAL, `measured_type` TEXT, `opening_season_id` TEXT, `created_at` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`opening_season_id`) REFERENCES `ffr_seasons`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
@@ -123,6 +155,155 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "ffr_fcr",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`feed_weight` TEXT NOT NULL, `gain_weight` TEXT NOT NULL, `record_id` TEXT NOT NULL, `fish_id` TEXT NOT NULL, `fish_name` TEXT NOT NULL, `fish_species` TEXT, `fish_icon_image_url` TEXT, PRIMARY KEY(`record_id`, `fish_id`), FOREIGN KEY(`record_id`) REFERENCES `ffr_fcr_record`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "feedWeight",
+            "columnName": "feed_weight",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gainWeight",
+            "columnName": "gain_weight",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recordId",
+            "columnName": "record_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fish.id",
+            "columnName": "fish_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fish.name",
+            "columnName": "fish_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fish.species",
+            "columnName": "fish_species",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fish.iconImageUrl",
+            "columnName": "fish_icon_image_url",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "record_id",
+            "fish_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_ffr_fcr_record_id",
+            "unique": false,
+            "columnNames": [
+              "record_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_ffr_fcr_record_id` ON `${TABLE_NAME}` (`record_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "ffr_fcr_record",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "record_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "ffr_fcr_record",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `date` INTEGER NOT NULL, `pendingAction` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pendingAction",
+            "columnName": "pendingAction",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ffr_fishes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `species` TEXT, `icon_image_url` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "species",
+            "columnName": "species",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "iconImageUrl",
+            "columnName": "icon_image_url",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       },
       {
         "tableName": "ffr_seasons",
@@ -253,8 +434,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "ffr_fishes",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `species` TEXT, `icon_image_url` TEXT, PRIMARY KEY(`id`))",
+        "tableName": "ffr_season_end_reasons",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `order` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -269,158 +450,9 @@
             "notNull": true
           },
           {
-            "fieldPath": "species",
-            "columnName": "species",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "iconImageUrl",
-            "columnName": "icon_image_url",
-            "affinity": "TEXT",
-            "notNull": false
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "ffr_fcr_record",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `date` INTEGER NOT NULL, `pendingAction` TEXT NOT NULL, PRIMARY KEY(`id`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "date",
-            "columnName": "date",
+            "fieldPath": "order",
+            "columnName": "order",
             "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "pendingAction",
-            "columnName": "pendingAction",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "ffr_fcr",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`feed_weight` TEXT NOT NULL, `gain_weight` TEXT NOT NULL, `record_id` TEXT NOT NULL, `fish_id` TEXT NOT NULL, `fish_name` TEXT NOT NULL, `fish_species` TEXT, `fish_icon_image_url` TEXT, PRIMARY KEY(`record_id`, `fish_id`), FOREIGN KEY(`record_id`) REFERENCES `ffr_fcr_record`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
-        "fields": [
-          {
-            "fieldPath": "feedWeight",
-            "columnName": "feed_weight",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "gainWeight",
-            "columnName": "gain_weight",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "recordId",
-            "columnName": "record_id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "fish.id",
-            "columnName": "fish_id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "fish.name",
-            "columnName": "fish_name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "fish.species",
-            "columnName": "fish_species",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "fish.iconImageUrl",
-            "columnName": "fish_icon_image_url",
-            "affinity": "TEXT",
-            "notNull": false
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "record_id",
-            "fish_id"
-          ]
-        },
-        "indices": [
-          {
-            "name": "index_ffr_fcr_record_id",
-            "unique": false,
-            "columnNames": [
-              "record_id"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_ffr_fcr_record_id` ON `${TABLE_NAME}` (`record_id`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "ffr_fcr_record",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "record_id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
-      },
-      {
-        "tableName": "ffr_contract_farming_companies",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `code` TEXT NOT NULL, PRIMARY KEY(`id`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "code",
-            "columnName": "code",
-            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -437,7 +469,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ecd9aa08789bc8448ead6bb013b45955')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b7aca72df0037f19884ec946f131c5f1')"
     ]
   }
 }

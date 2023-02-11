@@ -10,3 +10,7 @@ sealed interface LoadingState<out T> {
     data class Error(val message: Text? = null, val retryable: Boolean = true) :
         LoadingState<Nothing>
 }
+
+fun <T> LoadingState<T>.isSuccess() = this is LoadingState.Success
+fun <T> LoadingState<T>.isLoading() = this is LoadingState.Loading
+fun <T> LoadingState<T>.isNotLoading() = !isLoading()

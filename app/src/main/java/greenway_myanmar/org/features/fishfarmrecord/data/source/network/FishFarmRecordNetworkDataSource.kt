@@ -9,6 +9,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmListResponse
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFish
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkExpenseRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest
@@ -25,17 +26,15 @@ interface FishFarmRecordNetworkDataSource {
     ): NetworkSeason
 
     suspend fun postExpense(userId: String, request: NetworkExpenseRequest): NetworkExpense
-    suspend fun getFarms(userId: String): NetworkFarmListResponse
-    suspend fun getFarm(farmId: String, userId: String): NetworkFarm
-
+    suspend fun getCompanyByCode(code: String): NetworkContractFarmingCompany
     suspend fun getExpenseCategories(seasonId: String): List<NetworkExpenseCategory>
+    suspend fun getFarm(farmId: String, userId: String): NetworkFarm
     suspend fun getFarmInputProducts(
         query: String,
         categoryId: String
     ): List<NetworkFarmInputProduct>
-
     suspend fun getFarmInputProductCategories(): List<NetworkFarmInputProductCategory>
-    suspend fun getCompanyByCode(code: String): NetworkContractFarmingCompany
-
+    suspend fun getFarms(userId: String): NetworkFarmListResponse
     suspend fun getFishes(): List<NetworkFish>
+    suspend fun getSeasonEndReasons(): List<NetworkSeasonEndReason>
 }

@@ -10,6 +10,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.Ffr
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrRecordDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFishDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonDao
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonEndReasonDao
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -21,14 +22,14 @@ object DaosModule {
     ): FfrFarmDao = db.ffrFarmDao()
 
     @Provides
+    fun providesFfrFishDao(
+        db: GreenWayDb,
+    ): FfrFishDao = db.ffrFishDao()
+
+    @Provides
     fun providesFfrSeasonDao(
         db: GreenWayDb,
     ): FfrSeasonDao = db.ffrSeasonDao()
-
-    @Provides
-    fun providesFfrFcrRecordDao(
-        db: GreenWayDb,
-    ): FfrFcrRecordDao = db.ffrFcrRecordDao()
 
     @Provides
     fun providesFfrFcrDao(
@@ -36,7 +37,13 @@ object DaosModule {
     ): FfrFcrDao = db.ffrFcrDao()
 
     @Provides
-    fun providesFfrFishDao(
+    fun providesFfrFcrRecordDao(
         db: GreenWayDb,
-    ): FfrFishDao = db.ffrFishDao()
+    ): FfrFcrRecordDao = db.ffrFcrRecordDao()
+
+    @Provides
+    fun providesFfrSeasonEndReasonDao(
+        db: GreenWayDb,
+    ): FfrSeasonEndReasonDao = db.ffrSeasonEndReasonDao()
+
 }

@@ -15,7 +15,7 @@ class DefaultExpenseCategoryRepository @Inject constructor(
     private val network: FishFarmRecordNetworkDataSource
 ) : ExpenseCategoryRepository {
 
-    override fun getExpenseCategoriesWithTotalExpensesStream(): Flow<List<ExpenseByCategory>> {
+    override fun getExpensesByCategoryStream(): Flow<List<ExpenseByCategory>> {
         return emptyFlow()
     }
 

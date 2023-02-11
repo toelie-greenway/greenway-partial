@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-private val KEY_FARM_DETAIL = "farm_%s"
+private const val KEY_FARM_DETAIL = "farm_%s"
 
 class DefaultFarmRepository @Inject constructor(
     private val farmDao: FfrFarmDao,
@@ -41,6 +41,7 @@ class DefaultFarmRepository @Inject constructor(
     private val rateLimiter = RateLimiter<String>(10, TimeUnit.MINUTES)
 
     override fun getFarmsStream(): Flow<List<Farm>> {
+        //TODO: Replace with paging
         GlobalScope.launch(Dispatchers.IO) {
             val networkFarmList = network.getFarms(userHelper.activeUserId.toString())
             networkFarmList.data?.map { networkFarm ->
