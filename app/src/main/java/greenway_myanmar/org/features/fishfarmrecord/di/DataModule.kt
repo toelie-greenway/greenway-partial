@@ -4,6 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultCategoryExpenseRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultContractFarmingCompanyRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultExpenseCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultExpenseRepository
@@ -15,6 +16,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultFishR
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultProductionRecordRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultSeasonEndReasonRepository
 import greenway_myanmar.org.features.fishfarmrecord.data.repository.DefaultSeasonRepository
+import greenway_myanmar.org.features.fishfarmrecord.domain.repository.CategoryExpenseRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ContractFarmingCompanyRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ExpenseCategoryRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ExpenseRepository
@@ -37,6 +39,10 @@ abstract class DataModule {
     abstract fun provideContractFarmingCompanyRepository(
         repository: DefaultContractFarmingCompanyRepository
     ): ContractFarmingCompanyRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideCategoryExpenseRepository(repository: DefaultCategoryExpenseRepository): CategoryExpenseRepository
 
     @Singleton
     @Binds

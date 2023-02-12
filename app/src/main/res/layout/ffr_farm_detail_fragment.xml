@@ -46,7 +46,7 @@
                     android:layout_marginEnd="@dimen/padding_normal"
                     android:layout_marginBottom="@dimen/spacing_normal"
                     android:visibility="gone"
-                    app:cardBackgroundColor="#ff000000"
+                    app:cardBackgroundColor="#CC000000"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="0dp"
                     app:contentPaddingBottom="@dimen/spacing_16"
@@ -183,9 +183,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            app:tabContentStart="@dimen/spacing_24"
             android:minHeight="?actionBarSize"
             app:layout_collapseMode="pin"
-            app:tabMode="fixed" />
+            app:tabMode="scrollable" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

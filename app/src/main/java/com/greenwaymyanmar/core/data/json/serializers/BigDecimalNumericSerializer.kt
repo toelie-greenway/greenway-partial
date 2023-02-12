@@ -15,7 +15,7 @@ import java.math.BigDecimal
 
 typealias BigDecimalAsString = @Serializable(BigDecimalNumericSerializer::class) BigDecimal
 
-private object BigDecimalNumericSerializer : KSerializer<BigDecimal> {
+object BigDecimalNumericSerializer : KSerializer<BigDecimal> {
 
     override val descriptor = PrimitiveSerialDescriptor("java.math.BigDecimal", PrimitiveKind.DOUBLE)
 

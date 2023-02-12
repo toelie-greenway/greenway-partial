@@ -1,7 +1,7 @@
 package greenway_myanmar.org.features.fishfarmrecord.domain.usecase
 
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ExpenseCategory
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmInputCost
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmInputExpense
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ExpenseRepository
 import kotlinx.datetime.Instant
 import java.math.BigDecimal
@@ -25,7 +25,7 @@ class SaveExpenseUseCase @Inject constructor(
         val machineryCost: BigDecimal? = null,
         val images: List<String>? = null,
         val remark: String? = null,
-        val inputs: List<FarmInputCost>? = null
+        val inputs: List<FarmInputExpense>? = null
     )
 
     data class SaveExpenseResult(

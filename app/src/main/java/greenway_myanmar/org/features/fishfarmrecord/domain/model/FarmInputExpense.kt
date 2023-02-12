@@ -2,10 +2,11 @@ package greenway_myanmar.org.features.fishfarmrecord.domain.model
 
 import java.math.BigDecimal
 
-data class FarmInputCost(
+data class FarmInputExpense(
     val productId: String,
     val productName: String,
-    val amount: Double = 0.0,
+    val productThumbnail: String,
+    val amount: BigDecimal,
     val unit: String = "",
     val unitPrice: BigDecimal,
     val fingerlingWeight: BigDecimal? = null,

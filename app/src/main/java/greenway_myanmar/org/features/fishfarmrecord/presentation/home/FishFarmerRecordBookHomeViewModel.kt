@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +30,7 @@ class FishFarmerRecordBookHomeViewModel @Inject constructor(
     private fun loadPonds() {
         viewModelScope.launch {
             getFarmsStreamUseCase().asResult().collect { result ->
+                Timber.d("Result: $result")
                 when (result) {
                     Result.Loading -> {
                         _uiState.update {

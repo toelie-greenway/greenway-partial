@@ -211,8 +211,8 @@ class FarmInputInputViewModel @Inject constructor(
         }
     }
 
-    private fun validateUsedAmount(usedAmountString: String?): ValidationResult<Double> {
-        val usedAmount = usedAmountString?.toDoubleOrNull()
+    private fun validateUsedAmount(usedAmountString: String?): ValidationResult<BigDecimal> {
+        val usedAmount = usedAmountString?.toBigDecimalOrNull()
         return if (usedAmount == null) {
             ValidationResult.Error(Text.ResourceText(R.string.error_field_required))
         } else {

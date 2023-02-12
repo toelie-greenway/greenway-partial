@@ -18,6 +18,8 @@
     <string name="formatted_viss">%s ပိဿာ</string>
     <string name="format_kyat">%s ကျပ်</string>
     <string name="ffr_message_coming_soon">နောက်ဗားရှင်းတွင် ယခုလုပ်ဆောင်ချက် ပါဝင်လာပါမည်</string>
+    <string name="ffr_label_remark">မှတ်ချက်</string>
+    <string name="ffr_label_remark_with_dash_prefix">—မှတ်ချက်</string>
 
     <string name="hint_search_in_picker">တိုက်ရိုက်ရှာဖွေရန်</string>
     <string name="ffr_tab_opening_season">မွေးမြူစဲ</string>
@@ -74,6 +76,7 @@
     <!-- ** Farm feature ** -->
     <!-- Farm Detail screen -->
     <string name="ffr_farm_detail_label_total_expense">စုစုပေါင်းကုန်ကျစရိတ်</string>
+    <string name="ffr_farm_detail_label_no_ongoing_season">မွေးမြူစဲရာသီ မရှိသေးပါ</string>
 
     <!-- Add/Edit Farm Screen -->
     <string name="ffr_label_add_edit_pond_subtitle">မွေးမြူမှတ်တမ်းစတင်ရန် ကန်စာရင်း သွင်းရန်လိုအပ်ပါသည်</string>
@@ -119,6 +122,9 @@
     <string name="ffr_season_end_error_reason_required">ရာသီပိတ်သိမ်းခြင်းအကြောင်းအရင်းတစ်ခုရွေးချယ်ပါ</string>
 
     <!-- ** Expense feature ** -->
+    <!-- Expense List -->
+    <string name="ffr_expense_list_label_total_expense">စုစုပေါင်း</string>
+
     <!-- Add/Edit Expense Screen -->
     <string name="ffr_add_edit_expense_label_expense_category">ကုန်ကျသည့်အကြောင်းအရင်း</string>
     <string name="ffr_add_edit_expense_placeholder_expense_category">ရွေးချယ်ပါ</string>

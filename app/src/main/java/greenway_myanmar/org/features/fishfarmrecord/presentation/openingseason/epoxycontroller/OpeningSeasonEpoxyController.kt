@@ -15,7 +15,7 @@ import greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.v
 
 class OpeningSeasonEpoxyController constructor(
     val onAddExpenseClick: () -> Unit,
-    val onViewCategoryExpensesClick: () -> Unit,
+    val onViewCategoryExpensesClick: (categoryId: String) -> Unit,
     val onAddProductionClick: () -> Unit,
     val onViewProductionsClick: () -> Unit,
     val onCloseSeasonClick: () -> Unit
@@ -51,7 +51,7 @@ class OpeningSeasonEpoxyController constructor(
                 onAddExpenseClick()
             })
             .onViewCategoryExpensesClickCallback(OnClickListener {
-                onViewCategoryExpensesClick()
+                onViewCategoryExpensesClick(item.categoryId)
             })
     } else {
         OpeningSeasonCategorySmallViewModel_()

@@ -5,6 +5,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import greenway_myanmar.org.db.GreenWayDb
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrCategoryExpenseDao
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrExpenseCategoryDao
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrExpenseDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFarmDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrRecordDao
@@ -15,6 +18,21 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.Ffr
 @Module
 @InstallIn(SingletonComponent::class)
 object DaosModule {
+
+    @Provides
+    fun providesFfrCategoryExpenseDao(
+        db: GreenWayDb,
+    ): FfrCategoryExpenseDao = db.ffrCategoryExpenseDao()
+
+    @Provides
+    fun providesFfrExpenseDao(
+        db: GreenWayDb,
+    ): FfrExpenseDao = db.ffrExpenseDao()
+
+    @Provides
+    fun providesFfrExpenseCategoryDao(
+        db: GreenWayDb,
+    ): FfrExpenseCategoryDao = db.ffrExpenseCategoryDao()
 
     @Provides
     fun providesFfrFarmDao(

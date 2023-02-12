@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="40dp"
+    android:paddingStart="@dimen/spacing_16"
+    android:paddingTop="@dimen/spacing_8"
+    android:paddingEnd="@dimen/spacing_16"
+    android:paddingBottom="@dimen/spacing_8">
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/expense_name_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?colorOnSurface"
+        android:textSize="14sp"
+        app:fontFamily="@font/noto_sans_myanmar_semi_bold_600"
+        tools:text="မိသားစုဝင်" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/expense_quantity_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.75"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="?colorOnSurface"
+        android:textSize="14sp"
+        app:fontFamily="@font/noto_sans_myanmar_semi_bold_600"
+        tools:text="၁ ယောက်" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayMoneyTextView
+        android:id="@+id/cost_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.75"
+        android:ellipsize="end"
+        android:gravity="end"
+        android:maxLines="1"
+        android:textColor="?colorOnSurface"
+        android:textSize="14sp"
+        app:fontFamily="@font/noto_sans_myanmar_semi_bold_600"
+        tools:text="၁၀၀၀ ကျပ်" />
+
+</LinearLayout>

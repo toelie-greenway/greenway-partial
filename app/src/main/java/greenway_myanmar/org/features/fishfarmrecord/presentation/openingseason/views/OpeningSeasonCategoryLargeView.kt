@@ -9,6 +9,7 @@ import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import greenway_myanmar.org.databinding.FfrOpeningSeasonCategoryLargeListItemBinding
 import greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.OpeningSeasonCategoryListItemUiState
+import greenway_myanmar.org.util.DateUtils
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class OpeningSeasonCategoryLargeView @JvmOverloads constructor(
@@ -28,7 +29,10 @@ class OpeningSeasonCategoryLargeView @JvmOverloads constructor(
         @ModelProp set(item) {
             if (field != item) {
                 if (item != null) {
-                    binding.categoryName.text = item.categoryName
+                    binding.categoryNameTextView.text = item.categoryName
+                    binding.categoryExpenseTextView.setAmount(item.totalCategoryExpense)
+                    binding.dateTextView.text =
+                        item.lastRecordDate?.let { DateUtils.format(it, "MMMM d၊ yyyy") }.orEmpty()
                 }
                 field = item
             }
@@ -42,7 +46,7 @@ class OpeningSeasonCategoryLargeView @JvmOverloads constructor(
 
     init {
         binding.cardView.setOnClickListener {
-            // onAddNewExpenseClickCallback?.onClick(it)
+            /* no-op */
         }
         binding.addNewExpenseButton.setOnClickListener {
             onAddNewExpenseClickCallback?.onClick(it)

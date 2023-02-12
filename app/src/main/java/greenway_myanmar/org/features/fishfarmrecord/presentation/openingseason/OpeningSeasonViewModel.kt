@@ -3,17 +3,23 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.greenwaymyanmar.common.data.api.errorText
+import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetExpensesByCategoryUseCase
+import greenway_myanmar.org.R
+import greenway_myanmar.org.common.domain.entities.Text
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetCategoryExpensesUseCase
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetCategoryExpensesUseCase.GetExpenseSummaryRequest
+import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmUiState
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarm
 import greenway_myanmar.org.util.WhileViewSubscribed
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -25,7 +31,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class OpeningSeasonViewModel @Inject constructor(
-    getExpensesByCategoryStreamUseCase: GetExpensesByCategoryUseCase
+    getCategoryExpensesStreamUseCase: GetCategoryExpensesUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(OpeningSeasonUiState())
@@ -34,12 +40,12 @@ class OpeningSeasonViewModel @Inject constructor(
     private val currentUiState: OpeningSeasonUiState
         get() = uiState.value
 
-    val categoryListUiState: StateFlow<CategoryListUiState> = uiState.map { it.seasonId }
-        .distinctUntilChanged()
-        .flatMapLatest { seasonId ->
+    private val farmUiState = MutableStateFlow<FarmUiState>(LoadingState.Idle)
+    val categoryListUiState: StateFlow<CategoryListUiState> = farmUiState
+        .flatMapLatest { farmUiState ->
             categoryListUiStateStream(
-                seasonId,
-                getExpensesByCategoryStreamUseCase
+                farmUiState,
+                getCategoryExpensesStreamUseCase
             )
         }.stateIn(viewModelScope, WhileViewSubscribed, LoadingState.Idle)
 
@@ -53,7 +59,14 @@ class OpeningSeasonViewModel @Inject constructor(
             is OpeningSeasonEvent.OnSeasonIdChanged -> {
                 updateSeasonId(event.seasonId)
             }
+            is OpeningSeasonEvent.OnFarmChanged -> {
+                updateFarm(event.farmUiState)
+            }
         }
+    }
+
+    private fun updateFarm(farmUiState: LoadingState<UiFarm>) {
+        this.farmUiState.value = farmUiState
     }
 
     private fun updateSeasonId(seasonId: String) {
@@ -67,21 +80,51 @@ class OpeningSeasonViewModel @Inject constructor(
 }
 
 private suspend fun categoryListUiStateStream(
-    seasonId: String,
-    getExpensesByCategoryUseCase: GetExpensesByCategoryUseCase
+    farmUiState: FarmUiState,
+    getCategoryExpensesUseCase: GetCategoryExpensesUseCase
 ): Flow<CategoryListUiState> {
-    if (seasonId.isEmpty()) return emptyFlow()
-
     return flow {
         emit(LoadingState.Loading)
+        when (farmUiState) {
+            is LoadingState.Success -> {
+                val openingSeason = farmUiState.data.ongoingSeason
+                if (openingSeason == null) {
+                    emit(LoadingState.Empty(Text.ResourceText(R.string.ffr_farm_detail_label_no_ongoing_season)))
+                } else {
+                    emitAll(
+                        loadSeasonExpenseCategories(openingSeason.id, getCategoryExpensesUseCase)
+                    )
+                }
+            }
+            LoadingState.Loading -> {
+                emit(LoadingState.Loading)
+            }
+            else -> {
+                emit(LoadingState.Idle)
+            }
+        }
+    }
+}
 
-        emit(
-            try {
-                val result = getExpensesByCategoryUseCase(
-                    GetExpensesByCategoryUseCase.GetExpensesByCategoryRequest(seasonId)
-                )
+private suspend fun loadSeasonExpenseCategories(
+    seasonId: String,
+    getCategoryExpensesUseCase: GetCategoryExpensesUseCase
+) = getCategoryExpensesUseCase(
+    GetExpenseSummaryRequest(seasonId)
+)
+    .catch {
+        LoadingState.Empty(it.errorText())
+    }.map { result ->
+        when (result) {
+            is Result.Error -> {
+                LoadingState.Error(result.exception.errorText())
+            }
+            Result.Loading -> {
+                LoadingState.Loading
+            }
+            is Result.Success -> {
                 val items = mutableListOf<OpeningSeasonCategoryListItemUiState>()
-                val categories = result.map {
+                val categories = result.data.map {
                     OpeningSeasonCategoryListItemUiState.CategoryItem(
                         categoryId = it.category.id,
                         categoryName = it.category.name,
@@ -98,9 +141,7 @@ private suspend fun categoryListUiStateStream(
                 items.add(OpeningSeasonCategoryListItemUiState.CloseItem)
 
                 LoadingState.Success(items)
-            } catch (e: Throwable) {
-                LoadingState.Empty(e.errorText())
             }
-        )
+
+        }
     }
-}

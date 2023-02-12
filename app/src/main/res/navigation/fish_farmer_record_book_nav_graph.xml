@@ -94,6 +94,9 @@
         <action
             android:id="@+id/action_farmDetailFragment_to_seasonEndFragment"
             app:destination="@id/seasonEndFragment" />
+        <action
+            android:id="@+id/action_farmDetailFragment_to_expenseListFragment"
+            app:destination="@id/expenseListFragment" />
     </fragment>
     <fragment
         android:id="@+id/fishInputFragment"
@@ -181,5 +184,17 @@
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.season.seasonend.SeasonEndFragment"
         android:label="SeasonEndFragment"
         tools:layout="@layout/ffr_season_end_fragment" />
+    <fragment
+        android:id="@+id/expenseListFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.expense.expenselist.ExpenseListFragment"
+        android:label="ExpenseListFragment"
+        tools:layout="@layout/ffr_expense_list_fragment" >
+        <argument
+            android:name="season_id"
+            app:argType="string" />
+        <argument
+            android:name="category_id"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

@@ -1,6 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request
 
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmInputCost
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmInputExpense
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveExpenseUseCase.SaveExpenseRequest
 import greenway_myanmar.org.util.toServerDateString
 import kotlinx.serialization.Serializable
@@ -51,10 +51,10 @@ data class NetworkFarmInputRequest(
     val fingerling_age: Double? = null
 ) {
     companion object {
-        fun fromDomainModel(domainModel: FarmInputCost) = NetworkFarmInputRequest(
+        fun fromDomainModel(domainModel: FarmInputExpense) = NetworkFarmInputRequest(
             product_id = domainModel.productId,
             product_name = domainModel.productId,
-            quantity = domainModel.amount,
+            quantity = domainModel.amount.toDouble(),
             unit = domainModel.productId,
             unit_price = domainModel.unitPrice.toDouble(),
             total_cost = domainModel.totalCost.toDouble(),

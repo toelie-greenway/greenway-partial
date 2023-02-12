@@ -55,12 +55,8 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
                 Toast.makeText(requireContext(), "//TODO: Add New Expense", Toast.LENGTH_SHORT)
                     .show()
             },
-            onViewCategoryExpensesClick = {
-                Toast.makeText(
-                    requireContext(),
-                    "//TODO: Show Expense Category Detail",
-                    Toast.LENGTH_SHORT
-                ).show()
+            onViewCategoryExpensesClick = { categoryId ->
+                navigateToExpenseListScreen(categoryId)
             },
             onAddProductionClick = {
 
@@ -96,19 +92,32 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
 //        binding.recyclerView.adapter = adapter
     }
 
+    private fun navigateToExpenseListScreen(categoryId: String) {
+        val seasonId = parentViewModel.getSeasonId()
+        if (seasonId.isEmpty()) {
+            return
+        }
+
+        navController.navigate(
+            FarmDetailFragmentDirections.actionFarmDetailFragmentToExpenseListFragment(
+                seasonId = seasonId,
+                categoryId = categoryId
+            )
+        )
+    }
 
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
             observeItemsUiState()
-            observeSeasonIdFromParentViewModel()
+            observeFarmUiStateFromParentViewModel()
         }
     }
 
-    private fun CoroutineScope.observeSeasonIdFromParentViewModel() = launch {
-        parentViewModel.seasonIdStream.collect {
-            Timber.d("Parent Season Id: $it")
-            viewModel.handleEvent(OpeningSeasonEvent.OnSeasonIdChanged(it))
-        }
+    private fun CoroutineScope.observeFarmUiStateFromParentViewModel() = launch {
+        parentViewModel.farmUiState
+            .collect { farmUiState ->
+                viewModel.handleEvent(OpeningSeasonEvent.OnFarmChanged(farmUiState))
+            }
     }
 
     private fun CoroutineScope.observeItemsUiState() = launch {
@@ -121,6 +130,7 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
                     Timber.d("UiState: $uiState")
                 }
             }
+            binding.loadingStateView.bind(uiState)
         }
     }
 

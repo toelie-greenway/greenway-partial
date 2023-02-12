@@ -32,7 +32,7 @@ class FarmDetailViewModel @Inject constructor(
     private val farmIdStream = MutableStateFlow("")
     private val farmId = FarmDetailFragmentArgs.fromSavedStateHandle(savedStateHandle).farmId
 
-    val seasonIdStream = MutableStateFlow("")
+    private val seasonIdStream = MutableStateFlow("")
 
     val farmUiState: StateFlow<FarmUiState> =
         farmIdStream.flatMapLatest { farmId ->
@@ -50,6 +50,8 @@ class FarmDetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun getSeasonId() = seasonIdStream.value
 }
 
 private fun farmUiStateStream(

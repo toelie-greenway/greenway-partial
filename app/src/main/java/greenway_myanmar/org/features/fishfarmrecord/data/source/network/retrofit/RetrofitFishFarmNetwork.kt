@@ -4,6 +4,7 @@ import com.greenwaymyanmar.common.data.api.v3.ApiResponse
 import com.greenwaymyanmar.common.data.api.v3.getDataOrThrow
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.FishFarmRecordNetworkDataSource
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.ApiDataWrapper
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkCategoryExpense
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkContractFarmingCompany
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpense
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpenseCategory
@@ -65,8 +66,21 @@ private interface RetrofitFishFarmRecordNetworkApi {
 
     @GET(value = "ffr/expense-categories")
     suspend fun getExpenseCategories(
-        @Query("season_id") seasonId: String
+        @Query("user_id") userId: String
     ): ApiResponse<ApiDataWrapper<List<NetworkExpenseCategory>>>
+
+    @GET(value = "ffr/expense-categories/{category_id}/expenses")
+    suspend fun getCategoryExpense(
+        @Path("category_id") categoryId: String,
+        @Query("user_id") userId: String,
+        @Query("season_id") seasonId: String
+    ): ApiResponse<ApiDataWrapper<NetworkCategoryExpense>>
+
+    @GET(value = "ffr/expense-categories")
+    suspend fun getCategoryExpenses(
+        @Query("user_id") userId: String,
+        @Query("season_id") seasonId: String
+    ): ApiResponse<ApiDataWrapper<List<NetworkCategoryExpense>>>
 
     @GET(value = "ffr/fish-types")
     suspend fun getFishes(): ApiResponse<List<NetworkFish>>
@@ -125,6 +139,23 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
     ): NetworkExpense =
         networkApi.postExpense(userId, request).getDataOrThrow().data
 
+    override suspend fun getCategoryExpense(
+        userId: String,
+        categoryId: String,
+        seasonId: String
+    ): NetworkCategoryExpense =
+        networkApi.getCategoryExpense(
+            categoryId = categoryId,
+            seasonId = seasonId,
+            userId = userId
+        ).getDataOrThrow().data
+
+    override suspend fun getCategoryExpenses(
+        userId: String,
+        seasonId: String
+    ): List<NetworkCategoryExpense> =
+        networkApi.getCategoryExpenses(userId, seasonId).getDataOrThrow().data
+
     override suspend fun getCompanyByCode(code: String): NetworkContractFarmingCompany =
         networkApi.getCompanyByCode(code).getDataOrThrow().data
 
@@ -146,9 +177,8 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
     override suspend fun getFarmInputProductCategories(): List<NetworkFarmInputProductCategory> =
         networkApi.getProductCategories().getDataOrThrow()
 
-
-    override suspend fun getExpenseCategories(seasonId: String): List<NetworkExpenseCategory> =
-        networkApi.getExpenseCategories(seasonId).getDataOrThrow().data
+    override suspend fun getExpenseCategories(userId: String): List<NetworkExpenseCategory> =
+        networkApi.getExpenseCategories(userId).getDataOrThrow().data
 
     override suspend fun getFishes(): List<NetworkFish> =
         networkApi.getFishes().getDataOrThrow()

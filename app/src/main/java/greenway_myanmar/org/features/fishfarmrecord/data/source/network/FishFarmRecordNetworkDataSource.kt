@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.source.network
 
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkCategoryExpense
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkContractFarmingCompany
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpense
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpenseCategory
@@ -26,8 +27,10 @@ interface FishFarmRecordNetworkDataSource {
     ): NetworkSeason
 
     suspend fun postExpense(userId: String, request: NetworkExpenseRequest): NetworkExpense
+    suspend fun getCategoryExpense(userId: String, categoryId: String, seasonId: String): NetworkCategoryExpense
+    suspend fun getCategoryExpenses(userId: String, seasonId: String): List<NetworkCategoryExpense>
     suspend fun getCompanyByCode(code: String): NetworkContractFarmingCompany
-    suspend fun getExpenseCategories(seasonId: String): List<NetworkExpenseCategory>
+    suspend fun getExpenseCategories(userId: String): List<NetworkExpenseCategory>
     suspend fun getFarm(farmId: String, userId: String): NetworkFarm
     suspend fun getFarmInputProducts(
         query: String,

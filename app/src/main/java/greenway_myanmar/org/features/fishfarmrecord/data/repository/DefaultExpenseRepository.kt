@@ -4,9 +4,7 @@ import greenway_myanmar.org.db.UserHelper
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFarmDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.FishFarmRecordNetworkDataSource
-import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.asExpenseByCategoryDomainModel
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkExpenseRequest
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.ExpenseByCategory
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.ExpenseRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveExpenseUseCase.SaveExpenseRequest
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveExpenseUseCase.SaveExpenseResult
@@ -37,10 +35,6 @@ class DefaultExpenseRepository @Inject constructor(
             )
         }
         return SaveExpenseResult(response.id)
-    }
-
-    override suspend fun getExpensesByCategory(seasonId: String): List<ExpenseByCategory> {
-        return network.getExpenseCategories(seasonId).map { it.asExpenseByCategoryDomainModel() }
     }
 
     private fun calculateTotal(request: SaveExpenseRequest): BigDecimal {

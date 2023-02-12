@@ -43,13 +43,17 @@ class DefaultFarmRepository @Inject constructor(
     override fun getFarmsStream(): Flow<List<Farm>> {
         //TODO: Replace with paging
         GlobalScope.launch(Dispatchers.IO) {
-            val networkFarmList = network.getFarms(userHelper.activeUserId.toString())
-            networkFarmList.data?.map { networkFarm ->
-                if (networkFarm.opening_season != null) {
-                    seasonDao.upsertSeason(networkFarm.opening_season.asEntity())
+            try {
+                val networkFarmList = network.getFarms(userHelper.activeUserId.toString())
+                networkFarmList.data?.map { networkFarm ->
+                    if (networkFarm.opening_season != null) {
+                        seasonDao.upsertSeason(networkFarm.opening_season.asEntity())
+                    }
                 }
+                farmDao.upsertFarms(networkFarmList.data.orEmpty().map(NetworkFarm::asEntity))
+            } catch (e: Exception) {
+
             }
-            farmDao.upsertFarms(networkFarmList.data.orEmpty().map(NetworkFarm::asEntity))
         }
         return farmDao.getFarmsStream().map { list ->
             list.map { farm ->
