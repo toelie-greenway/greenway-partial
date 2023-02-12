@@ -67,6 +67,12 @@ class SeasonEndViewModel @Inject constructor(
 
     fun handleEvent(event: SeasonEndEvent) {
         when (event) {
+            is SeasonEndEvent.OnFarmIdChanged -> {
+                updateFarmId(event.farmId)
+            }
+            is SeasonEndEvent.OnSeasonIdChanged -> {
+                updateSeasonId(event.seasonId)
+            }
             is SeasonEndEvent.OnReasonChanged -> {
                 updateReason(event.item)
             }
@@ -76,6 +82,21 @@ class SeasonEndViewModel @Inject constructor(
             SeasonEndEvent.OnReasonErrorShown -> {
                 clearReasonError()
             }
+            SeasonEndEvent.OnSavingErrorShown -> {
+                clearSavingError()
+            }
+        }
+    }
+
+    private fun updateFarmId(farmId: String) {
+        _uiState.update {
+            it.copy(farmId = farmId)
+        }
+    }
+
+    private fun updateSeasonId(seasonId: String) {
+        _uiState.update {
+            it.copy(seasonId = seasonId)
         }
     }
 
@@ -89,6 +110,10 @@ class SeasonEndViewModel @Inject constructor(
         _uiState.update {
             it.copy(reasonError = null)
         }
+    }
+
+    private fun clearSavingError() {
+        _saveEndSeasonUiState.value = LoadingState.Idle
     }
 
     private fun onSubmit() {
@@ -110,9 +135,17 @@ class SeasonEndViewModel @Inject constructor(
 
         // collect result
         val reason = reasonValidationResult.getDataOrThrow()
+        val farmId = currentUiState.farmId
+        val seasonId = currentUiState.seasonId
+        if (farmId.isEmpty() || seasonId.isEmpty()) {
+            return
+        }
+
         saveEndReason(
             EndSeasonUseCase.EndSeasonRequest(
-                reason = reason.asDomainModel()
+                reason = reason.asDomainModel(),
+                farmId = farmId,
+                seasonId = seasonId
             )
         )
     }
@@ -125,6 +158,7 @@ class SeasonEndViewModel @Inject constructor(
             }.onSuccess {
                 _saveEndSeasonUiState.value = LoadingState.Success(Unit)
             }.onFailure {
+                it.printStackTrace()
                 _saveEndSeasonUiState.value = LoadingState.Error(it.errorText())
             }
         }

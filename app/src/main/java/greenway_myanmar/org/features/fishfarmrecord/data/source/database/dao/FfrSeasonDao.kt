@@ -15,9 +15,14 @@ abstract class FfrSeasonDao {
     @Query(
         value = """
             SELECT * FROM ffr_seasons
+            WHERE farm_id = :farmId
+            AND is_end = '1'
+            ORDER BY season_start_date DESC
         """
     )
-    abstract fun getSeasonsStream(): Flow<List<FfrSeasonEntity>>
+    abstract fun getClosedSeasonsStream(
+        farmId: String
+    ): Flow<List<FfrSeasonEntity>>
 
     @Query(
         value = """
@@ -28,5 +33,8 @@ abstract class FfrSeasonDao {
     abstract suspend fun getSeasonById(id: String): FfrSeasonEntity?
 
     @Upsert
-    abstract suspend fun upsertSeason(entity: FfrSeasonEntity)
+    abstract suspend fun upsertSeasonEntities(entities: List<FfrSeasonEntity>)
+
+    @Upsert
+    abstract suspend fun upsertSeasonEntity(entity: FfrSeasonEntity)
 }

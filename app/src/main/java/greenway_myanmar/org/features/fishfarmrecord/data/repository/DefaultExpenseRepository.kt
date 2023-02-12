@@ -26,7 +26,7 @@ class DefaultExpenseRepository @Inject constructor(
         )
         val season = seasonDao.getSeasonById(request.seasonId)
         if (season != null) {
-            seasonDao.upsertSeason(
+            seasonDao.upsertSeasonEntity(
                 season.copy(
                     totalExpenses = season.totalExpenses + calculateTotal(
                         request

@@ -53,9 +53,9 @@ data class NetworkFarmInputRequest(
     companion object {
         fun fromDomainModel(domainModel: FarmInputExpense) = NetworkFarmInputRequest(
             product_id = domainModel.productId,
-            product_name = domainModel.productId,
+            product_name = domainModel.productName,
             quantity = domainModel.amount.toDouble(),
-            unit = domainModel.productId,
+            unit = domainModel.unit,
             unit_price = domainModel.unitPrice.toDouble(),
             total_cost = domainModel.totalCost.toDouble(),
             estimated_size = domainModel.fingerlingSize?.toDouble(),

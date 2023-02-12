@@ -5,6 +5,8 @@ import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiSeasonEndReason
 
 data class SeasonEndUiState(
+    val farmId: String = "",
+    val seasonId: String = "",
     val reason: UiSeasonEndReason? = null,
     val reasonError: Text? = null
 )

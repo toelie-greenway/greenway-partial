@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.core.presentation.model.isLoading
 import com.greenwaymyanmar.core.presentation.model.isNotLoading
@@ -28,6 +29,7 @@ class SeasonEndFragment : Fragment(R.layout.ffr_season_end_fragment) {
 
     private val binding by viewBinding(FfrSeasonEndFragmentBinding::bind)
     private val viewModel by viewModels<SeasonEndViewModel>()
+    private val args by navArgs<SeasonEndFragmentArgs>()
     private val navController by lazy {
         findNavController()
     }
@@ -36,6 +38,7 @@ class SeasonEndFragment : Fragment(R.layout.ffr_season_end_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
+        initViewModel()
         observeViewModel()
     }
 
@@ -43,6 +46,15 @@ class SeasonEndFragment : Fragment(R.layout.ffr_season_end_fragment) {
         setupToolbar()
         setupList()
         setupSubmitButton()
+    }
+
+    private fun initViewModel() {
+        viewModel.handleEvent(
+            SeasonEndEvent.OnFarmIdChanged(args.farmId)
+        )
+        viewModel.handleEvent(
+            SeasonEndEvent.OnSeasonIdChanged(args.seasonId)
+        )
     }
 
     private fun observeViewModel() {
@@ -85,18 +97,26 @@ class SeasonEndFragment : Fragment(R.layout.ffr_season_end_fragment) {
             .distinctUntilChanged()
             .collect { error ->
                 if (error != null) {
-                    showErrorMessage(error)
+                    showReasonsLoadingErrorMessage(error)
                 }
             }
     }
 
-    private fun showErrorMessage(error: Text) {
+    private fun showReasonsLoadingErrorMessage(error: Text) {
         showSnackbar(error)
         viewModel.handleEvent(SeasonEndEvent.OnReasonErrorShown)
     }
 
+    private fun showSavingEndSeasonErrorMessage(error: Text) {
+        showSnackbar(error)
+        viewModel.handleEvent(SeasonEndEvent.OnSavingErrorShown)
+    }
+
     private fun CoroutineScope.observeSavingEndSeason() = launch {
         viewModel.saveEndSeasonUiState.collect { uiState ->
+            if(uiState is LoadingState.Error && uiState.message != null){
+                showSavingEndSeasonErrorMessage(uiState.message)
+            }
             binding.endingSeasonContainer.isVisible = uiState.isLoading()
             binding.submitButton.isVisible = uiState.isNotLoading()
             if (uiState.isSuccess()) {

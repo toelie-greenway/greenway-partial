@@ -2,7 +2,6 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -23,7 +22,6 @@ import greenway_myanmar.org.util.kotlin.viewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -51,9 +49,8 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
 
     private fun setupList() {
         epoxyController = OpeningSeasonEpoxyController(
-            onAddExpenseClick = {
-                Toast.makeText(requireContext(), "//TODO: Add New Expense", Toast.LENGTH_SHORT)
-                    .show()
+            onAddExpenseClick = { categoryId ->
+                navigateToAddEditExpenseScreen(categoryId)
             },
             onViewCategoryExpensesClick = { categoryId ->
                 navigateToExpenseListScreen(categoryId)
@@ -92,19 +89,6 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
 //        binding.recyclerView.adapter = adapter
     }
 
-    private fun navigateToExpenseListScreen(categoryId: String) {
-        val seasonId = parentViewModel.getSeasonId()
-        if (seasonId.isEmpty()) {
-            return
-        }
-
-        navController.navigate(
-            FarmDetailFragmentDirections.actionFarmDetailFragmentToExpenseListFragment(
-                seasonId = seasonId,
-                categoryId = categoryId
-            )
-        )
-    }
 
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
@@ -127,16 +111,53 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
                     epoxyController.setItems(uiState.data)
                 }
                 else -> {
-                    Timber.d("UiState: $uiState")
+                    epoxyController.setItems(emptyList())
                 }
             }
             binding.loadingStateView.bind(uiState)
         }
     }
 
-    private fun navigateToSeasonEndScreen() {
+    private fun navigateToExpenseListScreen(categoryId: String) {
+        val seasonId = parentViewModel.getSeasonId()
+        if (seasonId.isEmpty()) {
+            return
+        }
+
         navController.navigate(
-            FarmDetailFragmentDirections.actionFarmDetailFragmentToSeasonEndFragment()
+            FarmDetailFragmentDirections.actionFarmDetailFragmentToExpenseListFragment(
+                seasonId = seasonId,
+                categoryId = categoryId
+            )
+        )
+    }
+
+    private fun navigateToAddEditExpenseScreen(categoryId: String) {
+        val farmId = parentViewModel.getFarmId()
+        val seasonId = parentViewModel.getSeasonId()
+        if (farmId.isEmpty() || seasonId.isEmpty()) {
+            return
+        }
+
+        navController.navigate(
+            FarmDetailFragmentDirections.actionFarmDetailFragmentToAddEditExpenseFragment(
+                farmId = farmId,
+                seasonId = seasonId,
+            )
+        )
+    }
+
+    private fun navigateToSeasonEndScreen() {
+        val farmId = parentViewModel.getFarmId()
+        val seasonId = parentViewModel.getSeasonId()
+        if (farmId.isEmpty() || seasonId.isEmpty()) {
+            return
+        }
+        navController.navigate(
+            FarmDetailFragmentDirections.actionFarmDetailFragmentToSeasonEndFragment(
+                farmId = farmId,
+                seasonId = seasonId
+            )
         )
     }
 }

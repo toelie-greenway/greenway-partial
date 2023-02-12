@@ -8,19 +8,19 @@ import java.math.BigDecimal
 
 data class ClosedSeasonListItemUiState(
     val id: String,
-    val pondName: String,
+    val farmName: String,
     val area: UiArea?,
     val seasonName: String,
     val seasonStartDate: Instant,
     val totalExpenses: BigDecimal
 ) {
     companion object {
-        fun from(domainModel: Season, pondName: String, area: Area?) = ClosedSeasonListItemUiState(
+        fun from(domainModel: Season, farmName: String, farmArea: Area?) = ClosedSeasonListItemUiState(
             id = domainModel.id,
-            pondName = pondName,
+            farmName = farmName,
             seasonName = domainModel.name,
             seasonStartDate = domainModel.startDate,
-            area = if (area != null) UiArea.fromDomain(area) else null,
+            area = if (farmArea != null) UiArea.fromDomain(farmArea) else null,
             totalExpenses = domainModel.totalExpenses
         )
     }

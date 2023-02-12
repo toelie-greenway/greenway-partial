@@ -47,7 +47,7 @@ class DefaultFarmRepository @Inject constructor(
                 val networkFarmList = network.getFarms(userHelper.activeUserId.toString())
                 networkFarmList.data?.map { networkFarm ->
                     if (networkFarm.opening_season != null) {
-                        seasonDao.upsertSeason(networkFarm.opening_season.asEntity())
+                        seasonDao.upsertSeasonEntity(networkFarm.opening_season.asEntity(networkFarm.id))
                     }
                 }
                 farmDao.upsertFarms(networkFarmList.data.orEmpty().map(NetworkFarm::asEntity))

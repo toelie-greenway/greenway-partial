@@ -69,5 +69,5 @@ abstract class FfrFarmDao {
             WHERE id = :farmId
         """
     )
-    abstract suspend fun updateSeasonId(farmId: String, seasonId: String)
+    abstract suspend fun updateOpeningSeasonId(farmId: String, seasonId: String?)
 }

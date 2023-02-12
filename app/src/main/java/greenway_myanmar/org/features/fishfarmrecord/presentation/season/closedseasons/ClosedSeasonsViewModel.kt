@@ -3,97 +3,163 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.season.closeds
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.Farm
-import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.ObserveClosedSeasonsUseCase
-import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.ObservePondUseCase
-import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.ObservePondUseCase.ObservePondRequest
-import kotlinx.coroutines.Job
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetClosedSeasonsStreamUseCase
+import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmUiState
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarm
+import greenway_myanmar.org.util.WhileViewSubscribed
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import timber.log.Timber
 import javax.inject.Inject
 
-const val SAVED_STATE_KEY_POND_ID = "keys.POND_ID"
+@OptIn(ExperimentalCoroutinesApi::class)
 
 @HiltViewModel
 class ClosedSeasonsViewModel @Inject constructor(
-    private val observePondUseCase: ObservePondUseCase,
-    private val observeClosedSeasonsUseCase: ObserveClosedSeasonsUseCase,
+    private val getClosedSeasonsStreamUseCase: GetClosedSeasonsStreamUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val pondIdFlow = savedStateHandle.getStateFlow(SAVED_STATE_KEY_POND_ID, "")
+    private val farmUiState = MutableStateFlow<FarmUiState>(LoadingState.Idle)
+    private val query = MutableStateFlow(Query.Empty)
 
-    private val _uiState = MutableStateFlow<ClosedSeasonsUiState>(ClosedSeasonsUiState())
-    val uiState = _uiState.asStateFlow()
+    val seasons: StateFlow<ClosedSeasonListUiState> = query.flatMapLatest { q ->
+        q.ifExists { farmId ->
+            closedSeasonsStream(
+                farmUiState,
+                farmId,
+                getClosedSeasonsStreamUseCase
+            )
+        }
+    }.stateIn(viewModelScope, WhileViewSubscribed, LoadingState.Idle)
 
-    private var pondJob: Job? = null
-    private var sJob: Job? = null
-
-    init {
-        viewModelScope.launch {
-            pondIdFlow.collect { pondId ->
-                if (pondId.isNotEmpty()) {
-                    loadPond(pondId)
-                }
+    fun handleEvent(event: ClosedSeasonsEvent) {
+        when (event) {
+            is ClosedSeasonsEvent.OnFarmIdChanged -> {
+                updateFarmId(event.farmId)
+            }
+            is ClosedSeasonsEvent.OnFarmChanged -> {
+                updateFarm(event.farmUiState)
             }
         }
-        setPondId("2")
     }
 
-    fun setPondId(pondId: String) {
-        savedStateHandle[SAVED_STATE_KEY_POND_ID] = pondId
+    private fun updateFarmId(farmId: String) {
+        query.value = Query(farmId)
     }
 
-    private fun loadPond(pondId: String) {
-        pondJob?.cancel()
-        pondJob = viewModelScope.launch {
-            observePondUseCase(ObservePondRequest(pondId)).collect { result ->
-                when (result) {
-                    is Result.Success -> {
-                        loadCloseSeasons(result.data)
-                    }
-                    is Result.Error -> {
+    private fun updateFarm(farmUiState: LoadingState<UiFarm>) {
+        this.farmUiState.value = farmUiState
+    }
 
-                    }
-                    Result.Loading -> {
-
-                    }
-                }
+    data class Query(
+        val farmId: String
+    ) {
+        fun <T> ifExists(f: (String) -> Flow<T>): Flow<T> {
+            return if (farmId.isEmpty()) {
+                emptyFlow()
+            } else {
+                f(farmId)
             }
+        }
 
+        companion object {
+            val Empty = Query(farmId = "")
         }
     }
+}
 
 
-    private fun loadCloseSeasons(farm: Farm) {
-        viewModelScope.launch {
-            observeClosedSeasonsUseCase(Unit).collect { result ->
-                when (result) {
-                    is Result.Success -> {
-                        _uiState.update {
-                            it.copy(closedSeasons = result.data.map { item ->
-                                ClosedSeasonListItemUiState.from(
-                                    item,
-                                    farm.name,
-                                    farm.measurement.area
-                                )
-                            })
+private fun closedSeasonsStream(
+    farmUiStateStream: MutableStateFlow<FarmUiState>,
+    farmId: String,
+    getClosedSeasonsStreamUseCase: GetClosedSeasonsStreamUseCase
+): Flow<ClosedSeasonListUiState> {
+    return getClosedSeasonsStreamUseCase(
+            GetClosedSeasonsStreamUseCase.GetClosedSeasonsRequest(
+                farmId = farmId
+            )
+        )
+        .catch {
+            Timber.e("Error: ${it.message}")
+            it.printStackTrace()
+            LoadingState.Error(it.errorText())
+        }
+        .map {  closedSeasonsResult ->
+            when {
+                closedSeasonsResult is Result.Success  -> {
+                    LoadingState.Success(
+                        data = closedSeasonsResult.data.map {
+                            ClosedSeasonListItemUiState.from(
+                                domainModel = it,
+                                farmName = "Hello",
+                                farmArea = it.farmMeasurement.area
+                            )
                         }
-                    }
-                    is Result.Error -> {
-
-                    }
-                    Result.Loading -> {
-
-                    }
+                    )
+                }
+                closedSeasonsResult is Result.Error  -> {
+                    Timber.e("Error: ${closedSeasonsResult.exception?.message}")
+                    closedSeasonsResult.exception?.printStackTrace()
+                    LoadingState.Error(
+                        closedSeasonsResult.exception?.errorText()
+                    )
+                }
+                closedSeasonsResult is Result.Loading -> {
+                    LoadingState.Error()
+                }
+                else -> {
+                    LoadingState.Idle
                 }
             }
-
         }
-    }
-
+//    return combine(
+//        farmUiStateStream,
+//        getClosedSeasonsStreamUseCase(
+//            GetClosedSeasonsStreamUseCase.GetClosedSeasonsRequest(
+//                farmId = farmId
+//            )
+//        ),
+//        ::Pair
+//    )
+//        .catch {
+//            LoadingState.Error(it.errorText())
+//        }
+//        .map { (farmUiState, closedSeasonsResult) ->
+//            when {
+//                closedSeasonsResult is Result.Success && farmUiState is LoadingState.Success -> {
+//                    LoadingState.Success(
+//                        data = closedSeasonsResult.data.map {
+//                            ClosedSeasonListItemUiState.from(
+//                                domainModel = it,
+//                                farmName = farmUiState.data.name,
+//                                farmArea = it.farmMeasurement.area
+//                            )
+//                        }
+//                    )
+//                }
+//                closedSeasonsResult is Result.Error && farmUiState is LoadingState.Error -> {
+//                    LoadingState.Error(
+//                        closedSeasonsResult.exception?.errorText() ?: farmUiState.message
+//                    )
+//                }
+//                closedSeasonsResult is Result.Loading && farmUiState is LoadingState.Loading -> {
+//                    LoadingState.Error()
+//                }
+//                else -> {
+//                    LoadingState.Idle
+//                }
+//            }
+//        }
 }

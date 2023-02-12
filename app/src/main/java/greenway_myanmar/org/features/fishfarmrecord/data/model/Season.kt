@@ -6,7 +6,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.util.toInstantOrNow
 import java.math.BigDecimal
 
-fun NetworkSeason.asEntity() = FfrSeasonEntity(
+fun NetworkSeason.asEntity(farmId: String) = FfrSeasonEntity(
     id = id,
     seasonName = season.orEmpty(),
     seasonStartDate = start_date.toInstantOrNow(),
@@ -19,7 +19,10 @@ fun NetworkSeason.asEntity() = FfrSeasonEntity(
     coordinates = area.measurement?.map { LatLng(it.lat, it.lng) },
     area = area.acre,
     measuredArea = area.measured_acre?.toDoubleOrNull(),
-    measuredType = area.measurement_type
+    measuredType = area.measurement_type,
+    isEnd = is_end ?: false,
+    isHarvested = is_harvest ?: false,
+    farmId = farmId
 )
 
 private fun mapLocationOrNull(lat: Double?, lng: Double?): LatLng? {

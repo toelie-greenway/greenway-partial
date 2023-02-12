@@ -29,6 +29,12 @@ import java.util.*
 data class FfrSeasonEntity(
     @PrimaryKey
     val id: String,
+    @ColumnInfo("farm_id")
+    val farmId: String,
+    @ColumnInfo("is_end")
+    val isEnd: Boolean = false,
+    @ColumnInfo("is_harvest")
+    val isHarvested: Boolean = false,
     @ColumnInfo("location")
     val location: LatLng? = null,
     @ColumnInfo("coordinates")
@@ -60,6 +66,7 @@ data class FfrSeasonEntity(
         fun from(request: SaveSeasonUseCase.SaveSeasonRequest, pendingAction: PendingAction) =
             FfrSeasonEntity(
                 id = generateIdIfRequired(request.id),
+                farmId = request.farmId,
                 location = request.farmMeasurement.location,
                 coordinates = request.farmMeasurement.coordinates,
                 area = request.farmMeasurement.area.value,

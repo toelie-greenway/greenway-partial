@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0bd9e2e3a58c5261dc692badde6ffe9a",
+    "identityHash": "b48c3c378dd27b1b0de37e21b698fc95",
     "entities": [
       {
         "tableName": "ffr_category_expenses",
@@ -494,12 +494,30 @@
       },
       {
         "tableName": "ffr_seasons",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `location` TEXT, `coordinates` TEXT, `area` REAL NOT NULL, `measured_area` REAL, `measured_type` TEXT, `depth` REAL, `season_name` TEXT NOT NULL, `season_start_date` INTEGER NOT NULL, `fishes` TEXT NOT NULL, `total_expenses` TEXT NOT NULL, `pending_action` TEXT NOT NULL, `company_id` TEXT, `company_name` TEXT, `company_code` TEXT, `loan_amount` TEXT, `loan_duration` INTEGER, `loan_organization` TEXT, `loan_remark` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `farm_id` TEXT NOT NULL, `is_end` INTEGER NOT NULL, `is_harvest` INTEGER NOT NULL, `location` TEXT, `coordinates` TEXT, `area` REAL NOT NULL, `measured_area` REAL, `measured_type` TEXT, `depth` REAL, `season_name` TEXT NOT NULL, `season_start_date` INTEGER NOT NULL, `fishes` TEXT NOT NULL, `total_expenses` TEXT NOT NULL, `pending_action` TEXT NOT NULL, `company_id` TEXT, `company_name` TEXT, `company_code` TEXT, `loan_amount` TEXT, `loan_duration` INTEGER, `loan_organization` TEXT, `loan_remark` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "farmId",
+            "columnName": "farm_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isEnd",
+            "columnName": "is_end",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isHarvested",
+            "columnName": "is_harvest",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -656,7 +674,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0bd9e2e3a58c5261dc692badde6ffe9a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b48c3c378dd27b1b0de37e21b698fc95')"
     ]
   }
 }

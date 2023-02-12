@@ -10,7 +10,7 @@ class GetCategoryExpensesUseCase @Inject constructor(
     private val repository: CategoryExpenseRepository
 ) {
     suspend operator fun invoke(request: GetExpenseSummaryRequest): Flow<Result<List<CategoryExpense>>> {
-        return repository.getCategoryExpensesStream(request.seasonId)
+        return repository.getCategoryExpensesStream(request.seasonId, true)
     }
 
     data class GetExpenseSummaryRequest(

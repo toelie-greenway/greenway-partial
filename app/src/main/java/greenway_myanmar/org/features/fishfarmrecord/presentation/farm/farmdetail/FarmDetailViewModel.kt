@@ -52,6 +52,7 @@ class FarmDetailViewModel @Inject constructor(
     }
 
     fun getSeasonId() = seasonIdStream.value
+    fun getFarmId() = farmId
 }
 
 private fun farmUiStateStream(
