@@ -10,7 +10,8 @@ data class NetworkFarmInputProduct(
     val name: String? = null,
     val description: String? = null,
     val thumbnail: String? = null,
-    val units: List<String>? = emptyList()
+    val units: List<String>? = emptyList(),
+    val is_fingerling: Boolean? = null
 )
 
 fun NetworkFarmInputProduct.asDomainModel() = FarmInputProduct(
@@ -18,5 +19,6 @@ fun NetworkFarmInputProduct.asDomainModel() = FarmInputProduct(
     name = name.orEmpty(),
     description = description.orEmpty(),
     thumbnail = thumbnail.orEmpty(),
-    units = units.orEmpty().map { UnitOfMeasurement.fromString(it) }
+    units = units.orEmpty().map { UnitOfMeasurement.fromString(it) },
+    isFingerling = is_fingerling ?: false
 )

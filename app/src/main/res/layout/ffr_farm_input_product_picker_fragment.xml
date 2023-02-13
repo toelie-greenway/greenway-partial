@@ -60,16 +60,35 @@
             app:drawableStartCompat="@drawable/ic_search_black_24dp"
             app:drawableTint="@color/app_inactive_icon" />
 
-<!--        <com.greenwaymyanmar.ui.widgets.AsylExposedDropdownMenu-->
-<!--            android:id="@+id/category_dropdownMenu"-->
-<!--            style="@style/Widget.Asymt.TextInputLayout.Dense.ExposedDropdownMenu"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="@dimen/padding_normal"-->
-<!--            android:layout_marginTop="@dimen/spacing_normal"-->
-<!--            android:layout_marginEnd="@dimen/padding_normal"-->
-<!--            app:hint="အမျိုးအစား"-->
-<!--            app:mandatory="@{true}" />-->
+        <!--        <com.greenwaymyanmar.ui.widgets.AsylExposedDropdownMenu-->
+        <!--            android:id="@+id/category_dropdownMenu"-->
+        <!--            style="@style/Widget.Asymt.TextInputLayout.Dense.ExposedDropdownMenu"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="@dimen/padding_normal"-->
+        <!--            android:layout_marginTop="@dimen/spacing_normal"-->
+        <!--            android:layout_marginEnd="@dimen/padding_normal"-->
+        <!--            app:hint="အမျိုးအစား"-->
+        <!--            app:mandatory="@{true}" />-->
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextInputLayout
+            android:id="@+id/category_dropdown_menu"
+            style="@style/Widget.GreenWay2.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:layout_marginTop="@dimen/spacing_16"
+            app:hintEnabled="false"
+            android:layout_marginEnd="@dimen/spacing_16">
+
+            <greenway_myanmar.org.ui.widget.GreenWayAutoCompleteTextView
+                android:id="@+id/category_auto_complete_text_view"
+                android:layout_width="match_parent"
+                android:hint="@string/ffr_hint_farm_input_product_category"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+
+        </greenway_myanmar.org.ui.widget.GreenWayTextInputLayout>
 
         <View
             android:layout_width="match_parent"

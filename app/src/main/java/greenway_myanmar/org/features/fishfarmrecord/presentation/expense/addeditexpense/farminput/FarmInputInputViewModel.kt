@@ -91,6 +91,15 @@ class FarmInputInputViewModel @Inject constructor(
             is FarmInputInputEvent.OnUsedUnitPriceChanged -> {
                 updateUsedUnitPrice(event.unitPrice)
             }
+            is FarmInputInputEvent.OnFingerlingWeightChanged -> {
+                updateFingerlingWeight(event.weight)
+            }
+            is FarmInputInputEvent.OnFingerlingSizeChanged -> {
+                updateFingerlingSize(event.size)
+            }
+            is FarmInputInputEvent.OnFingerlingAgeChanged -> {
+                updateFingerlingAge(event.age)
+            }
             FarmInputInputEvent.OnSubmit -> {
                 onSubmit()
             }
@@ -119,6 +128,24 @@ class FarmInputInputViewModel @Inject constructor(
 
     private fun updateTotalCost(total: BigDecimal) {
         _uiState.value = currentUiState.copy(totalCost = total)
+    }
+
+    private fun updateFingerlingWeight(weight: String) {
+        _uiState.update {
+            it.copy(fingerlingWeight = weight)
+        }
+    }
+
+    private fun updateFingerlingSize(size: String) {
+        _uiState.update {
+            it.copy(fingerlingSize = size)
+        }
+    }
+
+    private fun updateFingerlingAge(age: String) {
+        _uiState.update {
+            it.copy(fingerlingAge = age)
+        }
     }
 
     private fun clearSelectedUnit() {
@@ -150,7 +177,10 @@ class FarmInputInputViewModel @Inject constructor(
             usedAmountError = usedAmountValidationResult.getErrorOrNull(),
             usedUnitError = usedUnitValidationResult.getErrorOrNull(),
             usedUnitPriceError = usedUnitPriceValidationResult.getErrorOrNull(),
-            totalCostError = totalCostValidationResult.getErrorOrNull()
+            totalCostError = totalCostValidationResult.getErrorOrNull(),
+            fingerlingWeightError = fingerlingWeightValidationResult.getErrorOrNull(),
+            fingerlingSizeError = fingerlingSizeValidationResult.getErrorOrNull(),
+            fingerlingAgeError = fingerlingAgeValidationResult.getErrorOrNull()
         )
 
         // return if there is any error

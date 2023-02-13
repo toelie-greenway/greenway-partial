@@ -4,12 +4,10 @@ import com.greenwaymyanmar.core.presentation.model.UiUnitOfMeasurement
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputCost
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputProduct
-import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputProductCategory
 import java.math.BigDecimal
 
 data class FarmInputInputUiState(
     val product: UiFarmInputProduct? = null,
-    val productCategory: UiFarmInputProductCategory? = null,
     val productError: Text? = null,
 
     val usedAmount: String? = null,
@@ -38,11 +36,8 @@ data class FarmInputInputUiState(
 
     val inputResult: UiFarmInputCost? = null
 ) {
-    val isFingerling: Boolean =
-        productCategory?.type == "aquaculture" && productCategory.isFingerling
+    val isFingerling: Boolean = product?.isFingerling ?: false
 }
-
-
 
 data class FarmInputInputResult(
     val product: UiFarmInputProduct,

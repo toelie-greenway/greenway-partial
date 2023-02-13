@@ -7,46 +7,55 @@ import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.common.result.asResult
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmInputProductFilter
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFarmInputProductCategoriesStreamUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFarmInputProductsStreamUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFarmInputProductsStreamUseCase.GetFarmInputProductsRequest
+import greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.farminput.products.FarmInputProductPickerEvent.OnCategorySelectionChanged
+import greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addeditexpense.farminput.products.FarmInputProductPickerEvent.OnQueryChanged
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputProduct
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarmInputProductCategory
 import greenway_myanmar.org.util.WhileViewSubscribed
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import timber.log.Timber
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class FarmInputProductPickerViewModel
 @Inject
 constructor(
     getFarmInputProductsStreamUseCase: GetFarmInputProductsStreamUseCase,
-    val getFarmInputProductCategoriesStreamUseCase: GetFarmInputProductCategoriesStreamUseCase
+    getFarmInputProductCategoriesStreamUseCase: GetFarmInputProductCategoriesStreamUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FarmInputProductUiState())
     val uiState = _uiState.asStateFlow()
 
-    val productsUiState: StateFlow<ProductsUiState> = productsUiStateStream(
-        getFarmInputProductsStreamUseCase,
-        uiState.map { it.filter }
-    ).stateIn(
-        viewModelScope,
-        WhileViewSubscribed,
-        LoadingState.Idle
-    )
-
-
-    private val _categoriesUiState = MutableStateFlow<CategoriesUiState>(LoadingState.Idle)
-    val categoriesUiState = _categoriesUiState.asStateFlow()
+    private val filter: StateFlow<UiFarmInputProductFilter> = combine(
+        uiState.map { it.query }.distinctUntilChanged(),
+        uiState.map { it.category }.distinctUntilChanged(),
+        ::Pair
+    ).map { (query, category) ->
+        UiFarmInputProductFilter(
+            query = query,
+            category = category
+        )
+    }.stateIn(viewModelScope, WhileViewSubscribed, UiFarmInputProductFilter())
 
     private val refreshSignal = MutableSharedFlow<Unit>()
     private val loadDataSignal: Flow<Unit> = flow {
@@ -54,57 +63,90 @@ constructor(
         emitAll(refreshSignal)
     }
 
-    fun handleEvent(event: FarmInputProductPickerEvent) {
+    val productsUiState: StateFlow<ProductsUiState> = filter.flatMapLatest {
+        it.search { query, categoryId ->
+            productsUiStateStream(
+                query,
+                categoryId,
+                getFarmInputProductsStreamUseCase
+            )
+        }
+    }.stateIn(viewModelScope, WhileViewSubscribed, LoadingState.Idle)
 
+    val categoriesUiState: StateFlow<CategoriesUiState> = loadDataSignal.flatMapLatest {
+        categoriesUiStateStream(getFarmInputProductCategoriesStreamUseCase)
+    }.stateIn(viewModelScope, WhileViewSubscribed, LoadingState.Idle)
+
+    fun handleEvent(event: FarmInputProductPickerEvent) {
+        when (event) {
+            is OnCategorySelectionChanged -> {
+                updateCategory(event.categoryIndex)
+            }
+            is OnQueryChanged -> {
+                updateQuery(event.query)
+            }
+        }
     }
 
-//
-//  val productCategories = _starterEvent.switchMap { productCategoryRepository.categories }
-//  private val listing = _query.map { repository.loadProducts(it) }
-//
-//  val products = listing.switchMap { it.pagedList }
-//  val networkState = listing.switchMap { it.networkState }
-//  val refreshState = listing.switchMap { it.refreshState }
-//
-//  fun setCategoryId(categoryId: String?) {
-//    val update = Query(categoryId, "")
-//    if (Objects.equals(_query.value, update)) {
-//      return
-//    }
-//    _query.value = update
-//  }
-//
-//  fun setKeyword(keyword: String?) {
-//    if (keyword.isNullOrBlank() && !_query.value?.categoryId.isNullOrBlank()) {
-//      return
-//    }
-//
-//    val update = Query("", keyword)
-//    if (Objects.equals(_query.value, update)) {
-//      return
-//    }
-//    _query.value = update
-//  }
-//
-//  fun refresh() {
-//    listing.value?.refreshCallback?.refresh()
-//  }
-//
-//  fun retry() {
-//    val listing = listing.value
-//    listing?.retryCallback?.retry()
-//  }
+    private fun updateCategory(index: Int) {
+        val categories = (categoriesUiState.value as? LoadingState.Success)?.data ?: return
+        _uiState.update {
+            it.copy(
+                category = categories.getOrNull(index)
+            )
+        }
+    }
+
+    private fun updateQuery(query: String) {
+        _uiState.update {
+            it.copy(query = query)
+        }
+    }
+}
+
+
+private fun categoriesUiStateStream(
+    getFarmInputProductCategoriesStreamUseCase: GetFarmInputProductCategoriesStreamUseCase,
+): Flow<LoadingState<List<UiFarmInputProductCategory>>> {
+    return getFarmInputProductCategoriesStreamUseCase()
+        .catch {
+            it.printStackTrace()
+            LoadingState.Error(it.errorText())
+        }
+        .map { result ->
+            Timber.d("Result: $result")
+            when (result) {
+                is Result.Success -> {
+                    LoadingState.Success(
+                        result.data.map {
+                            UiFarmInputProductCategory.fromDomainModel(it)
+                        }
+                    )
+                }
+                is Result.Error -> {
+                    result.exception?.printStackTrace()
+                    LoadingState.Error(result.exception.errorText())
+                }
+                Result.Loading -> {
+                    LoadingState.Loading
+                }
+            }
+        }
 }
 
 private fun productsUiStateStream(
+    query: String?,
+    categoryId: String?,
     getFarmInputProductsStreamUseCase: GetFarmInputProductsStreamUseCase,
-    filter: Flow<FarmInputProductFilterUiState?>
-): Flow<LoadingState<List<UiFarmInputProduct>>> {
-    return filter.flatMapLatest {
-        getFarmInputProductsStreamUseCase(
-            GetFarmInputProductsRequest(it?.toDomainModel())
+): Flow<ProductsUiState> {
+    return getFarmInputProductsStreamUseCase(
+        GetFarmInputProductsRequest(
+            FarmInputProductFilter(
+                categoryId = categoryId,
+                query = query
+            )
         )
-    }
+    )
         .asResult()
         .map { result ->
             when (result) {

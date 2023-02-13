@@ -78,6 +78,9 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
         setupUsedAmountInputUi()
         setupUsedUnitDropdownUi()
         setupUsedUnitPriceInputUi()
+        setupFingerlingWeightInputUi()
+        setupFingerlingSizeInputUi()
+        setupFingerlingAgeInputUi()
         setupCancelButton()
         setupSubmitButton()
     }
@@ -116,6 +119,30 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
         binding.usedUnitPriceTextInputEditText.doAfterTextChanged {
             viewModel.handleEvent(
                 FarmInputInputEvent.OnUsedUnitPriceChanged(it?.toString().orEmpty())
+            )
+        }
+    }
+
+    private fun setupFingerlingWeightInputUi() {
+        binding.fingerlingAverageWeightTextInputEditText.doAfterTextChanged {
+            viewModel.handleEvent(
+                FarmInputInputEvent.OnFingerlingWeightChanged(it?.toString().orEmpty())
+            )
+        }
+    }
+
+    private fun setupFingerlingSizeInputUi() {
+        binding.fingerlingAverageSizeTextInputEditText.doAfterTextChanged {
+            viewModel.handleEvent(
+                FarmInputInputEvent.OnFingerlingSizeChanged(it?.toString().orEmpty())
+            )
+        }
+    }
+
+    private fun setupFingerlingAgeInputUi() {
+        binding.fingerlingAgeTextInputEditText.doAfterTextChanged {
+            viewModel.handleEvent(
+                FarmInputInputEvent.OnFingerlingAgeChanged(it?.toString().orEmpty())
             )
         }
     }
@@ -211,9 +238,12 @@ class FarmInputInputFragment : Fragment(R.layout.ffr_farm_input_input_fragment) 
             .distinctUntilChanged()
             .collect { unit ->
                 binding.usedUnitPriceTextInputLayout.hint = if (unit != null) {
-                    resources.getString(R.string.ffr_add_edit_expense_hint_farm_input_formatted_unit_price, unit.unit)
+                    resources.getString(
+                        R.string.ffr_add_edit_expense_hint_farm_input_formatted_unit_price,
+                        unit.unit
+                    )
                 } else {
-                    resources.getString(R.string.ffr_add_edit_expense_hint_farm_input_unit_price,)
+                    resources.getString(R.string.ffr_add_edit_expense_hint_farm_input_unit_price)
                 }
                 binding.usedUnitAutoCompleteTextView.setText(unit?.unit.orEmpty(), false)
             }

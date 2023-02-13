@@ -73,7 +73,7 @@ class DefaultSeasonRepository @Inject constructor(
             userId = userHelper.activeUserId.toString(),
             fields = mapOf(
                 "is_end" to true,
-               // "season_end_reason_id" to reason.id
+                "season_end_reason_id" to reason.id
             )
         )
         farmDao.updateOpeningSeasonId(farmId, null)

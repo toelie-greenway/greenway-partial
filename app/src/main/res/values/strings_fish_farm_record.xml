@@ -171,6 +171,7 @@
     <string name="ffr_add_edit_expense_label_farm_input_unit">ယူနစ်</string>
     <string name="ffr_add_edit_expense_title_farm_input">သွင်းအားစုဖြည့်သွင်းပါ</string>
     <string name="ffr_add_edit_expense_hint_search_product">တိုက်ရိုက်ရှာဖွေရန်</string>
+    <string name="ffr_hint_farm_input_product_category">အမျိုးအစား</string>
 
     <!-- ** FCR feature ** -->
     <!-- FCR List screen -->

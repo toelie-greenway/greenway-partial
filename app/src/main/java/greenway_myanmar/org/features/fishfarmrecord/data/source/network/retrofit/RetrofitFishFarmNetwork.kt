@@ -94,11 +94,9 @@ private interface RetrofitFishFarmRecordNetworkApi {
     @GET(value = "ffr/fish-types")
     suspend fun getFishes(): ApiResponse<List<NetworkFish>>
 
-    // TODO: use new ffr/inputs api
-    @GET(value = "asymt/season-end-reasons")
+    @GET(value = "ffr/season-end-reasons")
     suspend fun getSeasonEndReasons(): ApiResponse<ApiDataWrapper<List<NetworkSeasonEndReason>>>
 
-    // TODO: use existing asymt/inputs api?
     @GET(value = "ffr/inputs")
     suspend fun getFarmInputProducts(
         @Query("page") page: Int = 1,
@@ -106,12 +104,10 @@ private interface RetrofitFishFarmRecordNetworkApi {
         @Query("q") query: String
     ): ApiResponse<ApiDataWrapper<List<NetworkFarmInputProduct>>>
 
-    // TODO: use existing marketplace/categories api?
-    @GET(value = "ffr/product-categories")
-    suspend fun getProductCategories(): ApiResponse<List<NetworkFarmInputProductCategory>>
+    @GET(value = "ffr/input-categories")
+    suspend fun getProductCategories(): ApiResponse<ApiDataWrapper<List<NetworkFarmInputProductCategory>>>
 
-    // TODO: use existing asymt/check-company api?
-    @GET(value = "asymt/check-company")
+    @GET(value = "check-company")
     suspend fun getCompanyByCode(
         @Query("company_code") code: String
     ): ApiResponse<ApiDataWrapper<NetworkContractFarmingCompany>>
@@ -202,7 +198,7 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
         ).getDataOrThrow().data
 
     override suspend fun getFarmInputProductCategories(): List<NetworkFarmInputProductCategory> =
-        networkApi.getProductCategories().getDataOrThrow()
+        networkApi.getProductCategories().getDataOrThrow().data
 
     override suspend fun getExpenseCategories(userId: String): List<NetworkExpenseCategory> =
         networkApi.getExpenseCategories(userId).getDataOrThrow().data

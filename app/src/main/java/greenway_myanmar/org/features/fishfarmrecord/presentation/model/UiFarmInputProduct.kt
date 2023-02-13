@@ -10,14 +10,16 @@ data class UiFarmInputProduct(
     val id: String,
     val name: String,
     val thumbnail: String,
-    val units: List<UiUnitOfMeasurement>
+    val units: List<UiUnitOfMeasurement>,
+    val isFingerling: Boolean
 ): Parcelable {
     companion object {
         fun fromDomainModel(domainModel: FarmInputProduct) = UiFarmInputProduct(
             id = domainModel.id,
             name = domainModel.name,
             thumbnail = domainModel.thumbnail,
-            units = domainModel.units.map { UiUnitOfMeasurement.fromDomainModel(it) }
+            units = domainModel.units.map { UiUnitOfMeasurement.fromDomainModel(it) },
+            isFingerling = domainModel.isFingerling
         )
     }
 }

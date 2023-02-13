@@ -7,5 +7,6 @@ data class FarmInputProduct(
     val name: String,
     val thumbnail: String,
     val description: String,
-    val units: List<UnitOfMeasurement>
+    val units: List<UnitOfMeasurement>,
+    val isFingerling: Boolean
 )

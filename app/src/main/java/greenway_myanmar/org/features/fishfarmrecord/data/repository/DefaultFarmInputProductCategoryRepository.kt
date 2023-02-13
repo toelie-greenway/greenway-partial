@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.repository
 
+import com.greenwaymyanmar.common.result.Result
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.FishFarmRecordNetworkDataSource
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProductCategory
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.asDomainModel
@@ -13,11 +14,13 @@ class DefaultFarmInputProductCategoryRepository @Inject constructor(
     private val network: FishFarmRecordNetworkDataSource
 ) : FarmInputProductCategoryRepository {
 
-    override fun getFarmInputProductCategoriesStream(): Flow<List<FarmInputProductCategory>> {
+    override fun getCategoriesStream(): Flow<Result<List<FarmInputProductCategory>>> {
         return flow {
             emit(
-                network.getFarmInputProductCategories()
-                    .map(NetworkFarmInputProductCategory::asDomainModel)
+                Result.Success(
+                    network.getFarmInputProductCategories()
+                        .map(NetworkFarmInputProductCategory::asDomainModel)
+                )
             )
         }
     }
