@@ -16,7 +16,6 @@ import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail
 import greenway_myanmar.org.util.kotlin.autoCleared
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ClosedSeasonsFragment : Fragment(R.layout.ffr_closed_seasons_fragment) {
@@ -59,7 +58,6 @@ class ClosedSeasonsFragment : Fragment(R.layout.ffr_closed_seasons_fragment) {
 
     private fun CoroutineScope.observeClosedSeasons() = launch {
         viewModel.seasons.collect { uiState ->
-            Timber.d("UiState: $uiState")
             if (uiState is LoadingState.Success) {
                 adapter.submitList(uiState.data)
             }

@@ -15,12 +15,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import timber.log.Timber
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -37,8 +36,8 @@ class ClosedSeasonsViewModel @Inject constructor(
     val seasons: StateFlow<ClosedSeasonListUiState> = query.flatMapLatest { q ->
         q.ifExists { farmId ->
             closedSeasonsStream(
-                farmUiState,
                 farmId,
+                farmUiState,
                 getClosedSeasonsStreamUseCase
             )
         }
@@ -82,84 +81,48 @@ class ClosedSeasonsViewModel @Inject constructor(
 
 
 private fun closedSeasonsStream(
-    farmUiStateStream: MutableStateFlow<FarmUiState>,
     farmId: String,
+    farmUiStateStream: Flow<FarmUiState>,
     getClosedSeasonsStreamUseCase: GetClosedSeasonsStreamUseCase
 ): Flow<ClosedSeasonListUiState> {
-    return getClosedSeasonsStreamUseCase(
+
+    return combine(
+        farmUiStateStream,
+        getClosedSeasonsStreamUseCase(
             GetClosedSeasonsStreamUseCase.GetClosedSeasonsRequest(
                 farmId = farmId
             )
-        )
-        .catch {
-            Timber.e("Error: ${it.message}")
-            it.printStackTrace()
-            LoadingState.Error(it.errorText())
-        }
-        .map {  closedSeasonsResult ->
+        ),
+        ::Pair
+    )
+        .map { (farmUiState, closedSeasonsResult) ->
             when {
-                closedSeasonsResult is Result.Success  -> {
+                closedSeasonsResult is Result.Success && farmUiState is LoadingState.Success -> {
                     LoadingState.Success(
                         data = closedSeasonsResult.data.map {
                             ClosedSeasonListItemUiState.from(
                                 domainModel = it,
-                                farmName = "Hello",
+                                farmName = farmUiState.data.name,
                                 farmArea = it.farmMeasurement.area
                             )
                         }
                     )
                 }
-                closedSeasonsResult is Result.Error  -> {
-                    Timber.e("Error: ${closedSeasonsResult.exception?.message}")
-                    closedSeasonsResult.exception?.printStackTrace()
-                    LoadingState.Error(
-                        closedSeasonsResult.exception?.errorText()
-                    )
+                closedSeasonsResult is Result.Error || farmUiState is LoadingState.Error -> {
+                    if (closedSeasonsResult is Result.Error) {
+                        LoadingState.Error(closedSeasonsResult.exception?.errorText())
+                    } else if (farmUiState is LoadingState.Error) {
+                        LoadingState.Error(farmUiState.message)
+                    } else {
+                        LoadingState.Error()
+                    }
                 }
-                closedSeasonsResult is Result.Loading -> {
-                    LoadingState.Error()
+                closedSeasonsResult is Result.Loading && farmUiState is LoadingState.Loading -> {
+                    LoadingState.Loading
                 }
                 else -> {
                     LoadingState.Idle
                 }
             }
         }
-//    return combine(
-//        farmUiStateStream,
-//        getClosedSeasonsStreamUseCase(
-//            GetClosedSeasonsStreamUseCase.GetClosedSeasonsRequest(
-//                farmId = farmId
-//            )
-//        ),
-//        ::Pair
-//    )
-//        .catch {
-//            LoadingState.Error(it.errorText())
-//        }
-//        .map { (farmUiState, closedSeasonsResult) ->
-//            when {
-//                closedSeasonsResult is Result.Success && farmUiState is LoadingState.Success -> {
-//                    LoadingState.Success(
-//                        data = closedSeasonsResult.data.map {
-//                            ClosedSeasonListItemUiState.from(
-//                                domainModel = it,
-//                                farmName = farmUiState.data.name,
-//                                farmArea = it.farmMeasurement.area
-//                            )
-//                        }
-//                    )
-//                }
-//                closedSeasonsResult is Result.Error && farmUiState is LoadingState.Error -> {
-//                    LoadingState.Error(
-//                        closedSeasonsResult.exception?.errorText() ?: farmUiState.message
-//                    )
-//                }
-//                closedSeasonsResult is Result.Loading && farmUiState is LoadingState.Loading -> {
-//                    LoadingState.Error()
-//                }
-//                else -> {
-//                    LoadingState.Idle
-//                }
-//            }
-//        }
 }

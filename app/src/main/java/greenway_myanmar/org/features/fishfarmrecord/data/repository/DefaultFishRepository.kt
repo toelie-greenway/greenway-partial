@@ -35,7 +35,7 @@ class DefaultFishRepository @Inject constructor(
             saveFetchResult = { fishDao.upsertFishEntities(it.map(NetworkFish::asEntity)) },
             onFetchFailed = { rateLimiter.reset(KEY_FISHES) },
             shouldFetch = { data ->
-                forceRefresh || (data.isEmpty() && rateLimiter.shouldFetch(
+                forceRefresh || (data.isNullOrEmpty() && rateLimiter.shouldFetch(
                     KEY_FISHES
                 ))
             }
