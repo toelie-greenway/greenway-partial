@@ -12,7 +12,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.En
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmAreaLatLng
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmAreaRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest
-import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest.NetworkSeasonFishType
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest.NetworkSeasonFishTypeRequest
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
@@ -123,7 +123,7 @@ fun FfrSeasonEntity.asNetworkRequestModel() = NetworkSeasonRequest(
     ),
     company_code = this.company?.code,
     fish_types = this.fishes.map {
-        NetworkSeasonFishType(
+        NetworkSeasonFishTypeRequest(
             fish_id = it.id,
             specie = it.species
         )

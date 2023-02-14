@@ -120,7 +120,7 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
 
     private fun navigateToExpenseListScreen(categoryId: String) {
         val seasonId = parentViewModel.getSeasonId()
-        if (seasonId.isEmpty()) {
+        if (seasonId.isNullOrEmpty()) {
             return
         }
 
@@ -135,7 +135,7 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
     private fun navigateToAddEditExpenseScreen(categoryId: String) {
         val farmId = parentViewModel.getFarmId()
         val seasonId = parentViewModel.getSeasonId()
-        if (farmId.isEmpty() || seasonId.isEmpty()) {
+        if (farmId.isEmpty() || seasonId.isNullOrEmpty()) {
             return
         }
 
@@ -150,7 +150,7 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
     private fun navigateToSeasonEndScreen() {
         val farmId = parentViewModel.getFarmId()
         val seasonId = parentViewModel.getSeasonId()
-        if (farmId.isEmpty() || seasonId.isEmpty()) {
+        if (farmId.isEmpty() || seasonId.isNullOrEmpty()) {
             return
         }
         navController.navigate(

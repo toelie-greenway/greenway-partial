@@ -104,12 +104,6 @@ class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
         }
     }
 
-    private fun navigateToAddEditFcrRecordScreen() {
-        navController.navigate(
-            FarmDetailFragmentDirections.actionFarmDetailFragmentToAddEditFcrRecordFragment()
-        )
-    }
-
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
             observeFarm()
@@ -199,6 +193,21 @@ class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
     override fun onDestroyView() {
         binding.viewPager.registerOnPageChangeCallback(onPageChangeCallback)
         super.onDestroyView()
+    }
+
+    private fun navigateToAddEditFcrRecordScreen() {
+        val season = viewModel.currentUiState.openingSeason ?:return
+        val fishes = season.fishes
+        if (fishes.isNullOrEmpty()) {
+            return
+        }
+
+        navController.navigate(
+            FarmDetailFragmentDirections.actionFarmDetailFragmentToAddEditFcrRecordFragment(
+                fishes = fishes.toTypedArray(),
+                seasonId = season.id
+            )
+        )
     }
 
 }

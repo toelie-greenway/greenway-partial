@@ -86,4 +86,26 @@
 
     </androidx.core.widget.NestedScrollView>
 
+
+    <FrameLayout
+        android:id="@+id/saving_state_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DEFFFFFF"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:visibility="gone">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/saving_state_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:trackColor="?colorSecondaryVariant"
+            app:trackThickness="2dp" />
+
+    </FrameLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

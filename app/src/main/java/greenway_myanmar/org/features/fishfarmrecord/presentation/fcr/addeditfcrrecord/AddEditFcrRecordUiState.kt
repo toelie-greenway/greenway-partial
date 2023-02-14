@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcrrecord
 
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcrrecord.views.FcrRatioInputErrorUiState
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
@@ -18,9 +19,6 @@ data class AddEditFcrRecordUiState(
     val individualInputErrors: Map<Int, FcrRatioInputErrorUiState?>? = null,
     val allInputError: Text? = null,
 
-    val addEditFcrRecordResult: AddEditFcrRecordResult? = null,
-) {
-    data class AddEditFcrRecordResult(
-        val recordId: String
-    )
-}
+    val fcrRecordSavingState: LoadingState<Unit> = LoadingState.Idle,
+    val fcrRecordSavingError: Text? = null
+)

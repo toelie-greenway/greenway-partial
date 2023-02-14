@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
-import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.common.result.asResult
 import com.greenwaymyanmar.core.presentation.model.LoadingState
@@ -125,7 +124,7 @@ class AddEditSeasonViewModel @Inject constructor(
                 updateCompany(uiCompany)
                 _companyUiState.value = LoadingState.Success(uiCompany)
             }.onFailure {
-                _companyUiState.value = LoadingState.Error(it.errorText())
+                _companyUiState.value = LoadingState.Error(it)
             }
         }
     }
@@ -467,7 +466,7 @@ class AddEditSeasonViewModel @Inject constructor(
                     )
                 }
             }.onFailure {
-                _seasonUploadingUiState.value = LoadingState.Error(it.errorText())
+                _seasonUploadingUiState.value = LoadingState.Error(it)
             }
         }
     }
@@ -569,7 +568,7 @@ private fun farmMeasurementStream(
                     }
                 }
                 is Result.Error -> {
-                    LoadingState.Error(result.exception.errorText())
+                    LoadingState.Error(result.exception)
                 }
                 Result.Loading -> {
                     LoadingState.Loading

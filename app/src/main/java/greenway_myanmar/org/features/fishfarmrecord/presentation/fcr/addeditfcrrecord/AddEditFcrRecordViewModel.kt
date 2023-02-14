@@ -1,7 +1,10 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcrrecord
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.greenwaymyanmar.core.presentation.model.LoadingState
+import com.greenwaymyanmar.utils.runCancellableCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
@@ -33,9 +36,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEditFcrRecordViewModel @Inject constructor(
-    private val saveFcrRecordUseCase: SaveFcrRecordUseCase
+    private val saveFcrRecordUseCase: SaveFcrRecordUseCase,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    private val args = AddEditFcrRecordFragmentArgs.fromSavedStateHandle(savedStateHandle)
     private val _uiState = MutableStateFlow(AddEditFcrRecordUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -44,20 +49,7 @@ class AddEditFcrRecordViewModel @Inject constructor(
 
     init {
         _uiState.value = currentUiState.copy(
-            fishes = listOf(
-                UiFish(
-                    "1",
-                    "ကကတစ်",
-                    "https://cdn-icons-png.flaticon.com/512/811/811643.png",
-                    ""
-                ),
-                UiFish(
-                    "2",
-                    "ငါးကြင်း",
-                    "https://cdn-icons-png.flaticon.com/512/1134/1134431.png",
-                    ""
-                )
-            )
+            fishes = args.fishes.toList()
         )
         calculateRatios()
     }
@@ -109,6 +101,9 @@ class AddEditFcrRecordViewModel @Inject constructor(
             AddEditFcrRecordEvent.AllInputErrorShown -> {
                 clearAllInputError()
             }
+            AddEditFcrRecordEvent.OnSavingFcrRecordErrorShown -> {
+                clearSavingFcrRecordError()
+            }
         }
     }
 
@@ -148,6 +143,12 @@ class AddEditFcrRecordViewModel @Inject constructor(
         }
     }
 
+    private fun clearSavingFcrRecordError() {
+        _uiState.update {
+            it.copy(fcrRecordSavingError = null)
+        }
+    }
+
     private fun onSubmit() {
         // validate inputs
         val dateValidationResult = validateDate(currentUiState.date)
@@ -183,7 +184,8 @@ class AddEditFcrRecordViewModel @Inject constructor(
             date = date.atStartOfDay().atZone(ZoneOffset.UTC).toInstant().toKotlinInstant(),
             ratios = individualWeightInputResult.map {
                 it.asDomainModel()
-            }
+            },
+            seasonId = args.seasonId
         )
         saveFcrRecord(request)
     }
@@ -285,17 +287,25 @@ class AddEditFcrRecordViewModel @Inject constructor(
 
     private fun saveFcrRecord(request: SaveFcrRecordRequest) {
         viewModelScope.launch {
-            try {
-                val result = saveFcrRecordUseCase(request)
+            runCancellableCatching {
                 _uiState.update {
                     it.copy(
-                        addEditFcrRecordResult = AddEditFcrRecordUiState.AddEditFcrRecordResult(
-                            recordId = result.id
-                        )
+                        fcrRecordSavingState = LoadingState.Loading
                     )
                 }
-            } catch (e: Exception) {
-                // TODO: Show Error
+                saveFcrRecordUseCase(request)
+            }.onSuccess {
+                _uiState.update {
+                    it.copy(
+                        fcrRecordSavingState = LoadingState.Success(Unit)
+                    )
+                }
+            }.onFailure { exception ->
+                _uiState.update {
+                    it.copy(
+                        fcrRecordSavingState = LoadingState.Error(exception)
+                    )
+                }
             }
         }
     }

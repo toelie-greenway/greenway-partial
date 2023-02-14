@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b48c3c378dd27b1b0de37e21b698fc95",
+    "identityHash": "1e75e47148fb1d362168c25c6fa19fb4",
     "entities": [
       {
         "tableName": "ffr_category_expenses",
@@ -424,7 +424,7 @@
       },
       {
         "tableName": "ffr_fcr_record",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `date` INTEGER NOT NULL, `pendingAction` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `date` INTEGER NOT NULL, `season_id` TEXT NOT NULL, `pendingAction` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -436,6 +436,12 @@
             "fieldPath": "date",
             "columnName": "date",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seasonId",
+            "columnName": "season_id",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -674,7 +680,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b48c3c378dd27b1b0de37e21b698fc95')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1e75e47148fb1d362168c25c6fa19fb4')"
     ]
   }
 }

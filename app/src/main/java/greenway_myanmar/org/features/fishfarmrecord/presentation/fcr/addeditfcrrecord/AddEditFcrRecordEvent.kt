@@ -7,5 +7,6 @@ sealed class AddEditFcrRecordEvent {
     data class OnFeedWeightChanged(val index: Int, val weight: String?) : AddEditFcrRecordEvent()
     data class OnGainWeightChanged(val index: Int, val weight: String?) : AddEditFcrRecordEvent()
     object AllInputErrorShown: AddEditFcrRecordEvent()
+    object OnSavingFcrRecordErrorShown: AddEditFcrRecordEvent()
     object OnSubmit: AddEditFcrRecordEvent()
 }

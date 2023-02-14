@@ -3,7 +3,6 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.expensecategor
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.common.result.asResult
 import com.greenwaymyanmar.core.presentation.model.LoadingState
@@ -127,7 +126,7 @@ private fun expenseCategoryListStream(
                 )
             }
             is Result.Error -> {
-                LoadingState.Error(result.exception.errorText())
+                LoadingState.Error(result.exception)
             }
             Result.Loading -> {
                 LoadingState.Loading

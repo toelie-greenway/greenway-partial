@@ -2,7 +2,6 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.season.seasone
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.utils.runCancellableCatching
@@ -159,7 +158,7 @@ class SeasonEndViewModel @Inject constructor(
                 _saveEndSeasonUiState.value = LoadingState.Success(Unit)
             }.onFailure {
                 it.printStackTrace()
-                _saveEndSeasonUiState.value = LoadingState.Error(it.errorText())
+                _saveEndSeasonUiState.value = LoadingState.Error(it)
             }
         }
     }
@@ -183,7 +182,7 @@ private fun seasonEndReasonsStream(
         getSeasonEndReasonsStreamUseCase(),
         ::Pair
     ).catch {
-        LoadingState.Error(it.errorText())
+        LoadingState.Error(it)
     }.map { (selectedReason, result) ->
         when (result) {
             is Result.Success -> {
@@ -197,7 +196,7 @@ private fun seasonEndReasonsStream(
                 )
             }
             is Result.Error -> {
-                LoadingState.Error(result.exception.errorText())
+                LoadingState.Error(result.exception)
             }
             Result.Loading -> {
                 LoadingState.Loading

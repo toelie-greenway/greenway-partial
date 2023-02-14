@@ -177,7 +177,14 @@
     <fragment
         android:id="@+id/addEditFcrRecordFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcrrecord.AddEditFcrRecordFragment"
-        android:label="AddEditFcrRecordFragment" />
+        android:label="AddEditFcrRecordFragment">
+        <argument
+            android:name="fishes"
+            app:argType="greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish[]" />
+        <argument
+            android:name="season_id"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/addEditProductionRecordFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.production.addeditproductionrecord.AddEditProductionRecordFragment"

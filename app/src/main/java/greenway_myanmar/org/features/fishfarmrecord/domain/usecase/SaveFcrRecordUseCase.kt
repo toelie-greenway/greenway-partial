@@ -14,6 +14,7 @@ class SaveFcrRecordUseCase @Inject constructor(
 
     data class SaveFcrRecordRequest(
         val id: String?,
+        val seasonId: String,
         val date: Instant,
         val ratios: List<Fcr>
     )

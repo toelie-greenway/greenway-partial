@@ -31,7 +31,7 @@ data class ExpenseListUiState(
                 ExpenseListUiState(loadingState = LoadingState.Empty())
             }
             is LoadingState.Error ->  {
-                ExpenseListUiState(loadingState = LoadingState.Error(state.message))
+                ExpenseListUiState(loadingState = LoadingState.Error(state.exception))
             }
             LoadingState.Idle -> {
                 ExpenseListUiState(loadingState = LoadingState.Idle)

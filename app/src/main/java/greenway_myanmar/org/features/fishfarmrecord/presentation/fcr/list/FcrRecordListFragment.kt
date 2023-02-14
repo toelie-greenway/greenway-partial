@@ -12,6 +12,7 @@ import greenway_myanmar.org.common.decoration.SpaceMarginDecoration
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.common.presentation.extensions.showSnackbar
 import greenway_myanmar.org.databinding.FfrFcrRecordListFragmentBinding
+import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmDetailViewModel
 import greenway_myanmar.org.util.kotlin.autoCleared
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -24,6 +25,9 @@ class FcrRecordListFragment : Fragment(R.layout.ffr_fcr_record_list_fragment) {
     private var adapter: FcrRecordListAdapter by autoCleared()
 
     private val viewModel: FcrRecordListViewModel by viewModels()
+    private val parentViewModel: FarmDetailViewModel by viewModels(
+        ownerProducer = { requireParentFragment() }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,6 +43,7 @@ class FcrRecordListFragment : Fragment(R.layout.ffr_fcr_record_list_fragment) {
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
             observeRecords()
+            observeFarmUiStateFromParentViewModel()
         }
     }
 
@@ -59,6 +64,13 @@ class FcrRecordListFragment : Fragment(R.layout.ffr_fcr_record_list_fragment) {
                     adapter.submitList(uiState.data)
                 }
                 binding.loadingStateView.bind(uiState)
+            }
+    }
+
+    private fun CoroutineScope.observeFarmUiStateFromParentViewModel() = launch {
+        parentViewModel.farmUiState
+            .collect { farmUiState ->
+                viewModel.handleEvent(FcrRecordListEvent.OnFarmChanged(farmUiState))
             }
     }
 

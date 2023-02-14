@@ -1,5 +1,7 @@
 package com.greenwaymyanmar.core.presentation.model
 
+import com.greenwaymyanmar.common.data.api.errorText
+import com.greenwaymyanmar.common.data.api.v3.NetworkDomainException
 import greenway_myanmar.org.common.domain.entities.Text
 
 sealed interface LoadingState<out T> {
@@ -7,7 +9,11 @@ sealed interface LoadingState<out T> {
     data class Success<T>(val data: T) : LoadingState<T>
     object Loading : LoadingState<Nothing>
     data class Empty(val message: Text? = null) : LoadingState<Nothing>
-    data class Error(val message: Text? = null, val retryable: Boolean = true) :
+    data class Error(
+        val exception: Throwable? = null,
+        val message: Text? = exception.errorText(),
+        val retryable: Boolean = exception is NetworkDomainException
+    ) :
         LoadingState<Nothing>
 }
 

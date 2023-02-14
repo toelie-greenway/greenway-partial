@@ -8,12 +8,14 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProduct
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmInputProductCategory
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmListResponse
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFcrRecord
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFish
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonListResponse
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkExpenseRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmRequest
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFcrRecordRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest
 
 /**
@@ -28,6 +30,11 @@ interface FishFarmRecordNetworkDataSource {
     ): NetworkSeason
 
     suspend fun postExpense(userId: String, request: NetworkExpenseRequest): NetworkExpense
+
+    suspend fun postFcrRecord(
+        userId: String,
+        request: NetworkFcrRecordRequest
+    ): NetworkFcrRecord
 
     suspend fun getCategoryExpense(
         userId: String,
@@ -52,6 +59,11 @@ interface FishFarmRecordNetworkDataSource {
 
     suspend fun getFarmInputProductCategories(): List<NetworkFarmInputProductCategory>
     suspend fun getFarms(userId: String): NetworkFarmListResponse
+    suspend fun getFcrRecords(
+        userId: String,
+        seasonId: String
+    ): List<NetworkFcrRecord>
+
     suspend fun getFishes(): List<NetworkFish>
     suspend fun getSeasonEndReasons(): List<NetworkSeasonEndReason>
 

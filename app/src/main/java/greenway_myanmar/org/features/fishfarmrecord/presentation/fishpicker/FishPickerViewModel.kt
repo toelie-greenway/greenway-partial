@@ -2,7 +2,6 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.fishpicker
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -87,7 +86,7 @@ private fun fishesUiStateStream(
         selectedFishIdsStream,
         ::Pair
     ).catch { e ->
-        LoadingState.Error(e.errorText())
+        LoadingState.Error(e)
     }.map { (fishesResult, selectedFishIds) ->
         when (fishesResult) {
             is Result.Success -> {
@@ -99,7 +98,7 @@ private fun fishesUiStateStream(
                 })
             }
             is Result.Error -> {
-                LoadingState.Error(fishesResult.exception.errorText())
+                LoadingState.Error(fishesResult.exception)
             }
             Result.Loading -> {
                 LoadingState.Loading

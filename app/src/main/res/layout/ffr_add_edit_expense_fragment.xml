@@ -131,7 +131,6 @@
 
     </androidx.core.widget.NestedScrollView>
 
-
     <FrameLayout
         android:id="@+id/expense_uploading_container"
         android:layout_width="match_parent"

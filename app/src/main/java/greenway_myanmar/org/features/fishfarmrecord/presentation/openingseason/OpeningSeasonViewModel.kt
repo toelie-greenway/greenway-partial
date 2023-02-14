@@ -43,7 +43,7 @@ class OpeningSeasonViewModel @Inject constructor(
     private val farmUiState = MutableStateFlow<FarmUiState>(LoadingState.Idle)
     val categoryListUiState: StateFlow<CategoryListUiState> = farmUiState
         .flatMapLatest { farmUiState ->
-            categoryListUiStateStream(
+            categoryListStream(
                 farmUiState,
                 getCategoryExpensesStreamUseCase
             )
@@ -79,7 +79,7 @@ class OpeningSeasonViewModel @Inject constructor(
     }
 }
 
-private suspend fun categoryListUiStateStream(
+private suspend fun categoryListStream(
     farmUiState: FarmUiState,
     getCategoryExpensesUseCase: GetCategoryExpensesUseCase
 ): Flow<CategoryListUiState> {
@@ -92,7 +92,7 @@ private suspend fun categoryListUiStateStream(
                     emit(LoadingState.Empty(Text.ResourceText(R.string.ffr_farm_detail_label_no_ongoing_season)))
                 } else {
                     emitAll(
-                        loadSeasonExpenseCategories(openingSeason.id, getCategoryExpensesUseCase)
+                        loadCategoryListStream(openingSeason.id, getCategoryExpensesUseCase)
                     )
                 }
             }
@@ -106,7 +106,7 @@ private suspend fun categoryListUiStateStream(
     }
 }
 
-private suspend fun loadSeasonExpenseCategories(
+private suspend fun loadCategoryListStream(
     seasonId: String,
     getCategoryExpensesUseCase: GetCategoryExpensesUseCase
 ) = getCategoryExpensesUseCase(
@@ -117,7 +117,7 @@ private suspend fun loadSeasonExpenseCategories(
     }.map { result ->
         when (result) {
             is Result.Error -> {
-                LoadingState.Error(result.exception.errorText())
+                LoadingState.Error(result.exception)
             }
             Result.Loading -> {
                 LoadingState.Loading

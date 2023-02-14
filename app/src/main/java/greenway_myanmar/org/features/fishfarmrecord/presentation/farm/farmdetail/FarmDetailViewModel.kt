@@ -3,23 +3,25 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetai
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFarmStreamUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFarmStreamUseCase.GetFarmRequest
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarm
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiSeason
 import greenway_myanmar.org.util.WhileViewSubscribed
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +34,11 @@ class FarmDetailViewModel @Inject constructor(
     private val farmIdStream = MutableStateFlow("")
     private val farmId = FarmDetailFragmentArgs.fromSavedStateHandle(savedStateHandle).farmId
 
-    private val seasonIdStream = MutableStateFlow("")
+    private val _uiState = MutableStateFlow(FarmDetailUiState())
+    val uiState = _uiState.asStateFlow()
+
+    val currentUiState: FarmDetailUiState
+        get() = uiState.value
 
     val farmUiState: StateFlow<FarmUiState> =
         farmIdStream.flatMapLatest { farmId ->
@@ -44,14 +50,22 @@ class FarmDetailViewModel @Inject constructor(
     init {
         farmIdStream.value = farmId
         viewModelScope.launch {
-            farmUiState.collect {
-                seasonIdStream.value =
-                    (it as? LoadingState.Success)?.data?.ongoingSeason?.id.orEmpty()
+            farmUiState.collect { farmUiState ->
+                val openingSeason = (farmUiState as? LoadingState.Success)?.data?.ongoingSeason
+                _uiState.update {
+                    it.copy(
+                        openingSeason = if (openingSeason != null) {
+                            UiSeason.fromDomain(openingSeason)
+                        } else {
+                            null
+                        }
+                    )
+                }
             }
         }
     }
 
-    fun getSeasonId() = seasonIdStream.value
+    fun getSeasonId() = currentUiState.openingSeason?.id
     fun getFarmId() = farmId
 }
 
@@ -71,7 +85,7 @@ private fun farmUiStateStream(
                     }
                 }
                 is Result.Error -> {
-                    LoadingState.Error(result.exception.errorText())
+                    LoadingState.Error(result.exception)
                 }
                 Result.Loading -> {
                     LoadingState.Loading

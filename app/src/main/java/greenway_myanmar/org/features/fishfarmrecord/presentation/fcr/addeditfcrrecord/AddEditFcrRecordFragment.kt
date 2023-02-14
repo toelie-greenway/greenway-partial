@@ -2,13 +2,17 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcr
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
+import greenway_myanmar.org.common.presentation.extensions.hideSoftInput
 import greenway_myanmar.org.common.presentation.extensions.showSnackbar
 import greenway_myanmar.org.databinding.FfrAddEditFcrRecordFragmentBinding
 import greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.addeditfcrrecord.views.FcrRatioInputItemView.OnFcrRatioInputChangeListener
@@ -29,17 +33,43 @@ class AddEditFcrRecordFragment : Fragment(R.layout.ffr_add_edit_fcr_record_fragm
 
     private val viewModel: AddEditFcrRecordViewModel by viewModels()
 
+    private val navController: NavController by lazy {
+        findNavController()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
         observeViewModel()
     }
 
+    private fun observeViewModel() {
+        launchAndRepeatWithViewLifecycle {
+            observeDate()
+            observeFishes()
+            observeFeedWeights()
+            observeGainWeights()
+            observeCalculatedRatios()
+
+            observeAllInputErrors()
+            observeIndividualInputErrors()
+
+            observeFcrRecordSavingState()
+        }
+    }
+
     private fun setupUi() {
+        setupToolbar()
         setPaddingBottomForIme(binding.root)
         setupDateInputUi()
         setupFcrRatiosInputUi()
         setupSubmitButton()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationOnClickListener {
+            navController.popBackStack()
+        }
     }
 
     private fun setupDateInputUi() {
@@ -69,23 +99,9 @@ class AddEditFcrRecordFragment : Fragment(R.layout.ffr_add_edit_fcr_record_fragm
     }
 
     private fun setupSubmitButton() {
+        hideSoftInput()
         binding.submitButton.setOnClickListener {
             viewModel.handleEvent(AddEditFcrRecordEvent.OnSubmit)
-        }
-    }
-
-    private fun observeViewModel() {
-        launchAndRepeatWithViewLifecycle {
-            observeDate()
-            observeFishes()
-            observeFeedWeights()
-            observeGainWeights()
-            observeCalculatedRatios()
-
-            observeAllInputErrors()
-            observeIndividualInputErrors()
-
-            observeAddEditRecordResult()
         }
     }
 
@@ -147,12 +163,15 @@ class AddEditFcrRecordFragment : Fragment(R.layout.ffr_add_edit_fcr_record_fragm
             }
     }
 
-    private fun CoroutineScope.observeAddEditRecordResult() = launch {
-        viewModel.uiState.map { it.addEditFcrRecordResult }
+    private fun CoroutineScope.observeFcrRecordSavingState() = launch {
+        viewModel.uiState.map { it.fcrRecordSavingState }
             .distinctUntilChanged()
-            .collect { result ->
-                if (result != null) {
-                    findNavController().popBackStack()
+            .collect { state ->
+                binding.savingStateContainer.isVisible = state is LoadingState.Loading
+                if (state is LoadingState.Success) {
+                    navController.popBackStack()
+                } else if (state is LoadingState.Error && state.message != null) {
+                    showSavingFcrRecordError(state.message)
                 }
             }
     }
@@ -161,5 +180,11 @@ class AddEditFcrRecordFragment : Fragment(R.layout.ffr_add_edit_fcr_record_fragm
         showSnackbar(error)
         viewModel.handleEvent(AddEditFcrRecordEvent.AllInputErrorShown)
     }
+
+    private fun showSavingFcrRecordError(message: Text) {
+        showSnackbar(message)
+        viewModel.handleEvent(AddEditFcrRecordEvent.OnSavingFcrRecordErrorShown)
+    }
+
 
 }

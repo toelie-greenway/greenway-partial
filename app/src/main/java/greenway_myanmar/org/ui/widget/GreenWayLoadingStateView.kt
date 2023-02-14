@@ -40,6 +40,7 @@ constructor(
                 state.message?.asString(context) ?: resources.getString(R.string.empty_list)
         }
         binding.emptyMessageText.isVisible = state is LoadingState.Empty
+        binding.retryButton.isVisible = false
     }
 
     private fun bindErrorView(state: LoadingState<*>) {
@@ -52,9 +53,12 @@ constructor(
                     _retryCallback?.retry()
                 }
             }
+            binding.errorMessageTextView.isVisible = true
+            binding.retryButton.isVisible =  state.retryable
+        } else {
+            binding.errorMessageTextView.isVisible = false
+            binding.retryButton.isVisible = false
         }
-        binding.retryButton.isVisible = state is LoadingState.Error && state.retryable
-        binding.errorMessageTextView.isVisible = state is LoadingState.Error
     }
 
     private fun bindLoadingView(state: LoadingState<*>) {

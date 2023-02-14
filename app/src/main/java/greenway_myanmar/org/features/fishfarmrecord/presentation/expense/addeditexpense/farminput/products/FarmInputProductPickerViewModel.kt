@@ -2,7 +2,6 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addedi
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.common.result.asResult
 import com.greenwaymyanmar.core.presentation.model.LoadingState
@@ -111,7 +110,7 @@ private fun categoriesUiStateStream(
     return getFarmInputProductCategoriesStreamUseCase()
         .catch {
             it.printStackTrace()
-            LoadingState.Error(it.errorText())
+            LoadingState.Error(it)
         }
         .map { result ->
             Timber.d("Result: $result")
@@ -125,7 +124,7 @@ private fun categoriesUiStateStream(
                 }
                 is Result.Error -> {
                     result.exception?.printStackTrace()
-                    LoadingState.Error(result.exception.errorText())
+                    LoadingState.Error(result.exception)
                 }
                 Result.Loading -> {
                     LoadingState.Loading
@@ -158,7 +157,7 @@ private fun productsUiStateStream(
                     )
                 }
                 is Result.Error -> {
-                    LoadingState.Error(result.exception.errorText())
+                    LoadingState.Error(result.exception)
                 }
                 Result.Loading -> {
                     LoadingState.Loading

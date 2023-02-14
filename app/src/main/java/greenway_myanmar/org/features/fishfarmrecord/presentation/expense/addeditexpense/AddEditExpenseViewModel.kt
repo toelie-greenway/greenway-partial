@@ -3,7 +3,6 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addedi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.utils.runCancellableCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -216,7 +215,7 @@ class AddEditExpenseViewModel @Inject constructor(
                 }
             }.onFailure {
                 Timber.e(it, "Save expense ... error")
-                _expenseUploadingUiState.value = LoadingState.Error(it.errorText())
+                _expenseUploadingUiState.value = LoadingState.Error(it)
             }
         }
     }

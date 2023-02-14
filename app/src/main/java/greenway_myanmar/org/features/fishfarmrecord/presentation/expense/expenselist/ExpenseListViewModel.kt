@@ -3,7 +3,6 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.expense.expens
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -77,11 +76,11 @@ private fun categoryExpenseStream(
             categoryId = categoryId
         )
     ).catch {
-        LoadingState.Error(it.errorText())
+        LoadingState.Error(it)
     }.map { result ->
         when (result) {
             is Result.Error -> {
-                LoadingState.Error(result.exception.errorText())
+                LoadingState.Error(result.exception)
             }
             Result.Loading -> {
                 LoadingState.Loading

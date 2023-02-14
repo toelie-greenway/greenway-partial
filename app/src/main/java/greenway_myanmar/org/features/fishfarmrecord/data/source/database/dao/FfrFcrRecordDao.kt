@@ -21,6 +21,9 @@ abstract class FfrFcrRecordDao {
     abstract suspend fun insertFcrRecord(entity: FfrFcrRecordEntity): Long
 
     @Upsert
+    abstract suspend fun upsertFcrRecords(entities: List<FfrFcrRecordEntity>)
+
+    @Upsert
     abstract suspend fun upsertFcrRecord(entity: FfrFcrRecordEntity)
 
     @Query("SELECT * FROM ffr_fcr_record WHERE rowid = :rowId")
@@ -29,9 +32,12 @@ abstract class FfrFcrRecordDao {
     @Query(
         value = """
             SELECT * FROM ffr_fcr_record
+            WHERE season_id = :seasonId
             ORDER BY date DESC
         """
     )
     @Transaction
-    abstract fun getFcrRecordsStream(): Flow<List<PopulatedFcrRecord>>
+    abstract fun getFcrRecordsStream(
+        seasonId: String
+    ): Flow<List<PopulatedFcrRecord>>
 }

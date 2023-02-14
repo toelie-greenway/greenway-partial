@@ -11,13 +11,13 @@ import kotlinx.serialization.Serializable
 data class NetworkSeasonRequest(
     val area: NetworkFarmAreaRequest,
     val company_code: String? = null,
-    val fish_types: List<NetworkSeasonFishType>,
+    val fish_types: List<NetworkSeasonFishTypeRequest>,
     val loan: NetworkLoanRequest? = null,
     val season: String? = null,
     val start_date: String? = null
 ) {
     @Serializable
-    data class NetworkSeasonFishType(
+    data class NetworkSeasonFishTypeRequest(
         val fish_id: String,
         val specie: String?
     )
@@ -40,7 +40,7 @@ data class NetworkSeasonRequest(
             ),
             company_code = request.company?.code,
             fish_types = request.fishes.map {
-                NetworkSeasonFishType(
+                NetworkSeasonFishTypeRequest(
                     fish_id = it.id,
                     specie = it.species
                 )

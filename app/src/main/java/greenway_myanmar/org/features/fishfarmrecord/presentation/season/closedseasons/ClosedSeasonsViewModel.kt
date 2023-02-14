@@ -3,7 +3,6 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.season.closeds
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -110,9 +109,9 @@ private fun closedSeasonsStream(
                 }
                 closedSeasonsResult is Result.Error || farmUiState is LoadingState.Error -> {
                     if (closedSeasonsResult is Result.Error) {
-                        LoadingState.Error(closedSeasonsResult.exception?.errorText())
+                        LoadingState.Error(closedSeasonsResult.exception)
                     } else if (farmUiState is LoadingState.Error) {
-                        LoadingState.Error(farmUiState.message)
+                        LoadingState.Error(farmUiState.exception)
                     } else {
                         LoadingState.Error()
                     }
