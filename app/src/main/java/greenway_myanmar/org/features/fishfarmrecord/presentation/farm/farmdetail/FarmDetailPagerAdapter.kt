@@ -2,10 +2,10 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetai
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import greenway_myanmar.org.features.fishfarmrecord.presentation.season.closedseasons.ClosedSeasonsFragment
-import greenway_myanmar.org.features.fishfarmrecord.presentation.cropincome.CropIncomeFragment
+import greenway_myanmar.org.features.fishfarmrecord.presentation.cropincome.cropincomelist.CropIncomeListFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.list.FcrRecordListFragment
 import greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.OpeningSeasonFragment
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.closedseasons.ClosedSeasonsFragment
 
 class FarmDetailPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     private val pageCount = FarmDetailTabUiState.values().size
@@ -21,7 +21,7 @@ class FarmDetailPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment
                 FcrRecordListFragment()
             }
             FarmDetailTabUiState.CropIncome.index -> {
-                CropIncomeFragment()
+                CropIncomeListFragment()
             }
             FarmDetailTabUiState.ClosedSeasons.index -> {
                 ClosedSeasonsFragment()

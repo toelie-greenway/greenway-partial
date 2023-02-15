@@ -24,7 +24,7 @@
     <string name="hint_search_in_picker">တိုက်ရိုက်ရှာဖွေရန်</string>
     <string name="ffr_tab_opening_season">မွေးမြူစဲ</string>
     <string name="ffr_tab_fcr">FCR</string>
-    <string name="ffr_tab_crop_income">Crop Income</string>
+    <string name="ffr_tab_crop_income">သီးနှံဝင်ငွေ</string>
     <string name="ffr_tab_closed_seasons">မွေးမြူပြီး</string>
 
     <string name="ffrb_nav_title_home">ငါးမွေးမြူမှတ်တမ်း</string>
@@ -37,6 +37,7 @@
     <string name="ffr_nav_title_add_new_production">ထွက်နှုန်း</string>
     <string name="ffr_nav_title_production_list">ထွက်နှုန်း</string>
     <string name="ffr_nav_title_season_end">မွေးမြူရာသီ ပိတ်သိမ်းခြင်း</string>
+    <string name="ffr_nav_title_add_crop_income">သီးနှံဝင်ငွေ</string>
 
     <string name="action_next">ရှေ့သို့</string>
     <string name="ffrb_action_done">Done</string>
@@ -208,4 +209,9 @@
     <!-- ** Production feature ** -->
     <string name="ffr_production_label">ထွက်နှုန်း</string>
     
+    <!-- ** Crop Income feature ** -->
+    <!-- Add/Edit Crop Income -->
+    <string name="ffr_add_edit_crop_income_label_crop_and_price">Crops &amp; Total sales</string>
+    <string name="ffr_add_edit_crop_income_hint_crop">သီးနှံအမျိုးအစား</string>
+    <string name="ffr_add_edit_crop_income_hint_price">0.0</string>
 </resources>

@@ -6,6 +6,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.FishFarm
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.ApiDataWrapper
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkCategoryExpense
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkContractFarmingCompany
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkCropIncome
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpense
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpenseCategory
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarm
@@ -18,6 +19,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonListResponse
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkCropIncomeRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkExpenseRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFcrRecordRequest
@@ -70,6 +72,12 @@ private interface RetrofitFishFarmRecordNetworkApi {
         @Body body: NetworkProductionRecordRequest
     ): ApiResponse<ApiDataWrapper<NetworkProductionRecord>>
 
+    @POST("ffr/crop-incomes")
+    suspend fun postCropIncome(
+        @Query("user_id") userId: String,
+        @Body body: NetworkCropIncomeRequest
+    ): ApiResponse<ApiDataWrapper<NetworkCropIncome>>
+
     @GET("ffr/farms/{farm_id}/seasons?is_end=1")
     suspend fun getClosedSeasons(
         @Path("farm_id") farmId: String,
@@ -106,6 +114,12 @@ private interface RetrofitFishFarmRecordNetworkApi {
         @Query("user_id") userId: String,
         @Query("season_id") seasonId: String
     ): ApiResponse<ApiDataWrapper<List<NetworkCategoryExpense>>>
+
+    @GET(value = "ffr/crop-incomes")
+    suspend fun getCropIncomes(
+        @Query("user_id") userId: String,
+        @Query("season_id") seasonId: String
+    ): ApiResponse<ApiDataWrapper<List<NetworkCropIncome>>>
 
     @GET(value = "ffr/fcr-records")
     suspend fun getFcrRecords(
@@ -194,6 +208,15 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
             body = request
         ).getDataOrThrow().data
 
+    override suspend fun postCropIncome(
+        userId: String,
+        request: NetworkCropIncomeRequest
+    ): NetworkCropIncome =
+        networkApi.postCropIncome(
+            userId = userId,
+            body = request
+        ).getDataOrThrow().data
+
     override suspend fun getCategoryExpense(
         userId: String,
         categoryId: String,
@@ -224,6 +247,12 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
 
     override suspend fun getCompanyByCode(code: String): NetworkContractFarmingCompany =
         networkApi.getCompanyByCode(code).getDataOrThrow().data
+
+    override suspend fun getCropIncomes(userId: String, seasonId: String): List<NetworkCropIncome> =
+        networkApi.getCropIncomes(
+            userId = userId,
+            seasonId = seasonId
+        ).getDataOrThrow().data
 
     override suspend fun getFarm(farmId: String, userId: String): NetworkFarm =
         networkApi.getFarm(farmId, userId).getDataOrThrow().data

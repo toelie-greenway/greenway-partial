@@ -38,6 +38,8 @@ class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
     private val onPageChangeCallback = object : OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             binding.addNewFcrButton.isVisible = position == FarmDetailTabUiState.Fcr.index
+            binding.addNewCropIncomeButton.isVisible =
+                position == FarmDetailTabUiState.CropIncome.index
         }
     }
 
@@ -78,6 +80,7 @@ class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
         setupViewPager()
         setupTabLayout()
         setupAddNewFcrButton()
+        setupAddNewCropIncomeButton()
     }
 
     private fun setupToolbar() {
@@ -101,6 +104,12 @@ class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
     private fun setupAddNewFcrButton() {
         binding.addNewFcrButton.setOnClickListener {
             navigateToAddEditFcrRecordScreen()
+        }
+    }
+
+    private fun setupAddNewCropIncomeButton() {
+        binding.addNewCropIncomeButton.setOnClickListener {
+            navigateToAddEditCropIncomeScreen()
         }
     }
 
@@ -196,7 +205,7 @@ class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
     }
 
     private fun navigateToAddEditFcrRecordScreen() {
-        val season = viewModel.currentUiState.openingSeason ?:return
+        val season = viewModel.currentUiState.openingSeason ?: return
         val fishes = season.fishes
         if (fishes.isNullOrEmpty()) {
             return
@@ -206,6 +215,19 @@ class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
             FarmDetailFragmentDirections.actionFarmDetailFragmentToAddEditFcrRecordFragment(
                 fishes = fishes.toTypedArray(),
                 seasonId = season.id
+            )
+        )
+    }
+
+    private fun navigateToAddEditCropIncomeScreen() {
+        val seasonId = viewModel.currentUiState.openingSeason?.id ?: return
+        if (seasonId.isEmpty()) {
+            return
+        }
+
+        navController.navigate(
+            FarmDetailFragmentDirections.actionFarmDetailFragmentToAddEditCropIncomeFragment(
+                seasonId = seasonId
             )
         )
     }

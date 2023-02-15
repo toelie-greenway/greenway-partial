@@ -32,7 +32,7 @@ class DefaultFcrRecordRepository @Inject constructor(
             request = NetworkFcrRecordRequest.fromDomainRequest(request)
         )
         val entity = response.asEntity(request.seasonId)
-        fcrRecordDao.insertFcrRecord(entity)
+        fcrRecordDao.upsertFcrRecord(entity)
 
         val ratios = response.record.orEmpty().asEntities(entity.id)
         fcrDao.upsertFcrEntities(ratios)

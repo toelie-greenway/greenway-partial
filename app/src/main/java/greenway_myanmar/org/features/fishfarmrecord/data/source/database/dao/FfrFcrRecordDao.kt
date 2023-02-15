@@ -1,8 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
@@ -16,9 +14,6 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 abstract class FfrFcrRecordDao {
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertFcrRecord(entity: FfrFcrRecordEntity): Long
 
     @Upsert
     abstract suspend fun upsertFcrRecords(entities: List<FfrFcrRecordEntity>)

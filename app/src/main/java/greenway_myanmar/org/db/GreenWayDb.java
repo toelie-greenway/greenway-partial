@@ -18,6 +18,7 @@ import greenway_myanmar.org.db.converter.StringListConverter;
 import greenway_myanmar.org.db.converter.UUIDStringConverter;
 import greenway_myanmar.org.db.converter.UriStringConverter;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrCategoryExpenseDao;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrCropIncomeDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrExpenseCategoryDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrExpenseDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFarmDao;
@@ -29,6 +30,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.Ffr
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonEndReasonDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FFrContractFarmingCompanyEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrCategoryExpenseEntity;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrCropIncomeEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrExpenseCategoryEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrExpenseEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFarmEntity;
@@ -47,6 +49,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.La
 @Database(entities = {
         FfrCategoryExpenseEntity.class,
         FFrContractFarmingCompanyEntity.class,
+        FfrCropIncomeEntity.class,
         FfrExpenseEntity.class,
         FfrExpenseCategoryEntity.class,
         FfrFarmEntity.class,
@@ -79,6 +82,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.La
 })
 public abstract class GreenWayDb extends RoomDatabase {
     public abstract FfrCategoryExpenseDao ffrCategoryExpenseDao();
+    public abstract FfrCropIncomeDao ffrCropIncomeDao();
     public abstract FfrExpenseDao ffrExpenseDao();
     public abstract FfrExpenseCategoryDao ffrExpenseCategoryDao();
     public abstract FfrFarmDao ffrFarmDao();

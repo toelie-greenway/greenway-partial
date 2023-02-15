@@ -2,6 +2,7 @@ package greenway_myanmar.org.features.fishfarmrecord.data.source.network
 
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkCategoryExpense
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkContractFarmingCompany
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkCropIncome
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpense
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpenseCategory
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarm
@@ -14,6 +15,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonListResponse
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkCropIncomeRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkExpenseRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFcrRecordRequest
@@ -43,6 +45,11 @@ interface FishFarmRecordNetworkDataSource {
         request: NetworkProductionRecordRequest
     ): NetworkProductionRecord
 
+    suspend fun postCropIncome(
+        userId: String,
+        request: NetworkCropIncomeRequest
+    ): NetworkCropIncome
+
     suspend fun getCategoryExpense(
         userId: String,
         categoryId: String,
@@ -57,6 +64,11 @@ interface FishFarmRecordNetworkDataSource {
     ): NetworkSeasonListResponse
 
     suspend fun getCompanyByCode(code: String): NetworkContractFarmingCompany
+    suspend fun getCropIncomes(
+        userId: String,
+        seasonId: String
+    ): List<NetworkCropIncome>
+
     suspend fun getExpenseCategories(userId: String): List<NetworkExpenseCategory>
     suspend fun getFarm(farmId: String, userId: String): NetworkFarm
     suspend fun getFarmInputProducts(
