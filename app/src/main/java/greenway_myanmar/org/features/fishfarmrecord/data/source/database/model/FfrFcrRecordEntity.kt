@@ -9,7 +9,7 @@ import kotlinx.datetime.Instant
 import java.util.*
 
 @Entity(
-    tableName = "ffr_fcr_record"
+    tableName = "ffr_fcr_records"
 )
 data class FfrFcrRecordEntity(
     @PrimaryKey

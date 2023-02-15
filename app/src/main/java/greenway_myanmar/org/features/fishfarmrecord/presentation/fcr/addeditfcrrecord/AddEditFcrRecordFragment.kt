@@ -186,5 +186,4 @@ class AddEditFcrRecordFragment : Fragment(R.layout.ffr_add_edit_fcr_record_fragm
         viewModel.handleEvent(AddEditFcrRecordEvent.OnSavingFcrRecordErrorShown)
     }
 
-
 }

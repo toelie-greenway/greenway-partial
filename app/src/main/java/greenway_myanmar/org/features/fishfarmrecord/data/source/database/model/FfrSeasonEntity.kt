@@ -100,7 +100,8 @@ fun FfrSeasonEntity.asDomainModel() = Season(
     totalExpenses = totalExpenses,
     fishes = mapFishes(fishes),
     company = company?.asDomainModel(),
-    loan = loan?.asDomainModel()
+    loan = loan?.asDomainModel(),
+    isHarvested = isHarvested
 )
 
 private fun mapFishes(fishes: List<FfrFishEntity>) =

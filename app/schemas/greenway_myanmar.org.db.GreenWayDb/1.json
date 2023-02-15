@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1e75e47148fb1d362168c25c6fa19fb4",
+    "identityHash": "06fb194d162b268f9a76b059e84edb67",
     "entities": [
       {
         "tableName": "ffr_category_expenses",
@@ -95,7 +95,7 @@
       },
       {
         "tableName": "ffr_expenses",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `date` INTEGER NOT NULL, `labour_quantity` INTEGER, `labour_cost` TEXT, `family_quantity` INTEGER, `family_cost` TEXT, `machinery_cost` TEXT, `inputs` TEXT, `total_cost` TEXT, `photos` TEXT, `remark` TEXT, `season_id` TEXT NOT NULL, `category_id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `date` INTEGER NOT NULL, `labour_quantity` INTEGER, `labour_cost` TEXT, `family_quantity` INTEGER, `family_cost` TEXT, `machinery_cost` TEXT, `inputs` TEXT, `total_cost` TEXT, `photos` TEXT, `remark` TEXT, `season_id` TEXT NOT NULL, `category_id` TEXT NOT NULL, `pending_action` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -172,6 +172,12 @@
           {
             "fieldPath": "categoryId",
             "columnName": "category_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pendingAction",
+            "columnName": "pending_action",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -345,7 +351,7 @@
       },
       {
         "tableName": "ffr_fcr",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`feed_weight` TEXT NOT NULL, `gain_weight` TEXT NOT NULL, `record_id` TEXT NOT NULL, `fish_id` TEXT NOT NULL, `fish_name` TEXT NOT NULL, `fish_species` TEXT, `fish_icon_image_url` TEXT, PRIMARY KEY(`record_id`, `fish_id`), FOREIGN KEY(`record_id`) REFERENCES `ffr_fcr_record`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`feed_weight` TEXT NOT NULL, `gain_weight` TEXT NOT NULL, `record_id` TEXT NOT NULL, `fish_id` TEXT NOT NULL, `fish_name` TEXT NOT NULL, `fish_species` TEXT, `fish_icon_image_url` TEXT, PRIMARY KEY(`record_id`, `fish_id`), FOREIGN KEY(`record_id`) REFERENCES `ffr_fcr_records`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "feedWeight",
@@ -410,7 +416,7 @@
         ],
         "foreignKeys": [
           {
-            "table": "ffr_fcr_record",
+            "table": "ffr_fcr_records",
             "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -423,7 +429,7 @@
         ]
       },
       {
-        "tableName": "ffr_fcr_record",
+        "tableName": "ffr_fcr_records",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `date` INTEGER NOT NULL, `season_id` TEXT NOT NULL, `pendingAction` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -487,6 +493,62 @@
             "columnName": "icon_image_url",
             "affinity": "TEXT",
             "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ffr_production_records",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `season_id` TEXT NOT NULL, `date` INTEGER NOT NULL, `total_price` TEXT NOT NULL, `productions` TEXT NOT NULL, `note` TEXT NOT NULL, `pending_action` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seasonId",
+            "columnName": "season_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalPrice",
+            "columnName": "total_price",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productions",
+            "columnName": "productions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pendingAction",
+            "columnName": "pending_action",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -680,7 +742,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1e75e47148fb1d362168c25c6fa19fb4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '06fb194d162b268f9a76b059e84edb67')"
     ]
   }
 }

@@ -12,5 +12,6 @@ sealed class AddEditProductionRecordEvent {
         AddEditProductionRecordEvent()
 
     object AllInputErrorShown : AddEditProductionRecordEvent()
+    object OnSavingProductionRecordErrorShown: AddEditProductionRecordEvent()
     object OnSubmit : AddEditProductionRecordEvent()
 }

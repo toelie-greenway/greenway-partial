@@ -2,6 +2,7 @@ package greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.RewriteQueriesToDropUnusedColumns
 import androidx.room.Upsert
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrCategoryExpenseEntity
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrExpenseEntity
@@ -31,6 +32,7 @@ abstract class FfrCategoryExpenseDao {
         seasonId: String
     ): Flow<List<FfrCategoryExpenseEntity>>
 
+    @RewriteQueriesToDropUnusedColumns
     @Query(
         value = """
             SELECT c.season_id as c_season_id, 

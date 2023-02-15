@@ -6,7 +6,7 @@
     <string name="area_acre_symbol">ဧက</string>
     <string name="area_unsupported_symbol" />
     <string name="measurement_feet_symbol">ပေ</string>
-    <string name="formatted_area">%s %s</string>
+    <string name="formatted_area">%1$s %2$s</string>
     <string name="ffr_formatted_farm_area">%1$s ဧက</string>
     <string name="ffr_formatted_farm_area_with_depth">%1$s ဧက • အနက် %2$s ပေ</string>
     <string name="separator_small_circle">•</string>
@@ -35,6 +35,7 @@
     <string name="ffr_nav_title_add_expense">ကုန်ကျစားရိတ်ထည့်သွင်းခြင်း</string>
     <string name="ffr_nav_title_fish_input">ငါးအမည်</string>
     <string name="ffr_nav_title_add_new_production">ထွက်နှုန်း</string>
+    <string name="ffr_nav_title_production_list">ထွက်နှုန်း</string>
     <string name="ffr_nav_title_season_end">မွေးမြူရာသီ ပိတ်သိမ်းခြင်း</string>
 
     <string name="action_next">ရှေ့သို့</string>
@@ -50,7 +51,6 @@
     <string name="ffr_action_save">သိမ်းမည်</string>
     <string name="ffr_action_add_later">နောက်မှထည့်မည်</string>
     <string name="ffr_action_submit_form">စာရင်းသွင်းမည်</string>
-
 
     <string name="ffrb_label_no_ongoing_season">မွေးမြူရာသီမရှိသေး</string>
     <string name="ffr_label_production_record">Production record</string>
@@ -205,5 +205,7 @@
     <string name="ffr_add_edit_production_label_fish_size">အရွယ်အစား</string>
     <string name="ffr_add_edit_production_error_fields_required">အနည်းဆုံး အရွယ်အစားတစ်မျိုးအတွက် ဖြည့်ရန်လိုအပ်ပါသည်</string>
 
-
+    <!-- ** Production feature ** -->
+    <string name="ffr_production_label">ထွက်နှုန်း</string>
+    
 </resources>

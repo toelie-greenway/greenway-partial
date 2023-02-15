@@ -10,12 +10,14 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmListResponse
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFcrRecord
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFish
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkProductionRecord
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonListResponse
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkExpenseRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFcrRecordRequest
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkProductionRecordRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest
 
 /**
@@ -35,6 +37,11 @@ interface FishFarmRecordNetworkDataSource {
         userId: String,
         request: NetworkFcrRecordRequest
     ): NetworkFcrRecord
+
+    suspend fun postProductionRecord(
+        userId: String,
+        request: NetworkProductionRecordRequest
+    ): NetworkProductionRecord
 
     suspend fun getCategoryExpense(
         userId: String,
@@ -65,6 +72,11 @@ interface FishFarmRecordNetworkDataSource {
     ): List<NetworkFcrRecord>
 
     suspend fun getFishes(): List<NetworkFish>
+    suspend fun getProductionRecords(
+        userId: String,
+        seasonId: String
+    ): List<NetworkProductionRecord>
+
     suspend fun getSeasonEndReasons(): List<NetworkSeasonEndReason>
 
     suspend fun patchSeason(

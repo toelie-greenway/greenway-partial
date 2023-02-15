@@ -14,6 +14,7 @@ import dagger.hilt.components.SingletonComponent;
 import greenway_myanmar.org.db.GreenWayDb;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.FfrFarmInputExpenseListConverter;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.FfrFishListConverter;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.FfrProductionPerFishTypeListConverter;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.LatLngTypeConverter;
 
 @InstallIn(SingletonComponent.class)
@@ -26,13 +27,16 @@ public class DbModule {
             Application app,
             FfrFishListConverter ffrFishListConverter,
             LatLngTypeConverter latLngTypeConverter,
-            FfrFarmInputExpenseListConverter ffrFarmInputExpenseListConverter) {
+            FfrFarmInputExpenseListConverter ffrFarmInputExpenseListConverter,
+            FfrProductionPerFishTypeListConverter ffrProductionPerFishTypeListConverter
+            ) {
         return Room.databaseBuilder(app, GreenWayDb.class, "greenway.db")
                 .enableMultiInstanceInvalidation()
                 .fallbackToDestructiveMigration()
                 .addTypeConverter(ffrFishListConverter)
                 .addTypeConverter(latLngTypeConverter)
                 .addTypeConverter(ffrFarmInputExpenseListConverter)
+                .addTypeConverter(ffrProductionPerFishTypeListConverter)
                 .build();
     }
 

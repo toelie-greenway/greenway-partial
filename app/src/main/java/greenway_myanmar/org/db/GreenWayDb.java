@@ -24,6 +24,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.Ffr
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrRecordDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFishDao;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrProductionRecordDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonEndReasonDao;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FFrContractFarmingCompanyEntity;
@@ -34,10 +35,12 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.F
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFcrEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFcrRecordEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrFishEntity;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrProductionRecordEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrSeasonEndReasonEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrSeasonEntity;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.FfrFarmInputExpenseListConverter;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.FfrFishListConverter;
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.FfrProductionPerFishTypeListConverter;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.InstantConverter;
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.LatLngTypeConverter;
 
@@ -50,6 +53,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.La
         FfrFcrEntity.class,
         FfrFcrRecordEntity.class,
         FfrFishEntity.class,
+        FfrProductionRecordEntity.class,
         FfrSeasonEntity.class,
         FfrSeasonEndReasonEntity.class,
 }, version = 1)
@@ -70,7 +74,8 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.La
         LatLngTypeConverter.class,
         InstantConverter.class,
         FfrFishListConverter.class,
-        FfrFarmInputExpenseListConverter.class
+        FfrFarmInputExpenseListConverter.class,
+        FfrProductionPerFishTypeListConverter.class
 })
 public abstract class GreenWayDb extends RoomDatabase {
     public abstract FfrCategoryExpenseDao ffrCategoryExpenseDao();
@@ -80,6 +85,7 @@ public abstract class GreenWayDb extends RoomDatabase {
     public abstract FfrFcrDao ffrFcrDao();
     public abstract FfrFcrRecordDao ffrFcrRecordDao();
     public abstract FfrFishDao ffrFishDao();
+    public abstract FfrProductionRecordDao ffrProductionRecordDao();
     public abstract FfrSeasonDao ffrSeasonDao();
     public abstract FfrSeasonEndReasonDao ffrSeasonEndReasonDao();
 }

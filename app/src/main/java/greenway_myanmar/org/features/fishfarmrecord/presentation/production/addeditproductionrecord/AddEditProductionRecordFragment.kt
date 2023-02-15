@@ -2,9 +2,13 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.production.add
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.greenwaymyanmar.core.presentation.model.LoadingState
+import com.greenwaymyanmar.core.presentation.util.numberFormat
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
@@ -14,7 +18,6 @@ import greenway_myanmar.org.databinding.FfrAddEditProductionRecordFragmentBindin
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFishSize
 import greenway_myanmar.org.features.fishfarmrecord.presentation.production.addeditproductionrecord.views.ProductionListInputView
 import greenway_myanmar.org.ui.widget.GreenWayDateInputView
-import greenway_myanmar.org.util.MyanmarZarConverter
 import greenway_myanmar.org.util.extensions.setPaddingBottomForIme
 import greenway_myanmar.org.util.kotlin.viewBinding
 import kotlinx.coroutines.CoroutineScope
@@ -23,7 +26,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
-import java.text.NumberFormat
 import java.time.LocalDate
 
 @AndroidEntryPoint
@@ -33,8 +35,9 @@ class AddEditProductionRecordFragment : Fragment(R.layout.ffr_add_edit_productio
 
     private val viewModel: AddEditProductionRecordViewModel by viewModels()
 
-    private val numberFormat: NumberFormat =
-        NumberFormat.getInstance(MyanmarZarConverter.getLocale())
+    private val navController: NavController by lazy {
+        findNavController()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,14 +66,8 @@ class AddEditProductionRecordFragment : Fragment(R.layout.ffr_add_edit_productio
 
             observeTotalWeight()
             observeTotalPrice()
-//            observeFeedWeights()
-//            observeGainWeights()
-//            observeCalculatedRatios()
-//
             observeAllInputErrors()
-//            observeIndividualInputErrors()
-//
-//            observeAddEditRecordResult()
+            observeProductionRecordSavingState()
         }
     }
 
@@ -194,23 +191,6 @@ class AddEditProductionRecordFragment : Fragment(R.layout.ffr_add_edit_productio
             }
     }
 
-    //
-//    private fun CoroutineScope.observeGainWeights() = launch {
-//        viewModel.uiState.map { it.gainWeights }
-//            .distinctUntilChanged()
-//            .collect {
-//                binding.fcrRatioListInputView.setGainWeights(it)
-//            }
-//    }
-//
-//    private fun CoroutineScope.observeCalculatedRatios() = launch {
-//        viewModel.uiState.map { it.calculatedRatios }
-//            .distinctUntilChanged()
-//            .collect {
-//                binding.fcrRatioListInputView.setCalculatedRatios(it)
-//            }
-//    }
-//
     private fun CoroutineScope.observeAllInputErrors() = launch {
         viewModel.uiState.map { it.allInputError }
             .distinctUntilChanged()
@@ -221,28 +201,29 @@ class AddEditProductionRecordFragment : Fragment(R.layout.ffr_add_edit_productio
             }
     }
 
-    //
-//    private fun CoroutineScope.observeIndividualInputErrors() = launch {
-//        viewModel.uiState.map { it.individualInputErrors }
-//            .distinctUntilChanged()
-//            .collect { errors ->
-//               binding.fcrRatioListInputView.setErrors(errors)
-//            }
-//    }
-//
-//    private fun CoroutineScope.observeAddEditRecordResult() = launch {
-//        viewModel.uiState.map { it.addEditFcrRecordResult }
-//            .distinctUntilChanged()
-//            .collect { result ->
-//                if (result != null) {
-//                    findNavController().popBackStack()
-//                }
-//            }
-//    }
-//
+
+    private fun CoroutineScope.observeProductionRecordSavingState() = launch {
+        viewModel.uiState.map { it.productionRecordSavingState }
+            .distinctUntilChanged()
+            .collect { state ->
+                binding.savingStateContainer.isVisible = state is LoadingState.Loading
+                if (state is LoadingState.Success) {
+                    navController.popBackStack()
+                } else if (state is LoadingState.Error && state.message != null) {
+                    showSavingProductionRecordError(state.message)
+                }
+            }
+    }
+
     private fun showErrorMessage(error: Text) {
         showSnackbar(error)
         viewModel.handleEvent(AddEditProductionRecordEvent.AllInputErrorShown)
     }
+
+    private fun showSavingProductionRecordError(message: Text) {
+        showSnackbar(message)
+        viewModel.handleEvent(AddEditProductionRecordEvent.OnSavingProductionRecordErrorShown)
+    }
+
 
 }

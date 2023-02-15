@@ -3,6 +3,7 @@ package greenway_myanmar.org.features.fishfarmrecord.data.source.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.greenwaymyanmar.vo.PendingAction
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Expense
 import kotlinx.datetime.Instant
 import java.math.BigDecimal
@@ -33,6 +34,8 @@ data class FfrExpenseEntity(
     val seasonId: String,
     @ColumnInfo(name = "category_id")
     val categoryId: String,
+    @ColumnInfo(name = "pending_action")
+    val pendingAction: PendingAction = PendingAction.NOTHING,
 )
 
 fun FfrExpenseEntity.asDomainModel() = Expense(

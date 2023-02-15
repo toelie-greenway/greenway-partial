@@ -8,8 +8,11 @@ import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetCategoryExpensesUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetCategoryExpensesUseCase.GetExpenseSummaryRequest
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetProductionsStreamUseCase
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetProductionsStreamUseCase.GetProductionsRequest
 import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmUiState
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarm
 import greenway_myanmar.org.util.WhileViewSubscribed
@@ -19,6 +22,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -31,7 +35,8 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class OpeningSeasonViewModel @Inject constructor(
-    getCategoryExpensesStreamUseCase: GetCategoryExpensesUseCase
+    getCategoryExpensesStreamUseCase: GetCategoryExpensesUseCase,
+    getProductionsStreamUseCase: GetProductionsStreamUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(OpeningSeasonUiState())
@@ -45,7 +50,8 @@ class OpeningSeasonViewModel @Inject constructor(
         .flatMapLatest { farmUiState ->
             categoryListStream(
                 farmUiState,
-                getCategoryExpensesStreamUseCase
+                getCategoryExpensesStreamUseCase,
+                getProductionsStreamUseCase
             )
         }.stateIn(viewModelScope, WhileViewSubscribed, LoadingState.Idle)
 
@@ -81,7 +87,8 @@ class OpeningSeasonViewModel @Inject constructor(
 
 private suspend fun categoryListStream(
     farmUiState: FarmUiState,
-    getCategoryExpensesUseCase: GetCategoryExpensesUseCase
+    getCategoryExpensesUseCase: GetCategoryExpensesUseCase,
+    getProductionsStreamUseCase: GetProductionsStreamUseCase
 ): Flow<CategoryListUiState> {
     return flow {
         emit(LoadingState.Loading)
@@ -92,7 +99,11 @@ private suspend fun categoryListStream(
                     emit(LoadingState.Empty(Text.ResourceText(R.string.ffr_farm_detail_label_no_ongoing_season)))
                 } else {
                     emitAll(
-                        loadCategoryListStream(openingSeason.id, getCategoryExpensesUseCase)
+                        loadCategoryListStream(
+                            openingSeason,
+                            getCategoryExpensesUseCase,
+                            getProductionsStreamUseCase
+                        )
                     )
                 }
             }
@@ -107,24 +118,25 @@ private suspend fun categoryListStream(
 }
 
 private suspend fun loadCategoryListStream(
-    seasonId: String,
-    getCategoryExpensesUseCase: GetCategoryExpensesUseCase
-) = getCategoryExpensesUseCase(
-    GetExpenseSummaryRequest(seasonId)
-)
-    .catch {
-        LoadingState.Empty(it.errorText())
-    }.map { result ->
-        when (result) {
-            is Result.Error -> {
-                LoadingState.Error(result.exception)
-            }
-            Result.Loading -> {
-                LoadingState.Loading
-            }
-            is Result.Success -> {
+    openingSeason: Season,
+    getCategoryExpensesUseCase: GetCategoryExpensesUseCase,
+    getProductionsStreamUseCase: GetProductionsStreamUseCase
+) =
+    combine(
+        getCategoryExpensesUseCase(
+            GetExpenseSummaryRequest(openingSeason.id)
+        ),
+        getProductionsStreamUseCase(
+            GetProductionsRequest(openingSeason.id)
+        ),
+        ::Pair
+    )
+        .catch {
+            LoadingState.Empty(it.errorText())
+        }.map { (expensesResult, productionsResult) ->
+            if (expensesResult is Result.Success) {
                 val items = mutableListOf<OpeningSeasonCategoryListItemUiState>()
-                val categories = result.data.map {
+                val categories = expensesResult.data.map {
                     OpeningSeasonCategoryListItemUiState.CategoryItem(
                         categoryId = it.category.id,
                         categoryName = it.category.name,
@@ -134,14 +146,28 @@ private suspend fun loadCategoryListStream(
                 }
                 items.addAll(categories)
 
-//                val harvested = result.firstOrNull { it.category.isHarvesting && it.lastRecordDate != null} != null
-//                if(harvested) {
-//                    items.add(OpeningSeasonCategoryListItemUiState.ProductionItem())
-//                }
+                if (openingSeason.isHarvested) {
+                    val productions = (productionsResult as? Result.Success)?.data
+                    items.add(OpeningSeasonCategoryListItemUiState.ProductionItem(
+                        lastRecordDate = productions?.maxByOrNull {
+                            it.date
+                        }?.date?.toJavaInstant(),
+                        totalIncome = productions.orEmpty().sumOf {
+                            it.totalPrice
+                        }
+                    ))
+                }
+
                 items.add(OpeningSeasonCategoryListItemUiState.CloseItem)
 
                 LoadingState.Success(items)
+            } else if (expensesResult is Result.Error || productionsResult is Result.Error) {
+                val expenseError = (expensesResult as? Result.Error)?.exception
+                val productionError = (productionsResult as? Result.Error)?.exception
+                LoadingState.Error(exception = expenseError ?: productionError)
+            } else if ((expensesResult is Result.Loading || productionsResult is Result.Loading)) {
+                LoadingState.Loading
+            } else {
+                LoadingState.Idle
             }
-
         }
-    }

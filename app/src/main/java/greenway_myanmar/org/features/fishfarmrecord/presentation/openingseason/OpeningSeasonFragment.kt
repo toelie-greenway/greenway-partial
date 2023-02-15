@@ -56,10 +56,10 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
                 navigateToExpenseListScreen(categoryId)
             },
             onAddProductionClick = {
-
+                navigateToAddEditProductionScreen()
             },
             onViewProductionsClick = {
-
+                navigateToProductionListScreen()
             },
             onCloseSeasonClick = {
                 navigateToSeasonEndScreen()
@@ -143,6 +143,34 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
             FarmDetailFragmentDirections.actionFarmDetailFragmentToAddEditExpenseFragment(
                 farmId = farmId,
                 seasonId = seasonId,
+            )
+        )
+    }
+
+    private fun navigateToAddEditProductionScreen() {
+        val season = parentViewModel.currentUiState.openingSeason ?: return
+        val fishes = season.fishes
+        if (fishes.isNullOrEmpty()) {
+            return
+        }
+
+        navController.navigate(
+            FarmDetailFragmentDirections.actionFarmDetailFragmentToAddEditProductionRecordFragment(
+                seasonId = season.id,
+                fishes = fishes.toTypedArray()
+            )
+        )
+    }
+
+    private fun navigateToProductionListScreen() {
+        val seasonId = parentViewModel.getSeasonId()
+        if (seasonId.isNullOrEmpty()) {
+            return
+        }
+
+        navController.navigate(
+            FarmDetailFragmentDirections.actionFarmDetailFragmentToProductionRecordListFragment(
+                seasonId = seasonId
             )
         )
     }

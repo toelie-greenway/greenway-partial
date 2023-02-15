@@ -26,12 +26,12 @@ abstract class FfrFcrRecordDao {
     @Upsert
     abstract suspend fun upsertFcrRecord(entity: FfrFcrRecordEntity)
 
-    @Query("SELECT * FROM ffr_fcr_record WHERE rowid = :rowId")
+    @Query("SELECT * FROM ffr_fcr_records WHERE rowid = :rowId")
     abstract suspend fun getFcrRecordByRowId(rowId: Long): FfrFcrRecordEntity
 
     @Query(
         value = """
-            SELECT * FROM ffr_fcr_record
+            SELECT * FROM ffr_fcr_records
             WHERE season_id = :seasonId
             ORDER BY date DESC
         """

@@ -9,6 +9,7 @@ import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import greenway_myanmar.org.databinding.FfrOpeningSeasonProductionLargeListItemBinding
 import greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.OpeningSeasonCategoryListItemUiState
+import greenway_myanmar.org.util.DateUtils
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class OpeningSeasonProductionLargeView @JvmOverloads constructor(
@@ -28,7 +29,9 @@ class OpeningSeasonProductionLargeView @JvmOverloads constructor(
         @ModelProp set(item) {
             if (field != item) {
                 if (item != null) {
-                    // binding.categoryName.text = item.categoryName
+                    binding.productionIncomesTextView.setAmount(item.totalIncome)
+                    binding.dateTextView.text =
+                        item.lastRecordDate?.let { DateUtils.format(it, "MMMM d၊ yyyy") }.orEmpty()
                 }
                 field = item
             }

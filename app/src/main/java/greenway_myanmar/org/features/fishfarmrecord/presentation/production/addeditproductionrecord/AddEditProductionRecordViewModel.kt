@@ -1,7 +1,10 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.production.addeditproductionrecord
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.greenwaymyanmar.core.presentation.model.LoadingState
+import com.greenwaymyanmar.utils.runCancellableCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
@@ -12,7 +15,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.getDataOrThrow
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.getErrorOrNull
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.hasError
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveProductionRecordUseCase
-import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
+import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveProductionRecordUseCase.SaveProductionRecordRequest
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFishSize
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.asDomainModel
 import greenway_myanmar.org.util.extensions.orZero
@@ -24,16 +27,20 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.toKotlinInstant
 import timber.log.Timber
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.ZoneOffset
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditProductionRecordViewModel @Inject constructor(
-    private val saveProductionRecordUseCase: SaveProductionRecordUseCase
+    private val saveProductionRecordUseCase: SaveProductionRecordUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    private val args = AddEditProductionRecordFragmentArgs.fromSavedStateHandle(savedStateHandle)
     private val _uiState = MutableStateFlow(AddEditProductionRecordUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -43,20 +50,7 @@ class AddEditProductionRecordViewModel @Inject constructor(
     init {
         _uiState.update {
             it.copy(
-                fishes = listOf(
-                    UiFish(
-                        "1",
-                        "ကကတစ်",
-                        "https://cdn-icons-png.flaticon.com/512/811/811643.png",
-                        ""
-                    ),
-                    UiFish(
-                        "2",
-                        "ငါးကြင်း",
-                        "https://cdn-icons-png.flaticon.com/512/1134/1134431.png",
-                        ""
-                    )
-                ),
+                fishes = args.fishes.toList(),
                 fishSizes = UiFishSize.values().toList()
             )
         }
@@ -128,6 +122,9 @@ class AddEditProductionRecordViewModel @Inject constructor(
             AddEditProductionRecordEvent.AllInputErrorShown -> {
                 clearAllInputError()
             }
+            AddEditProductionRecordEvent.OnSavingProductionRecordErrorShown -> {
+                clearSavingProductionRecordError()
+            }
         }
     }
 
@@ -138,6 +135,12 @@ class AddEditProductionRecordViewModel @Inject constructor(
     private fun clearAllInputError() {
         _uiState.update {
             it.copy(allInputError = null)
+        }
+    }
+
+    private fun clearSavingProductionRecordError() {
+        _uiState.update {
+            it.copy(productionRecordSavingError = null)
         }
     }
 
@@ -208,23 +211,53 @@ class AddEditProductionRecordViewModel @Inject constructor(
             Timber.d("ProductionsPerFishSize = ${productionPerFish.productionsPerFishSize}")
         }
 
-        val productionsPerFishAfterRemove = productionsPerFish.removeIfEmpty()
-        productionsPerFishAfterRemove.forEach { productionPerFish ->
+        val cleanedProductionsPerFish = productionsPerFish.removeIfEmpty()
+        cleanedProductionsPerFish.forEach { productionPerFish ->
             Timber.d("=== FishId: ${productionPerFish.fish.id} After Remove ===")
             Timber.d("Fish = ${productionPerFish.fish}")
             Timber.d("ProductionsPerFishSize = ${productionPerFish.productionsPerFishSize}")
         }
-//        saveProductionRecordUseCase(
-//            SaveProductionRecordUseCase.SaveProductionRecordRequest(
-//                id = null,
-//                date = date.atStartOfDay().atZone(ZoneOffset.UTC).toInstant().toKotlinInstant(),
-//                productionsPerFish = listOf(
-//                    ProductionPerFish(
-//
-//                    )
-//                )
-//            )
-//        )
+
+        val request = SaveProductionRecordRequest(
+            id = null,
+            date = date.atStartOfDay().atZone(ZoneOffset.UTC).toInstant().toKotlinInstant(),
+            productionsPerFish = cleanedProductionsPerFish.map {
+                ProductionPerFish(
+                    fish = it.fish,
+                    productionsPerFishSize = it.productionsPerFishSize
+                )
+            },
+            seasonId = args.seasonId
+        )
+        saveProductionRecord(request)
+    }
+
+    private fun saveProductionRecord(request: SaveProductionRecordRequest) {
+        viewModelScope.launch {
+            viewModelScope.launch {
+                runCancellableCatching {
+                    _uiState.update {
+                        it.copy(
+                            productionRecordSavingState = LoadingState.Loading
+                        )
+                    }
+                    saveProductionRecordUseCase(request)
+                }.onSuccess {
+                    _uiState.update {
+                        it.copy(
+                            productionRecordSavingState = LoadingState.Success(Unit)
+                        )
+                    }
+                }.onFailure { exception ->
+                    _uiState.update {
+                        it.copy(
+                            productionRecordSavingState = LoadingState.Error(exception)
+                        )
+                    }
+                }
+            }
+
+        }
     }
 
     private fun collectProductionsPerFish(): MutableList<ProductionPerFish> {

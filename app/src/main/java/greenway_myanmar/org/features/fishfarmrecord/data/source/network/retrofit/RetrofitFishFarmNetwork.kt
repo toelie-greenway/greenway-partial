@@ -14,12 +14,14 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmListResponse
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFcrRecord
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFish
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkProductionRecord
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonListResponse
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkExpenseRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFcrRecordRequest
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkProductionRecordRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest
 import retrofit2.Retrofit
 import retrofit2.http.Body
@@ -61,6 +63,12 @@ private interface RetrofitFishFarmRecordNetworkApi {
         @Query("user_id") userId: String,
         @Body body: NetworkFcrRecordRequest
     ): ApiResponse<ApiDataWrapper<NetworkFcrRecord>>
+
+    @POST("ffr/productions")
+    suspend fun postProductionRecord(
+        @Query("user_id") userId: String,
+        @Body body: NetworkProductionRecordRequest
+    ): ApiResponse<ApiDataWrapper<NetworkProductionRecord>>
 
     @GET("ffr/farms/{farm_id}/seasons?is_end=1")
     suspend fun getClosedSeasons(
@@ -107,6 +115,12 @@ private interface RetrofitFishFarmRecordNetworkApi {
 
     @GET(value = "ffr/fish-types")
     suspend fun getFishes(): ApiResponse<List<NetworkFish>>
+
+    @GET(value = "ffr/productions")
+    suspend fun getProductionRecords(
+        @Query("user_id") userId: String,
+        @Query("season_id") seasonId: String
+    ): ApiResponse<ApiDataWrapper<List<NetworkProductionRecord>>>
 
     @GET(value = "ffr/season-end-reasons")
     suspend fun getSeasonEndReasons(): ApiResponse<ApiDataWrapper<List<NetworkSeasonEndReason>>>
@@ -171,6 +185,15 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
     ): NetworkFcrRecord =
         networkApi.postFcrRecord(userId, request).getDataOrThrow().data
 
+    override suspend fun postProductionRecord(
+        userId: String,
+        request: NetworkProductionRecordRequest
+    ): NetworkProductionRecord =
+        networkApi.postProductionRecord(
+            userId = userId,
+            body = request
+        ).getDataOrThrow().data
+
     override suspend fun getCategoryExpense(
         userId: String,
         categoryId: String,
@@ -234,6 +257,15 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
 
     override suspend fun getFishes(): List<NetworkFish> =
         networkApi.getFishes().getDataOrThrow()
+
+    override suspend fun getProductionRecords(
+        userId: String,
+        seasonId: String
+    ): List<NetworkProductionRecord> =
+        networkApi.getProductionRecords(
+            userId = userId,
+            seasonId = seasonId
+        ).getDataOrThrow().data
 
     override suspend fun getSeasonEndReasons(): List<NetworkSeasonEndReason> =
         networkApi.getSeasonEndReasons().getDataOrThrow().data

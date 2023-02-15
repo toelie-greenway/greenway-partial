@@ -25,12 +25,19 @@ class DefaultExpenseRepository @Inject constructor(
             request = NetworkExpenseRequest.fromDomainRequest(request)
         )
         val season = seasonDao.getSeasonById(request.seasonId)
+
         if (season != null) {
+            val isHarvested = if (season.isHarvested) {
+                true
+            } else {
+                request.expenseCategory.isHarvesting
+            }
             seasonDao.upsertSeasonEntity(
                 season.copy(
                     totalExpenses = season.totalExpenses + calculateTotal(
                         request
-                    )
+                    ),
+                    isHarvested = isHarvested
                 )
             )
         }

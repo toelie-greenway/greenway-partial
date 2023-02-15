@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.production.addeditproductionrecord
 
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import greenway_myanmar.org.common.domain.entities.Text
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFishSize
@@ -23,9 +24,7 @@ data class AddEditProductionRecordUiState(
 
     val individualInputErrorsByFishAndSize: Map<Pair<String, String>, Text?>? = null,
     val allInputError: Text? = null,
-    val addEditProductionRecordResult: AddEditProductionRecordResult? = null,
-) {
-    data class AddEditProductionRecordResult(
-        val recordId: String
-    )
-}
+
+    val productionRecordSavingState: LoadingState<Unit> = LoadingState.Idle,
+    val productionRecordSavingError: Text? = null
+)

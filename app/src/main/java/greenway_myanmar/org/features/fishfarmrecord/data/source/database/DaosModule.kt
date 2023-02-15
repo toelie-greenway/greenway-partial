@@ -12,6 +12,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.Ffr
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFcrRecordDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFishDao
+import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrProductionRecordDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonEndReasonDao
 
@@ -58,6 +59,11 @@ object DaosModule {
     fun providesFfrFcrRecordDao(
         db: GreenWayDb,
     ): FfrFcrRecordDao = db.ffrFcrRecordDao()
+
+    @Provides
+    fun providesFfrProductionRecordDao(
+        db: GreenWayDb,
+    ): FfrProductionRecordDao = db.ffrProductionRecordDao()
 
     @Provides
     fun providesFfrSeasonEndReasonDao(
