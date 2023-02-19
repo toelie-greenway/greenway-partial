@@ -27,3 +27,7 @@ fun UiFish.asDomainModel() = Fish(
     iconImageUrl = imageUrl,
     species = species
 )
+
+fun List<UiFish>.asString() = this.joinToString(separator = "၊ ") {
+    it.name
+}

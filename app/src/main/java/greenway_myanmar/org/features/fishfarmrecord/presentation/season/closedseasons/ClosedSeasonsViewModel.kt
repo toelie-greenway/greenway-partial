@@ -102,7 +102,8 @@ private fun closedSeasonsStream(
                             ClosedSeasonListItemUiState.from(
                                 domainModel = it,
                                 farmName = farmUiState.data.name,
-                                farmArea = it.farmMeasurement.area
+                                farmArea = it.farmMeasurement.area,
+                                farmImages = farmUiState.data.images
                             )
                         }
                     )

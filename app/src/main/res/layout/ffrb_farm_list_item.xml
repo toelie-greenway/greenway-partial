@@ -126,6 +126,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/padding_normal"
             android:textColor="@color/app_blue"
+            android:textSize="16sp"
+            app:fontFamily="@font/noto_sans_myanmar_semi_bold_600"
             app:layout_constraintBaseline_toBaselineOf="@id/add_expense_button"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="၁၇၅,၀၀၀ ကျပ်" />

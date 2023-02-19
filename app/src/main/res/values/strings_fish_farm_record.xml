@@ -60,7 +60,8 @@
     <string name="ffr_label_production_record">Production record</string>
     <string name="ffr_label_fcr_record">FCR မှတ်တမ်း</string>
 
-    <string name="ffr_label_closed_season_formatted_season_info">%1$s • %2$s</string>
+    <string name="ffr_label_closed_season_formatted_season_info">ပိတ်သိမ်းပြီး • %1$s • %2$s</string>
+    <string name="ffr_label_closed_season_formatted_info">%1$s • %2$s</string>
 
     <!-- Motion transaction names -->
     <string name="ffr_transition_name_screen_farm_list">farm_list_screen</string>

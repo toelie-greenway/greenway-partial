@@ -3,9 +3,14 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.season.closeds
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.greenwaymyanmar.core.presentation.model.UiArea
+import com.greenwaymyanmar.core.presentation.model.asString
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FfrClosedSeasonListItemBinding
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.asString
 import greenway_myanmar.org.util.DateUtils
+import greenway_myanmar.org.util.extensions.load
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
 
@@ -22,35 +27,21 @@ class ClosedSeasonListItemViewHolder(
     init {
     }
 
-//    android:onClick="@{() -> itemClickCallback.onItemClick(item)}"
-//    android:onClick="@{() -> itemClickCallback.onCompanyClick(item.openingSeason.company)}"
-//    android:text='@{item.name}'
-//    android:text='@{MyanmarNumberExtensionKt.toMyanmar(item.area) + " " + item.userFriendlyUnit()}'
-//    android:onClick="@{() -> itemClickCallback.onAddSeasonClick(item)}"
-//    app:visibleGone="@{item.openingSeason == null}"
-//    android:onClick="@{() -> itemClickCallback.onAddExpenseClick(item)}"
-//    app:visibleGone="@{item.openingSeason != null}"
-
-//    app:visibleGone="@{item.openingSeason != null}"
-
-//    app:visibleGone='@{item.pendingAction.pending}'
-
-
     fun bind(item: ClosedSeasonListItemUiState) {
-        binding.pondName.text = item.seasonName
+        binding.farmName.text = item.farmName
         binding.totalExpense.setAmount(item.totalExpenses)
         binding.seasonInfo.text = formatSeasonInfo(item.seasonName, item.seasonStartDate)
+
+        if (!item.farmImages.isNullOrEmpty()) {
+            binding.farmImageView.load(
+                context,
+                item.farmImages.first()
+            )
+        }
+        binding.info.text = formatInfo(item.area, item.fishes)
         binding.root.setOnClickListener {
             onItemClick(item)
         }
-    }
-
-    private fun bindThumbnailImage(thumbnailImageUrl: String?) {
-//        Glide.with(context)
-//            .load(thumbnailImageUrl)
-//            .placeholder(R.drawable.image_placeholder)
-//            .fallback(R.drawable.farm_greyscale_placeholder)
-//            .into(binding.pondThumbnailImage)
     }
 
     private fun formatSeasonInfo(seasonName: String, seasonStartDate: Instant): String {
@@ -61,8 +52,15 @@ class ClosedSeasonListItemViewHolder(
         )
     }
 
+    private fun formatInfo(area: UiArea?, fishes: List<UiFish>): String {
+        return context.resources.getString(
+            R.string.ffr_label_closed_season_formatted_info,
+            area?.asString(context).orEmpty(),
+            fishes.asString()
+        )
+    }
+
     private fun formatSeasonStartDate(seasonStartDate: Instant): String {
         return DateUtils.format(seasonStartDate.toJavaInstant(), "yyyy")
     }
-
 }

@@ -7,6 +7,7 @@ import greenway_myanmar.org.R
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiSeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiSeasonSummary
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.asString
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.SeasonSummaryItemUiState
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.SeasonSummaryItemViewGroupModel_
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.categoryExpenseListItemView
@@ -270,8 +271,6 @@ class SeasonSummaryController(
         SeasonSummaryItemUiState(
             "fishes",
             "မွေးမြူငါးများ",
-            fishes.joinToString(separator = "၊ ") {
-                it.name
-            }
+            fishes.asString()
         )
 }
