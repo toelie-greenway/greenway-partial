@@ -10,7 +10,7 @@ import com.greenwaymyanmar.core.presentation.model.UiArea
 import com.greenwaymyanmar.core.presentation.util.numberFormat
 import com.greenwaymyanmar.vo.PendingAction
 import greenway_myanmar.org.R
-import greenway_myanmar.org.databinding.FfrbFarmListItemBinding
+import greenway_myanmar.org.databinding.FfrFarmListItemBinding
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ContractFarmingCompany
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 import greenway_myanmar.org.util.extensions.load
@@ -25,9 +25,9 @@ class FarmListItemViewHolder(
     private val onAddNewExpenseClick: (view: View, item: FarmListItemUiState) -> Unit
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
-        .inflate(R.layout.ffrb_farm_list_item, parent, false)
+        .inflate(R.layout.ffr_farm_list_item, parent, false)
 ) {
-    private val binding = FfrbFarmListItemBinding.bind(itemView)
+    private val binding = FfrFarmListItemBinding.bind(itemView)
     private val context = parent.context
 
     fun bind(item: FarmListItemUiState) {
