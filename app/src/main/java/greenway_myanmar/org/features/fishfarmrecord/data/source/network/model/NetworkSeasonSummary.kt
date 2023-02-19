@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng
 import greenway_myanmar.org.features.fishfarmrecord.data.model.asDomainModel
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Area
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.CropIncomeSummary
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.ExpenseSummary
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.SeasonSummary
 import greenway_myanmar.org.util.extensions.toBigDecimalOrZero
@@ -57,9 +58,7 @@ fun NetworkSeasonSummary.asDomainModel() = SeasonSummary(
     isHarvested = is_harvest ?: false,
     endReason = end_reason?.asDomainModel(),
     familyCost = family_cost.toBigDecimalOrZero(),
-    categoryExpenses = expenses.orEmpty().map {
-        it.asDomainModel()
-    },
+    expenseSummary = mapExpenseSummary(expenses),
     productionRecordSummary = productions?.asDomainModel(),
     cropIncomeSummary = mapCropIncomeSummary(crop_incomes),
     fcrRecords = fcr_records.orEmpty().map(NetworkFcrRecord::asDomainModel)
@@ -71,6 +70,16 @@ private fun NetworkSeasonSummary.mapCropIncomeSummary(cropIncomes: List<NetworkC
     return CropIncomeSummary(
         totalIncome = cropIncomes.sumOf { it.income.toBigDecimalOrZero() },
         cropIncomes = cropIncomes.map(NetworkCropIncome::asDomainModel)
+    )
+}
+
+
+private fun NetworkSeasonSummary.mapExpenseSummary(expenses: List<NetworkCategoryExpense>?): ExpenseSummary? {
+    if (expenses == null) return null
+
+    return ExpenseSummary(
+        totalExpense = expenses.sumOf { it.total_cost.toBigDecimalOrZero() },
+        categoryExpenses = expenses.map(NetworkCategoryExpense::asDomainModel)
     )
 }
 

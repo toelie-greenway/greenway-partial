@@ -2,11 +2,17 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary
 
 import android.content.Context
 import com.airbnb.epoxy.EpoxyController
+import com.airbnb.epoxy.group
+import greenway_myanmar.org.R
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiSeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiSeasonSummary
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.SeasonSummaryItemUiState
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.SeasonSummaryItemViewGroupModel_
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.categoryExpenseListItemView
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.cropIncomeListItemView
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.productionRecordListItemView
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.seasonSummarySubheaderView
 
 class SeasonSummaryController(
     private val context: Context
@@ -18,34 +24,18 @@ class SeasonSummaryController(
 
     override fun buildModels() {
 
-        seasonSummary?.let {
-            SeasonSummaryItemViewGroupModel_()
-                .id("items")
-                .items(buildItemsFrom("TODO", it))
-                .addTo(this)
+        seasonSummary?.let { summary ->
+            addSeasonSummary(summary)
+            addProductionRecordSummaryIfExists(summary)
+            addCropIncomeSummaryIfExists(summary)
+            addExpenseSummaryIfExists(summary)
         }
+
+
 //    seasonResource?.let { resource ->
 //      resource.data?.let { _season ->
-//        farm?.let { _farm ->
-//          AsymtSeasonReportItemViewGroupModel_()
-//            .id("items")
-//            .items(buildItemsFromSeason(_farm, _season))
-//            .addTo(this)
-//
-//          if (!_season.yields.isNullOrEmpty()) {
-//
-//            AsymtSeasonReportSubheaderBindingModel_()
-//              .id("yield_list_subheader")
-//              .title("အထွက်နှုန်းစာရင်းများ")
-//              .addTo(this)
-//
-//            _season.yields.orEmpty().forEach {
-//              AsymtSeasonReportYieldListItemBindingModel_()
-//                .id("yield_list_item_" + it.id)
-//                .yield(it)
-//                .addTo(this)
-//            }
-//          }
+
+
 //
 //          if (!_season.expenseCategories.isNullOrEmpty()) {
 //
@@ -65,6 +55,86 @@ class SeasonSummaryController(
 //        }
 //      }
 //    }
+    }
+
+    private fun addSeasonSummary(summary: UiSeasonSummary) {
+        SeasonSummaryItemViewGroupModel_()
+            .id("items")
+            .items(buildItemsFrom("TODO", summary))
+            .addTo(this)
+    }
+
+    private fun addProductionRecordSummaryIfExists(summary: UiSeasonSummary) {
+        summary.productionRecordSummary?.let { productionRecordSummary ->
+            val records = productionRecordSummary.productionRecords
+            if (records.isNotEmpty()) {
+                group {
+                    id("production_record_list")
+                    layout(R.layout.ffr_season_summary_group_view)
+
+                    seasonSummarySubheaderView {
+                        id("production_list_subheader")
+                        subheader("အထွက်နှုန်းစာရင်းများ")
+                    }
+
+                    records.forEach { item ->
+                        productionRecordListItemView {
+                            id("production_" + item.id)
+                            item(item)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    private fun addCropIncomeSummaryIfExists(summary: UiSeasonSummary) {
+        summary.cropIncomeSummary?.let { cropIncomeSummary ->
+            val incomes = cropIncomeSummary.cropIncomes
+            if (incomes.isNotEmpty()) {
+                group {
+                    id("crop_income_list")
+                    layout(R.layout.ffr_season_summary_group_view)
+
+                    seasonSummarySubheaderView {
+                        id("crop_income_list_subheader")
+                        subheader("သီးနှံဝင်ငွေများ")
+                    }
+
+                    incomes.forEach { item ->
+                        cropIncomeListItemView {
+                            id("crop_income_" + item.id)
+                            item(item)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun addExpenseSummaryIfExists(summary: UiSeasonSummary) {
+        summary.expenseSummary?.let { expenseSummary ->
+            val categoryExpenses = expenseSummary.categoryExpenses
+            if (categoryExpenses.isNotEmpty()) {
+                group {
+                    id("expense_list")
+                    layout(R.layout.ffr_season_summary_group_view)
+
+                    seasonSummarySubheaderView {
+                        id("expenses_list_subheader")
+                        subheader("ကုန်ကျစရိတ်များ")
+                    }
+
+                    categoryExpenses.forEach { item ->
+                        categoryExpenseListItemView {
+                            id("expense_" + item.category.id)
+                            item(item)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     interface ClickCallback {

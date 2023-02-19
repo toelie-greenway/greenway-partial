@@ -6,6 +6,7 @@ import com.greenwaymyanmar.core.presentation.util.numberFormat
 import greenway_myanmar.org.R
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ContractFarmingCompany
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.CropIncomeSummary
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.ExpenseSummary
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ProductionRecordSummary
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.SeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.SeasonSummary
@@ -28,7 +29,7 @@ data class UiSeasonSummary(
     val company: UiContractFarmingCompany? = null,
     val totalExpenses: BigDecimal = BigDecimal.ZERO,
     val familyCost: BigDecimal = BigDecimal.ZERO,
-    val categoryExpenses: List<UiCategoryExpense>,
+    val expenseSummary: UiExpenseSummary?,
     val productionRecordSummary: UiProductionRecordSummary?,
     val cropIncomeSummary: UiCropIncomeSummary?,
     val fcrRecords: List<UiFcrRecord>?,
@@ -43,6 +44,7 @@ data class UiSeasonSummary(
             R.string.formatted_viss,
             numberFormat.format(productionRecordSummary?.totalWeight.orZero())
         )
+
     fun formattedTotalProductionIncomes(context: Context): String =
         context.resources.getString(
             R.string.formatted_kyat,
@@ -96,11 +98,7 @@ data class UiSeasonSummary(
             company = mapCompany(domainModel.company),
             totalExpenses = domainModel.totalExpenses,
             familyCost = domainModel.familyCost,
-            categoryExpenses = domainModel.categoryExpenses.map {
-                UiCategoryExpense.fromDomainModel(
-                    it
-                )
-            },
+            expenseSummary = mapExpenseSummary(domainModel.expenseSummary),
             productionRecordSummary = mapProductionRecordSummary(domainModel.productionRecordSummary),
             cropIncomeSummary = mapCropIncomeSummary(domainModel.cropIncomeSummary),
             fcrRecords = domainModel.fcrRecords.orEmpty().map {
@@ -115,6 +113,12 @@ data class UiSeasonSummary(
             if (summary == null) return null
 
             return UiCropIncomeSummary.fromDomainModel(summary)
+        }
+
+        private fun mapExpenseSummary(summary: ExpenseSummary?): UiExpenseSummary? {
+            if (summary == null) return null
+
+            return UiExpenseSummary.fromDomainModel(summary)
         }
 
         private fun mapEndReason(reason: SeasonEndReason?): UiSeasonEndReason? {

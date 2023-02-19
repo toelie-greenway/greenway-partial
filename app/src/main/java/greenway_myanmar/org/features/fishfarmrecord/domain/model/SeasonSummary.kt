@@ -18,7 +18,7 @@ data class SeasonSummary(
     val loan: Loan? = null,
     val totalExpenses: BigDecimal = BigDecimal.ZERO,
     val familyCost: BigDecimal = BigDecimal.ZERO,
-    val categoryExpenses: List<CategoryExpense>,
+    val expenseSummary: ExpenseSummary?,
     val productionRecordSummary: ProductionRecordSummary?,
     val cropIncomeSummary: CropIncomeSummary?,
     val fcrRecords: List<FcrRecord>?,
