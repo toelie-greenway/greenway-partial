@@ -7,7 +7,7 @@ import kotlinx.datetime.Instant
 import java.math.BigDecimal
 
 data class ClosedSeasonListItemUiState(
-    val id: String,
+    val seasonId: String,
     val farmName: String,
     val area: UiArea?,
     val seasonName: String,
@@ -16,7 +16,7 @@ data class ClosedSeasonListItemUiState(
 ) {
     companion object {
         fun from(domainModel: Season, farmName: String, farmArea: Area?) = ClosedSeasonListItemUiState(
-            id = domainModel.id,
+            seasonId = domainModel.id,
             farmName = farmName,
             seasonName = domainModel.name,
             seasonStartDate = domainModel.startDate,

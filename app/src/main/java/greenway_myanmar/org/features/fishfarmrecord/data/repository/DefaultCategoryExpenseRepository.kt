@@ -55,7 +55,7 @@ class DefaultCategoryExpenseRepository @Inject constructor(
                 rateLimiter.reset(KEY_CATEGORY_EXPENSES)
             },
             shouldFetch = { data ->
-                shouldFetchCategoryExpenses(data, forceRefresh)
+                true//shouldFetchCategoryExpenses(data, forceRefresh)
             }
         )
     }

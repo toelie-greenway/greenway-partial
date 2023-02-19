@@ -109,6 +109,9 @@
         <action
             android:id="@+id/action_farmDetailFragment_to_addEditCropIncomeFragment"
             app:destination="@id/addEditCropIncomeFragment" />
+        <action
+            android:id="@+id/action_farmDetailFragment_to_seasonSummaryFragment"
+            app:destination="@id/seasonSummaryFragment" />
     </fragment>
     <fragment
         android:id="@+id/fishInputFragment"
@@ -256,5 +259,16 @@
         android:id="@+id/cropPickerFragment"
         android:name="greenway_myanmar.org.ui.croppicker.CropPickerFragment"
         android:label="CropPickerFragment" />
+    <fragment
+        android:id="@+id/seasonSummaryFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.SeasonSummaryFragment"
+        android:label="SeasonSummaryFragment" >
+        <argument
+            android:name="season_id"
+            app:argType="string" />
+        <argument
+            android:name="farm_id"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

@@ -1,6 +1,7 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.repository
 
 import com.greenwaymyanmar.common.data.repository.util.networkBoundResult
+import com.greenwaymyanmar.common.data.repository.util.networkResult
 import com.greenwaymyanmar.common.result.Result
 import greenway_myanmar.org.db.UserHelper
 import greenway_myanmar.org.features.fishfarmrecord.data.model.asEntity
@@ -9,8 +10,10 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.Ffr
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.FfrSeasonEntity
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.model.asDomainModel
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.FishFarmRecordNetworkDataSource
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.asDomainModel
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.SeasonEndReason
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.SeasonSummary
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.SeasonRepository
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveSeasonUseCase
@@ -80,5 +83,18 @@ class DefaultSeasonRepository @Inject constructor(
         seasonDao.upsertSeasonEntity(
             networkSeason.asEntity(farmId)
         )
+    }
+
+    override fun getSeasonSummaryStream(
+        farmId: String,
+        seasonId: String
+    ): Flow<Result<SeasonSummary>> {
+        return networkResult {
+            network.getSeasonSummary(
+                farmId = farmId,
+                seasonId = seasonId,
+                userId = userHelper.activeUserId.toString()
+            ).asDomainModel()
+        }
     }
 }

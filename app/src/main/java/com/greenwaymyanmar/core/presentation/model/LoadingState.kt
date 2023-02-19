@@ -20,3 +20,4 @@ sealed interface LoadingState<out T> {
 fun <T> LoadingState<T>.isSuccess() = this is LoadingState.Success
 fun <T> LoadingState<T>.isLoading() = this is LoadingState.Loading
 fun <T> LoadingState<T>.isNotLoading() = !isLoading()
+fun <T> LoadingState<T>.getDataOrNull() = (this as? LoadingState.Success)?.data

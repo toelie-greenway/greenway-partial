@@ -4,7 +4,7 @@ enum class FishSize(val key: String) {
     Large("large"),
     Medium("medium"),
     Small("small"),
-    HomePresent("home-present");
+    HomePresent("reject");
 
     companion object {
         fun fromString(key: String) = when (key) {

@@ -6,6 +6,7 @@ import com.greenwaymyanmar.common.data.api.v2.response.AsylErrorResponse
 import com.greenwaymyanmar.common.data.api.v3.NetworkDomainException
 import com.greenwaymyanmar.common.data.api.v3.UnknownDomainException
 import com.greenwaymyanmar.utils.errorMessage
+import greenway_myanmar.org.BuildConfig
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.ResourceError
 import greenway_myanmar.org.common.domain.entities.Text
@@ -103,7 +104,12 @@ fun Response<*>.errorMessage(): String {
 
 fun Throwable?.errorText(): Text {
     val networkError = Text.ResourceText(R.string.error_no_network)
-    val somethingWrongError = Text.ResourceText(R.string.toast_something_wrong)
+
+    val somethingWrongError = if (BuildConfig.DEBUG) {
+        Text.StringText(this?.message ?: "unknown error")
+    } else {
+        Text.ResourceText(R.string.toast_something_wrong)
+    }
     return when (this) {
         is UnknownDomainException -> {
             Text.StringText(this.message)

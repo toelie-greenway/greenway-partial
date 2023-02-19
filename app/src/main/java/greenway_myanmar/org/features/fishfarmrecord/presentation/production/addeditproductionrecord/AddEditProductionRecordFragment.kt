@@ -187,7 +187,7 @@ class AddEditProductionRecordFragment : Fragment(R.layout.ffr_add_edit_productio
             .distinctUntilChanged()
             .collect {
                 binding.totalPriceTextView.text =
-                    resources.getString(R.string.format_kyat, numberFormat.format(it))
+                    resources.getString(R.string.formatted_kyat, numberFormat.format(it))
             }
     }
 

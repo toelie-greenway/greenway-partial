@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.decoration.SpaceMarginDecoration
 import greenway_myanmar.org.databinding.FfrClosedSeasonsFragmentBinding
+import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmDetailFragmentDirections
 import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmDetailViewModel
 import greenway_myanmar.org.util.kotlin.autoCleared
 import kotlinx.coroutines.CoroutineScope
@@ -43,7 +44,11 @@ class ClosedSeasonsFragment : Fragment(R.layout.ffr_closed_seasons_fragment) {
     }
 
     private fun setupList() {
-        adapter = ClosedSeasonAdapter()
+        adapter = ClosedSeasonAdapter(
+            onItemClicked = {
+                navigateToSeasonSummaryScreen(it)
+            }
+        )
         binding.list.addItemDecoration(SpaceMarginDecoration(requireContext(), 0, 0, 0, 8))
         binding.list.adapter = adapter
     }
@@ -75,6 +80,20 @@ class ClosedSeasonsFragment : Fragment(R.layout.ffr_closed_seasons_fragment) {
     private fun CoroutineScope.observeFarmIdFromParentViewModel() = launch {
         viewModel.handleEvent(
             ClosedSeasonsEvent.OnFarmIdChanged(parentViewModel.getFarmId())
+        )
+    }
+
+    private fun navigateToSeasonSummaryScreen(item: ClosedSeasonListItemUiState) {
+        val farmId = parentViewModel.getFarmId()
+        if (farmId.isEmpty()) {
+            return
+        }
+
+        navController.navigate(
+            FarmDetailFragmentDirections.actionFarmDetailFragmentToSeasonSummaryFragment(
+                farmId = farmId,
+                seasonId = item.seasonId
+            )
         )
     }
 

@@ -15,6 +15,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonListResponse
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonSummary
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkCropIncomeRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkExpenseRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmRequest
@@ -90,6 +91,12 @@ interface FishFarmRecordNetworkDataSource {
     ): List<NetworkProductionRecord>
 
     suspend fun getSeasonEndReasons(): List<NetworkSeasonEndReason>
+
+    suspend fun getSeasonSummary(
+        farmId: String,
+        seasonId: String,
+        userId: String
+    ): NetworkSeasonSummary
 
     suspend fun patchSeason(
         farmId: String,

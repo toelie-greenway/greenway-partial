@@ -35,3 +35,18 @@ inline fun <ResultType, RequestType> networkBoundResult(
 
         emitAll(flow)
     }
+
+
+inline fun <T> networkResult(
+    crossinline fetch: suspend () -> T,
+) =
+    flow {
+        emit(Result.Loading)
+        try {
+            val result = fetch()
+            emit(Result.Success(result))
+        } catch (throwable: Throwable) {
+            throwable.printStackTrace()
+            emit(Result.Error(throwable))
+        }
+    }

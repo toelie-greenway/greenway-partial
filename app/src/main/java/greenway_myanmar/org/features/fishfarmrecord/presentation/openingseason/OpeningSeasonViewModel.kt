@@ -2,7 +2,6 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +20,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapLatest
@@ -131,9 +129,7 @@ private suspend fun loadCategoryListStream(
         ),
         ::Pair
     )
-        .catch {
-            LoadingState.Empty(it.errorText())
-        }.map { (expensesResult, productionsResult) ->
+        .map { (expensesResult, productionsResult) ->
             if (expensesResult is Result.Success) {
                 val items = mutableListOf<OpeningSeasonCategoryListItemUiState>()
                 val categories = expensesResult.data.map {

@@ -9,7 +9,15 @@ data class UiCrop(
     val id: String,
     val name: String,
     val iconImageUrl: String
-): Parcelable
+) : Parcelable {
+    companion object {
+        fun fromDomainModel(domainModel: Crop) = UiCrop(
+            id = domainModel.id,
+            name = domainModel.name,
+            iconImageUrl = domainModel.iconImageUrl
+        )
+    }
+}
 
 fun UiCrop.asDomainModel() = Crop(
     id = id,

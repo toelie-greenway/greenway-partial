@@ -40,6 +40,9 @@ class ClosedSeasonListItemViewHolder(
         binding.pondName.text = item.seasonName
         binding.totalExpense.setAmount(item.totalExpenses)
         binding.seasonInfo.text = formatSeasonInfo(item.seasonName, item.seasonStartDate)
+        binding.root.setOnClickListener {
+            onItemClick(item)
+        }
     }
 
     private fun bindThumbnailImage(thumbnailImageUrl: String?) {

@@ -2,6 +2,7 @@ package greenway_myanmar.org.features.fishfarmrecord.domain.repository
 
 import com.greenwaymyanmar.common.result.Result
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.SeasonEndReason
+import greenway_myanmar.org.features.fishfarmrecord.domain.model.SeasonSummary
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveSeasonUseCase.SaveSeasonRequest
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveSeasonUseCase.SaveSeasonResult
@@ -15,4 +16,9 @@ interface SeasonRepository {
         seasonId: String,
         reason: SeasonEndReason
     )
+
+    fun getSeasonSummaryStream(
+        farmId: String,
+        seasonId: String
+    ): Flow<Result<SeasonSummary>>
 }

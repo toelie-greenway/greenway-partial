@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
 class ClosedSeasonAdapter(
+    private val onItemClicked: (ClosedSeasonListItemUiState) -> Unit
 ) : ListAdapter<ClosedSeasonListItemUiState, ClosedSeasonListItemViewHolder>(
     ClosedSeasonDiffCallback
 ) {
@@ -16,7 +17,7 @@ class ClosedSeasonAdapter(
         return ClosedSeasonListItemViewHolder(
             parent = parent,
             onItemClick = {
-
+                onItemClicked(it)
             }
         )
     }
@@ -33,7 +34,7 @@ class ClosedSeasonAdapter(
             oldItem: ClosedSeasonListItemUiState,
             newItem: ClosedSeasonListItemUiState
         ): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.seasonId == newItem.seasonId
         }
 
         override fun areContentsTheSame(

@@ -17,3 +17,10 @@ data class NetworkFish(
         )
     }
 }
+
+fun NetworkFish.asDomainModel() = Fish(
+    id = id.orEmpty(),
+    name = name.orEmpty(),
+    iconImageUrl = image.orEmpty(),
+    species = ""
+)

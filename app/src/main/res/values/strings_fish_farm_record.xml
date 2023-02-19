@@ -16,7 +16,7 @@
     <string name="tical_symbol">ကျပ်သား</string>
     <string name="day_symbol">ရက်</string>
     <string name="formatted_viss">%s ပိဿာ</string>
-    <string name="format_kyat">%s ကျပ်</string>
+    <string name="formatted_kyat">%s ကျပ်</string>
     <string name="ffr_message_coming_soon">နောက်ဗားရှင်းတွင် ယခုလုပ်ဆောင်ချက် ပါဝင်လာပါမည်</string>
     <string name="ffr_label_remark">မှတ်ချက်</string>
     <string name="ffr_label_remark_with_dash_prefix">—မှတ်ချက်</string>
@@ -38,6 +38,9 @@
     <string name="ffr_nav_title_production_list">ထွက်နှုန်း</string>
     <string name="ffr_nav_title_season_end">မွေးမြူရာသီ ပိတ်သိမ်းခြင်း</string>
     <string name="ffr_nav_title_add_crop_income">သီးနှံဝင်ငွေ</string>
+    <string name="ffr_nav_title_season_summary">စာရင်းအနှစ်ချုပ်</string>
+    <string name="ffr_nav_subtitle_season_summary">မွေးမြူပြီးစာရင်းတွင်သိမ်းဆည်းထားသည်</string>
+
 
     <string name="action_next">ရှေ့သို့</string>
     <string name="ffrb_action_done">Done</string>

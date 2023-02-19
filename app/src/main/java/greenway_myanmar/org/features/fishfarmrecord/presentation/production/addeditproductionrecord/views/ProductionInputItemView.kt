@@ -72,7 +72,7 @@ class ProductionInputItemView @JvmOverloads constructor(
 
     fun setSubtotalPrice(subtotalPrice: BigDecimal) {
         binding.subtotalPriceTextView.text =
-            resources.getString(R.string.format_kyat, numberFormat.format(subtotalPrice))
+            resources.getString(R.string.formatted_kyat, numberFormat.format(subtotalPrice))
     }
 
     private fun ViewGroup.findChildByFishSize(size: UiFishSize): ProductionSizeInputItemView? {

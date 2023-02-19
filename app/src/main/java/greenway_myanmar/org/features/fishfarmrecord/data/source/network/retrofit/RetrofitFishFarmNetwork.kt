@@ -19,6 +19,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonEndReason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonListResponse
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonSummary
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkCropIncomeRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkExpenseRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFarmRequest
@@ -84,6 +85,14 @@ private interface RetrofitFishFarmRecordNetworkApi {
         @Query("page") page: Int = 1,
         @Query("user_id") userId: String
     ): ApiResponse<NetworkSeasonListResponse>
+
+    @GET("ffr/farms/{farm_id}/seasons/{season_id}")
+    suspend fun getSeasonSummary(
+        @Path("farm_id") farmId: String,
+        @Path("season_id") seasonId: String,
+        @Query("user_id") userId: String,
+        @Query("summary") summary: Int = 1,
+    ): ApiResponse<ApiDataWrapper<NetworkSeasonSummary>>
 
     @GET(value = "ffr/farms")
     suspend fun getFarms(
@@ -298,6 +307,17 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
 
     override suspend fun getSeasonEndReasons(): List<NetworkSeasonEndReason> =
         networkApi.getSeasonEndReasons().getDataOrThrow().data
+
+    override suspend fun getSeasonSummary(
+        farmId: String,
+        seasonId: String,
+        userId: String
+    ): NetworkSeasonSummary =
+        networkApi.getSeasonSummary(
+            farmId = farmId,
+            seasonId = seasonId,
+            userId = userId
+        ).getDataOrThrow().data
 
     override suspend fun patchSeason(
         farmId: String,
