@@ -1,8 +1,11 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.repository
 
+import android.content.Context
+import com.greenwaymyanmar.common.data.api.util.buildImageRequest
 import com.greenwaymyanmar.common.data.repository.util.networkBoundResult
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.vo.PendingAction
+import dagger.hilt.android.qualifiers.ApplicationContext
 import greenway_myanmar.org.db.UserHelper
 import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
 import greenway_myanmar.org.features.fishfarmrecord.data.model.asEntity
@@ -20,6 +23,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmReposi
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCase.SaveFarmRequest
 import greenway_myanmar.org.util.RateLimiter
+import greenway_myanmar.org.vo.ServerImageContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
@@ -35,7 +39,8 @@ class DefaultFarmRepository @Inject constructor(
     private val farmDao: FfrFarmDao,
     private val seasonDao: FfrSeasonDao,
     private val userHelper: UserHelper,
-    private val network: FishFarmRecordNetworkDataSource
+    private val network: FishFarmRecordNetworkDataSource,
+    @ApplicationContext private val context: Context
 ) : FarmRepository {
 
     private val rateLimiter = RateLimiter<String>(10, TimeUnit.MINUTES)
@@ -75,9 +80,25 @@ class DefaultFarmRepository @Inject constructor(
 
     override suspend fun postFarm(farmId: String): String {
         val farm: FfrFarmEntity = farmDao.getFarmById(farmId)
+
+        val imageUrls = mutableListOf<String>()
+        if (!farm.images.isNullOrEmpty()) {
+            farm.images.map { it.uri }.forEach { imageUri ->
+                if (imageUri != null) {
+                    val networkImage = network.postImage(
+                        buildImageRequest(
+                            context.contentResolver,
+                            ServerImageContext.FFR,
+                            imageUri
+                        )
+                    )
+                    imageUrls.add(networkImage.url.orEmpty())
+                }
+            }
+        }
         val response = network.postFarm(
             userId = userHelper.activeUserId.toString(),
-            request = farm.asNetworkRequestModel()
+            request = farm.asNetworkRequestModel(imageUrls)
         )
         farmDao.deleteFarmById(farmId)
         farmDao.upsertFarm(response.asEntity())

@@ -15,6 +15,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmListResponse
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFcrRecord
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFish
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkImage
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkProductionRecord
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonEndReason
@@ -26,11 +27,14 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.re
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFcrRecordRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkProductionRecordRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest
+import okhttp3.RequestBody
 import retrofit2.Retrofit
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PartMap
 import retrofit2.http.Path
 import retrofit2.http.Query
 import javax.inject.Inject
@@ -41,6 +45,12 @@ import javax.inject.Singleton
  * Retrofit API declaration for GreenWay Fish Farm Record Feature Network API
  */
 private interface RetrofitFishFarmRecordNetworkApi {
+
+    @Multipart
+    @POST("upload")
+    suspend fun postImage(
+        @PartMap params: Map<String, @JvmSuppressWildcards RequestBody?>
+    ): ApiResponse<ApiDataWrapper<NetworkImage>>
 
     @POST("ffr/farms")
     suspend fun postFarm(
@@ -182,6 +192,9 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
 
     private val networkApi: RetrofitFishFarmRecordNetworkApi =
         retrofit.create(RetrofitFishFarmRecordNetworkApi::class.java)
+
+    override suspend fun postImage(params: Map<String, RequestBody?>): NetworkImage =
+        networkApi.postImage(params).getDataOrThrow().data
 
     override suspend fun postFarm(userId: String, request: NetworkFarmRequest) =
         networkApi.postFarm(userId, request).getDataOrThrow().data

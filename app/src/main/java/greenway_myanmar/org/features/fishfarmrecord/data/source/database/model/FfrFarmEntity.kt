@@ -21,6 +21,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmMeasurement
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.FarmOwnership
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.asString
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCase.SaveFarmRequest
+import greenway_myanmar.org.util.Image
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
@@ -45,8 +46,7 @@ data class FfrFarmEntity(
     val name: String,
     @ColumnInfo(name = "ownership")
     val ownership: String,
-    @ColumnInfo(name = "image_urls")
-    val imageUrls: List<String>? = null,
+    val images: List<Image>? = null,
     @ColumnInfo(name = "plot_id")
     val plotId: String? = null,
     @ColumnInfo(name = "depth")
@@ -75,7 +75,7 @@ data class FfrFarmEntity(
                 id = generateIdIfRequired(request.id),
                 name = request.name,
                 ownership = request.ownership.asString(),
-                imageUrls = mapImageUri(request.imageUri),
+                images = mapImages(request.imageUri),
                 plotId = request.plotId,
                 depth = request.measurement.depth,
                 pendingAction = pendingAction,
@@ -87,10 +87,10 @@ data class FfrFarmEntity(
                 createdAt = Clock.System.now()
             )
 
-        private fun mapImageUri(imageUri: Uri?): List<String>? {
+        private fun mapImages(imageUri: Uri?): List<Image>? {
             if (imageUri == null) return null
 
-            return listOf(imageUri.toString())
+            return listOf(Image.fromUri(imageUri))
         }
     }
 }
@@ -107,7 +107,7 @@ data class FarmAreaEntity(
 fun FfrFarmEntity.asDomainModel(openingSeason: FfrSeasonEntity? = null) = Farm(
     id = id,
     name = name,
-    images = imageUrls,
+    images = images,
     measurement = FarmMeasurement(
         location = location,
         coordinates = coordinates,
@@ -123,10 +123,10 @@ fun FfrFarmEntity.asDomainModel(openingSeason: FfrSeasonEntity? = null) = Farm(
 )
 
 
-fun FfrFarmEntity.asNetworkRequestModel() = NetworkFarmRequest(
+fun FfrFarmEntity.asNetworkRequestModel(imageUrls: List<String>?) = NetworkFarmRequest(
     name = name,
     ownership = ownership,
-    photos = emptyList(), //TODO:
+    photos = imageUrls,
     plot_id = plotId,
     area = NetworkFarmAreaRequest(
         acre = area,

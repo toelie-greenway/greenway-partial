@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "57ec95c135ce3edf3d5005980864232b",
+    "identityHash": "2ae9d51be8cb5098d2cbca0844112019",
     "entities": [
       {
         "tableName": "ffr_category_expenses",
@@ -293,7 +293,7 @@
       },
       {
         "tableName": "ffr_farms",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `ownership` TEXT NOT NULL, `image_urls` TEXT, `plot_id` TEXT, `depth` REAL, `pending_action` TEXT NOT NULL, `location` TEXT, `coordinates` TEXT, `area` REAL NOT NULL, `measured_area` REAL, `measured_type` TEXT, `opening_season_id` TEXT, `created_at` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`opening_season_id`) REFERENCES `ffr_seasons`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `ownership` TEXT NOT NULL, `images` TEXT, `plot_id` TEXT, `depth` REAL, `pending_action` TEXT NOT NULL, `location` TEXT, `coordinates` TEXT, `area` REAL NOT NULL, `measured_area` REAL, `measured_type` TEXT, `opening_season_id` TEXT, `created_at` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`opening_season_id`) REFERENCES `ffr_seasons`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -314,8 +314,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "imageUrls",
-            "columnName": "image_urls",
+            "fieldPath": "images",
+            "columnName": "images",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -804,7 +804,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '57ec95c135ce3edf3d5005980864232b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2ae9d51be8cb5098d2cbca0844112019')"
     ]
   }
 }

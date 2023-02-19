@@ -16,7 +16,7 @@ data class UiFarm(
         fun fromDomain(domainEntity: Farm) = UiFarm(
             id = domainEntity.id,
             name = domainEntity.name,
-            images = domainEntity.images.orEmpty(),
+            images = domainEntity.images.orEmpty().map { it.url },
             ongoingSeason = domainEntity.openingSeason,
             area = UiArea.fromDomain(domainEntity.measurement.area)
         )

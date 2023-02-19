@@ -11,6 +11,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFarmListResponse
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFcrRecord
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkFish
+import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkImage
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkProductionRecord
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeason
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkSeasonEndReason
@@ -22,11 +23,17 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.re
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkFcrRecordRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkProductionRecordRequest
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.request.NetworkSeasonRequest
+import okhttp3.RequestBody
 
 /**
  * Interface representing network calls to the GreenWay backend
  */
 interface FishFarmRecordNetworkDataSource {
+
+    suspend fun postImage(
+        params: Map<String, RequestBody?>
+    ): NetworkImage
+
     suspend fun postFarm(userId: String, request: NetworkFarmRequest): NetworkFarm
     suspend fun postSeason(
         userId: String,

@@ -82,11 +82,6 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
             )
         )
         binding.epoxyRecyclerView.setControllerAndBuildModels(epoxyController)
-//        binding.recyclerView.addItemDecoration(SpaceMarginDecoration(requireContext(), 0, 0, 0, 8))
-//        categoryAdapter = OpeningSeasonCategoryAdapter()
-//        productionAdapter = OpeningSeasonProductionAdapter()
-//        adapter = ConcatAdapter(categoryAdapter, productionAdapter)
-//        binding.recyclerView.adapter = adapter
     }
 
 

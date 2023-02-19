@@ -3,7 +3,6 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.home
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewGroupCompat
 import androidx.core.view.doOnPreDraw
@@ -124,12 +123,12 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffr_home_fragment) {
                 openAddEditExpenseScreen(view, item)
             }
         )
-        binding.pondList.addItemDecoration(SpaceMarginDecoration(requireContext(), 0, 0, 0, 8))
+        binding.pondList.addItemDecoration(SpaceMarginDecoration(requireContext(), 0, 0, 0, 16))
         binding.pondList.adapter = adapter
     }
 
     private fun openCompanyScreen(company: ContractFarmingCompany) {
-        Toast.makeText(requireContext(), "TODO:// Open company screen", Toast.LENGTH_SHORT).show()
+        // Toast.makeText(requireContext(), "TODO:// Open company screen", Toast.LENGTH_SHORT).show()
     }
 
     private fun openAddEditFishPondScreen() {

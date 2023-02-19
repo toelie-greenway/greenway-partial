@@ -22,7 +22,7 @@ data class FarmListItemUiState(
         fun fromDomain(farm: Farm) = FarmListItemUiState(
             id = farm.id,
             name = farm.name,
-            images = farm.images.orEmpty(),
+            images = farm.images.orEmpty().map { it.url },
             area = farm.measurement.area.let { UiArea.fromDomain(it) },
             depth = farm.measurement.depth,
             openingSeason = farm.openingSeason,

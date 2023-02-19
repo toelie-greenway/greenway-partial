@@ -57,12 +57,12 @@ class FarmListItemViewHolder(
         }
     }
 
-    private fun bindFarmName(pondName: String) {
-        binding.pondName.text = pondName
+    private fun bindFarmName(farmName: String) {
+        binding.farmName.text = farmName
     }
 
     private fun bindThumbnailImage(thumbnailImageUrl: String?) {
-        binding.pondThumbnailImage.load(
+        binding.farmThumbnailImage.load(
             context = parent.context,
             imageUrl = thumbnailImageUrl,
             placeholderResourceId = R.drawable.image_placeholder,

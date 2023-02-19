@@ -138,6 +138,12 @@ class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
         binding.farmSeasonInfoTextView.text = buildFarmSeasonInfo(farm)
         binding.seasonInfoCard.isVisible = farm.ongoingSeason != null
 
+        if (farm.images.isNotEmpty()) {
+            binding.farmImageView.load(
+                requireContext(),
+                farm.images.first()
+            )
+        }
         if (farm.ongoingSeason != null) {
             bindSeasonUi(farm.ongoingSeason)
         }
