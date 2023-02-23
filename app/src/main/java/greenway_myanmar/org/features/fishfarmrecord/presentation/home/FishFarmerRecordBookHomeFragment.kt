@@ -16,6 +16,7 @@ import androidx.transition.TransitionManager
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFade
+import com.greenwaymyanmar.core.presentation.model.getDataOrNull
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
@@ -23,8 +24,6 @@ import greenway_myanmar.org.common.decoration.SpaceMarginDecoration
 import greenway_myanmar.org.databinding.FfrHomeFragmentBinding
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.ContractFarmingCompany
 import greenway_myanmar.org.util.kotlin.autoCleared
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -72,10 +71,10 @@ class FishFarmerRecordBookHomeFragment : Fragment(R.layout.ffr_home_fragment) {
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
             launch {
-                viewModel.uiState.map { it.ponds }
-                    .distinctUntilChanged()
-                    .collect {
-                        adapter.submitList(it)
+                viewModel.farms
+                    .collect { state ->
+                        adapter.submitList(state.getDataOrNull())
+                        binding.loadingStateView.bind(state)
                     }
             }
         }

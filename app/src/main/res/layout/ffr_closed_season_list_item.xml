@@ -10,7 +10,7 @@
         android:layout_height="match_parent">
 
         <FrameLayout
-            android:id="@+id/thumbnail_frame"
+            android:id="@+id/farm_image_frame"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/image_placeholder"
@@ -21,12 +21,24 @@
 
             <ImageView
                 android:id="@+id/farm_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/farm_greyscale_placeholder" />
 
         </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/fish_icons_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:layout_marginBottom="@dimen/spacing_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/farm_image_frame"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <greenway_myanmar.org.ui.widget.GreenWayTextView
             android:id="@+id/season_info"
@@ -38,7 +50,7 @@
             android:textSize="14sp"
             app:fontFamily="@font/noto_sans_myanmar_regular_400"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/thumbnail_frame"
+            app:layout_constraintTop_toBottomOf="@id/farm_image_frame"
             tools:text="ပိတ်သိမ်းပြီး • မိုးရာသီ • ၂၀၁၉" />
 
         <greenway_myanmar.org.ui.widget.GreenWayTextView
@@ -79,13 +91,12 @@
             app:layout_constraintTop_toBottomOf="@id/info" />
 
         <greenway_myanmar.org.ui.widget.GreenWayMoneyTextView
-            android:id="@+id/total_expense"
+            android:id="@+id/total_profit_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_16"
             android:gravity="center_vertical"
             android:minHeight="48dp"
-            android:textColor="?colorOnSurface"
             android:textSize="14sp"
             app:fontFamily="@font/noto_sans_myanmar_semi_bold_600"
             app:layout_constraintStart_toStartOf="parent"

@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FfrFcrRecordListItemViewBinding
+import greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.list.views.FcrRecordListFishItemView
+import java.math.BigDecimal
 
 class FcrRecordListItemViewHolder(
     parent: ViewGroup,
@@ -20,11 +22,16 @@ class FcrRecordListItemViewHolder(
 
     fun bind(item: FcrRecordListItemUiState) {
         binding.dateTextView.text = item.formattedDate()
-        binding.ratioTextView.text = item.formattedCalculatedRatio(context)
-        binding.feedWeightTextView.text = item.formattedTotalFeedWeight(context)
-        binding.gainWeightTextView.text = item.formattedTotalGainWeight(context)
-        binding.editButton.setOnClickListener { onEditClicked(item) }
-        binding.deleteButton.setOnClickListener { onDeleteClicked(item) }
-        binding.root.setOnClickListener { onItemClicked(item) }
+
+        binding.listItemContainer.removeAllViews()
+        item.ratios.forEachIndexed { index, fcr ->
+            if (fcr.feedWeight > BigDecimal.ZERO || fcr.gainWeight > BigDecimal.ZERO) {
+                binding.listItemContainer.addView(
+                    FcrRecordListFishItemView(context).apply {
+                        bind(fcr)
+                    }
+                )
+            }
+        }
     }
 }

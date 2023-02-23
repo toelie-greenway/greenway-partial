@@ -2,57 +2,48 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.greenwaymyanmar.common.data.api.errorText
 import com.greenwaymyanmar.common.result.Result
-import com.greenwaymyanmar.common.result.asResult
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFarmsStreamUseCase
+import greenway_myanmar.org.util.WhileViewSubscribed
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import timber.log.Timber
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class FishFarmerRecordBookHomeViewModel @Inject constructor(
-    private val getFarmsStreamUseCase: GetFarmsStreamUseCase
+    getFarmsStreamUseCase: GetFarmsStreamUseCase
 ) : ViewModel() {
 
     private val _uiState =
         MutableStateFlow(FishFarmerRecordBookHomeUiState())
     val uiState = _uiState.asStateFlow()
 
-    init {
-        loadPonds()
-    }
+    val farms = farmsStream(getFarmsStreamUseCase)
+        .stateIn(viewModelScope, WhileViewSubscribed, LoadingState.Idle)
 
-    private fun loadPonds() {
-        viewModelScope.launch {
-            getFarmsStreamUseCase().asResult().collect { result ->
-                Timber.d("Result: $result")
+    private fun farmsStream(
+        getFarmsStreamUseCase: GetFarmsStreamUseCase
+    ): Flow<LoadingState<List<FarmListItemUiState>>> {
+        return getFarmsStreamUseCase()
+            .map { result ->
                 when (result) {
+                    is Result.Error -> {
+                        LoadingState.Error(result.exception)
+                    }
                     Result.Loading -> {
-                        _uiState.update {
-                            it.copy(isLoading = true)
-                        }
+                        LoadingState.Loading
                     }
                     is Result.Success -> {
-                        _uiState.update {
-                            it.copy(
-                                isLoading = false,
-                                ponds = result.data.map { farm ->
-                                    FarmListItemUiState.fromDomain(farm)
-                                })
-                        }
-                    }
-                    is Result.Error -> {
-                        _uiState.update {
-                            it.copy(isLoading = false, error = result.exception.errorText())
-                        }
+                        LoadingState.Success(result.data.map { farm ->
+                            FarmListItemUiState.fromDomain(farm)
+                        })
                     }
                 }
             }
-        }
     }
 }

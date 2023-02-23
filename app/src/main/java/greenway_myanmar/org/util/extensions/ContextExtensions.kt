@@ -69,11 +69,10 @@ inline fun <reified T : Context> Context.findBaseContext(): T? {
     return null
 }
 
-fun Int.dp(context: Context): Int {
+fun Int.dp(context: Context): Float {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
         this.toFloat(),
         context.resources.displayMetrics
     )
-        .toInt()
 }

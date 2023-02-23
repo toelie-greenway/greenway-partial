@@ -3,7 +3,7 @@ package greenway_myanmar.org.features.fishfarmrecord.data.repository
 import com.greenwaymyanmar.common.data.repository.util.networkBoundResult
 import com.greenwaymyanmar.common.data.repository.util.networkResult
 import com.greenwaymyanmar.common.result.Result
-import greenway_myanmar.org.db.UserHelper
+import greenway_myanmar.org.db.helper.UserHelper
 import greenway_myanmar.org.features.fishfarmrecord.data.model.asEntity
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFarmDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonDao

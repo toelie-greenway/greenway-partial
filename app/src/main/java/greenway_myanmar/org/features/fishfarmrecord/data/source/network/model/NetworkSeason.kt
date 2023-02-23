@@ -15,5 +15,7 @@ data class NetworkSeason(
     val loan: NetworkLoan? = null,
     val season: String? = null,
     val total_cost: Double? = null,
+    val total_income: Double? = null,
+    val total_profit: Double? = null,
     val start_date: String? = null
 )

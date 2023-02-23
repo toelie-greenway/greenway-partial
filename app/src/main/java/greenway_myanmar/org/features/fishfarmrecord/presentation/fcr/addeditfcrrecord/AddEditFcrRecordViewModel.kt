@@ -67,7 +67,7 @@ class AddEditFcrRecordViewModel @Inject constructor(
                     val gainWeight = gainWeights[index]?.toBigDecimalOrNull()
                     if (feedWeight != null && gainWeight != null) {
                         map[index] = try {
-                            feedWeight.divide(gainWeight, 2, RoundingMode.HALF_UP)
+                            gainWeight.divide(feedWeight, 2, RoundingMode.HALF_UP)
                         } catch (e: ArithmeticException) {
                             BigDecimal.ZERO
                         }

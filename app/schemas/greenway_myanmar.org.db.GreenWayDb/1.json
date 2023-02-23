@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2ae9d51be8cb5098d2cbca0844112019",
+    "identityHash": "fa7378fc9b99187e68486c228b727969",
     "entities": [
       {
         "tableName": "ffr_category_expenses",
@@ -624,7 +624,7 @@
       },
       {
         "tableName": "ffr_seasons",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `farm_id` TEXT NOT NULL, `is_end` INTEGER NOT NULL, `is_harvest` INTEGER NOT NULL, `location` TEXT, `coordinates` TEXT, `area` REAL NOT NULL, `measured_area` REAL, `measured_type` TEXT, `depth` REAL, `season_name` TEXT NOT NULL, `season_start_date` INTEGER NOT NULL, `fishes` TEXT NOT NULL, `total_expenses` TEXT NOT NULL, `pending_action` TEXT NOT NULL, `company_id` TEXT, `company_name` TEXT, `company_code` TEXT, `loan_amount` TEXT, `loan_duration` INTEGER, `loan_organization` TEXT, `loan_remark` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `farm_id` TEXT NOT NULL, `is_end` INTEGER NOT NULL, `is_harvest` INTEGER NOT NULL, `location` TEXT, `coordinates` TEXT, `area` REAL NOT NULL, `measured_area` REAL, `measured_type` TEXT, `depth` REAL, `season_name` TEXT NOT NULL, `season_start_date` INTEGER NOT NULL, `fishes` TEXT NOT NULL, `total_incomes` TEXT NOT NULL, `total_expenses` TEXT NOT NULL, `total_profit` TEXT NOT NULL, `pending_action` TEXT NOT NULL, `company_id` TEXT, `company_name` TEXT, `company_code` TEXT, `loan_amount` TEXT, `loan_duration` INTEGER, `loan_organization` TEXT, `loan_remark` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -705,8 +705,20 @@
             "notNull": true
           },
           {
+            "fieldPath": "totalIncomes",
+            "columnName": "total_incomes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "totalExpenses",
             "columnName": "total_expenses",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalProfit",
+            "columnName": "total_profit",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -804,7 +816,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2ae9d51be8cb5098d2cbca0844112019')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fa7378fc9b99187e68486c228b727969')"
     ]
   }
 }

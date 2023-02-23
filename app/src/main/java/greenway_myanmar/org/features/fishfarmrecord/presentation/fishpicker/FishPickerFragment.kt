@@ -96,7 +96,7 @@ class FishPickerFragment : Fragment() {
         binding.epoxyRecyclerView.apply {
             setController(controller)
             layoutManager = GridLayoutManager(requireContext(), 3)
-            addItemDecoration(EpoxyItemSpacingDecorator(8.dp(requireContext())))
+            addItemDecoration(EpoxyItemSpacingDecorator(8.dp(requireContext()).toInt()))
         }
     }
 

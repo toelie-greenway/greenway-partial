@@ -6,7 +6,7 @@ import java.math.BigDecimal
 
 data class ProductionRecordListUiState(
     val totalPrice: BigDecimal = BigDecimal.ZERO,
-    val productionRecords: List<ProductionListItemUiState> = emptyList(),
+    val productionRecords: List<UiProductionRecord> = emptyList(),
     val loadingState: LoadingState<Unit> = LoadingState.Idle
 ) {
 
@@ -33,14 +33,7 @@ data class ProductionRecordListUiState(
                 val data = state.data
                 ProductionRecordListUiState(
                     totalPrice = data.sumOf { it.totalPrice },
-                    productionRecords = data.map {
-                        ProductionListItemUiState(
-                            id = it.id,
-                            date = it.date,
-                            totalWeight = it.totalWeight,
-                            note = it.note
-                        )
-                    },
+                    productionRecords = data,
                     loadingState = LoadingState.Success(Unit)
                 )
             }

@@ -1,10 +1,8 @@
 package com.greenwaymyanmar.common.data.api.v2.interceptors
 
 import com.google.gson.Gson
-import com.greenwaymyanmar.common.data.api.v2.ApiEndpoints
 import com.greenwaymyanmar.common.data.api.v2.Protected
 import com.greenwaymyanmar.common.data.api.v2.model.ApiToken
-import greenway_myanmar.org.BuildConfig
 import greenway_myanmar.org.common.data.prefs.Preferences
 import greenway_myanmar.org.common.data.prefs.model.PrefToken
 import greenway_myanmar.org.common.domain.entities.AuthState
@@ -33,7 +31,7 @@ class AuthenticationInterceptor @Inject constructor(private val preferences: Pre
         .header("API-KEY", "chXRMV10ATMfeNtfeKyhozSWuMOYhUby")
         .build()
 
-    if (!isProtected(request)) {
+    if (false) { // !isProtected(request)) {
       return chain.proceed(request)
     }
 
@@ -49,7 +47,7 @@ class AuthenticationInterceptor @Inject constructor(private val preferences: Pre
 
     val interceptedRequest: Request
 
-    if (tokenExpirationTime.isAfter(Instant.now())) {
+    if (false) { //tokenExpirationTime.isAfter(Instant.now())) {
       // token is still valid, so we can proceed with the request
       interceptedRequest = chain.createAuthenticatedRequest(accessToken)
     } else {
@@ -97,7 +95,7 @@ class AuthenticationInterceptor @Inject constructor(private val preferences: Pre
       request()
         .newBuilder()
         .post(body)
-        .url(ApiEndpoints.REFRESH_TOKEN_URL)
+        .url("http://10.0.2.2:3003/api/v9/ffr/refresh-token")
         .addHeader("Authorization", "$tokenType $accessToken")
         .header("API-KEY", "chXRMV10ATMfeNtfeKyhozSWuMOYhUby")
         .build()

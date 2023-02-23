@@ -3,6 +3,7 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.fcr.list
 import android.content.Context
 import greenway_myanmar.org.R
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.FcrRecord
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFcr
 import greenway_myanmar.org.util.DateUtils
 import greenway_myanmar.org.util.MyanmarZarConverter
 import kotlinx.datetime.Instant
@@ -17,7 +18,8 @@ data class FcrRecordListItemUiState(
     val date: Instant,
     val calculatedRatio: BigDecimal,
     val totalFeedWeight: BigDecimal,
-    val totalGainWeight: BigDecimal
+    val totalGainWeight: BigDecimal,
+    val ratios: List<UiFcr>
 ) {
     fun formattedDate(): String = DateUtils.format(date.toJavaInstant(), "MMM d ၊ yyyy · E")
 
@@ -40,6 +42,9 @@ data class FcrRecordListItemUiState(
             calculatedRatio = domainModel.ratios.sumOf { it.ratio },
             totalFeedWeight = domainModel.ratios.sumOf { it.feedWeight },
             totalGainWeight = domainModel.ratios.sumOf { it.gainWeight },
+            ratios = domainModel.ratios.map {
+                UiFcr.fromDomainModel(it)
+            }
         )
     }
 }

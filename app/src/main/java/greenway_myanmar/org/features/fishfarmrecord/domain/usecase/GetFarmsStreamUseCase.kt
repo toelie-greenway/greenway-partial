@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.domain.usecase
 
+import com.greenwaymyanmar.common.result.Result
 import greenway_myanmar.org.di.IoDispatcher
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Farm
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.FarmRepository
@@ -11,7 +12,7 @@ class GetFarmsStreamUseCase @Inject constructor(
     private val farmRepository: FarmRepository,
     @IoDispatcher ioDispatcher: CoroutineDispatcher
 ) {
-    operator fun invoke(): Flow<List<Farm>> {
+    operator fun invoke(): Flow<Result<List<Farm>>> {
         return farmRepository.getFarmsStream()
     }
 }

@@ -37,8 +37,8 @@ data class UiSeasonSummary(
     val totalProfit: BigDecimal,
     val isProfit: Boolean
 ) {
-    val formattedStartDate: String = DateUtils.format(startDate.toJavaInstant(), "MMM dd၊ yyyy")
-    val formattedEndDate: String = DateUtils.format(endDate.toJavaInstant(), "MMM dd၊ yyyy")
+    val formattedStartDate: String = DateUtils.format(startDate.toJavaInstant(), "d MMMM yyyy")
+    val formattedEndDate: String = DateUtils.format(endDate.toJavaInstant(), "d MMMM yyyy")
     fun formattedTotalProductionWeights(context: Context): String =
         context.resources.getString(
             R.string.formatted_viss,

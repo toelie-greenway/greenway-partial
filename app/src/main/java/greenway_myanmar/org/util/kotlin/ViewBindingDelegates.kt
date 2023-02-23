@@ -50,3 +50,6 @@ inline fun <T : ViewBinding> DialogFragment.viewBinding(crossinline factory: (La
 /** Not really a delegate, just a small helper for Custom View */
 inline fun <T : ViewBinding> ViewGroup.customViewBinding(factory: (LayoutInflater, ViewGroup, Boolean) -> T) =
     factory(LayoutInflater.from(context), this, true)
+
+inline fun <T : ViewBinding> ViewGroup.customViewMergeBinding(factory: (LayoutInflater, ViewGroup) -> T) =
+    factory(LayoutInflater.from(context), this)

@@ -1,6 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.repository
 
-import greenway_myanmar.org.db.UserHelper
+import greenway_myanmar.org.db.helper.UserHelper
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.FishFarmRecordNetworkDataSource
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.NetworkExpenseCategory
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.asDomainModel

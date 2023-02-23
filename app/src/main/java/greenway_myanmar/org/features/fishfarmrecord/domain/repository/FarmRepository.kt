@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface FarmRepository {
     suspend fun postFarm(farmId: String): String
     fun getFarmStream(farmId: String, forceRefresh: Boolean = false): Flow<Result<Farm?>>
-    fun getFarmsStream(): Flow<List<Farm>>
+    fun getFarmsStream(): Flow<Result<List<Farm>>>
     fun getFarmMeasurementStream(farmId: String): Flow<FarmMeasurement?>
     suspend fun saveFarm(request: SaveFarmUseCase.SaveFarmRequest): SaveFarmUseCase.SaveFarmResult
     fun observePond(pondId: String): Flow<Result<Farm>>

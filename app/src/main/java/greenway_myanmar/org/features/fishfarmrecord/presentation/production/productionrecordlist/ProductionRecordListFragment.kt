@@ -42,6 +42,7 @@ class ProductionRecordListFragment : Fragment(R.layout.ffr_production_record_lis
         launchAndRepeatWithViewLifecycle {
             this.observeTotalPrice()
             this.observeProductions()
+            this.observeLoadingState()
         }
     }
 

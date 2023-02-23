@@ -55,8 +55,12 @@ data class FfrSeasonEntity(
     val fishes: List<FfrFishEntity> = emptyList(),
     @Embedded(prefix = "company_")
     val company: FFrContractFarmingCompanyEntity? = null,
+    @ColumnInfo("total_incomes")
+    val totalIncomes: BigDecimal = BigDecimal.ZERO,
     @ColumnInfo("total_expenses")
     val totalExpenses: BigDecimal = BigDecimal.ZERO,
+    @ColumnInfo("total_profit")
+    val totalProfit: BigDecimal = BigDecimal.ZERO,
     @Embedded(prefix = "loan_")
     val loan: FfrLoanEntity? = null,
     @ColumnInfo("pending_action")
@@ -98,6 +102,8 @@ fun FfrSeasonEntity.asDomainModel() = Season(
         depth = depth
     ),
     totalExpenses = totalExpenses,
+    totalIncomes = totalIncomes,
+    totalProfit = totalProfit,
     fishes = mapFishes(fishes),
     company = company?.asDomainModel(),
     loan = loan?.asDomainModel(),

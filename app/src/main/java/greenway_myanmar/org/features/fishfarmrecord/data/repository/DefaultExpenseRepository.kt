@@ -1,6 +1,6 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.repository
 
-import greenway_myanmar.org.db.UserHelper
+import greenway_myanmar.org.db.helper.UserHelper
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFarmDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrSeasonDao
 import greenway_myanmar.org.features.fishfarmrecord.data.source.network.FishFarmRecordNetworkDataSource

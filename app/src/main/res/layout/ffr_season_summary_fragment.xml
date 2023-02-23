@@ -53,8 +53,7 @@
         android:id="@+id/epoxy_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?colorSurface"
-        android:paddingTop="@dimen/spacing_8"
+        android:background="#F2F2F2"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <greenway_myanmar.org.ui.widget.GreenWayLoadingStateView

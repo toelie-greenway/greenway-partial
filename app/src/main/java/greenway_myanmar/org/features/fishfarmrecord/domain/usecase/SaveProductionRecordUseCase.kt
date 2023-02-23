@@ -20,7 +20,7 @@ class SaveProductionRecordUseCase @Inject constructor(
         val productionsPerFish: List<ProductionPerFish>
     ) {
         val total: BigDecimal = productionsPerFish.sumOf {  productionPerFish ->
-            productionPerFish.productionsPerFishSize.sumOf { it.price * it.weight }
+            productionPerFish.productionsPerFishSize.sumOf { it.price }
         }
     }
 

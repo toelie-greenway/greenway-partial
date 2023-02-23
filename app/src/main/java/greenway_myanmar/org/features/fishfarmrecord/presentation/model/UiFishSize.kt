@@ -8,7 +8,16 @@ enum class UiFishSize(@StringRes val labelResId: Int) {
     Large(R.string.ffr_production_label_fish_size_large),
     Medium(R.string.ffr_production_label_fish_size_medium),
     Small(R.string.ffr_production_label_fish_size_small),
-    HomePresent(R.string.ffr_production_label_fish_size_home_present)
+    HomePresent(R.string.ffr_production_label_fish_size_home_present);
+
+    companion object {
+        fun fromDomainModel(domainModel: FishSize) = when (domainModel) {
+            FishSize.Large -> Large
+            FishSize.Medium -> Medium
+            FishSize.Small -> Small
+            FishSize.HomePresent -> HomePresent
+        }
+    }
 }
 
 fun UiFishSize.asDomainModel() = when (this) {

@@ -25,6 +25,8 @@ data class NetworkSeasonSummary(
     val fish_types: List<NetworkSeasonFishType>? = null,
     val company: NetworkContractFarmingCompany? = null,
     val total_cost: Double? = null,
+    val total_income: Double? = null,
+    val total_profit: Double? = null,
     val family_cost: Double? = null,
     val expenses: List<NetworkCategoryExpense>? = null,
     val productions: NetworkProductionRecordSummary? = null,
@@ -50,6 +52,8 @@ fun NetworkSeasonSummary.asDomainModel() = SeasonSummary(
         depth = null, //TBC: depth
     ),
     totalExpenses = total_cost.toBigDecimalOrZero(),
+    totalIncomes = total_income.toBigDecimalOrZero(),
+    totalProfit = total_profit.toBigDecimalOrZero(),
     fishes = fish_types.orEmpty().map {
         it.asDomainModel()
     },

@@ -1,6 +1,5 @@
 package greenway_myanmar.org.features.fishfarmrecord.domain.model
 
-import greenway_myanmar.org.util.extensions.orZero
 import kotlinx.datetime.Instant
 import java.math.BigDecimal
 
@@ -16,14 +15,14 @@ data class SeasonSummary(
     val fishes: List<Fish>,
     val company: ContractFarmingCompany? = null,
     val loan: Loan? = null,
-    val totalExpenses: BigDecimal = BigDecimal.ZERO,
-    val familyCost: BigDecimal = BigDecimal.ZERO,
+    val familyCost: BigDecimal,
     val expenseSummary: ExpenseSummary?,
     val productionRecordSummary: ProductionRecordSummary?,
     val cropIncomeSummary: CropIncomeSummary?,
     val fcrRecords: List<FcrRecord>?,
+    val totalExpenses: BigDecimal,
+    val totalIncomes: BigDecimal,
+    val totalProfit: BigDecimal
 ) {
-    val totalIncomes = productionRecordSummary?.totalIncome.orZero() + cropIncomeSummary?.totalIncome.orZero()
-    val totalProfit = totalIncomes - totalExpenses
     val isProfit = totalProfit > BigDecimal.ZERO
 }

@@ -16,5 +16,7 @@ data class Season(
     val company: ContractFarmingCompany? = null,
     val loan: Loan? = null,
     val totalExpenses: BigDecimal = BigDecimal.ZERO,
+    val totalIncomes: BigDecimal = BigDecimal.ZERO,
+    val totalProfit: BigDecimal = BigDecimal.ZERO,
     val isHarvested: Boolean
 )

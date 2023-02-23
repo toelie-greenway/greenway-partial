@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="android.widget.FrameLayout"
+    android:gravity="center_vertical">
+
+    <greenway_myanmar.org.ui.widget.GreenWayButton
+        android:id="@+id/button"
+        style="@style/Widget.GreenWay2.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_2"
+        android:layout_marginEnd="@dimen/padding_normal"
+        android:text="@string/ffr_season_summary_button_text_expand"
+        android:textColor="#0090FF"
+        android:textSize="14sp"
+        app:fontFamily="@font/noto_sans_myanmar_medium_500"
+        app:icon="@drawable/ic_arrow_drop_down_black_24dp"
+        app:iconTint="#0090FF" />
+
+</merge>

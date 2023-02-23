@@ -13,6 +13,8 @@ fun NetworkSeason.asEntity(farmId: String) = FfrSeasonEntity(
     fishes = fish_types.orEmpty().map { it.asEntity() },
     company = company?.asEntity(),
     totalExpenses = BigDecimal.valueOf(total_cost ?: 0.0),
+    totalIncomes = BigDecimal.valueOf(total_income ?: 0.0),
+    totalProfit = BigDecimal.valueOf(total_profit ?: 0.0),
     loan = loan?.asEntity(),
     depth = area.depth,
     location = mapLocationOrNull(area.lat, area.lon),
@@ -22,7 +24,7 @@ fun NetworkSeason.asEntity(farmId: String) = FfrSeasonEntity(
     measuredType = area.measurement_type,
     isEnd = is_end ?: false,
     isHarvested = is_harvest ?: false,
-    farmId = farmId
+    farmId = farmId,
 )
 
 private fun mapLocationOrNull(lat: Double?, lng: Double?): LatLng? {

@@ -218,4 +218,10 @@
     <string name="ffr_add_edit_crop_income_label_crop_and_price">Crops &amp; Total sales</string>
     <string name="ffr_add_edit_crop_income_hint_crop">သီးနှံအမျိုးအစား</string>
     <string name="ffr_add_edit_crop_income_hint_price">0.0</string>
+    
+    <string name="ffr_season_summary_button_text_shrink">အကျဉ်းသို့</string>
+    <string name="ffr_season_summary_button_text_expand">အကုန်ကြည့်ရန်</string>
+    <string name="ffr_season_summary_label_crop_income">အပင်အထွက်နှုန်း</string>
+    <string name="ffr_season_summary_label_production">ငါးအထွက်နှုန်း</string>
+    <string name="ffr_season_summary_label_formatted_total_production">%1$s ပိဿာ/%2$s ကျပ်</string>
 </resources>

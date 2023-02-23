@@ -34,119 +34,119 @@ import javax.inject.Singleton
 @Module
 class ApiModule {
 
-  @Provides
-  @Singleton
-  fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-    val logging = HttpLoggingInterceptor()
-    logging.level = HttpLoggingInterceptor.Level.BODY
-    return logging
-  }
-
-  @Provides
-  @Singleton
-  fun provideGson(): Gson {
-    return GsonBuilder()
-      .setExclusionStrategies(AnnotationExclusionStrategy())
-      .setDateFormat("dd/MM/yyyy HH:mm:ss")
-      .serializeNulls()
-      .create()
-  }
-
-  @Provides
-  @Singleton
-  fun providesNetworkJson(): Json = Json {
-    ignoreUnknownKeys = true
-    isLenient = true
-  }
-
-  @Singleton
-  @Provides
-  fun provideOkHttpClientBuilder(
-    app: Application,
-    connectionSpec: ConnectionSpec,
-    networkStatusInterceptor: NetworkStatusInterceptor,
-    loggingInterceptor: HttpLoggingInterceptor,
-    authenticationInterceptor: AuthenticationInterceptor
-  ): OkHttpClient.Builder {
-    val builder = OkHttpClient.Builder()
-    builder.addInterceptor(
-      ChuckerInterceptor.Builder(app)
-        .collector(ChuckerCollector(app))
-        .maxContentLength(250000L)
-        .redactHeaders(emptySet())
-        .alwaysReadResponseBody(false)
-        .build(),
-    )
-    builder.connectTimeout(15, TimeUnit.SECONDS)
-    builder.readTimeout(15, TimeUnit.SECONDS)
-    builder.writeTimeout(15, TimeUnit.SECONDS)
-    builder.addInterceptor(networkStatusInterceptor)
-    builder.addInterceptor(authenticationInterceptor)
-    if (BuildConfig.DEBUG) {
-      builder.addInterceptor(loggingInterceptor)
+    @Provides
+    @Singleton
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+        return logging
     }
 
-    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
-      builder.connectionSpecs(listOf(connectionSpec))
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return GsonBuilder()
+            .setExclusionStrategies(AnnotationExclusionStrategy())
+            .setDateFormat("dd/MM/yyyy HH:mm:ss")
+            .serializeNulls()
+            .create()
     }
-    return builder
-  }
 
-  @Singleton
-  @Provides
-  fun provideOkHttpClient(builder: OkHttpClient.Builder): OkHttpClient {
-    return builder.build()
-  }
+    @Provides
+    @Singleton
+    fun providesNetworkJson(): Json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+    }
 
-  @OptIn(ExperimentalSerializationApi::class)
-  @Provides
-  @Singleton
-  fun provideRetrofitBuilder(
-    url: HttpUrl,
-    okHttpClient: OkHttpClient,
-    gson: Gson,
-    networkJson: Json,
-  ): Retrofit.Builder {
-    return Retrofit.Builder()
-      .baseUrl(url)
-      .addConverterFactory(ScalarsConverterFactory.create())
-      .addConverterFactory(GsonConverterFactory.create(gson))
-      .addCallAdapterFactory(LiveDataCallAdapterFactory())
-      .addCallAdapterFactory(ApiResponseCallAdapterFactory())
-      .addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType()))
-      .client(okHttpClient)
-  }
+    @Singleton
+    @Provides
+    fun provideOkHttpClientBuilder(
+        app: Application,
+        connectionSpec: ConnectionSpec,
+        networkStatusInterceptor: NetworkStatusInterceptor,
+        loggingInterceptor: HttpLoggingInterceptor,
+        authenticationInterceptor: AuthenticationInterceptor
+    ): OkHttpClient.Builder {
+        val builder = OkHttpClient.Builder()
+        builder.addInterceptor(
+            ChuckerInterceptor.Builder(app)
+                .collector(ChuckerCollector(app))
+                .maxContentLength(250000L)
+                .redactHeaders(emptySet())
+                .alwaysReadResponseBody(false)
+                .build(),
+        )
+        builder.connectTimeout(15, TimeUnit.SECONDS)
+        builder.readTimeout(15, TimeUnit.SECONDS)
+        builder.writeTimeout(15, TimeUnit.SECONDS)
+        builder.addInterceptor(networkStatusInterceptor)
+        builder.addInterceptor(authenticationInterceptor)
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(loggingInterceptor)
+        }
 
-  @Provides
-  @Singleton
-  fun provideRetrofit(builder: Retrofit.Builder): Retrofit {
-    return builder.build()
-  }
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
+            builder.connectionSpecs(listOf(connectionSpec))
+        }
+        return builder
+    }
 
-  @Singleton
-  @Provides
-  fun provideHttpUrl(): HttpUrl {
-//    return "http://10.0.2.2:3003/api/v9/".toHttpUrl()
-    return "https://upgrade.greenwaymyanmar.com/api/v9/".toHttpUrl()
-  }
+    @Singleton
+    @Provides
+    fun provideOkHttpClient(builder: OkHttpClient.Builder): OkHttpClient {
+        return builder.build()
+    }
 
-  @Provides
-  @Singleton
-  fun provideConnectionSpec(): ConnectionSpec {
-    return ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-      .tlsVersions(TlsVersion.TLS_1_2)
-      .cipherSuites(CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA)
-      .build()
-  }
+    @OptIn(ExperimentalSerializationApi::class)
+    @Provides
+    @Singleton
+    fun provideRetrofitBuilder(
+        url: HttpUrl,
+        okHttpClient: OkHttpClient,
+        gson: Gson,
+        networkJson: Json,
+    ): Retrofit.Builder {
+        return Retrofit.Builder()
+            .baseUrl(url)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(LiveDataCallAdapterFactory())
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory())
+            .addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType()))
+            .client(okHttpClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(builder: Retrofit.Builder): Retrofit {
+        return builder.build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideHttpUrl(): HttpUrl {
+        return "http://10.0.2.2:3003/api/v9/".toHttpUrl()
+        //return "https://upgrade.greenwaymyanmar.com/api/v9/".toHttpUrl()
+    }
+
+    @Provides
+    @Singleton
+    fun provideConnectionSpec(): ConnectionSpec {
+        return ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+            .tlsVersions(TlsVersion.TLS_1_2)
+            .cipherSuites(CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA)
+            .build()
+    }
 }
 
 @InstallIn(SingletonComponent::class)
 @Module
 object GreenWayApiServiceModule {
 
-  @Provides
-  @Singleton
-  fun provideGreenWayService(retrofit: Retrofit): GreenWayWebservice =
-    retrofit.create(GreenWayWebservice::class.java)
+    @Provides
+    @Singleton
+    fun provideGreenWayService(retrofit: Retrofit): GreenWayWebservice =
+        retrofit.create(GreenWayWebservice::class.java)
 
 }

@@ -11,7 +11,7 @@ data class Fcr(
 ) {
     val ratio: BigDecimal = try {
         Timber.d("Ratio: $feedWeight / $gainWeight = ${feedWeight.divide(gainWeight, 2, RoundingMode.HALF_UP)}")
-        feedWeight.divide(gainWeight, 2, RoundingMode.HALF_UP)
+        gainWeight.divide(feedWeight, 2, RoundingMode.HALF_UP)
     } catch (e: ArithmeticException) {
         BigDecimal.ZERO
     }

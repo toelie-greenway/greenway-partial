@@ -12,6 +12,7 @@ enum class FishSize(val key: String) {
             Medium.key -> Medium
             Small.key -> Small
             HomePresent.key -> HomePresent
+            "home-present" -> HomePresent
             else -> {
                 throw IllegalArgumentException("Invalid fish size key: $key")
             }

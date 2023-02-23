@@ -4,58 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:contentPadding="@dimen/padding_normal">
+    app:contentPaddingBottom="@dimen/spacing_16"
+    app:contentPaddingTop="@dimen/spacing_16">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.SeasonSummaryProductionItemView
+        android:id="@+id/item_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content" />
 
-        <greenway_myanmar.org.ui.widget.GreenWayTextView
-            android:id="@+id/production_label_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ffr_production_label"
-            android:textColor="?colorOnSurface"
-            android:textSize="16sp"
-            app:fontFamily="@font/noto_sans_myanmar_medium_500"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
 
-        <greenway_myanmar.org.ui.widget.GreenWayTextView
-            android:id="@+id/total_production_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="?colorOnSurface"
-            android:textSize="16sp"
-            app:fontFamily="@font/noto_sans_myanmar_semi_bold_600"
-            app:layout_constraintBaseline_toBaselineOf="@id/production_label_textView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <!--        <greenway_myanmar.org.ui.widget.GreenWayTextView-->
+    <!--            android:id="@+id/production_label_textView"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="@string/ffr_production_label"-->
+    <!--            android:textColor="?colorOnSurface"-->
+    <!--            android:textSize="16sp"-->
+    <!--            app:fontFamily="@font/noto_sans_myanmar_medium_500"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <greenway_myanmar.org.ui.widget.GreenWayTextView
-            android:id="@+id/date_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:textColor="?colorOnSurface"
-            android:textSize="12sp"
-            app:fontFamily="@font/noto_sans_myanmar_medium_500"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/production_label_textView" />
+    <!--        <greenway_myanmar.org.ui.widget.GreenWayTextView-->
+    <!--            android:id="@+id/total_production_text_view"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:textColor="?colorOnSurface"-->
+    <!--            android:textSize="16sp"-->
+    <!--            app:fontFamily="@font/noto_sans_myanmar_semi_bold_600"-->
+    <!--            app:layout_constraintBaseline_toBaselineOf="@id/production_label_textView"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <!--        android:text='@{"—" + yield.remark ?? ""}'-->
-        <!--        app:visibleGone="@{!TextUtils.isEmpty(yield.remark)}"-->
-        <greenway_myanmar.org.ui.widget.GreenWayTextView
-            android:id="@+id/note_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:textColor="?colorPrimary"
-            android:textSize="12sp"
-            app:fontFamily="@font/noto_sans_myanmar_medium_500"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_text_view"
-            tools:text="—မှတ်ချက်ရှိပါက" />
+    <!--        <greenway_myanmar.org.ui.widget.GreenWayTextView-->
+    <!--            android:id="@+id/date_text_view"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="@dimen/spacing_normal"-->
+    <!--            android:textColor="?colorOnSurface"-->
+    <!--            android:textSize="12sp"-->
+    <!--            app:fontFamily="@font/noto_sans_myanmar_medium_500"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/production_label_textView" />-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--        &lt;!&ndash;        android:text='@{"—" + yield.remark ?? ""}'&ndash;&gt;-->
+    <!--        &lt;!&ndash;        app:visibleGone="@{!TextUtils.isEmpty(yield.remark)}"&ndash;&gt;-->
+    <!--        <greenway_myanmar.org.ui.widget.GreenWayTextView-->
+    <!--            android:id="@+id/note_text_view"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="@dimen/spacing_normal"-->
+    <!--            android:textColor="?colorPrimary"-->
+    <!--            android:textSize="12sp"-->
+    <!--            app:fontFamily="@font/noto_sans_myanmar_medium_500"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/date_text_view"-->
+    <!--            tools:text="—မှတ်ချက်ရှိပါက" />-->
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 </com.google.android.material.card.MaterialCardView>

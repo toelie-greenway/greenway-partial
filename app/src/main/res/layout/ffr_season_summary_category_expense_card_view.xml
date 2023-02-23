@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/spacing_8"
+    app:contentPaddingBottom="@dimen/padding_normal"
+    app:contentPaddingTop="@dimen/padding_normal">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/category_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:textColor="?colorOnSurface"
+            android:textSize="16sp"
+            app:fontFamily="@font/noto_sans_myanmar_medium_500"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="ပြင်ဆင်ခြင်း" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayMoneyTextView
+            android:id="@+id/expense_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_16"
+            android:textColor="?colorOnSurface"
+            android:textSize="16sp"
+            app:fontFamily="@font/noto_sans_myanmar_bold_700"
+            app:layout_constraintBaseline_toBaselineOf="@id/category_name_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/last_record_date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:textColor="?colorOnSurface"
+            android:textSize="12sp"
+            app:fontFamily="@font/noto_sans_myanmar_medium_500"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/category_name_text_view" />
+
+        <LinearLayout
+            android:id="@+id/list_item_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/category_name_text_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

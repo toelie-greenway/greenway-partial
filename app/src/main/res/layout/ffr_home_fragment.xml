@@ -47,6 +47,12 @@
 
     </greenway_myanmar.org.ui.widget.ScrollChildSwipeRefreshLayout>
 
+    <greenway_myanmar.org.ui.widget.GreenWayLoadingStateView
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/loading_state_view"
+        android:layout_height="wrap_content"/>
+
     <greenway_myanmar.org.ui.widget.GreenWayExtendedFloatingActionButton
         android:id="@+id/add_new_farm_fab"
         android:layout_width="wrap_content"

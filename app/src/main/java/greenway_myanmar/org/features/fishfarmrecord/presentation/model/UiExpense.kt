@@ -1,7 +1,9 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.model
 
 import greenway_myanmar.org.features.fishfarmrecord.domain.model.Expense
+import greenway_myanmar.org.util.DateUtils
 import kotlinx.datetime.Instant
+import kotlinx.datetime.toJavaInstant
 import java.math.BigDecimal
 
 data class UiExpense(
@@ -17,6 +19,8 @@ data class UiExpense(
     val remark: String? = null,
     val inputs: List<UiFarmInputCost>? = null
 ) {
+    val formattedDate = DateUtils.format(date.toJavaInstant(), "dd MMMM၊ yyyy")
+
     fun hasRemark(): Boolean {
         return !remark.isNullOrEmpty() || !photos.isNullOrEmpty()
     }

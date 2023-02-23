@@ -1,6 +1,7 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.controller
 
 import android.content.Context
+import android.view.View
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.group
 import greenway_myanmar.org.R
@@ -9,25 +10,30 @@ import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiSeasonE
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiSeasonSummary
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.asString
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.SeasonSummaryItemUiState
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.SeasonSummaryExpandToggleViewModel_
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.SeasonSummaryItemViewGroupModel_
-import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.categoryExpenseListItemView
-import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.cropIncomeListItemView
-import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.productionRecordListItemView
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.seasonSummaryCategoryExpenseCardView
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.seasonSummaryCropIncomeCardView
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.seasonSummaryProductionCardView
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.seasonSummarySubheaderView
+
+const val EXPAND_KEY_SUMMARY = "summary"
+const val EXPAND_KEY_EXPENSE_CATEGORY = "category_%s"
 
 class SeasonSummaryController(
     private val context: Context
 ) : EpoxyController() {
 
-    // private var farm: AsymtFarm? = null
-
+    private val expandedByKeys = mutableMapOf<String, Boolean>()
     private var seasonSummary: UiSeasonSummary? = null
 
     override fun buildModels() {
 
         seasonSummary?.let { summary ->
             addSeasonSummary(summary)
-            addProductionRecordSummaryIfExists(summary)
+            addExpandShrinkButton()
+            addProductionSummariesIfExists(summary)
+            // addProductionRecordSummaryIfExists(summary)
             addCropIncomeSummaryIfExists(summary)
             addExpenseSummaryIfExists(summary)
         }
@@ -58,32 +64,48 @@ class SeasonSummaryController(
 //    }
     }
 
-    private fun addSeasonSummary(summary: UiSeasonSummary) {
-        SeasonSummaryItemViewGroupModel_()
-            .id("items")
-            .items(buildItemsFrom("TODO", summary))
+    private fun addExpandShrinkButton() {
+        SeasonSummaryExpandToggleViewModel_()
+            .id("expand-button")
+            .clickListener(View.OnClickListener {
+                toggleExpanded(EXPAND_KEY_SUMMARY)
+            })
+            .expand(expandedByKeys.getOrDefault(EXPAND_KEY_SUMMARY, false))
             .addTo(this)
     }
 
-    private fun addProductionRecordSummaryIfExists(summary: UiSeasonSummary) {
-        summary.productionRecordSummary?.let { productionRecordSummary ->
-            val records = productionRecordSummary.productionRecords
-            if (records.isNotEmpty()) {
-                group {
-                    id("production_record_list")
-                    layout(R.layout.ffr_season_summary_group_view)
+    private fun addSeasonSummary(summary: UiSeasonSummary) {
+        val expanded = expandedByKeys.getOrDefault(EXPAND_KEY_SUMMARY, false)
+        SeasonSummaryItemViewGroupModel_()
+            .id("items")
+            .items(buildItemsFrom(summary.farmName, summary, expanded))
+            .addTo(this)
+    }
 
-                    seasonSummarySubheaderView {
-                        id("production_list_subheader")
-                        subheader("အထွက်နှုန်းစာရင်းများ")
-                    }
+    private fun addProductionSummariesIfExists(summary: UiSeasonSummary) {
+        if (summary.productionRecordSummary == null && summary.cropIncomeSummary == null) {
+            return
+        }
+        group {
+            id("production_summary_group")
+            layout(R.layout.ffr_season_summary_group_view)
 
-                    records.forEach { item ->
-                        productionRecordListItemView {
-                            id("production_" + item.id)
-                            item(item)
-                        }
-                    }
+            seasonSummarySubheaderView {
+                id("production_summary_group_subheader")
+                subheader("ထုတ်လုပ်မှု မှတ်တမ်း")
+            }
+
+            summary.productionRecordSummary?.let { productionRecordSummary ->
+                seasonSummaryProductionCardView {
+                    id("production_summary")
+                    item(productionRecordSummary)
+                }
+            }
+
+            summary.cropIncomeSummary?.let { cropIncomeSummary ->
+                seasonSummaryCropIncomeCardView {
+                    id("crop_income_summary")
+                    item(cropIncomeSummary)
                 }
             }
         }
@@ -91,27 +113,27 @@ class SeasonSummaryController(
 
 
     private fun addCropIncomeSummaryIfExists(summary: UiSeasonSummary) {
-        summary.cropIncomeSummary?.let { cropIncomeSummary ->
-            val incomes = cropIncomeSummary.cropIncomes
-            if (incomes.isNotEmpty()) {
-                group {
-                    id("crop_income_list")
-                    layout(R.layout.ffr_season_summary_group_view)
-
-                    seasonSummarySubheaderView {
-                        id("crop_income_list_subheader")
-                        subheader("သီးနှံဝင်ငွေများ")
-                    }
-
-                    incomes.forEach { item ->
-                        cropIncomeListItemView {
-                            id("crop_income_" + item.id)
-                            item(item)
-                        }
-                    }
-                }
-            }
-        }
+//        summary.cropIncomeSummary?.let { cropIncomeSummary ->
+//            val incomes = cropIncomeSummary.cropIncomes
+//            if (incomes.isNotEmpty()) {
+//                group {
+//                    id("crop_income_list")
+//                    layout(R.layout.ffr_season_summary_group_view)
+//
+//                    seasonSummarySubheaderView {
+//                        id("crop_income_list_subheader")
+//                        subheader("သီးနှံဝင်ငွေများ")
+//                    }
+//
+//                    incomes.forEach { item ->
+//                        cropIncomeListItemView {
+//                            id("crop_income_" + item.id)
+//                            item(item)
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun addExpenseSummaryIfExists(summary: UiSeasonSummary) {
@@ -128,9 +150,18 @@ class SeasonSummaryController(
                     }
 
                     categoryExpenses.forEach { item ->
-                        categoryExpenseListItemView {
+                        seasonSummaryCategoryExpenseCardView {
                             id("expense_" + item.category.id)
+                            expand(
+                                expandedByKeys.getOrDefault(
+                                    buildExpenseCategoryExpandKey(item.category.id),
+                                    false
+                                )
+                            )
                             item(item)
+                            clickListener(View.OnClickListener {
+                                toggleExpanded(buildExpenseCategoryExpandKey(item.category.id))
+                            })
                         }
                     }
                 }
@@ -148,6 +179,11 @@ class SeasonSummaryController(
         requestModelBuild()
     }
 
+    private fun toggleExpanded(key: String) {
+        expandedByKeys[key] = !expandedByKeys.getOrDefault(key, false)
+        requestModelBuild()
+    }
+
     //
 //  fun setFarm(farm: AsymtFarm) {
 //    this.farm = farm
@@ -156,24 +192,31 @@ class SeasonSummaryController(
 //
     private fun buildItemsFrom(
         farm: String,
-        season: UiSeasonSummary
+        season: UiSeasonSummary,
+        expanded: Boolean
     ): List<SeasonSummaryItemUiState> {
         val list = mutableListOf<SeasonSummaryItemUiState>()
 
         list.add(farmNameItem(farm))
         list.add(seasonNameItem(season.seasonName))
         list.add(fishesItem(season.fishes))
+        // list.add(seasonDateItem(season.formattedStartDate, season.formattedEndDate))
         list.add(seasonStartDateItem(season.formattedStartDate))
-        list.add(seasonEndDateItem(season.formattedEndDate))
-        list.add(seasonEndReasonItem(season.endReason))
-        list.add(fishSpeciesItem(season.fishes))
-        list.add(totalExpensesItem(season))
-        list.add(totalProductionWeightsItem(season))
-        list.add(totalProductionIncomesItem(season))
-        list.add(totalCropIncomeItem(season))
-        list.add(totalIncomeItem(season))
-        list.add(totalProfitItem(season))
-        list.add(formattedFamilyCost(season))
+
+        if (expanded) {
+            list.add(seasonEndDateItem(season.formattedEndDate))
+            list.add(seasonEndReasonItem(season.endReason))
+            if (season.fishes.any { it.species.isNotEmpty() }) {
+                list.add(fishSpeciesItem(season.fishes))
+            }
+            list.add(totalProductionWeightsItem(season))
+            list.add(totalExpensesItem(season))
+            //list.add(totalProductionIncomesItem(season))
+            // list.add(totalCropIncomeItem(season))
+            list.add(totalIncomeItem(season))
+            list.add(totalProfitItem(season))
+            list.add(formattedFamilyCost(season))
+        }
         return list
     }
 
@@ -187,7 +230,7 @@ class SeasonSummaryController(
     private fun totalProfitItem(season: UiSeasonSummary) =
         SeasonSummaryItemUiState(
             "total_profit",
-            "စုစုပေါင်းအမြတ်ငွေ",
+            "အမြတ်ငွေ",
             season.formattedTotalProfit(context),
             season.profitTextColorResId
         )
@@ -195,7 +238,7 @@ class SeasonSummaryController(
     private fun totalIncomeItem(season: UiSeasonSummary) =
         SeasonSummaryItemUiState(
             "total_income",
-            "စုစုပေါင်းဝင်ငွေ (ငါး + သီးနှံ)",
+            "စုစုပေါင်းဝင်ငွေ (ကန် + သီးနှံ)",
             season.formattedTotalIncomes(context)
         )
 
@@ -209,7 +252,7 @@ class SeasonSummaryController(
     private fun totalProductionWeightsItem(season: UiSeasonSummary) =
         SeasonSummaryItemUiState(
             "total_production_weight",
-            "ငါးကန်အထွက်နှုန်း",
+            "စုစုပေါင်း ကုန်ထုတ်လုပ်မှု",
             season.formattedTotalProductionWeights(context)
         )
 
@@ -223,7 +266,7 @@ class SeasonSummaryController(
     private fun totalExpensesItem(season: UiSeasonSummary) =
         SeasonSummaryItemUiState(
             "total_expenses",
-            "ကုန်ကျငွေပေါင်း",
+            "စုစုပေါင်း ကျန်ကျစားရိတ်",
             season.formattedTotalExpenses(context)
         )
 
@@ -233,6 +276,13 @@ class SeasonSummaryController(
             "ငါးမျိုးစိတ်",
             fishes.filter { it.species.isNotEmpty() }
                 .joinToString(separator = "၊ ") { it.species }
+        )
+
+    private fun seasonDateItem(startDate: String, endDate: String) =
+        SeasonSummaryItemUiState(
+            "season_start_date",
+            "နေ့စွဲ",
+            "$startDate မှ $endDate"
         )
 
     private fun seasonStartDateItem(date: String) =
@@ -270,7 +320,10 @@ class SeasonSummaryController(
     private fun fishesItem(fishes: List<UiFish>) =
         SeasonSummaryItemUiState(
             "fishes",
-            "မွေးမြူငါးများ",
+            "ငါးအမျိုးအစား",
             fishes.asString()
         )
+
+    private fun buildExpenseCategoryExpandKey(categoryId: String) =
+        String.format(EXPAND_KEY_EXPENSE_CATEGORY, categoryId)
 }

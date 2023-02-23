@@ -6,7 +6,7 @@ import com.greenwaymyanmar.common.data.repository.util.networkBoundResult
 import com.greenwaymyanmar.common.result.Result
 import com.greenwaymyanmar.vo.PendingAction
 import dagger.hilt.android.qualifiers.ApplicationContext
-import greenway_myanmar.org.db.UserHelper
+import greenway_myanmar.org.db.helper.UserHelper
 import greenway_myanmar.org.features.areameasure.domain.model.AreaMeasureMethod
 import greenway_myanmar.org.features.fishfarmrecord.data.model.asEntity
 import greenway_myanmar.org.features.fishfarmrecord.data.source.database.dao.FfrFarmDao
@@ -24,12 +24,9 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCa
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.SaveFarmUseCase.SaveFarmRequest
 import greenway_myanmar.org.util.RateLimiter
 import greenway_myanmar.org.vo.ServerImageContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -45,26 +42,34 @@ class DefaultFarmRepository @Inject constructor(
 
     private val rateLimiter = RateLimiter<String>(10, TimeUnit.MINUTES)
 
-    override fun getFarmsStream(): Flow<List<Farm>> {
-        //TODO: Replace with paging
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val networkFarmList = network.getFarms(userHelper.activeUserId.toString())
-                networkFarmList.data?.map { networkFarm ->
+    override fun getFarmsStream(): Flow<Result<List<Farm>>> {
+        // TODO: Replace with paging
+        return networkBoundResult(
+            query = {
+                farmDao.getFarmsStream().map { list ->
+                    list.map { farm ->
+                        farm.asDomainModel()
+                    }
+                }
+            },
+            fetch = {
+                network.getFarms(userHelper.activeUserId.toString())
+            },
+            saveFetchResult = { response ->
+                response.data?.map { networkFarm ->
                     if (networkFarm.opening_season != null) {
                         seasonDao.upsertSeasonEntity(networkFarm.opening_season.asEntity(networkFarm.id))
                     }
                 }
-                farmDao.upsertFarms(networkFarmList.data.orEmpty().map(NetworkFarm::asEntity))
-            } catch (e: Exception) {
-
+                farmDao.upsertFarms(response.data.orEmpty().map(NetworkFarm::asEntity))
+            },
+            onFetchFailed = {
+                /* no-op */
+            },
+            shouldFetch = {
+                true
             }
-        }
-        return farmDao.getFarmsStream().map { list ->
-            list.map { farm ->
-                farm.asDomainModel()
-            }
-        }
+        )
     }
 
     override suspend fun saveFarm(request: SaveFarmRequest): SaveFarmUseCase.SaveFarmResult {
