@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--    android:onClick="@{() -> itemClickCallback.onAddNewItem(item)}"-->
+<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,16 +8,17 @@
     app:cardElevation="0dp"
     app:contentPaddingBottom="@dimen/spacing_4"
     app:contentPaddingLeft="@dimen/spacing_16"
-    app:contentPaddingRight="@dimen/spacing_4"
+    android:minHeight="?listPreferredItemHeight"
+    app:contentPaddingRight="@dimen/spacing_16"
     app:contentPaddingTop="@dimen/spacing_4"
     app:strokeColor="@color/app_divider"
     app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_gravity="center_vertical"
         android:layout_height="wrap_content">
 
-        <!--        android:text='@{item.title}'-->
         <greenway_myanmar.org.ui.widget.GreenWayTextView
             android:id="@+id/category_name"
             android:layout_width="0dp"
@@ -29,12 +30,10 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="ပျိုးထောင်ခြင်း" />
 
-        <!--        android:onClick="@{() -> itemClickCallback.onAddNewItem(item)}"-->
-        <ImageButton
+        <ImageView
             android:id="@+id/icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?selectableItemBackground"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
