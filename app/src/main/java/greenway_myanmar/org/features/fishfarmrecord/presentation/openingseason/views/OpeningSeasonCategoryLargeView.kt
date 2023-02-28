@@ -29,7 +29,7 @@ class OpeningSeasonCategoryLargeView @JvmOverloads constructor(
         @ModelProp set(item) {
             if (field != item) {
                 if (item != null) {
-                    binding.categoryNameTextView.text = item.categoryName
+                    binding.categoryNameTextView.text = item.category.name
                     binding.categoryExpenseTextView.setAmount(item.totalCategoryExpense)
                     binding.dateTextView.text =
                         item.lastRecordDate?.let { DateUtils.format(it, "MMMM d၊ yyyy") }.orEmpty()

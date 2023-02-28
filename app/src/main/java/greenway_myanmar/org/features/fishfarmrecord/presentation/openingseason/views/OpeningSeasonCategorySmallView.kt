@@ -28,7 +28,7 @@ class OpeningSeasonCategorySmallView @JvmOverloads constructor(
         @ModelProp set(item) {
             if (field != item) {
                 if (item != null) {
-                    binding.categoryName.text = item.categoryName
+                    binding.categoryName.text = item.category.name
                 }
                 field = item
             }

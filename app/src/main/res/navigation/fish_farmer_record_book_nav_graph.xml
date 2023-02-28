@@ -79,6 +79,11 @@
         <argument
             android:name="season_id"
             app:argType="string" />
+        <argument
+            android:name="category"
+            app:argType="greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/farmDetailFragment"

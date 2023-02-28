@@ -14,6 +14,7 @@ import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.SeasonSummaryItemViewGroupModel_
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.seasonSummaryCategoryExpenseCardView
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.seasonSummaryCropIncomeCardView
+import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.seasonSummaryFcrCardView
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.seasonSummaryProductionCardView
 import greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.epoxy.views.seasonSummarySubheaderView
 
@@ -33,9 +34,9 @@ class SeasonSummaryController(
             addSeasonSummary(summary)
             addExpandShrinkButton()
             addProductionSummariesIfExists(summary)
-            // addProductionRecordSummaryIfExists(summary)
             addCropIncomeSummaryIfExists(summary)
             addExpenseSummaryIfExists(summary)
+            addFcrSummaryIfExists(summary)
         }
 
 
@@ -169,10 +170,25 @@ class SeasonSummaryController(
         }
     }
 
-    interface ClickCallback {
-        //fun onExpenseCategoryItemClick(expenseCategory: AsymtExpenseCategory?)
-    }
+    private fun addFcrSummaryIfExists(summary: UiSeasonSummary) {
+        val fcrRecords = summary.fcrRecords
+        if (!fcrRecords.isNullOrEmpty()) {
+            group {
+                id("expense_list")
+                layout(R.layout.ffr_season_summary_group_view)
 
+                seasonSummarySubheaderView {
+                    id("fcr_record_list_subheader")
+                    subheader("FCR စာရင်းများ")
+                }
+
+                seasonSummaryFcrCardView {
+                    id("fcr_record_card")
+                    items(fcrRecords)
+                }
+            }
+        }
+    }
 
     fun setSeasonSummary(summary: UiSeasonSummary?) {
         this.seasonSummary = summary
@@ -184,12 +200,6 @@ class SeasonSummaryController(
         requestModelBuild()
     }
 
-    //
-//  fun setFarm(farm: AsymtFarm) {
-//    this.farm = farm
-//    requestModelBuild()
-//  }
-//
     private fun buildItemsFrom(
         farm: String,
         season: UiSeasonSummary,

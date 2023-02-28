@@ -126,8 +126,8 @@ class ApiModule {
     @Singleton
     @Provides
     fun provideHttpUrl(): HttpUrl {
-        return "http://10.0.2.2:3003/api/v9/".toHttpUrl()
-        //return "https://upgrade.greenwaymyanmar.com/api/v9/".toHttpUrl()
+        //return "http://10.0.2.2:3003/api/v9/".toHttpUrl()
+        return "https://upgrade.greenwaymyanmar.com/api/v9/".toHttpUrl()
     }
 
     @Provides

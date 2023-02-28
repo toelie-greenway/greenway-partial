@@ -13,6 +13,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetCategoryEx
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetProductionsStreamUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetProductionsStreamUseCase.GetProductionsRequest
 import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmUiState
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarm
 import greenway_myanmar.org.util.WhileViewSubscribed
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -134,8 +135,7 @@ private suspend fun loadCategoryListStream(
                 val items = mutableListOf<OpeningSeasonCategoryListItemUiState>()
                 val categories = expensesResult.data.map {
                     OpeningSeasonCategoryListItemUiState.CategoryItem(
-                        categoryId = it.category.id,
-                        categoryName = it.category.name,
+                        category = UiExpenseCategory.fromDomain(it.category),
                         lastRecordDate = it.lastRecordDate?.toJavaInstant(),
                         totalCategoryExpense = it.totalExpenses
                     )

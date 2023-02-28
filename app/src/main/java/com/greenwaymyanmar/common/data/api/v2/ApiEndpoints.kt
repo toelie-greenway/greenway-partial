@@ -4,5 +4,5 @@ package com.greenwaymyanmar.common.data.api.v2
 object ApiEndpoints {
   const val BASE_ENDPOINT = "https://upgrade.greenwaymyanmar.org/api/v9"
   const val REFRESH_TOKEN_URL =
-    "http://10.0.2.2:3003/api/v9/ffr/" + "refresh-token"
+    "https://upgrade.greenwaymyanmar.org/api/v9" + "refresh-token"
 }

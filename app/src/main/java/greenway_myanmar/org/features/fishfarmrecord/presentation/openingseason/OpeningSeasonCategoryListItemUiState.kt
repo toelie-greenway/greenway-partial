@@ -1,12 +1,12 @@
 package greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason
 
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
 import java.math.BigDecimal
 import java.time.Instant
 
 sealed class OpeningSeasonCategoryListItemUiState {
     data class CategoryItem(
-        val categoryId: String,
-        val categoryName: String,
+        val category: UiExpenseCategory,
         val lastRecordDate: Instant? = null,
         val totalCategoryExpense: BigDecimal
     ) : OpeningSeasonCategoryListItemUiState() {

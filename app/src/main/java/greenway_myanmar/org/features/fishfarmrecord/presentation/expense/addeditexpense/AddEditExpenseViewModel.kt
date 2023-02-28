@@ -46,6 +46,12 @@ class AddEditExpenseViewModel @Inject constructor(
     private val currentUiState: AddEditExpenseUiState
         get() = uiState.value
 
+    init {
+        args.category?.let {
+            updateCategory(it)
+        }
+    }
+
     fun handleEvent(event: AddEditExpenseEvent) {
         when (event) {
             is AddEditExpenseEvent.OnDateChanged -> {

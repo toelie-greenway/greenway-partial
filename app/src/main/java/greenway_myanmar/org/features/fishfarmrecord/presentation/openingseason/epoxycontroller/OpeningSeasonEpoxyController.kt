@@ -3,6 +3,7 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.
 import android.view.View.OnClickListener
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.EpoxyModel
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
 import greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.OpeningSeasonCategoryListItemUiState
 import greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.OpeningSeasonCategoryListItemUiState.CategoryItem
 import greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.OpeningSeasonCategoryListItemUiState.CloseItem
@@ -14,7 +15,7 @@ import greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.v
 import greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.views.OpeningSeasonProductionSmallViewModel_
 
 class OpeningSeasonEpoxyController constructor(
-    val onAddExpenseClick: (categoryId: String) -> Unit,
+    val onAddExpenseClick: (category: UiExpenseCategory) -> Unit,
     val onViewCategoryExpensesClick: (categoryId: String) -> Unit,
     val onAddProductionClick: () -> Unit,
     val onViewProductionsClick: () -> Unit,
@@ -45,20 +46,20 @@ class OpeningSeasonEpoxyController constructor(
 
     private fun buildCategoryItem(item: CategoryItem): EpoxyModel<*> = if (item.hasRecord) {
         OpeningSeasonCategoryLargeViewModel_()
-            .id("category${item.categoryId}")
+            .id("category${item.category.id}")
             .item(item)
             .onAddNewExpenseClickCallback(OnClickListener {
-                onAddExpenseClick(item.categoryId)
+                onAddExpenseClick(item.category)
             })
             .onViewCategoryExpensesClickCallback(OnClickListener {
-                onViewCategoryExpensesClick(item.categoryId)
+                onViewCategoryExpensesClick(item.category.id)
             })
     } else {
         OpeningSeasonCategorySmallViewModel_()
-            .id("category${item.categoryId}")
+            .id("category${item.category.id}")
             .item(item)
             .onAddNewExpenseClickCallback(OnClickListener {
-                onAddExpenseClick(item.categoryId)
+                onAddExpenseClick(item.category)
             })
     }
 

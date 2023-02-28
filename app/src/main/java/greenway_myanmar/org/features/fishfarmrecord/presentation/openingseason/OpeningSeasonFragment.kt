@@ -15,6 +15,7 @@ import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FfrOpeningSeasonFragmentBinding
 import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmDetailFragmentDirections
 import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmDetailViewModel
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
 import greenway_myanmar.org.features.fishfarmrecord.presentation.openingseason.epoxycontroller.OpeningSeasonEpoxyController
 import greenway_myanmar.org.util.UIUtils
 import greenway_myanmar.org.util.kotlin.autoCleared
@@ -49,8 +50,8 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
 
     private fun setupList() {
         epoxyController = OpeningSeasonEpoxyController(
-            onAddExpenseClick = { categoryId ->
-                navigateToAddEditExpenseScreen(categoryId)
+            onAddExpenseClick = { category ->
+                navigateToAddEditExpenseScreen(category)
             },
             onViewCategoryExpensesClick = { categoryId ->
                 navigateToExpenseListScreen(categoryId)
@@ -127,7 +128,7 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
         )
     }
 
-    private fun navigateToAddEditExpenseScreen(categoryId: String) {
+    private fun navigateToAddEditExpenseScreen(category: UiExpenseCategory) {
         val farmId = parentViewModel.getFarmId()
         val seasonId = parentViewModel.getSeasonId()
         if (farmId.isEmpty() || seasonId.isNullOrEmpty()) {
@@ -138,6 +139,7 @@ class OpeningSeasonFragment : Fragment(R.layout.ffr_opening_season_fragment) {
             FarmDetailFragmentDirections.actionFarmDetailFragmentToAddEditExpenseFragment(
                 farmId = farmId,
                 seasonId = seasonId,
+                category = category
             )
         )
     }
