@@ -174,7 +174,7 @@ class SeasonSummaryController(
         val fcrRecords = summary.fcrRecords
         if (!fcrRecords.isNullOrEmpty()) {
             group {
-                id("expense_list")
+                id("fcr_record_list")
                 layout(R.layout.ffr_season_summary_group_view)
 
                 seasonSummarySubheaderView {
