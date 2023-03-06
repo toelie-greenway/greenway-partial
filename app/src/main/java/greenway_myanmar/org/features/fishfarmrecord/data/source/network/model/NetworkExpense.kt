@@ -22,7 +22,9 @@ data class NetworkExpense(
     val total_cost: Double? = null,
     val photos: List<String>? = null,
     val remark: String? = null,
-    val inputs: List<NetworkFarmInputExpense>? = null
+    val inputs: List<NetworkFarmInputExpense>? = null,
+    val general_expense: Double? = null,
+    val sub_category: NetworkExpenseCategory? = null
 )
 
 @Serializable
@@ -52,7 +54,9 @@ fun NetworkExpense.asDomainModel() = Expense(
     remark = remark,
     inputs = inputs.orEmpty().map {
         it.asDomainModel()
-    }
+    },
+    generalExpense = general_expense.toBigDecimalOrNull(),
+    generalExpenseCategory = sub_category?.asDomainModel()
 )
 
 fun NetworkFarmInputExpense.asDomainModel() = FarmInputExpense(

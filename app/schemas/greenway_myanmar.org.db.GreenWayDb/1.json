@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fa7378fc9b99187e68486c228b727969",
+    "identityHash": "9f552efc305d38e5792d1616bd8c4dcd",
     "entities": [
       {
         "tableName": "ffr_category_expenses",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `category_name` TEXT NOT NULL, `is_harvesting` INTEGER NOT NULL, `order` INTEGER NOT NULL, `total_expense` TEXT NOT NULL, `last_cost_created_date` INTEGER, `season_id` TEXT NOT NULL, PRIMARY KEY(`category_id`, `season_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` TEXT NOT NULL, `category_name` TEXT NOT NULL, `is_harvesting` INTEGER NOT NULL, `is_general_expense_category` INTEGER NOT NULL, `order` INTEGER NOT NULL, `total_expense` TEXT NOT NULL, `last_cost_created_date` INTEGER, `season_id` TEXT NOT NULL, PRIMARY KEY(`category_id`, `season_id`))",
         "fields": [
           {
             "fieldPath": "categoryId",
@@ -23,6 +23,12 @@
           {
             "fieldPath": "isHarvesting",
             "columnName": "is_harvesting",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isGeneralExpenseCategory",
+            "columnName": "is_general_expense_category",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -157,7 +163,7 @@
       },
       {
         "tableName": "ffr_expenses",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `date` INTEGER NOT NULL, `labour_quantity` INTEGER, `labour_cost` TEXT, `family_quantity` INTEGER, `family_cost` TEXT, `machinery_cost` TEXT, `inputs` TEXT, `total_cost` TEXT, `photos` TEXT, `remark` TEXT, `season_id` TEXT NOT NULL, `category_id` TEXT NOT NULL, `pending_action` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `date` INTEGER NOT NULL, `labour_quantity` INTEGER, `labour_cost` TEXT, `family_quantity` INTEGER, `family_cost` TEXT, `machinery_cost` TEXT, `inputs` TEXT, `general_expense` TEXT, `total_cost` TEXT, `photos` TEXT, `remark` TEXT, `season_id` TEXT NOT NULL, `category_id` TEXT NOT NULL, `pending_action` TEXT NOT NULL, `general_expense_category_id` TEXT, `general_expense_category_name` TEXT, `general_expense_category_is_harvesting` INTEGER, `general_expense_category_is_general_expense_category` INTEGER, `general_expense_category_order` INTEGER, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -208,6 +214,12 @@
             "notNull": false
           },
           {
+            "fieldPath": "generalExpense",
+            "columnName": "general_expense",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
             "fieldPath": "totalCost",
             "columnName": "total_cost",
             "affinity": "TEXT",
@@ -242,6 +254,36 @@
             "columnName": "pending_action",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "generalExpenseCategory.id",
+            "columnName": "general_expense_category_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "generalExpenseCategory.name",
+            "columnName": "general_expense_category_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "generalExpenseCategory.isHarvesting",
+            "columnName": "general_expense_category_is_harvesting",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "generalExpenseCategory.isGeneralExpenseCategory",
+            "columnName": "general_expense_category_is_general_expense_category",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "generalExpenseCategory.order",
+            "columnName": "general_expense_category_order",
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -255,7 +297,7 @@
       },
       {
         "tableName": "ffr_expense_categories",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `is_harvesting` INTEGER NOT NULL, `order` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `is_harvesting` INTEGER NOT NULL, `is_general_expense_category` INTEGER NOT NULL, `order` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -272,6 +314,12 @@
           {
             "fieldPath": "isHarvesting",
             "columnName": "is_harvesting",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isGeneralExpenseCategory",
+            "columnName": "is_general_expense_category",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -816,7 +864,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fa7378fc9b99187e68486c228b727969')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9f552efc305d38e5792d1616bd8c4dcd')"
     ]
   }
 }

@@ -1,6 +1,7 @@
 package greenway_myanmar.org.features.fishfarmrecord.data.source.database.model
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.greenwaymyanmar.vo.PendingAction
@@ -26,6 +27,10 @@ data class FfrExpenseEntity(
     @ColumnInfo(name = "machinery_cost")
     val machineryCost: BigDecimal? = null,
     val inputs: List<FfrFarmInputExpenseEntity>? = null,
+    @ColumnInfo(name = "general_expense")
+    val generalExpense: BigDecimal? = null,
+    @Embedded(prefix = "general_expense_category_")
+    val generalExpenseCategory: FfrExpenseCategoryEntity? = null,
     @ColumnInfo(name = "total_cost")
     val totalCost: BigDecimal? = null,
     val photos: List<String>? = null,
@@ -49,5 +54,7 @@ fun FfrExpenseEntity.asDomainModel() = Expense(
     totalCost = totalCost,
     photos = photos,
     remark = remark,
-    inputs = inputs.orEmpty().map(FfrFarmInputExpenseEntity::asDomainModel)
+    inputs = inputs.orEmpty().map(FfrFarmInputExpenseEntity::asDomainModel),
+    generalExpense = generalExpense,
+    generalExpenseCategory = generalExpenseCategory?.asDomainModel()
 )

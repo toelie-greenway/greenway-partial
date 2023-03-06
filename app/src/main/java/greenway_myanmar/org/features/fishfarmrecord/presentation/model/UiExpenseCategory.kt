@@ -8,13 +8,15 @@ import kotlinx.parcelize.Parcelize
 data class UiExpenseCategory(
     val id: String,
     val name: String,
-    val isHarvesting: Boolean
+    val isHarvesting: Boolean,
+    val isGeneralExpenseCategory: Boolean
 ) : Parcelable {
     companion object {
         fun fromDomain(domainModel: ExpenseCategory) = UiExpenseCategory(
             id = domainModel.id,
             name = domainModel.name,
-            isHarvesting = domainModel.isHarvesting
+            isHarvesting = domainModel.isHarvesting,
+            isGeneralExpenseCategory = domainModel.isGeneralExpenseCategory
         )
     }
 }
@@ -22,5 +24,6 @@ data class UiExpenseCategory(
 fun UiExpenseCategory.asDomainModel() = ExpenseCategory(
     id = id,
     name = name,
-    isHarvesting = isHarvesting
+    isHarvesting = isHarvesting,
+    isGeneralExpenseCategory = isGeneralExpenseCategory
 )

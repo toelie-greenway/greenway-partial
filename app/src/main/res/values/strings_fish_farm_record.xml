@@ -139,6 +139,8 @@
     <string name="ffr_add_edit_expense_hint_note">မှတ်ချက်ရေးသားရန်</string>
     <string name="ffr_add_edit_expense_error_cost_required">ကုန်ကျစရိတ် အနည်းဆုံး တစ်မျိုးဖြည့်ရန်လိုအပ်ပါသည်</string>
     <string name="ffr_add_edit_expense_formatted_farm_input_product_cost">%1$s %2$s • %3$s ကျပ်</string>
+    <string name="ffr_add_edit_expense_hint_general_expenses">ကုန်ကျစရိတ်</string>
+    <string name="ffr_add_edit_expense_hint_general_expenses_category">အခွန်အခနှင့်အထွေထွေစရိတ်များ</string>
 
     <!-- Expense category chooser screen -->
     <string name="ffr_expense_category_chooser_title">ကုန်ကျသည့်အကြောင်းအရင်း</string>

@@ -78,6 +78,11 @@ interface FishFarmRecordNetworkDataSource {
     ): List<NetworkCropIncome>
 
     suspend fun getExpenseCategories(userId: String): List<NetworkExpenseCategory>
+    suspend fun getExpenseSubCategories(
+        categoryId: String,
+        userId: String
+    ): List<NetworkExpenseCategory>
+
     suspend fun getFarm(farmId: String, userId: String): NetworkFarm
     suspend fun getFarmInputProducts(
         query: String,

@@ -14,11 +14,14 @@ data class FfrExpenseCategoryEntity(
     val name: String,
     @ColumnInfo("is_harvesting")
     val isHarvesting: Boolean,
+    @ColumnInfo("is_general_expense_category")
+    val isGeneralExpenseCategory: Boolean,
     val order: Int,
 )
 
 fun FfrExpenseCategoryEntity.asDomainModel() = ExpenseCategory(
     id = id,
     name = name,
-    isHarvesting = isHarvesting
+    isHarvesting = isHarvesting,
+    isGeneralExpenseCategory = isGeneralExpenseCategory
 )

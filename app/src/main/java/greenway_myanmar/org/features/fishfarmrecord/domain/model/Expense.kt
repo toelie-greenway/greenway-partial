@@ -14,5 +14,7 @@ data class Expense(
     val totalCost: BigDecimal? = null,
     val photos: List<String>? = null,
     val remark: String? = null,
-    val inputs: List<FarmInputExpense>? = null
+    val inputs: List<FarmInputExpense>? = null,
+    val generalExpense: BigDecimal?,
+    val generalExpenseCategory: ExpenseCategory?
 )

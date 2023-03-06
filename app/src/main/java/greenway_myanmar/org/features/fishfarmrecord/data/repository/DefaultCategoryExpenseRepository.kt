@@ -15,9 +15,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.model.CategoryExpense
 import greenway_myanmar.org.features.fishfarmrecord.domain.repository.CategoryExpenseRepository
 import greenway_myanmar.org.util.RateLimiter
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -78,7 +76,6 @@ class DefaultCategoryExpenseRepository @Inject constructor(
                     } else {
                         null
                     }
-
                 }
             },
             fetch = {
@@ -89,7 +86,6 @@ class DefaultCategoryExpenseRepository @Inject constructor(
                 )
             },
             saveFetchResult = { result ->
-                Timber.d("Result: $result")
                 val entity: FfrCategoryExpenseEntity = result.asEntity(seasonId)
                 val entities: List<FfrExpenseEntity> =
                     result.asExpenseEntities(seasonId, categoryId)
@@ -100,18 +96,9 @@ class DefaultCategoryExpenseRepository @Inject constructor(
                 rateLimiter.reset(buildCategoryExpenseRateLimiterKey(seasonId, categoryId))
             },
             shouldFetch = { data ->
-                shouldFetchCategoryExpense(seasonId, categoryId, data, forceRefresh)
+                true
             }
-
         )
-//        GlobalScope.launch {
-//            val a = network.getCategoryExpenses(
-//                userId = userHelper.activeUserId.toString(),
-//                seasonId = seasonId
-//            )
-//        }
-        Timber.d("SeasonId=$seasonId, CategoryId=$categoryId")
-        return emptyFlow()
     }
 
     private fun shouldFetchCategoryExpenses(

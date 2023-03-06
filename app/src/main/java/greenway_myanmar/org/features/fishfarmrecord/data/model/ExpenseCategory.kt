@@ -6,6 +6,7 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.network.model.Ne
 fun NetworkExpenseCategory.asEntity() = FfrExpenseCategoryEntity(
     id = id.orEmpty(),
     name = title.orEmpty(),
-    isHarvesting = is_harvesting == false,
+    isHarvesting = is_harvesting ?: false,
+    isGeneralExpenseCategory = is_general ?: false,
     order = order ?: -1,
 )

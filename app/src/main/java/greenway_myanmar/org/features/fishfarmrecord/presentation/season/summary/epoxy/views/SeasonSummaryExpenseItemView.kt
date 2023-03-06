@@ -93,8 +93,19 @@ constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context
             )
         }
 
+        if (expense.generalExpense != null && expense.generalExpenseCategory != null) {
+            list.add(
+                Triple(
+                    first = expense.generalExpenseCategory.name,
+                    second = "",
+                    third = resources.getString(
+                        R.string.formatted_kyat,
+                        numberFormat.format(expense.generalExpense)
+                    )
+                ),
+            )
+        }
+
         return list
     }
-
-
 }

@@ -18,6 +18,8 @@ data class FfrCategoryExpenseEntity(
     val categoryName: String,
     @ColumnInfo("is_harvesting")
     val isHarvesting: Boolean,
+    @ColumnInfo("is_general_expense_category")
+    val isGeneralExpenseCategory: Boolean,
     val order: Int,
     @ColumnInfo(name = "total_expense")
     val totalExpenses: BigDecimal,
@@ -27,13 +29,15 @@ data class FfrCategoryExpenseEntity(
     val seasonId: String
 )
 
-fun FfrCategoryExpenseEntity.asDomainModel(expenses: List<FfrExpenseEntity> = emptyList()) = CategoryExpense(
-    category = ExpenseCategory(
-        id = categoryId,
-        name = categoryName,
-        isHarvesting = isHarvesting,
-    ),
-    totalExpenses = totalExpenses,
-    lastRecordDate = lastRecordDate,
-    expenses = expenses.map(FfrExpenseEntity::asDomainModel)
-)
+fun FfrCategoryExpenseEntity.asDomainModel(expenses: List<FfrExpenseEntity> = emptyList()) =
+    CategoryExpense(
+        category = ExpenseCategory(
+            id = categoryId,
+            name = categoryName,
+            isHarvesting = isHarvesting,
+            isGeneralExpenseCategory = isGeneralExpenseCategory
+        ),
+        totalExpenses = totalExpenses,
+        lastRecordDate = lastRecordDate,
+        expenses = expenses.map(FfrExpenseEntity::asDomainModel)
+    )

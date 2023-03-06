@@ -20,6 +20,9 @@ class DefaultExpenseCategoryRepository @Inject constructor(
     private val cachedCategoriesMutex = Mutex()
     private var cachedCategories: List<ExpenseCategory> = emptyList()
 
+    private val cachedSubCategoriesMutex = Mutex()
+    private val cachedSubCategories: MutableMap<String, List<ExpenseCategory>> = mutableMapOf()
+
     override fun getExpenseCategoriesStream(forceRefresh: Boolean): Flow<List<ExpenseCategory>> {
         return flow {
             if (forceRefresh || cachedCategories.isEmpty()) {
@@ -31,6 +34,30 @@ class DefaultExpenseCategoryRepository @Inject constructor(
             }
             emit(cachedCategoriesMutex.withLock { cachedCategories })
         }
+    }
 
+    override fun getExpenseSubCategoriesStream(
+        categoryId: String,
+        forceRefresh: Boolean
+    ): Flow<List<ExpenseCategory>> {
+        return flow {
+            val subcategories = cachedSubCategories[categoryId]
+            if (forceRefresh || subcategories.isNullOrEmpty()) {
+                val networkResult = network.getExpenseSubCategories(
+                    categoryId = categoryId,
+                    userId = userHelper.activeUserId.toString()
+                )
+                    .map(NetworkExpenseCategory::asDomainModel)
+                cachedSubCategoriesMutex.withLock {
+                    cachedSubCategories[categoryId] = networkResult
+                }
+            }
+            emit(cachedSubCategoriesMutex.withLock {
+                cachedSubCategories.getOrDefault(
+                    categoryId,
+                    emptyList()
+                )
+            })
+        }
     }
 }

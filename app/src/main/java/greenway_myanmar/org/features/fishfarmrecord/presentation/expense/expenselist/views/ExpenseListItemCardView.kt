@@ -111,6 +111,16 @@ constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context
             )
         }
 
+        if (expense.generalExpense != null && expense.generalExpenseCategory != null) {
+            list.add(
+                ExpenseLineItemUiState(
+                    name = expense.generalExpenseCategory.name,
+                    quantity = "",
+                    cost = expense.generalExpense
+                ),
+            )
+        }
+
         return list
     }
 

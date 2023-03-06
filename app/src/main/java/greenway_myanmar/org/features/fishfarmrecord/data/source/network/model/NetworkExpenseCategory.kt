@@ -8,11 +8,13 @@ data class NetworkExpenseCategory(
     val id: String? = "",
     val title: String? = "",
     val is_harvesting: Boolean? = false,
+    val is_general: Boolean? = false,
     val order: Int? = -1,
 )
 
 fun NetworkExpenseCategory.asDomainModel() = ExpenseCategory(
     id = id.orEmpty(),
     name = title.orEmpty(),
-    isHarvesting = is_harvesting == false
+    isHarvesting = is_harvesting ?: false,
+    isGeneralExpenseCategory = is_general ?: false
 )

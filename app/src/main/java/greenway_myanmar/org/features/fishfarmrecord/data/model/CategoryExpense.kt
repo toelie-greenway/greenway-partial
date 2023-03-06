@@ -16,6 +16,7 @@ fun NetworkCategoryExpense.asEntity(
     categoryId = id.orEmpty(),
     categoryName = title.orEmpty(),
     isHarvesting = is_harvesting ?: false,
+    isGeneralExpenseCategory = is_general ?: false,
     order = order ?: -1,
     totalExpenses = if (total_cost == null) BigDecimal.ZERO else BigDecimal.valueOf(total_cost),
     lastRecordDate = last_cost_created_date.toInstantOrNull(),
@@ -39,6 +40,8 @@ fun NetworkCategoryExpense.asExpenseEntities(
         totalCost = it.total_cost.toBigDecimalOrZero(),
         inputs = it.inputs.orEmpty().map(NetworkFarmInputExpense::asEntity),
         photos = it.photos,
-        remark = it.remark
+        remark = it.remark,
+        generalExpense = it.general_expense.toBigDecimalOrNull(),
+        generalExpenseCategory = it.sub_category?.asEntity()
     )
 }

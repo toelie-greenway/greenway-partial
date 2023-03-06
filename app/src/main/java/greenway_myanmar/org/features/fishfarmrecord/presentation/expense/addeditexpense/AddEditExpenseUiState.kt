@@ -12,6 +12,10 @@ data class AddEditExpenseUiState(
     val date: LocalDate = LocalDate.now(),
     val category: UiExpenseCategory? = null,
     val categoryError: Text? = null,
+    val generalExpenseCategory: UiExpenseCategory? = null,
+    val generalExpenseCategoryError: Text? = null,
+    val generalExpense: String? = null,
+    val generalExpenseError: Text? = null,
     val labourCost: UiLabourCost? = null,
     val machineryCost: UiMachineryCost? = null,
     val farmInputCosts: List<UiFarmInputCost> = emptyList(),
@@ -20,6 +24,8 @@ data class AddEditExpenseUiState(
 
     val addEditExpenseResult: AddEditExpenseResult? = null,
 ) {
+    val isGeneralExpenseCategory: Boolean = category?.isGeneralExpenseCategory == true
+
     data class AddEditExpenseResult(
         val expenseId: String
     )

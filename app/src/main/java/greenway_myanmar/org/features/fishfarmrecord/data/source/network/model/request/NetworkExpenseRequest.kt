@@ -17,7 +17,9 @@ data class NetworkExpenseRequest(
     val machinery_cost: Double? = null,
     val photos: List<String>? = null,
     val remark: String? = null,
-    val inputs: List<NetworkFarmInputRequest>? = null
+    val inputs: List<NetworkFarmInputRequest>? = null,
+    val expense_sub_category_id: String? = null,
+    val general_expense: Double? = null
 ) {
     companion object {
         fun fromDomainRequest(request: SaveExpenseRequest) = NetworkExpenseRequest(
@@ -33,7 +35,9 @@ data class NetworkExpenseRequest(
             remark = request.remark,
             inputs = request.inputs?.map {
                 NetworkFarmInputRequest.fromDomainModel(it)
-            }
+            },
+            expense_sub_category_id = request.generalExpenseCategory?.id,
+            general_expense = request.generalExpense?.toDouble()
         )
     }
 }

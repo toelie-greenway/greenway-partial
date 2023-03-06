@@ -17,7 +17,9 @@ data class UiExpense(
     val totalCost: BigDecimal? = null,
     val photos: List<String>? = null,
     val remark: String? = null,
-    val inputs: List<UiFarmInputCost>? = null
+    val inputs: List<UiFarmInputCost>? = null,
+    val generalExpense: BigDecimal?,
+    val generalExpenseCategory: UiExpenseCategory?
 ) {
     val formattedDate = DateUtils.format(date.toJavaInstant(), "dd MMMM၊ yyyy")
 
@@ -47,7 +49,11 @@ data class UiExpense(
              remark = domainModel.remark,
              inputs = domainModel.inputs.orEmpty().map {
                 UiFarmInputCost.fromDomainModel(it)
-             }
+             },
+            generalExpense =domainModel.generalExpense,
+            generalExpenseCategory = domainModel.generalExpenseCategory?.let {
+                UiExpenseCategory.fromDomain(it)
+            }
         )
     }
 }

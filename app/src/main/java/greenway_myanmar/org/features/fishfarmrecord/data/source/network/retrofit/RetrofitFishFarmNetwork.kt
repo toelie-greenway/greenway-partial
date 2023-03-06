@@ -121,6 +121,12 @@ private interface RetrofitFishFarmRecordNetworkApi {
         @Query("user_id") userId: String
     ): ApiResponse<ApiDataWrapper<List<NetworkExpenseCategory>>>
 
+    @GET(value = "ffr/expense-categories/{category_id}")
+    suspend fun getExpenseSubCategories(
+        @Path("category_id") categoryId: String,
+        @Query("user_id") userId: String
+    ): ApiResponse<ApiDataWrapper<List<NetworkExpenseCategory>>>
+
     @GET(value = "ffr/expense-categories/{category_id}/expenses")
     suspend fun getCategoryExpense(
         @Path("category_id") categoryId: String,
@@ -305,6 +311,15 @@ class RetrofitFishFarmNetworkDataSource @Inject constructor(
 
     override suspend fun getExpenseCategories(userId: String): List<NetworkExpenseCategory> =
         networkApi.getExpenseCategories(userId).getDataOrThrow().data
+
+    override suspend fun getExpenseSubCategories(
+        categoryId: String,
+        userId: String
+    ): List<NetworkExpenseCategory> =
+        networkApi.getExpenseSubCategories(
+            categoryId = categoryId,
+            userId = userId
+        ).getDataOrThrow().data
 
     override suspend fun getFishes(): List<NetworkFish> =
         networkApi.getFishes().getDataOrThrow()

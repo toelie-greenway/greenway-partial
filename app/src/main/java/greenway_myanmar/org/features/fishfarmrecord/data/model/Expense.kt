@@ -23,7 +23,9 @@ fun NetworkExpense.asEntity(
     photos = photos,
     remark = remark,
     seasonId = seasonId,
-    categoryId = categoryId
+    categoryId = categoryId,
+    generalExpense = general_expense.toBigDecimalOrNull(),
+    generalExpenseCategory = sub_category?.asEntity()
 )
 
 fun NetworkFarmInputExpense.asEntity() = FfrFarmInputExpenseEntity(

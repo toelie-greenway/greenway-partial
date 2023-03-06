@@ -21,6 +21,10 @@
         <item name="boxBackgroundColor">@color/app_white</item>
     </style>
 
+    <style name="Widget.GreenWay2.TextInputLayout.OutlinedBox.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxBackgroundColor">@color/app_white</item>
+    </style>
+
     <style name="TextAppearance.GreenWay2.Title" parent="TextAppearance.AppCompat.Title">
         <item name="android:textColor">?colorOnPrimary</item>
         <item name="android:textSize">18sp</item>

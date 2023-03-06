@@ -25,7 +25,9 @@ class SaveExpenseUseCase @Inject constructor(
         val machineryCost: BigDecimal? = null,
         val images: List<String>? = null,
         val remark: String? = null,
-        val inputs: List<FarmInputExpense>? = null
+        val inputs: List<FarmInputExpense>? = null,
+        val generalExpenseCategory: ExpenseCategory? = null,
+        val generalExpense: BigDecimal? = null
     )
 
     data class SaveExpenseResult(

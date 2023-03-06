@@ -3,6 +3,8 @@ package greenway_myanmar.org.features.fishfarmrecord.presentation.expense.addedi
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -36,6 +38,7 @@ import greenway_myanmar.org.ui.widget.GreenWayDateInputView.OnDateChangeListener
 import greenway_myanmar.org.util.extensions.bindText
 import greenway_myanmar.org.util.extensions.getParcelableExtraCompat
 import greenway_myanmar.org.util.extensions.requireNetworkConnection
+import greenway_myanmar.org.util.extensions.setError
 import greenway_myanmar.org.util.extensions.themeColor
 import greenway_myanmar.org.util.kotlin.viewBinding
 import kotlinx.coroutines.CoroutineScope
@@ -71,18 +74,26 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
         setupLabourCostInputUi()
         setupMachineryCostInputUi()
         setupFarmInputListInputUi()
+        setupGeneralExpenseCategoryInputUi()
+        setupGeneralExpenseInputUi()
         setupNoteInputUi()
         setupSubmitButton()
     }
 
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
+            observeIsGeneralExpenseCategory()
+            observeGeneralExpenseCategories()
+            observeGeneralExpenseCategory()
+            observeGeneralExpenseCategoryError()
             observeDate()
             observeCategory()
             observeCategoryError()
             observeLabourCost()
             observeMachineryCost()
             observeFarmInputs()
+            observeGeneralExpenses()
+            observeGeneralExpensesError()
             observeNote()
             observeCostError()
             observeSeasonUploadingState()
@@ -191,6 +202,26 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
         })
     }
 
+    private fun setupGeneralExpenseCategoryInputUi() {
+        binding.generalExpenseCategoryAutoCompleteTextView.apply {
+            setAdapter(
+                ArrayAdapter<String>(
+                    requireContext(),
+                    R.layout.greenway_dropdown_menu_popup_item,
+                    mutableListOf()
+                )
+            )
+            onItemClickListener =
+                AdapterView.OnItemClickListener { parent, view, position, id ->
+                    viewModel.handleEvent(
+                        AddEditExpenseEvent.OnGeneralExpenseCategorySelectionChanged(
+                            position
+                        )
+                    )
+                }
+        }
+    }
+
     private fun setupLabourCostInputUi() {
         binding.labourCostInputView.setClickCall(object : LabourCostInputView.ClickCallback {
             override fun onClick() {
@@ -225,6 +256,16 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
         })
     }
 
+    private fun setupGeneralExpenseInputUi() {
+        binding.generalExpensesTextInputEditText.doAfterTextChanged {
+            viewModel.handleEvent(
+                AddEditExpenseEvent.OnGeneralExpenseChanged(
+                    it?.toString().orEmpty()
+                )
+            )
+        }
+    }
+
     private fun setupNoteInputUi() {
         binding.noteTextInputEditText.doAfterTextChanged {
             viewModel.handleEvent(
@@ -242,6 +283,53 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
                 viewModel.handleEvent(AddEditExpenseEvent.OnSubmit)
             }
         }
+    }
+
+    private fun CoroutineScope.observeIsGeneralExpenseCategory() = launch {
+        viewModel.uiState.map { it.isGeneralExpenseCategory }
+            .distinctUntilChanged()
+            .collect { isGeneralExpenseCategory ->
+                showHideInputs(isGeneralExpenseCategory)
+            }
+    }
+
+    private fun CoroutineScope.observeGeneralExpenseCategories() = launch {
+        viewModel.generalExpenseCategoriesUiState
+            .collect { uiState ->
+                when (uiState) {
+                    is LoadingState.Success -> {
+                        binding.generalExpenseCategoryAutoCompleteTextView.setAdapter(
+                            ArrayAdapter(
+                                requireContext(),
+                                R.layout.greenway_dropdown_menu_popup_item,
+                                uiState.data.map { it.name }
+                            )
+                        )
+                    }
+                    else -> {
+                        // no-op
+                    }
+                }
+            }
+    }
+
+    private fun CoroutineScope.observeGeneralExpenseCategory() = launch {
+        viewModel.uiState.map { it.generalExpenseCategory }
+            .distinctUntilChanged()
+            .collect { category ->
+                binding.generalExpenseCategoryAutoCompleteTextView.setText(
+                    category?.name.orEmpty(),
+                    false
+                )
+            }
+    }
+
+    private fun CoroutineScope.observeGeneralExpenseCategoryError() = launch {
+        viewModel.uiState.map { it.generalExpenseCategoryError }
+            .distinctUntilChanged()
+            .collect {
+                binding.generalExpenseCategoryDropdownMenu.setError(it)
+            }
     }
 
     private fun CoroutineScope.observeDate() = launch {
@@ -292,6 +380,22 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
             }
     }
 
+    private fun CoroutineScope.observeGeneralExpenses() = launch {
+        viewModel.uiState.map { it.generalExpense }
+            .distinctUntilChanged()
+            .collect {
+                binding.generalExpensesTextInputEditText.bindText(it)
+            }
+    }
+
+    private fun CoroutineScope.observeGeneralExpensesError() = launch {
+        viewModel.uiState.map { it.generalExpenseError }
+            .distinctUntilChanged()
+            .collect {
+                binding.generalExpensesTextInputLayout.setError(it)
+            }
+    }
+
     private fun CoroutineScope.observeNote() = launch {
         viewModel.uiState.map { it.note }
             .distinctUntilChanged()
@@ -333,6 +437,14 @@ class AddEditExpenseFragment : Fragment(R.layout.ffr_add_edit_expense_fragment) 
                     }
                 }
         }
+    }
+
+    private fun showHideInputs(generalExpenseCategory: Boolean) {
+        binding.generalExpensesTextInputLayout.isVisible = generalExpenseCategory
+        binding.generalExpenseCategoryDropdownMenu.isVisible = generalExpenseCategory
+        binding.labourCostInputView.isVisible = !generalExpenseCategory
+        binding.machineryCostInputView.isVisible = !generalExpenseCategory
+        binding.farmInputListInputView.isVisible = !generalExpenseCategory
     }
 
     private fun showCostRequiredError(error: Text) {

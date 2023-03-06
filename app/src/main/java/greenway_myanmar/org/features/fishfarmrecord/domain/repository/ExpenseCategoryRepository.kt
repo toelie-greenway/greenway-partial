@@ -5,4 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface ExpenseCategoryRepository {
     fun getExpenseCategoriesStream(forceRefresh: Boolean = false): Flow<List<ExpenseCategory>>
+    fun getExpenseSubCategoriesStream(
+        categoryId: String,
+        forceRefresh: Boolean = false
+    ): Flow<List<ExpenseCategory>>
 }

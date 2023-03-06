@@ -54,11 +54,6 @@ class OpeningSeasonViewModel @Inject constructor(
             )
         }.stateIn(viewModelScope, WhileViewSubscribed, LoadingState.Idle)
 
-
-    init {
-
-    }
-
     fun handleEvent(event: OpeningSeasonEvent) {
         when (event) {
             is OpeningSeasonEvent.OnSeasonIdChanged -> {
