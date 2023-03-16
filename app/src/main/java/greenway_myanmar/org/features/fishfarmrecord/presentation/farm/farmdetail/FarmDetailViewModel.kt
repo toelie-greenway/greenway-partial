@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFarmStreamUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetFarmStreamUseCase.GetFarmRequest
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarm
-import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiSeason
 import greenway_myanmar.org.util.WhileViewSubscribed
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -54,11 +53,7 @@ class FarmDetailViewModel @Inject constructor(
                 val openingSeason = (farmUiState as? LoadingState.Success)?.data?.ongoingSeason
                 _uiState.update {
                     it.copy(
-                        openingSeason = if (openingSeason != null) {
-                            UiSeason.fromDomain(openingSeason)
-                        } else {
-                            null
-                        }
+                        openingSeason = openingSeason
                     )
                 }
             }

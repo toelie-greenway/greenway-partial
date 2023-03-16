@@ -95,6 +95,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_marginStart="@dimen/spacing_2"
+                            android:clickable="false"
                             android:scaleType="centerCrop"
                             app:layout_constraintBottom_toBottomOf="@id/fish_icon_image_view"
                             app:layout_constraintStart_toEndOf="@id/fish_icon_image_view"
@@ -125,11 +126,12 @@
                             app:layout_constraintTop_toTopOf="@id/fish_icon_more_image_view"
                             tools:text="+5" />
 
-                        <androidx.constraintlayout.widget.Group
-                            android:id="@+id/more_fish_group"
+                        <androidx.constraintlayout.helper.widget.Layer
+                            android:id="@+id/more_fish_layer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:constraint_referenced_ids="more_fish_count_text_view,fish_icon_more_image_view,fish_icon_more_scrim_image_view" />
+                            app:constraint_referenced_ids="more_fish_count_text_view,fish_icon_more_image_view,fish_icon_more_scrim_image_view"
+                            tools:ignore="MissingConstraints" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -183,9 +185,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:tabContentStart="@dimen/spacing_24"
             android:minHeight="?actionBarSize"
             app:layout_collapseMode="pin"
+            app:tabContentStart="@dimen/spacing_24"
             app:tabMode="scrollable" />
 
     </com.google.android.material.appbar.AppBarLayout>

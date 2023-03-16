@@ -226,4 +226,6 @@
     <string name="ffr_season_summary_label_crop_income">အပင်အထွက်နှုန်း</string>
     <string name="ffr_season_summary_label_production">ငါးအထွက်နှုန်း</string>
     <string name="ffr_season_summary_label_formatted_total_production">%1$s ပိဿာ/%2$s ကျပ်</string>
+    
+    <string name="ffr_season_fish_list_title">မွေးထားသော ငါးစာရင်း</string>
 </resources>

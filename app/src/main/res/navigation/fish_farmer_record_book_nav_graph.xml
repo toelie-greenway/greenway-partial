@@ -81,9 +81,9 @@
             app:argType="string" />
         <argument
             android:name="category"
+            android:defaultValue="@null"
             app:argType="greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/farmDetailFragment"
@@ -117,6 +117,9 @@
         <action
             android:id="@+id/action_farmDetailFragment_to_seasonSummaryFragment"
             app:destination="@id/seasonSummaryFragment" />
+        <action
+            android:id="@+id/action_farmDetailFragment_to_seasonFishListFragment"
+            app:destination="@id/seasonFishListFragment" />
     </fragment>
     <fragment
         android:id="@+id/fishInputFragment"
@@ -267,7 +270,7 @@
     <fragment
         android:id="@+id/seasonSummaryFragment"
         android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.season.summary.SeasonSummaryFragment"
-        android:label="SeasonSummaryFragment" >
+        android:label="SeasonSummaryFragment">
         <argument
             android:name="season_id"
             app:argType="string" />
@@ -275,5 +278,14 @@
             android:name="farm_id"
             app:argType="string" />
     </fragment>
+    <dialog
+        android:id="@+id/seasonFishListFragment"
+        android:name="greenway_myanmar.org.features.fishfarmrecord.presentation.season.fishes.SeasonFishListFragment"
+        android:label="SeasonFishListFragment"
+        tools:layout="@layout/ffr_season_fish_list_fragment" >
+        <argument
+            android:name="fishes"
+            app:argType="greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish[]" />
+    </dialog>
 
 </navigation>

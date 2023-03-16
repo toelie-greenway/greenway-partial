@@ -7,7 +7,6 @@ import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.R
 import greenway_myanmar.org.common.domain.entities.Text
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetCategoryExpensesUseCase
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetCategoryExpensesUseCase.GetExpenseSummaryRequest
 import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetProductionsStreamUseCase
@@ -15,6 +14,7 @@ import greenway_myanmar.org.features.fishfarmrecord.domain.usecase.GetProduction
 import greenway_myanmar.org.features.fishfarmrecord.presentation.farm.farmdetail.FarmUiState
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiExpenseCategory
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarm
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiSeason
 import greenway_myanmar.org.util.WhileViewSubscribed
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -112,7 +112,7 @@ private suspend fun categoryListStream(
 }
 
 private suspend fun loadCategoryListStream(
-    openingSeason: Season,
+    openingSeason: UiSeason,
     getCategoryExpensesUseCase: GetCategoryExpensesUseCase,
     getProductionsStreamUseCase: GetProductionsStreamUseCase
 ) =

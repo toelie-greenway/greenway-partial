@@ -19,8 +19,9 @@ import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.FfrFarmDetailFragmentBinding
-import greenway_myanmar.org.features.fishfarmrecord.domain.model.season.Season
 import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFarm
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiFish
+import greenway_myanmar.org.features.fishfarmrecord.presentation.model.UiSeason
 import greenway_myanmar.org.util.extensions.load
 import greenway_myanmar.org.util.extensions.themeColor
 import greenway_myanmar.org.util.kotlin.autoCleared
@@ -150,19 +151,25 @@ class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun bindSeasonUi(season: Season) {
+    private fun bindSeasonUi(season: UiSeason) {
         binding.totalExpenseTextView.setAmount(season.totalExpenses)
         if (season.fishes.isNotEmpty()) {
-            binding.fishIconImageView.load(requireContext(), season.fishes.first().iconImageUrl)
+            binding.fishIconImageView.load(requireContext(), season.fishes.first().imageUrl)
+            binding.fishIconImageView.setOnClickListener {
+                showFishListScreen(season.fishes)
+            }
         }
 
         val fishCount = season.fishes.size
         if (fishCount > 1) {
-            binding.moreFishGroup.isVisible = true
+            binding.moreFishLayer.isVisible = true
             binding.moreFishCountTextView.text = "+${numberFormat.format(fishCount - 1)}"
-            binding.fishIconMoreImageView.load(requireContext(), season.fishes[1].iconImageUrl)
+            binding.fishIconMoreImageView.load(requireContext(), season.fishes[1].imageUrl)
+            binding.moreFishLayer.setOnClickListener {
+                showFishListScreen(season.fishes)
+            }
         } else {
-            binding.moreFishGroup.isVisible = false
+            binding.moreFishLayer.isVisible = false
         }
     }
 
@@ -213,7 +220,7 @@ class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
     private fun navigateToAddEditFcrRecordScreen() {
         val season = viewModel.currentUiState.openingSeason ?: return
         val fishes = season.fishes
-        if (fishes.isNullOrEmpty()) {
+        if (fishes.isEmpty()) {
             return
         }
 
@@ -221,6 +228,14 @@ class FarmDetailFragment : Fragment(R.layout.ffr_farm_detail_fragment) {
             FarmDetailFragmentDirections.actionFarmDetailFragmentToAddEditFcrRecordFragment(
                 fishes = fishes.toTypedArray(),
                 seasonId = season.id
+            )
+        )
+    }
+
+    private fun showFishListScreen(fishes: List<UiFish>) {
+        navController.navigate(
+            FarmDetailFragmentDirections.actionFarmDetailFragmentToSeasonFishListFragment(
+                fishes = fishes.toTypedArray()
             )
         )
     }
