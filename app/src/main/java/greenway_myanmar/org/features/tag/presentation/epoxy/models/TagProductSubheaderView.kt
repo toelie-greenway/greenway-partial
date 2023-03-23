@@ -20,6 +20,6 @@ class TagProductSubheaderView @JvmOverloads constructor(
 
     init {
         orientation = VERTICAL
-        setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_16), 0, resources.getDimensionPixelSize(R.dimen.spacing_16))
+        setPadding(0, resources.getDimensionPixelSize(R.dimen.spacing_16), 0, resources.getDimensionPixelSize(R.dimen.spacing_8))
     }
 }
