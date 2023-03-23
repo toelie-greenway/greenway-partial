@@ -2,10 +2,10 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/templateFragment">
+    app:startDestination="@id/tagFragment">
 
     <fragment
-        android:id="@+id/templateFragment"
-        android:name="greenway_myanmar.org.features.template.presentation.TemplateFragment"
-        android:label="TemplateFragment" />
+        android:id="@+id/tagFragment"
+        android:name="greenway_myanmar.org.features.tag.presentation.TagFragment"
+        android:label="TagFragment" />
 </navigation>

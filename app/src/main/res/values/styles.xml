@@ -59,6 +59,21 @@
         <item name="tabIndicator">@drawable/app_tabs_primary_rounded_line_indicator</item>
     </style>
 
+    <style name="Widget.GreenWay.TabLayout.Switch" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabBackground">@drawable/app_tab_item_switch_bg_selector</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabTextColor">@color/app_tab_switch_text_selector</item>
+        <item name="tabTextAppearance">@style/TextAppearance.GreenWay.TabLayout</item>
+        <item name="tabUnboundedRipple">false</item>
+        <item name="tabRippleColor">@color/app_transparent</item>
+        <item name="android:background">@drawable/app_tab_switch_bg</item>
+    </style>
+
+    <style name="TextAppearance.GreenWay.TabLayout" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/noto_sans_myanmar_medium_500</item>
+        <item name="android:fontFamily">@font/noto_sans_myanmar_medium_500</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 
     <!-- Buttons -->
     <style name="Widget.GreenWay.Button" parent="Widget.MaterialComponents.Button" />

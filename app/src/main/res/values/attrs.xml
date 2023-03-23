@@ -141,4 +141,13 @@
         <attr name="showSymbol" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="TagColorIndicatorView">
+        <attr name="radius" format="dimension" />
+        <attr name="shadowRadius" format="dimension" />
+        <attr name="shadowDx" format="dimension" />
+        <attr name="shadowDy" format="dimension" />
+        <attr name="circleColor" format="color" />
+        <attr name="shadowColor" format="color" />
+    </declare-styleable>
+
 </resources>

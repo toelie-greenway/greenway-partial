@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_title_tag">အကြောင်းအရာ</string>
+    <string name="tag_tab_title_thread">မေးဖြေ</string>
+    <string name="tag_tab_title_post">ဆောင်းပါး</string>
+    <string name="tag_post_formatted_info">%1$s • %2$s</string>
+    <string name="tag_action_more_thread_post">ထပ်ကြည့်ရန်</string>
+    <string name="tag_action_share">မျှဝေ</string>
+    <string name="tag_product_subheader">အသုံးပြုနိုင်သည့် သွင်းအားစုများ (ကြော်ငြာ)</string>
+</resources>

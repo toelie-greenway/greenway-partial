@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/spacing_16"
+    android:paddingTop="@dimen/spacing_8"
+    android:paddingEnd="@dimen/spacing_16"
+    android:paddingBottom="@dimen/spacing_8">
+
+    <greenway_myanmar.org.features.tag.presentation.views.TagColorIndicatorsView
+        android:id="@+id/tag_color_indicators_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/image_view_frame"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:padding="@dimen/spacing_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <greenway_myanmar.org.ui.widget.AspectRatioImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:imgAspectRatio="@dimen/aspect_1_1"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.GreenWay.Image.Rounded.4dp" />
+
+    </FrameLayout>
+
+    <Space
+        android:id="@+id/image_margin_end_space"
+        android:layout_width="@dimen/spacing_16"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/image_view_frame"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/image_space_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left"
+        app:constraint_referenced_ids="image_margin_end_space,image_view_frame" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/product_name_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans_myanmar_semi_bold_600"
+        android:includeFontPadding="false"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:fontFamily="@font/noto_sans_myanmar_bold_700"
+        app:layout_constraintEnd_toStartOf="@id/image_space_barrier"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tag_color_indicators_view"
+        tools:text="အဲလိုဖြစ်နေတာ ဘာဆေးသုံးရမလဲ ဘယ်လိုလုပ်ရမလဲ ပြောပေးကြပါအုံး" />
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/distributor_name_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:fontFamily="@font/noto_sans_myanmar_regular_400"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:fontFamily="@font/noto_sans_myanmar_regular_400"
+        app:layout_constraintEnd_toStartOf="@id/image_margin_end_space"
+        app:layout_constraintStart_toStartOf="@id/product_name_text_view"
+        app:layout_constraintTop_toBottomOf="@id/product_name_text_view"
+        tools:text="မာလာမြိုင်" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
