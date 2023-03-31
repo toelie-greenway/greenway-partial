@@ -6,6 +6,22 @@
 
     <fragment
         android:id="@+id/tagFragment"
-        android:name="greenway_myanmar.org.features.tag.presentation.TagFragment"
+        android:name="com.greenwaymyanmar.common.feature.tag.presentation.tag.TagFragment"
         android:label="TagFragment" />
+    <fragment
+        android:id="@+id/threadFragment"
+        android:name="greenway_myanmar.org.features.thread.presentation.ThreadFragment"
+        android:label="ThreadFragment" >
+        <action
+            android:id="@+id/action_threadFragment_to_votingFragment"
+            app:destination="@id/votingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/votingFragment"
+        android:name="com.greenwaymyanmar.common.feature.tag.presentation.voting.VotingFragment"
+        android:label="VotingFragment" >
+        <argument
+            android:name="voted_tags"
+            app:argType="com.greenwaymyanmar.common.feature.tag.presentation.model.UiVotableTag[]" />
+    </fragment>
 </navigation>

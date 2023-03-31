@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            style="@style/Widget.GreenWay.Toolbar.Surface"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+            app:navigationIconTint="#4A4A4A">
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/noto_sans_myanmar_medium_500"
+                android:text="@string/thread_tag_nav_title_voting"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:fontFamily="@font/noto_sans_myanmar_medium_500" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_16"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ပိုးမွှားရောဂါ"
+                android:textColor="?colorPrimary"
+                app:chipBackgroundColor="#E8F4F3" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_8"
+                android:text="နဂါးမောက်"
+                android:textColor="?colorPrimary"
+                app:chipBackgroundColor="#E8F4F3" />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_8"
+                android:text="Add topic"
+                android:textColor="?colorOnSurface"
+                app:chipBackgroundColor="@color/app_transparent"
+                app:chipIcon="@drawable/ic_add_circle_black_24dp"
+                app:chipIconSize="15dp"
+                app:chipStrokeColor="#E0E0E0"
+                app:chipStrokeWidth="1dp"
+                app:iconStartPadding="@dimen/spacing_4"
+                app:textStartPadding="@dimen/spacing_4" />
+
+        </LinearLayout>
+
+        <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/spacing_16"
+            android:paddingEnd="@dimen/spacing_16"
+            android:paddingBottom="80dp" />
+    </LinearLayout>
+
+    <greenway_myanmar.org.ui.widget.GreenWayButton
+        style="@style/Widget.GreenWay.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginStart="@dimen/spacing_16"
+        android:layout_marginEnd="@dimen/spacing_16"
+        android:layout_marginBottom="@dimen/spacing_16"
+        android:minHeight="56dp"
+        android:text="@string/tag_action_vote"
+        app:backgroundTint="#007AFF" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

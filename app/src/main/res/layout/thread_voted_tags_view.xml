@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacing_16"
+    android:layout_marginEnd="@dimen/spacing_16"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/spacing_16"
+    android:paddingBottom="@dimen/spacing_16">
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/spacing_4"
+        android:fontFamily="@font/noto_sans_myanmar_medium_500"
+        android:text="@string/thread_tag_vote_subheader"
+        android:textColor="#F54242"
+        android:textSize="16sp"
+        app:drawableStartCompat="@drawable/ic_plant_red_32dp"
+        app:fontFamily="@font/noto_sans_myanmar_medium_500" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentPaddingTop="@dimen/spacing_8"
+        android:layout_marginTop="@dimen/spacing_16"
+        app:cardCornerRadius="8dp"
+        app:strokeColor="@color/app_divider"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:id="@+id/epoxy_model_group_child_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

@@ -20,8 +20,8 @@
         app:backgroundTint="#F0F0F0"
         app:cornerRadius="56dp"
         app:fontFamily="@font/noto_sans_myanmar_medium_500"
-        app:icon="@drawable/ic_chevron_right_black_24dp"
-        app:iconGravity="end"
+        app:icon="@drawable/ic_expand_more_black_24dp"
+        app:iconGravity="textEnd"
         app:iconTint="#202020" />
 
 </merge>

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fa218b17e9f799aa59430acdb8a36926",
+    "identityHash": "e27f4940f5d47e60213567a76b6fdae7",
     "entities": [
       {
         "tableName": "templates",
@@ -29,12 +29,275 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Thread",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT, `body` TEXT, `replyCount` INTEGER NOT NULL, `viewCount` INTEGER NOT NULL, `images` TEXT, `createdAt` INTEGER, `clientId` TEXT, `status` TEXT, `isLoved` INTEGER NOT NULL, `isLiked` INTEGER NOT NULL, `isSolved` INTEGER NOT NULL, `isCompleteQuestion` INTEGER NOT NULL, `cropLife` REAL NOT NULL, `isAppliedFertilizer` INTEGER, `isAppliedPesticide` INTEGER, `weathers` TEXT, `user_id` INTEGER, `user_email` TEXT, `user_username` TEXT, `user_name` TEXT, `user_avatar` TEXT, `user_phone` TEXT, `user_isAuthor` INTEGER, `user_role` TEXT, `user_hasBook` INTEGER, `user_appVersion` TEXT, `user_firebaseToken` TEXT, `user_isShopOwner` INTEGER, `user_Information_status` TEXT, `user_avatarFilePath` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "body",
+            "columnName": "body",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "replyCount",
+            "columnName": "replyCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "viewCount",
+            "columnName": "viewCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "images",
+            "columnName": "images",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clientId",
+            "columnName": "clientId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isLoved",
+            "columnName": "isLoved",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isLiked",
+            "columnName": "isLiked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSolved",
+            "columnName": "isSolved",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isCompleteQuestion",
+            "columnName": "isCompleteQuestion",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cropLife",
+            "columnName": "cropLife",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isAppliedFertilizer",
+            "columnName": "isAppliedFertilizer",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isAppliedPesticide",
+            "columnName": "isAppliedPesticide",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "weathers",
+            "columnName": "weathers",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.id",
+            "columnName": "user_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.email",
+            "columnName": "user_email",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.username",
+            "columnName": "user_username",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.name",
+            "columnName": "user_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.avatar",
+            "columnName": "user_avatar",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.phone",
+            "columnName": "user_phone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.isAuthor",
+            "columnName": "user_isAuthor",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.role",
+            "columnName": "user_role",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.hasBook",
+            "columnName": "user_hasBook",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.appVersion",
+            "columnName": "user_appVersion",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.firebaseToken",
+            "columnName": "user_firebaseToken",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.isShopOwner",
+            "columnName": "user_isShopOwner",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.Information_status",
+            "columnName": "user_Information_status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user.avatarFilePath",
+            "columnName": "user_avatarFilePath",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Pagination",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `resourceType` TEXT NOT NULL, `total` INTEGER NOT NULL, `perPage` INTEGER NOT NULL, `currentPage` INTEGER NOT NULL, `lastPage` INTEGER NOT NULL, `from` INTEGER NOT NULL, `to` INTEGER NOT NULL, PRIMARY KEY(`id`, `resourceType`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "resourceType",
+            "columnName": "resourceType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "total",
+            "columnName": "total",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "perPage",
+            "columnName": "perPage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentPage",
+            "columnName": "currentPage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastPage",
+            "columnName": "lastPage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "from",
+            "columnName": "from",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "to",
+            "columnName": "to",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id",
+            "resourceType"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fa218b17e9f799aa59430acdb8a36926')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e27f4940f5d47e60213567a76b6fdae7')"
     ]
   }
 }

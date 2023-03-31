@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:contentPaddingBottom="@dimen/spacing_16"
+        android:focusable="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <greenway_myanmar.org.ui.widget.AspectRatioImageView
+                android:id="@+id/image_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:imgAspectRatio="@dimen/aspect_3_2"
+                app:layout_constraintDimensionRatio="3:2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
+                android:id="@+id/tag_name_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_8"
+                android:layout_marginTop="@dimen/spacing_8"
+                android:layout_marginEnd="@dimen/spacing_8"
+                android:fontFamily="@font/noto_sans_myanmar_medium_500"
+                android:text="နဂါးမောက် ပင်စည်နေလောင် ကင်ကာ ရောဂါ (၃)"
+                android:textColor="#4A4A4A"
+                android:textSize="12sp"
+                app:fontFamily="@font/noto_sans_myanmar_medium_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_view" />
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
+                android:id="@+id/vote_count_text_view"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="@dimen/spacing_8"
+                android:layout_marginTop="@dimen/spacing_8"
+                android:background="@drawable/app_circle_background_selector"
+                android:gravity="center"
+                android:textColor="?colorPrimary"
+                android:textSize="16sp"
+                app:backgroundTint="@color/color_primary_10"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tag_name_text_view"
+                tools:text="1" />
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_4"
+                android:layout_marginEnd="@dimen/spacing_16"
+                android:fontFamily="@font/noto_sans_myanmar_medium_500"
+                android:text="People votes"
+                android:textColor="?colorPrimary"
+                android:textSize="12sp"
+                app:fontFamily="@font/noto_sans_myanmar_medium_500"
+                app:layout_constraintBottom_toBottomOf="@id/vote_count_text_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/vote_count_text_view"
+                app:layout_constraintTop_toTopOf="@id/vote_count_text_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/user_vote_indicator_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_8"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:drawablePadding="@dimen/spacing_4"
+        android:fontFamily="@font/noto_sans_myanmar_medium_500"
+        android:text="Your vote"
+        android:textColor="#007AFF"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/ic_check_circle_black_16dp"
+        app:drawableTint="#007AFF"
+        app:fontFamily="@font/noto_sans_myanmar_medium_500" />
+
+</merge>

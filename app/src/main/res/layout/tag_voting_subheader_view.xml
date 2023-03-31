@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="android.widget.FrameLayout">
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/subheader_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_16"
+        android:layout_marginBottom="@dimen/spacing_4"
+        android:fontFamily="@font/noto_sans_myanmar_medium_500"
+        android:text="ဆက်စပ် အကြောင်းအရာများ"
+        android:textSize="14sp"
+        app:fontFamily="@font/noto_sans_myanmar_medium_500" />
+</merge>

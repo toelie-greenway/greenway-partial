@@ -21,7 +21,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.greenwaymyanmar.common.data.api.gson.adapter.UriTypeAdapter
-import greenway_myanmar.org.util.Image
+import greenway_myanmar.org.vo.Image
 
 object ImageListConverter {
 

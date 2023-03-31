@@ -163,6 +163,7 @@ dependencies {
     implementation "com.airbnb.android:epoxy:$epoxyVersion"
     implementation "com.airbnb.android:epoxy-databinding:$epoxyVersion"
     kapt "com.airbnb.android:epoxy-processor:$epoxyVersion"
+    implementation "com.airbnb.android:epoxy-paging:$epoxyVersion"
 
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
     implementation 'com.github.dhaval2404:imagepicker:2.1'
@@ -175,5 +176,8 @@ dependencies {
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
 
     implementation("org.ocpsoft.prettytime:prettytime:5.0.4.Final")
+
+    // Shimmer
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 
 }

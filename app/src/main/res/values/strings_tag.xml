@@ -6,5 +6,11 @@
     <string name="tag_post_formatted_info">%1$s • %2$s</string>
     <string name="tag_action_more_thread_post">ထပ်ကြည့်ရန်</string>
     <string name="tag_action_share">မျှဝေ</string>
+    <string name="tag_action_vote">အကြံပြုမည်</string>
     <string name="tag_product_subheader">အသုံးပြုနိုင်သည့် သွင်းအားစုများ (ကြော်ငြာ)</string>
+    <string name="thread_tag_vote_subheader">ရောဂါသတ်မှတ်ပေးရန် (ပညာရှင်များသာ)</string>
+    <string name="thread_tag_action_go_to_vote">သင်၏အကြံပြုချက်ထည့်သွင်းပါ</string>
+    <string name="thread_tag_nav_title_voting">ကိုယ်ပိုင်အကြံပြုချက် ထည့်သွင်းပါ</string>
+    <string name="thread_tag_voting_voted_tags_subheader">လက်ရှိအကြံပြုချက်များ</string>
+    <string name="thread_tag_voting_suggested_tags_subheader">ဆက်စပ် အကြောင်းအရာများ</string>
 </resources>
