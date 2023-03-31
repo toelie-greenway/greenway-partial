@@ -17,6 +17,7 @@ package greenway_myanmar.org.repository.boundarycallback
 
 import android.arch.paging.PagingRequestHelper
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList.BoundaryCallback
 import com.greenwaymyanmar.common.data.api.v1.Pagination
 import com.greenwaymyanmar.common.data.api.v1.response.ThreadListResponse
@@ -54,6 +55,8 @@ class ThreadManualBoundaryCallback(
     private val userHelper: UserHelper
     private val query: ThreadsViewModel.Query
     val networkState: LiveData<NetworkState>
+    private var _hasMore = MutableLiveData<Boolean>()
+    val hasMore: LiveData<Boolean> = _hasMore
 
     init {
         this.userHelper = userHelper
@@ -82,17 +85,20 @@ class ThreadManualBoundaryCallback(
     override fun onItemAtEndLoaded(itemAtEnd: Thread) {
         Timber.d("onItemAtEndLoaded: ${itemAtEnd.body}")
         // no-op
-//        appExecutors
-//            .diskIO()
-//            .execute {
-//                val current = db.paginationDao()
-//                    .findLoadResult(
-//                        PaginationUtils.prepareThreadKey(query),
-//                        Pagination.RESOURCE_TYPE_THREAD
-//                    )
-//                if (current != null) {
-//                    val nextPage = current.currentPage + 1
-//                    if (nextPage <= current.lastPage) {
+        appExecutors
+            .diskIO()
+            .execute {
+                val current = db.paginationDao()
+                    .findLoadResult(
+                        PaginationUtils.prepareThreadKey(query),
+                        Pagination.RESOURCE_TYPE_THREAD
+                    )
+                if (current != null) {
+                    val nextPage = current.currentPage + 1
+                    Timber.d("onItemAtEndLoaded: HasMore: ${nextPage <= current.lastPage}")
+                    _hasMore.postValue(nextPage <= current.lastPage)
+                }
+            }
 //                        pagingRequestHelper.runIfNotRunning(
 //                            PagingRequestHelper.RequestType.AFTER
 //                        ) { request: PagingRequestHelper.Request.Callback ->

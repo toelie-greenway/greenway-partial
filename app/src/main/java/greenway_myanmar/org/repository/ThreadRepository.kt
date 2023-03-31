@@ -161,23 +161,11 @@ constructor(
         val refreshTrigger = MutableLiveData<Void?>()
         val refreshState =
             Transformations.switchMap(refreshTrigger) { input: Void? -> refresh(false, query) }
-        val hasMore: LiveData<Boolean> = MutableLiveData<Boolean>()
-//        return Listing(
-//            builder.build(),
-//            boundaryCallback.networkState,
-//            refreshState,
-//            {
-//                refreshTrigger.value = null
-//            },
-//            {
-//                boundaryCallback.pagingRequestHelper.retryAllFailed()
-//            })
-
         return Listing(
             builder.build(),
             boundaryCallback.networkState,
             refreshState,
-            hasMore,
+            boundaryCallback.hasMore,
             { refreshTrigger.setValue(null) },
             { boundaryCallback.pagingRequestHelper.retryAllFailed() },
             { boundaryCallback.requestNextPage()}
@@ -228,8 +216,8 @@ constructor(
     }
 
     companion object {
-        private const val DEFAULT_NETWORK_PAGE_SIZE = 3
-        private const val DEFAULT_PAGE_SIZE = 3
+        private const val DEFAULT_NETWORK_PAGE_SIZE = 4
+        private const val DEFAULT_PAGE_SIZE = 4
         const val FILTER_TYPE_ALL = 0
         const val FILTER_TYPE_CROP = 1
         const val FILTER_TYPE_LIVESTOCK = 2

@@ -163,7 +163,8 @@ class TagController(
     }
 
     private fun buildMoreButtonUi() {
-        if (threadListingUiState.networkState == NetworkState.LOADED
+        if (threadListingUiState.networkState == NetworkState.LOADED &&
+            threadListingUiState.hasMore
         ) {
             TagMoreThreadPostViewModel_()
                 .id("more")
@@ -211,6 +212,7 @@ class TagController(
     }
 
     fun setThreadHasMore(hasMore: Boolean?) {
+        Timber.d("setThreadHasMore: $hasMore")
         threadListingUiState = threadListingUiState.copy(
             hasMore = hasMore == true
         )
