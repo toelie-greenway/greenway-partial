@@ -50,7 +50,7 @@ class TagFragment : Fragment(R.layout.tag_fragment) {
     }
 
     private fun onMorePostClicked() {
-        Toast.makeText(requireContext(), "More Post", Toast.LENGTH_SHORT).show()
+        viewModel.loadPostNextPage()
     }
 
     private fun onMoreProductClicked() {
@@ -73,6 +73,7 @@ class TagFragment : Fragment(R.layout.tag_fragment) {
             observeTag()
         }
         observeThreadListing()
+        observePostListing()
         observeProductListing()
     }
 
@@ -114,7 +115,7 @@ class TagFragment : Fragment(R.layout.tag_fragment) {
             controller.setThreadPagedList(it)
         }
         viewModel.threadNetworkState.observe(viewLifecycleOwner) {
-            Timber.d("NetworkState: ${it.status}")
+            Timber.d("NetworkState Thread: ${it.status}")
             controller.setThreadNetworkState(it)
         }
         viewModel.hasMoreThread.observe(viewLifecycleOwner) {
@@ -123,12 +124,26 @@ class TagFragment : Fragment(R.layout.tag_fragment) {
         }
     }
 
+    private fun observePostListing() {
+        viewModel.posts.observe(viewLifecycleOwner) {
+            controller.setPostPagedList(it)
+        }
+        viewModel.postNetworkState.observe(viewLifecycleOwner) {
+            Timber.d("NetworkState Post: ${it.status}")
+            controller.setPostNetworkState(it)
+        }
+        viewModel.hasMorePost.observe(viewLifecycleOwner) {
+            Timber.d("HasMore Post: $it")
+            controller.setHasMorePost(it)
+        }
+    }
+
     private fun observeProductListing() {
         viewModel.products.observe(viewLifecycleOwner) {
             controller.setProductPagedList(it)
         }
         viewModel.productNetworkState.observe(viewLifecycleOwner) {
-            Timber.d("NetworkState: ${it.status}")
+            Timber.d("NetworkState Product: ${it.status}")
             controller.setProductNetworkState(it)
         }
         viewModel.hasMoreProduct.observe(viewLifecycleOwner) {

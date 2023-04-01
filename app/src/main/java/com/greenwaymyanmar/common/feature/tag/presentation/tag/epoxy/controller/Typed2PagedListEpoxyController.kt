@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.EpoxyViewHolder
-import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagThreadItemViewModel_
+import timber.log.Timber
+import kotlin.reflect.KClass
 
 
 /**
@@ -23,7 +24,7 @@ import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagT
  *
  * @param T The type of the items in the [PagedList].
  */
-abstract class Typed2PagedListEpoxyController<F, S>(
+abstract class Typed2PagedListEpoxyController<F, FM: EpoxyModel<*>, S, SM: EpoxyModel<*>>(
     /**
      * The handler to use for building models. By default this uses the main thread, but you can use
      * [EpoxyAsyncUtil.getAsyncBackgroundHandler] to do model building in the background.
@@ -46,10 +47,6 @@ abstract class Typed2PagedListEpoxyController<F, S>(
     firstItemDiffCallback: DiffUtil.ItemCallback<F> = DEFAULT_ITEM_DIFF_CALLBACK as DiffUtil.ItemCallback<F>,
     secondItemDiffCallback: DiffUtil.ItemCallback<S> = DEFAULT_ITEM_DIFF_CALLBACK as DiffUtil.ItemCallback<S>
 ) : EpoxyController(modelBuildingHandler, diffingHandler) {
-
-    private var firstData: F? = null
-    private var secondData: S? = null
-    private var allowModelBuildRequests = false
 
     // this is where we keep the already built models
     private val firstModelCache = PagedListModelCache(
@@ -81,9 +78,17 @@ abstract class Typed2PagedListEpoxyController<F, S>(
      * This function adds all built models to the adapter. You can override this method to add extra
      * items into the model list or remove some.
      */
-    open fun addModels(models1: List<EpoxyModel<*>>, models2: List<EpoxyModel<*>>) {
-        super.add(models1)
-        super.add(models1)
+    open fun addModels(firstModels: List<EpoxyModel<*>>, secondModels: List<EpoxyModel<*>>) {
+        super.add(firstModels)
+        super.add(secondModels)
+    }
+
+    open fun addFirstModels(models: List<EpoxyModel<*>>) {
+        super.add(models)
+    }
+
+    open fun addSecondModels(models: List<EpoxyModel<*>>) {
+        super.add(models)
     }
 
     /**
@@ -93,8 +98,8 @@ abstract class Typed2PagedListEpoxyController<F, S>(
      * If the `item` is `null`, you should provide the placeholder. If your [PagedList] is
      * configured without placeholders, you don't need to handle the `null` case.
      */
-    abstract fun buildFirstItemModel(currentPosition: Int, item: F?): EpoxyModel<*>
-    abstract fun buildSecondItemModel(currentPosition: Int, item: S?): EpoxyModel<*>
+    abstract fun buildFirstItemModel(currentPosition: Int, item: F?): FM
+    abstract fun buildSecondItemModel(currentPosition: Int, item: S?): SM
 
     override fun onModelBound(
         holder: EpoxyViewHolder,
@@ -102,13 +107,27 @@ abstract class Typed2PagedListEpoxyController<F, S>(
         position: Int,
         previouslyBoundModel: EpoxyModel<*>?
     ) {
+        Timber.d("onModelBound: $position : $boundModel")
         // TODO the position may not be a good value if there are too many injected items.
-        if(boundModel is TagThreadItemViewModel_) {
+        if (isFirstModel(boundModel)) {
+            Timber.d("onModelBound: loadAround :  $position")
             firstModelCache.loadAround(position)
-        } else {
+        } else if (isSecondModel(boundModel)) {
             secondModelCache.loadAround(position)
         }
     }
+
+    private fun isFirstModel(boundModel: EpoxyModel<*>): Boolean {
+        return boundModel::class == getFirstModelClass()
+    }
+
+    private fun isSecondModel(boundModel: EpoxyModel<*>): Boolean {
+        return boundModel::class == getSecondModelClass()
+    }
+
+    abstract fun getFirstModelClass(): KClass<FM>
+
+    abstract fun getSecondModelClass(): KClass<SM>
 
     /**
      * Submit a new paged list.
@@ -134,6 +153,10 @@ abstract class Typed2PagedListEpoxyController<F, S>(
         firstModelCache.clearModels()
         secondModelCache.clearModels()
         requestModelBuild()
+    }
+
+    fun isInstanceOfGenericClass(obj: Any, genericClass: KClass<*>): Boolean {
+        return obj::class.isInstance(genericClass)
     }
 
     companion object {

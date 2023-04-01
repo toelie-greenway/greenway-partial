@@ -5,19 +5,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.greenwaymyanmar.common.feature.tag.domain.usecases.GetTagPostsStreamUseCase
+import com.greenwaymyanmar.common.feature.tag.domain.usecases.GetTagPostsListingUseCase
 import com.greenwaymyanmar.common.feature.tag.domain.usecases.GetTagProductsListingUseCase
 import com.greenwaymyanmar.common.feature.tag.domain.usecases.GetTagStreamUseCase
 import com.greenwaymyanmar.common.feature.tag.domain.usecases.GetTagThreadsListingUseCase
 import com.greenwaymyanmar.common.feature.tag.presentation.model.UiTag
-import com.greenwaymyanmar.common.feature.tag.presentation.model.UiTagPost
 import com.greenwaymyanmar.common.result.Result
-import com.greenwaymyanmar.common.result.asResult
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import greenway_myanmar.org.util.WhileViewSubscribed
 import greenway_myanmar.org.vo.Listing
 import greenway_myanmar.org.vo.NetworkState
+import greenway_myanmar.org.vo.Post
 import greenway_myanmar.org.vo.Product
 import greenway_myanmar.org.vo.Thread
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +35,7 @@ import javax.inject.Inject
 class TagViewModel @Inject constructor(
     getTagStreamUseCase: GetTagStreamUseCase,
     private val getTagThreadsListingUseCase: GetTagThreadsListingUseCase,
-    getTagPostsStreamUseCase: GetTagPostsStreamUseCase,
+    getTagPostsListingUseCase: GetTagPostsListingUseCase,
     getTagProductsListingUseCase: GetTagProductsListingUseCase
 ) : ViewModel() {
 
@@ -46,7 +45,7 @@ class TagViewModel @Inject constructor(
         emitAll(refreshSignal)
     }
 
-    private val currentSelectedTab = MutableStateFlow<UiTagTab>(UiTagTab.Thread)
+    private val currentSelectedTab = MutableStateFlow(UiTagTab.Thread)
 
     private val tag: StateFlow<LoadingState<UiTag>> = loadDataSignal.flatMapLatest {
         tagStream(getTagStreamUseCase)
@@ -66,25 +65,25 @@ class TagViewModel @Inject constructor(
         Transformations.switchMap(productsResult) { it.networkState }
     val hasMoreProduct: LiveData<Boolean> = Transformations.switchMap(productsResult) { it.hasMore }
 
-    private val posts: StateFlow<LoadingState<List<UiTagPost>>> = loadDataSignal.flatMapLatest {
-        postsStream(getTagPostsStreamUseCase)
-    }.stateIn(viewModelScope, WhileViewSubscribed, LoadingState.Idle)
+    private val postsResult = MutableLiveData<Listing<Post>>()
+    val posts =
+        Transformations.switchMap(postsResult) { it.pagedList }
+    val postNetworkState: LiveData<NetworkState> =
+        Transformations.switchMap(postsResult) { it.networkState }
+    val hasMorePost: LiveData<Boolean> = Transformations.switchMap(postsResult) { it.hasMore }
 
     val uiState: StateFlow<TagUiState> = combine(
         currentSelectedTab,
         tag,
-        posts,
-    ) { tab, tag, posts ->
+    ) { tab, tag ->
         TagUiState(
             tab = tab,
-            tag = tag,
-            threads = LoadingState.Idle,
-            posts = posts,
-            products = LoadingState.Idle
+            tag = tag
         )
     }.stateIn(viewModelScope, WhileViewSubscribed, TagUiState.Empty)
 
     init {
+        postsResult.value = getTagPostsListingUseCase()
         threadsResult.value = getTagThreadsListingUseCase()
         productsResult.value = getTagProductsListingUseCase()
     }
@@ -108,6 +107,10 @@ class TagViewModel @Inject constructor(
     fun loadProductNextPage() {
         productsResult.value?.loadNextPageCallback?.load()
     }
+
+    fun loadPostNextPage() {
+        postsResult.value?.loadNextPageCallback?.load()
+    }
 }
 
 private fun tagStream(getTagStreamUseCase: GetTagStreamUseCase): Flow<LoadingState<UiTag>> {
@@ -124,24 +127,4 @@ private fun tagStream(getTagStreamUseCase: GetTagStreamUseCase): Flow<LoadingSta
             }
         }
     }
-}
-
-private fun postsStream(getTagPostsStreamUseCase: GetTagPostsStreamUseCase): Flow<LoadingState<List<UiTagPost>>> {
-    return getTagPostsStreamUseCase()
-        .asResult()
-        .map { result ->
-            when (result) {
-                is Result.Error -> {
-                    LoadingState.Error(result.exception)
-                }
-                Result.Loading -> {
-                    LoadingState.Loading
-                }
-                is Result.Success -> {
-                    LoadingState.Success(data = result.data.map {
-                        UiTagPost.fromDomain(it)
-                    })
-                }
-            }
-        }
 }

@@ -36,13 +36,14 @@ class TagProductItemView @JvmOverloads constructor(
     }
 
     private fun bindImage(imageUrl: String?) {
-        if (!imageUrl.isNullOrEmpty()) {
-            binding.imageView.load(context, imageUrl)
-            binding.imageView.isVisible = true
-            binding.imageMarginEndSpace.isVisible = true
-        } else {
-            binding.imageView.isVisible = false
-            binding.imageMarginEndSpace.isVisible = false
-        }
+        binding.imageView.load(context, imageUrl.orNull())
+        binding.imageView.isVisible = true
+        binding.imageMarginEndSpace.isVisible = true
+    }
+
+    private fun String?.orNull() = if (this.isNullOrEmpty()) {
+        null
+    } else {
+        this
     }
 }

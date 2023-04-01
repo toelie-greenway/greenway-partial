@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package greenway_myanmar.org.repository.boundarycallback
+package greenway_myanmar.org.repository.paging.boundarycallback
 
 import android.arch.paging.PagingRequestHelper
 import androidx.lifecycle.LiveData

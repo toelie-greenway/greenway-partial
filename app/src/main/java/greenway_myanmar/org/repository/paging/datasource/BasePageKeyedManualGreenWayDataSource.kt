@@ -1,4 +1,4 @@
-package greenway_myanmar.org.repository.datasource
+package greenway_myanmar.org.repository.paging.datasource
 
 import android.arch.paging.PagingRequestHelper
 import com.google.gson.Gson

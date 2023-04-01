@@ -52,6 +52,15 @@ class TagHeaderView @JvmOverloads constructor(
         binding.categoryNameTextView.text = tag.category.name
     }
 
+    @ModelProp
+    fun setSelectedTab(tab: UiTagTab) {
+        binding.tabLayout.getTabAt(tab.position)?.let {
+            if (!it.isSelected) {
+                binding.tabLayout.selectTab(it)
+            }
+        }
+    }
+
     interface TagHeaderClickCallback {
         fun onTabChanged(tab: UiTagTab)
     }

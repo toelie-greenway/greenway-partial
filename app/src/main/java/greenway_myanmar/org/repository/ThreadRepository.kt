@@ -16,8 +16,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import greenway_myanmar.org.AppExecutors
 import greenway_myanmar.org.db.GreenWayDb
 import greenway_myanmar.org.db.helper.UserHelper
-import greenway_myanmar.org.repository.boundarycallback.GreenWayPagedListBoundaryCallback
-import greenway_myanmar.org.repository.boundarycallback.ThreadManualBoundaryCallback
+import greenway_myanmar.org.repository.paging.boundarycallback.GreenWayPagedListBoundaryCallback
+import greenway_myanmar.org.repository.paging.boundarycallback.ThreadManualBoundaryCallback
 import greenway_myanmar.org.ui.threads.ThreadsViewModel
 import greenway_myanmar.org.util.PaginationUtils
 import greenway_myanmar.org.vo.Listing
@@ -217,7 +217,7 @@ constructor(
     }
 
     companion object {
-        private const val DEFAULT_PAGE_SIZE = 18
+        private const val DEFAULT_PAGE_SIZE = 5
         const val FILTER_TYPE_ALL = 0
         const val FILTER_TYPE_CROP = 1
         const val FILTER_TYPE_LIVESTOCK = 2

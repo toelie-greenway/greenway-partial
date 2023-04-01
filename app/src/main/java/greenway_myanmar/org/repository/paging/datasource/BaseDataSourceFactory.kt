@@ -1,4 +1,4 @@
-package greenway_myanmar.org.repository.datasource
+package greenway_myanmar.org.repository.paging.datasource
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
@@ -8,10 +8,9 @@ import androidx.paging.DataSource
  * V = Value
  * D = DataSource
  */
-abstract class BaseDataSourceManualFactory<RequestType, ResultType> :
+abstract class BaseDataSourceFactory<RequestType, ResultType, Source : BasePageKeyedGreenWayDataSource<RequestType, ResultType>> :
     DataSource.Factory<Int, ResultType>() {
-    val sourceLiveData: MutableLiveData<BasePageKeyedManualGreenWayDataSource<RequestType, ResultType>> =
-        MutableLiveData()
+    val sourceLiveData: MutableLiveData<Source> = MutableLiveData()
 
     override fun create(): DataSource<Int, ResultType> {
         val source = createDataSource()
@@ -19,7 +18,7 @@ abstract class BaseDataSourceManualFactory<RequestType, ResultType> :
         return source
     }
 
-    abstract fun createDataSource(): BasePageKeyedManualGreenWayDataSource<RequestType, ResultType>
+    abstract fun createDataSource(): Source
 
     fun refresh() {
         sourceLiveData.value?.invalidate()
@@ -27,9 +26,5 @@ abstract class BaseDataSourceManualFactory<RequestType, ResultType> :
 
     fun retry() {
         sourceLiveData.value?.pagingRequestHelper?.retryAllFailed()
-    }
-
-    fun requestNextPage() {
-        sourceLiveData.value?.requestNextPage()
     }
 }

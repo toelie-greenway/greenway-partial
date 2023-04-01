@@ -1,4 +1,4 @@
-package greenway_myanmar.org.repository.boundarycallback
+package greenway_myanmar.org.repository.paging.boundarycallback
 
 import android.arch.paging.PagingRequestHelper
 import androidx.lifecycle.LiveData

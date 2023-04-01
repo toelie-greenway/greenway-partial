@@ -1,6 +1,7 @@
 package com.greenwaymyanmar.common.data.api.v1.services
 
 import com.greenwaymyanmar.common.data.api.ApiResponse
+import com.greenwaymyanmar.common.data.api.v1.response.PostListResponse
 import com.greenwaymyanmar.common.data.api.v1.response.ProductListResponse
 import com.greenwaymyanmar.common.data.api.v1.response.ThreadListResponse
 import retrofit2.Call
@@ -27,5 +28,11 @@ interface GreenWayWebservice {
     @Query("page") page: Int,
     @Query("limit") limit: Int
   ): Call<ProductListResponse>
+
+  @GET("categories/12/posts")
+  fun getPosts(
+    @Query("page") page: Int,
+    @Query("limit") limit: Int
+  ): Call<PostListResponse>
 
 }

@@ -17,7 +17,8 @@
         android:gravity="center_horizontal"
         android:lineSpacingMultiplier="1.5"
         android:textColor="@color/app_secondary_text"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/loading_indicator"
@@ -98,5 +99,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/padding_normal"
-        android:text="@string/retry" />
+        android:text="@string/retry"
+        android:visibility="gone" />
 </merge>

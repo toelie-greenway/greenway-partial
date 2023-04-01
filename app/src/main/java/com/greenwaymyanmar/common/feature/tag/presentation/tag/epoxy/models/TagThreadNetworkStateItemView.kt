@@ -52,7 +52,7 @@ class TagThreadNetworkStateItemView @JvmOverloads constructor(
         binding.errorMessageTextView.text = state?.msg.orEmpty()
         binding.errorMessageTextView.isVisible = !state?.msg.isNullOrEmpty()
 
-        // binding.loadingIndicator.isVisible = state == NetworkState.LOADING
+        binding.loadingIndicator.isVisible = state == NetworkState.LOADING
 
         binding.retryButton.isVisible = state?.status == Status.ERROR
                 && state.msg == CommonConstants.NETWORK_ERROR_MESSAGE
