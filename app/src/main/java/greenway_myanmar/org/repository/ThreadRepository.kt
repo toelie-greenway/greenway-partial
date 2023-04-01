@@ -16,6 +16,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import greenway_myanmar.org.AppExecutors
 import greenway_myanmar.org.db.GreenWayDb
 import greenway_myanmar.org.db.helper.UserHelper
+import greenway_myanmar.org.repository.boundarycallback.GreenWayPagedListBoundaryCallback
 import greenway_myanmar.org.repository.boundarycallback.ThreadManualBoundaryCallback
 import greenway_myanmar.org.ui.threads.ThreadsViewModel
 import greenway_myanmar.org.util.PaginationUtils
@@ -65,7 +66,7 @@ constructor(
         val refreshCall: Call<ThreadListResponse> =
             webservice.getThreads(
                 1,
-                DEFAULT_NETWORK_PAGE_SIZE,
+                DEFAULT_PAGE_SIZE,
                 userHelper.activeUserId,
                 query.toApiQueryMap()
             )
@@ -113,8 +114,8 @@ constructor(
                 appExecutors,
                 db,
                 webservice,
-                DEFAULT_NETWORK_PAGE_SIZE,
-                object : ThreadManualBoundaryCallback.DataResponseCallback {
+                DEFAULT_PAGE_SIZE,
+                object : GreenWayPagedListBoundaryCallback.DataResponseCallback<ThreadListResponse> {
                     override fun handleResponse(response: ThreadListResponse?) {
                         insertResultIntoDb(response, query)
                     }
@@ -216,8 +217,7 @@ constructor(
     }
 
     companion object {
-        private const val DEFAULT_NETWORK_PAGE_SIZE = 4
-        private const val DEFAULT_PAGE_SIZE = 4
+        private const val DEFAULT_PAGE_SIZE = 18
         const val FILTER_TYPE_ALL = 0
         const val FILTER_TYPE_CROP = 1
         const val FILTER_TYPE_LIVESTOCK = 2

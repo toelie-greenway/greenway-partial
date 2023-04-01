@@ -17,7 +17,6 @@ package greenway_myanmar.org.repository.boundarycallback
 
 import android.arch.paging.PagingRequestHelper
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList.BoundaryCallback
 import com.greenwaymyanmar.common.data.api.v1.Pagination
 import greenway_myanmar.org.AppExecutors
@@ -40,9 +39,6 @@ abstract class GreenWayPagedListBoundaryCallback<RequestType, ResponseType : Any
 
   val pagingRequestHelper: PagingRequestHelper = PagingRequestHelper(appExecutors.diskIO())
   val networkState: LiveData<NetworkState> = pagingRequestHelper.createStatusLiveData()
-  private val _hasMore = MutableLiveData(false)
-  val hasMore: LiveData<Boolean>
-    get() = _hasMore
 
   /** Database returned 0 items. We should query the backend for more items. */
   override fun onZeroItemsLoaded() {
@@ -88,10 +84,6 @@ abstract class GreenWayPagedListBoundaryCallback<RequestType, ResponseType : Any
   protected abstract fun createCall(): Call<RequestType>
   protected abstract fun getPagination(): Pagination?
 
-  protected open fun parsePagination(response: RequestType?): Pagination? {
-    return null
-  }
-
   interface DataResponseCallback<RequestType> {
     fun handleResponse(response: RequestType?)
   }
@@ -101,15 +93,10 @@ abstract class GreenWayPagedListBoundaryCallback<RequestType, ResponseType : Any
   ) : Callback<RequestType> {
     override fun onResponse(call: Call<RequestType>, response: Response<RequestType>) {
       insertItemsIntoDb(response, requestCallback)
-      val pagination = parsePagination(response.body())
-      if (pagination != null) {
-        _hasMore.value = pagination.currentPage < pagination.lastPage
-      }
     }
 
     override fun onFailure(call: Call<RequestType>, t: Throwable) {
       requestCallback.recordFailure(t)
-      _hasMore.value = false
     }
   }
 }

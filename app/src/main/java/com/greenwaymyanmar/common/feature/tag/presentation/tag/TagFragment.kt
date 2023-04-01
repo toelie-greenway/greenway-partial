@@ -32,6 +32,9 @@ class TagFragment : Fragment(R.layout.tag_fragment) {
             },
             onMorePostClicked = {
                 onMorePostClicked()
+            },
+            onMoreProductClicked = {
+                onMoreProductClicked()
             }
         )
     }
@@ -43,11 +46,15 @@ class TagFragment : Fragment(R.layout.tag_fragment) {
     }
 
     private fun onMoreThreadClicked() {
-        viewModel.loadNextPage()
+        viewModel.loadThreadNextPage()
     }
 
     private fun onMorePostClicked() {
         Toast.makeText(requireContext(), "More Post", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onMoreProductClicked() {
+        viewModel.loadProductNextPage()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,6 +73,7 @@ class TagFragment : Fragment(R.layout.tag_fragment) {
             observeTag()
         }
         observeThreadListing()
+        observeProductListing()
     }
 
     private fun setupToolbar() {
@@ -103,16 +111,29 @@ class TagFragment : Fragment(R.layout.tag_fragment) {
 
     private fun observeThreadListing() {
         viewModel.threads.observe(viewLifecycleOwner) {
-            controller.submitList(it)
-            //    controller.setThreadPagedList(it)
+            controller.setThreadPagedList(it)
         }
-        viewModel.networkState.observe(viewLifecycleOwner) {
+        viewModel.threadNetworkState.observe(viewLifecycleOwner) {
             Timber.d("NetworkState: ${it.status}")
             controller.setThreadNetworkState(it)
         }
         viewModel.hasMoreThread.observe(viewLifecycleOwner) {
-            Timber.d("HasMore: $it")
-            controller.setThreadHasMore(it)
+            Timber.d("HasMore Thread: $it")
+            controller.setHasMoreThread(it)
+        }
+    }
+
+    private fun observeProductListing() {
+        viewModel.products.observe(viewLifecycleOwner) {
+            controller.setProductPagedList(it)
+        }
+        viewModel.productNetworkState.observe(viewLifecycleOwner) {
+            Timber.d("NetworkState: ${it.status}")
+            controller.setProductNetworkState(it)
+        }
+        viewModel.hasMoreProduct.observe(viewLifecycleOwner) {
+            Timber.d("HasMore Product: $it")
+            controller.setHasMoreProduct(it)
         }
     }
 

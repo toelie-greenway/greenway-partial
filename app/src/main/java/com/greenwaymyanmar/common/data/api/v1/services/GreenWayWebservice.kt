@@ -1,6 +1,7 @@
 package com.greenwaymyanmar.common.data.api.v1.services
 
 import com.greenwaymyanmar.common.data.api.ApiResponse
+import com.greenwaymyanmar.common.data.api.v1.response.ProductListResponse
 import com.greenwaymyanmar.common.data.api.v1.response.ThreadListResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -18,4 +19,13 @@ interface GreenWayWebservice {
     @Query("user_id") userId: Int,
     @QueryMap filter: Map<String, @JvmSuppressWildcards String?>
   ): Call<ThreadListResponse>
+
+  @GET("marketplace/main-products")
+  fun getMainProducts(
+    @Query("filter") query: String?,
+    @Query("tags") tags: String?,
+    @Query("page") page: Int,
+    @Query("limit") limit: Int
+  ): Call<ProductListResponse>
+
 }

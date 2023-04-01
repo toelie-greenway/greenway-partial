@@ -17,7 +17,6 @@
 package greenway_myanmar.org.vo;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 
 import greenway_myanmar.org.ui.common.LoadNextPageCallback;
@@ -45,20 +44,20 @@ public class Listing<T> {
     // the LiveData of total item count
     private LiveData<Integer> itemCount;
 
-    public Listing(
-            LiveData<PagedList<T>> pagedList,
-            LiveData<NetworkState> networkState,
-            LiveData<NetworkState> refreshState,
-            RefreshCallback refreshCallback,
-            RetryCallback retryCallback) {
-        this.pagedList = pagedList;
-        this.networkState = networkState;
-        this.refreshState = refreshState;
-        this.hasMore = new MutableLiveData<Boolean>(false);
-        this.refreshCallback = refreshCallback;
-        this.retryCallback = retryCallback;
-        this.loadNextPageCallback = () -> { /* no-op */};
-    }
+//    public Listing(
+//            LiveData<PagedList<T>> pagedList,
+//            LiveData<NetworkState> networkState,
+//            LiveData<NetworkState> refreshState,
+//            RefreshCallback refreshCallback,
+//            RetryCallback retryCallback) {
+//        this.pagedList = pagedList;
+//        this.networkState = networkState;
+//        this.refreshState = refreshState;
+//        this.hasMore = new MutableLiveData<Boolean>(false);
+//        this.refreshCallback = refreshCallback;
+//        this.retryCallback = retryCallback;
+//        this.loadNextPageCallback = () -> { /* no-op */};
+//    }
 
     public Listing(
             LiveData<PagedList<T>> pagedList,
@@ -83,17 +82,19 @@ public class Listing<T> {
             LiveData<Integer> itemCount,
             LiveData<NetworkState> networkState,
             LiveData<NetworkState> refreshState,
+            LiveData<Boolean> hasMore,
             RefreshCallback refreshCallback,
-            RetryCallback retryCallback) {
+            RetryCallback retryCallback,
+            LoadNextPageCallback loadNextPageCallback
+    ) {
         this.pagedList = pagedList;
         this.itemCount = itemCount;
         this.networkState = networkState;
         this.refreshState = refreshState;
-        //TODO: update
-        this.hasMore = new MutableLiveData<>(false);
+        this.hasMore = hasMore;
         this.refreshCallback = refreshCallback;
         this.retryCallback = retryCallback;
-        this.loadNextPageCallback = () -> { /* no-op */};
+        this.loadNextPageCallback = loadNextPageCallback;
     }
 
     public LiveData<PagedList<T>> getPagedList() {
