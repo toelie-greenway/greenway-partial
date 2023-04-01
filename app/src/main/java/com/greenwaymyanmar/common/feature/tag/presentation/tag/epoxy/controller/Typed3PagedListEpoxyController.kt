@@ -24,7 +24,7 @@ import kotlin.reflect.KClass
  *
  * @param T The type of the items in the [PagedList].
  */
-abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : EpoxyModel<*>>(
+abstract class Typed3PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : EpoxyModel<*>, T, TM : EpoxyModel<*>>(
     /**
      * The handler to use for building models. By default this uses the main thread, but you can use
      * [EpoxyAsyncUtil.getAsyncBackgroundHandler] to do model building in the background.
@@ -45,7 +45,8 @@ abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : Epo
      * one if you don't use all fields in the object in your models.
      */
     firstItemDiffCallback: DiffUtil.ItemCallback<F> = DEFAULT_ITEM_DIFF_CALLBACK as DiffUtil.ItemCallback<F>,
-    secondItemDiffCallback: DiffUtil.ItemCallback<S> = DEFAULT_ITEM_DIFF_CALLBACK as DiffUtil.ItemCallback<S>
+    secondItemDiffCallback: DiffUtil.ItemCallback<S> = DEFAULT_ITEM_DIFF_CALLBACK as DiffUtil.ItemCallback<S>,
+    thirdItemDiffCallback: DiffUtil.ItemCallback<T> = DEFAULT_ITEM_DIFF_CALLBACK as DiffUtil.ItemCallback<T>
 ) : EpoxyController(modelBuildingHandler, diffingHandler) {
 
     // this is where we keep the already built models
@@ -69,19 +70,34 @@ abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : Epo
         itemDiffCallback = secondItemDiffCallback,
         modelBuildingHandler = modelBuildingHandler
     )
+    private val thirdModelCache = PagedListModelCache(
+        modelBuilder = { pos, item ->
+            buildThirdItemModel(pos, item)
+        },
+        rebuildCallback = {
+            requestModelBuild()
+        },
+        itemDiffCallback = thirdItemDiffCallback,
+        modelBuildingHandler = modelBuildingHandler
+    )
 
     @Suppress("UNCHECKED_CAST")
     final override fun buildModels() {
-        addModels(firstModelCache.getModels() as List<FM>, secondModelCache.getModels() as List<SM>)
+        addModels(
+            firstModelCache.getModels() as List<FM>,
+            secondModelCache.getModels() as List<SM>,
+            thirdModelCache.getModels() as List<TM>,
+        )
     }
 
     /**
      * This function adds all built models to the adapter. You can override this method to add extra
      * items into the model list or remove some.
      */
-    open fun addModels(firstModels: List<FM>, secondModels: List<SM>) {
+    open fun addModels(firstModels: List<FM>, secondModels: List<SM>, thirdModels: List<TM>) {
         super.add(firstModels)
         super.add(secondModels)
+        super.add(thirdModels)
     }
 
     open fun addFirstModels(models: List<FM>) {
@@ -89,6 +105,10 @@ abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : Epo
     }
 
     open fun addSecondModels(models: List<SM>) {
+        super.add(models)
+    }
+
+    open fun addThirdModels(models: List<TM>) {
         super.add(models)
     }
 
@@ -101,6 +121,7 @@ abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : Epo
      */
     abstract fun buildFirstItemModel(currentPosition: Int, item: F?): FM
     abstract fun buildSecondItemModel(currentPosition: Int, item: S?): SM
+    abstract fun buildThirdItemModel(currentPosition: Int, item: T?): TM
 
     override fun onModelBound(
         holder: EpoxyViewHolder,
@@ -115,6 +136,8 @@ abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : Epo
             firstModelCache.loadAround(position)
         } else if (isSecondModel(boundModel)) {
             secondModelCache.loadAround(position)
+        } else if (isThirdModel(boundModel)) {
+            thirdModelCache.loadAround(position)
         }
     }
 
@@ -126,9 +149,15 @@ abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : Epo
         return boundModel::class == getSecondModelClass()
     }
 
+    private fun isThirdModel(boundModel: EpoxyModel<*>): Boolean {
+        return boundModel::class == getThirdModelClass()
+    }
+
     abstract fun getFirstModelClass(): KClass<FM>
 
     abstract fun getSecondModelClass(): KClass<SM>
+
+    abstract fun getThirdModelClass(): KClass<TM>
 
     /**
      * Submit a new paged list.
@@ -142,6 +171,10 @@ abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : Epo
 
     fun submitSecondList(newList: PagedList<S>?) {
         secondModelCache.submitList(newList)
+    }
+
+    fun submitThirdList(newList: PagedList<T>?) {
+        thirdModelCache.submitList(newList)
     }
 
     /**

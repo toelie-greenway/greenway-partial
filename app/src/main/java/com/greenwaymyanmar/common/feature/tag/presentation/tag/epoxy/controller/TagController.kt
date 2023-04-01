@@ -2,9 +2,9 @@ package com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.controller
 
 import android.view.View
 import androidx.paging.PagedList
-import com.airbnb.epoxy.EpoxyModel
 import com.greenwaymyanmar.common.feature.tag.presentation.model.UiTag
 import com.greenwaymyanmar.common.feature.tag.presentation.model.UiTagPost
+import com.greenwaymyanmar.common.feature.tag.presentation.model.UiTagProduct
 import com.greenwaymyanmar.common.feature.tag.presentation.model.UiTagThread
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.TagListingUiState
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.TagUiState
@@ -13,6 +13,8 @@ import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagH
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagHeaderViewModel_
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagMoreThreadPostViewModel_
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagPostItemViewModel_
+import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagProductItemViewModel_
+import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagProductSubheaderViewModel_
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagThreadItemViewModel_
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.tagThreadNetworkStateItemView
 import com.greenwaymyanmar.core.presentation.model.LoadingState
@@ -30,7 +32,10 @@ class TagController(
     private val onMoreThreadClicked: () -> Unit,
     private val onMorePostClicked: () -> Unit,
     private val onMoreProductClicked: () -> Unit
-) : Typed2PagedListEpoxyController<Thread, TagThreadItemViewModel_, Post, TagPostItemViewModel_>() {
+) : Typed3PagedListEpoxyController<
+        Thread, TagThreadItemViewModel_,
+        Post, TagPostItemViewModel_,
+        Product, TagProductItemViewModel_>() {
 
     var uiState: TagUiState? = null
         set(value) {
@@ -83,6 +88,27 @@ class TagController(
             )
     }
 
+    override fun buildThirdItemModel(
+        currentPosition: Int,
+        item: Product?
+    ): TagProductItemViewModel_ {
+        if (item == null) return TagProductItemViewModel_()
+            .id("product-null-item")
+
+        Timber.d("Product: $item")
+
+        return TagProductItemViewModel_()
+            .id("product-${item.id}")
+            .tagProduct(
+                UiTagProduct(
+                    id = item.id,
+                    productName = item.name.orEmpty(),
+                    distributorName = item.distributors?.firstOrNull()?.name.orEmpty(),
+                    imageUrl = item.thumbnail
+                )
+            )
+    }
+
     override fun buildSecondItemModel(
         currentPosition: Int,
         item: Post?
@@ -104,11 +130,15 @@ class TagController(
             )
     }
 
-    override fun addModels(firstModels: List<EpoxyModel<*>>, secondModels: List<EpoxyModel<*>>) {
+    override fun addModels(
+        firstModels: List<TagThreadItemViewModel_>,
+        secondModels: List<TagPostItemViewModel_>,
+        thirdModels: List<TagProductItemViewModel_>
+    ) {
         uiState?.let {
             buildHeaderUi(it.tag, it.tab)
             buildPageContents(it, firstModels, secondModels)
-          //  buildProductsUi(secondModels)
+            buildProductsUi(thirdModels)
         }
     }
 
@@ -134,8 +164,8 @@ class TagController(
 
     private fun buildPageContents(
         tagUiState: TagUiState,
-        firstModels: List<EpoxyModel<*>>,
-        secondModels: List<EpoxyModel<*>>
+        firstModels: List<TagThreadItemViewModel_>,
+        secondModels: List<TagPostItemViewModel_>
     ) {
         if (tagUiState.tab == UiTagTab.Thread) {
             buildThreadsUi(firstModels)
@@ -146,7 +176,7 @@ class TagController(
         }
     }
 
-    private fun buildThreadsUi(models: List<EpoxyModel<*>>) {
+    private fun buildThreadsUi(models: List<TagThreadItemViewModel_>) {
         super.addFirstModels(models)
         if (hasThreadExtraRow()) {
             tagThreadNetworkStateItemView {
@@ -159,7 +189,7 @@ class TagController(
         }
     }
 
-    private fun buildPostsUi(models: List<EpoxyModel<*>>) {
+    private fun buildPostsUi(models: List<TagPostItemViewModel_>) {
         super.addSecondModels(models)
         if (hasPostExtraRow()) {
             tagThreadNetworkStateItemView {
@@ -172,23 +202,23 @@ class TagController(
         }
     }
 
-    private fun buildProductsUi(models: List<EpoxyModel<*>>) {
-//        TagProductSubheaderViewModel_()
-//            .id("product-subheader")
-//            .addTo(this)
-//
-//        super.addSecondModels(models)
-//        if (hasProductExtraRow()) {
-//            //TODO: create product item placeholder
-//            tagThreadNetworkStateItemView {
-//                id("product-network-state")
-//                networkState(productListingUiState.networkState)
-//                retryCallback(View.OnClickListener {
-//
-//                })
-//            }
-//        }
-//        buildMoreProductButtonUi()
+    private fun buildProductsUi(models: List<TagProductItemViewModel_>) {
+        TagProductSubheaderViewModel_()
+            .id("product-subheader")
+            .addTo(this)
+
+        super.addThirdModels(models)
+        if (hasProductExtraRow()) {
+            //TODO: create product item placeholder
+            tagThreadNetworkStateItemView {
+                id("product-network-state")
+                networkState(productListingUiState.networkState)
+                retryCallback(View.OnClickListener {
+
+                })
+            }
+        }
+        buildMoreProductButtonUi()
     }
 
     private fun buildMoreThreadButtonUi() {
@@ -239,6 +269,10 @@ class TagController(
         return TagPostItemViewModel_::class
     }
 
+    override fun getThirdModelClass(): KClass<TagProductItemViewModel_> {
+        return TagProductItemViewModel_::class
+    }
+
     fun setThreadNetworkState(networkState: NetworkState?) {
         threadListingUiState = threadListingUiState.copy(
             networkState = networkState
@@ -282,7 +316,7 @@ class TagController(
     }
 
     fun setProductPagedList(list: PagedList<Product>) {
-        // TODO: submitSecondList(list)
+        submitThirdList(list)
     }
 
     fun setProductNetworkState(networkState: NetworkState?) {
