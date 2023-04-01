@@ -16,8 +16,9 @@ import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagP
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagProductItemViewModel_
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagProductSubheaderViewModel_
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagThreadItemViewModel_
-import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.tagThreadNetworkStateItemView
+import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.listNetworkStateItemView
 import com.greenwaymyanmar.core.presentation.model.LoadingState
+import greenway_myanmar.org.R
 import greenway_myanmar.org.vo.NetworkState
 import greenway_myanmar.org.vo.Post
 import greenway_myanmar.org.vo.Product
@@ -179,9 +180,10 @@ class TagController(
     private fun buildThreadsUi(models: List<TagThreadItemViewModel_>) {
         super.addFirstModels(models)
         if (hasThreadExtraRow()) {
-            tagThreadNetworkStateItemView {
+            listNetworkStateItemView {
                 id("thread-network-state")
                 networkState(threadListingUiState.networkState)
+                loadingView(R.layout.tag_thread_list_item_loading_view)
                 retryCallback(View.OnClickListener {
 
                 })
@@ -192,9 +194,10 @@ class TagController(
     private fun buildPostsUi(models: List<TagPostItemViewModel_>) {
         super.addSecondModels(models)
         if (hasPostExtraRow()) {
-            tagThreadNetworkStateItemView {
+            listNetworkStateItemView {
                 id("post-network-state")
                 networkState(postListingUiState.networkState)
+                loadingView(R.layout.tag_post_list_item_loading_view)
                 retryCallback(View.OnClickListener {
 
                 })
@@ -209,9 +212,9 @@ class TagController(
 
         super.addThirdModels(models)
         if (hasProductExtraRow()) {
-            //TODO: create product item placeholder
-            tagThreadNetworkStateItemView {
+            listNetworkStateItemView {
                 id("product-network-state")
+                loadingView(R.layout.tag_product_list_item_loading_view)
                 networkState(productListingUiState.networkState)
                 retryCallback(View.OnClickListener {
 
