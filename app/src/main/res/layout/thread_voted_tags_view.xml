@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:drawablePadding="@dimen/spacing_4"
         android:fontFamily="@font/noto_sans_myanmar_medium_500"
-        android:text="@string/thread_tag_vote_subheader"
+        android:text="@string/thread_tag_vote_technician_subheader"
         android:textColor="#F54242"
         android:textSize="16sp"
         app:drawableStartCompat="@drawable/ic_plant_red_32dp"

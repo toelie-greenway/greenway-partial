@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/spacing_16"
+    android:layout_marginEnd="@dimen/spacing_16"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/spacing_16"
+    android:paddingBottom="@dimen/spacing_16">
+
+    <LinearLayout
+        android:id="@+id/unapproved_state_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/spacing_4"
+            android:fontFamily="@font/noto_sans_myanmar_medium_500"
+            android:textColor="#F54242"
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/ic_plant_red_32dp"
+            app:fontFamily="@font/noto_sans_myanmar_medium_500"
+            tools:text="@string/thread_tag_vote_technician_subheader" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_8"
+            app:cardCornerRadius="8dp"
+            app:contentPaddingBottom="@dimen/spacing_16"
+            app:contentPaddingTop="@dimen/spacing_8"
+            app:strokeColor="@color/app_divider"
+            app:strokeWidth="1dp"
+            tools:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/unapproved_tag_vote_options_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <greenway_myanmar.org.ui.widget.GreenWayTextView
+                    android:id="@+id/empty_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_myanmar_medium_500"
+                    android:paddingStart="@dimen/spacing_24"
+                    android:paddingTop="@dimen/spacing_16"
+                    android:paddingEnd="@dimen/spacing_24"
+                    android:paddingBottom="@dimen/spacing_8"
+                    android:text="@string/thread_tag_vote_option_empty_message"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    app:fontFamily="@font/noto_sans_myanmar_medium_500" />
+
+                <greenway_myanmar.org.ui.widget.GreenWayButton
+                    android:id="@+id/go_to_vote_button"
+                    style="@style/Widget.GreenWay.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/spacing_8"
+                    android:fontFamily="@font/noto_sans_myanmar_medium_500"
+                    android:text="@string/thread_tag_action_go_to_vote"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    app:backgroundTint="#007AFF"
+                    app:fontFamily="@font/noto_sans_myanmar_medium_500" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/approved_state_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#1935A8A8"
+        android:paddingTop="@dimen/spacing_16"
+        android:paddingBottom="@dimen/spacing_16">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/icon_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_plant_red_32dp"
+                app:tint="#159488" />
+
+            <greenway_myanmar.org.ui.widget.GreenWayTextView
+                android:id="@+id/approved_title_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_8"
+                android:fontFamily="@font/noto_sans_myanmar_medium_500"
+                android:text="@string/thread_tag_vote_solved_subheader"
+                android:textColor="#159488"
+                android:textSize="16sp"
+                app:fontFamily="@font/noto_sans_myanmar_medium_500"
+                app:layout_constraintBottom_toBottomOf="@id/icon_image_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/icon_image_view"
+                app:layout_constraintTop_toTopOf="@id/icon_image_view" />
+
+            <LinearLayout
+                android:id="@+id/approved_tag_vote_options_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_16"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/approved_title_text_view"
+                app:layout_constraintTop_toBottomOf="@id/icon_image_view" />
+
+            <greenway_myanmar.org.ui.widget.GreenWayButton
+                android:id="@+id/expand_toggle_approved_options_button"
+                style="@style/Widget.GreenWay.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/thread_tag_vote_solved_action_expand"
+                android:textColor="#007AFF"
+                app:icon="@drawable/ic_expand_more_black_24dp"
+                app:iconGravity="textEnd"
+                app:iconTint="#007AFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/icon_image_view"
+                app:layout_constraintTop_toBottomOf="@id/approved_tag_vote_options_container" />
+
+
+            <!--        <LinearLayout-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:orientation="vertical">-->
+
+            <!--            <LinearLayout-->
+            <!--                android:id="@+id/tag_vote_options_container"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical" />-->
+
+            <!--            <greenway_myanmar.org.ui.widget.GreenWayTextView-->
+            <!--                android:id="@+id/empty_text_view"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:fontFamily="@font/noto_sans_myanmar_medium_500"-->
+            <!--                android:paddingTop="@dimen/spacing_16"-->
+            <!--                android:paddingBottom="@dimen/spacing_8"-->
+            <!--                android:paddingStart="@dimen/spacing_24"-->
+            <!--                android:paddingEnd="@dimen/spacing_24"-->
+            <!--                android:text="@string/thread_tag_vote_option_empty_message"-->
+            <!--                android:textColor="#000000"-->
+            <!--                android:textSize="16sp"-->
+            <!--                app:fontFamily="@font/noto_sans_myanmar_medium_500" />-->
+
+            <!--            <greenway_myanmar.org.ui.widget.GreenWayButton-->
+            <!--                android:id="@+id/go_to_vote_button"-->
+            <!--                style="@style/Widget.GreenWay.Button"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:layout_marginTop="@dimen/spacing_8"-->
+            <!--                android:fontFamily="@font/noto_sans_myanmar_medium_500"-->
+            <!--                android:text="@string/thread_tag_action_go_to_vote"-->
+            <!--                android:textColor="#FFFFFF"-->
+            <!--                android:textSize="16sp"-->
+            <!--                app:backgroundTint="#007AFF"-->
+            <!--                app:fontFamily="@font/noto_sans_myanmar_medium_500" />-->
+            <!--        </LinearLayout>-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</FrameLayout>

@@ -8,7 +8,12 @@
     <string name="tag_action_share">မျှဝေ</string>
     <string name="tag_action_vote">အကြံပြုမည်</string>
     <string name="tag_product_subheader">အသုံးပြုနိုင်သည့် သွင်းအားစုများ (ကြော်ငြာ)</string>
-    <string name="thread_tag_vote_subheader">ရောဂါသတ်မှတ်ပေးရန် (ပညာရှင်များသာ)</string>
+    <string name="thread_tag_vote_technician_subheader">ရောဂါသတ်မှတ်ပေးရန် (ပညာရှင်များသာ)</string>
+    <string name="thread_tag_vote_solved_subheader">အပင်အာဟာရ ပြဿနာ</string>
+    <string name="thread_tag_vote_solved_action_expand">ကြည့်ရန်</string>
+    <string name="thread_tag_vote_solved_action_collapse">ချုံ့ရန်</string>
+    <string name="thread_tag_vote_non_technician_subheader">ပညာရှင်မဟုတ်သော အသုံးပြုသူမြင်ရမည့် ခေါင်းစဥ်</string>
+    <string name="thread_tag_vote_option_empty_message">သတ်မှတ်ထားသည့် အကြောင်းအရာ မရှိသေးပါ။ မေးခွန်းအကြောင်းအရာအား သတ်မှတ်ပေးပြီး တောင်သူများကို ကူညီပေးပါ။ </string>
     <string name="thread_tag_action_go_to_vote">သင်၏အကြံပြုချက်ထည့်သွင်းပါ</string>
     <string name="thread_tag_nav_title_voting">ကိုယ်ပိုင်အကြံပြုချက် ထည့်သွင်းပါ</string>
     <string name="thread_tag_voting_voted_tags_subheader">လက်ရှိအကြံပြုချက်များ</string>

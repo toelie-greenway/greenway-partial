@@ -88,6 +88,9 @@ class TagFragment : Fragment(R.layout.tag_fragment) {
                 false
             }
         }
+        binding.toolbarTitleTextView.setOnClickListener {
+            binding.list.smoothScrollToPosition(0)
+        }
     }
 
     private fun setupList() {

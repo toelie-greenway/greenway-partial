@@ -1,4 +1,4 @@
-package com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models
+package com.greenwaymyanmar.common.ui.epoxy.model
 
 import android.content.Context
 import android.content.res.Resources

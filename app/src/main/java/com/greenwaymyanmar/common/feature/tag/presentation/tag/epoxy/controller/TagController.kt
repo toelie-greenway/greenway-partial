@@ -16,7 +16,8 @@ import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagP
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagProductItemViewModel_
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagProductSubheaderViewModel_
 import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.TagThreadItemViewModel_
-import com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.models.listNetworkStateItemView
+import com.greenwaymyanmar.common.ui.epoxy.controller.Typed3PagedListEpoxyController
+import com.greenwaymyanmar.common.ui.epoxy.model.listNetworkStateItemView
 import com.greenwaymyanmar.core.presentation.model.LoadingState
 import greenway_myanmar.org.R
 import greenway_myanmar.org.vo.NetworkState

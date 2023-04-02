@@ -6,15 +6,7 @@
     android:layout_height="wrap_content"
     tools:gravity="center_vertical"
     tools:orientation="horizontal"
-    tools:parentTag="greenway_myanmar.org.ui.widget.CheckableLinearLayout">
-
-    <ImageView
-        android:layout_width="14dp"
-        android:layout_height="14dp"
-        android:layout_marginEnd="@dimen/spacing_16"
-        android:duplicateParentState="true"
-        app:srcCompat="@drawable/csl_ic_check_circle"
-        app:tint="@color/csl_ic_check_circle_tint" />
+    tools:parentTag="android.widget.LinearLayout">
 
     <LinearLayout
         android:layout_width="0dp"

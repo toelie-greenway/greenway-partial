@@ -37,6 +37,8 @@ data class Thread(
   @SerializedName("is_applied_fertilizer") var isAppliedFertilizer: Boolean? = null,
   @SerializedName("is_applied_pesticide") var isAppliedPesticide: Boolean? = null,
   @SerializedName("weathers") var weathers: List<String>? = null,
+
+  // Tag Vote Options
 ) {
   val prettyTime: String
     get() {

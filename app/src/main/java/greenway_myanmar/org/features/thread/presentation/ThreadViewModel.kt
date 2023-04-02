@@ -22,7 +22,7 @@ class ThreadViewModel @Inject constructor(
     init {
         _uiState.update {
             it.copy(
-                votedTags = listOf(
+                tagVoteOptions = listOf(
                     UiVotableTag(
                         tag = UiTag(
                             id = "1",
@@ -42,7 +42,9 @@ class ThreadViewModel @Inject constructor(
                         suggestedCategory = null
                     )
 
-                )
+                ),
+                isTechnician = false,
+                approvedTags = emptyList()
             )
         }
     }

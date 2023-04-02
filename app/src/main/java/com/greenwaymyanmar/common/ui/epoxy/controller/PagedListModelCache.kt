@@ -1,4 +1,4 @@
-package com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.controller
+package com.greenwaymyanmar.common.ui.epoxy.controller
 
 import android.annotation.SuppressLint
 import android.os.Handler

@@ -1,4 +1,4 @@
-package com.greenwaymyanmar.common.feature.tag.presentation.tag.epoxy.controller
+package com.greenwaymyanmar.common.ui.epoxy.controller
 
 import android.annotation.SuppressLint
 import android.os.Handler
@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.EpoxyViewHolder
-import timber.log.Timber
-import kotlin.reflect.KClass
 
 
 /**
@@ -24,7 +22,7 @@ import kotlin.reflect.KClass
  *
  * @param T The type of the items in the [PagedList].
  */
-abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : EpoxyModel<*>>(
+abstract class TypedPagedListEpoxyController<T>(
     /**
      * The handler to use for building models. By default this uses the main thread, but you can use
      * [EpoxyAsyncUtil.getAsyncBackgroundHandler] to do model building in the background.
@@ -44,51 +42,29 @@ abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : Epo
      * [PagedList]s. By default, it relies on simple object equality but you can provide a custom
      * one if you don't use all fields in the object in your models.
      */
-    firstItemDiffCallback: DiffUtil.ItemCallback<F> = DEFAULT_ITEM_DIFF_CALLBACK as DiffUtil.ItemCallback<F>,
-    secondItemDiffCallback: DiffUtil.ItemCallback<S> = DEFAULT_ITEM_DIFF_CALLBACK as DiffUtil.ItemCallback<S>
+    itemDiffCallback: DiffUtil.ItemCallback<T> = DEFAULT_ITEM_DIFF_CALLBACK as DiffUtil.ItemCallback<T>
 ) : EpoxyController(modelBuildingHandler, diffingHandler) {
-
     // this is where we keep the already built models
-    private val firstModelCache = PagedListModelCache(
+    private val modelCache = PagedListModelCache(
         modelBuilder = { pos, item ->
-            buildFirstItemModel(pos, item)
+            buildItemModel(pos, item)
         },
         rebuildCallback = {
             requestModelBuild()
         },
-        itemDiffCallback = firstItemDiffCallback,
-        modelBuildingHandler = modelBuildingHandler
-    )
-    private val secondModelCache = PagedListModelCache(
-        modelBuilder = { pos, item ->
-            buildSecondItemModel(pos, item)
-        },
-        rebuildCallback = {
-            requestModelBuild()
-        },
-        itemDiffCallback = secondItemDiffCallback,
+        itemDiffCallback = itemDiffCallback,
         modelBuildingHandler = modelBuildingHandler
     )
 
-    @Suppress("UNCHECKED_CAST")
     final override fun buildModels() {
-        addModels(firstModelCache.getModels() as List<FM>, secondModelCache.getModels() as List<SM>)
+        addModels(modelCache.getModels())
     }
 
     /**
      * This function adds all built models to the adapter. You can override this method to add extra
      * items into the model list or remove some.
      */
-    open fun addModels(firstModels: List<FM>, secondModels: List<SM>) {
-        super.add(firstModels)
-        super.add(secondModels)
-    }
-
-    open fun addFirstModels(models: List<FM>) {
-        super.add(models)
-    }
-
-    open fun addSecondModels(models: List<SM>) {
+    open fun addModels(models: List<EpoxyModel<*>>) {
         super.add(models)
     }
 
@@ -99,8 +75,7 @@ abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : Epo
      * If the `item` is `null`, you should provide the placeholder. If your [PagedList] is
      * configured without placeholders, you don't need to handle the `null` case.
      */
-    abstract fun buildFirstItemModel(currentPosition: Int, item: F?): FM
-    abstract fun buildSecondItemModel(currentPosition: Int, item: S?): SM
+    abstract fun buildItemModel(currentPosition: Int, item: T?): EpoxyModel<*>
 
     override fun onModelBound(
         holder: EpoxyViewHolder,
@@ -108,27 +83,9 @@ abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : Epo
         position: Int,
         previouslyBoundModel: EpoxyModel<*>?
     ) {
-        Timber.d("onModelBound: $position : $boundModel")
         // TODO the position may not be a good value if there are too many injected items.
-        if (isFirstModel(boundModel)) {
-            Timber.d("onModelBound: loadAround :  $position")
-            firstModelCache.loadAround(position)
-        } else if (isSecondModel(boundModel)) {
-            secondModelCache.loadAround(position)
-        }
+        modelCache.loadAround(position)
     }
-
-    private fun isFirstModel(boundModel: EpoxyModel<*>): Boolean {
-        return boundModel::class == getFirstModelClass()
-    }
-
-    private fun isSecondModel(boundModel: EpoxyModel<*>): Boolean {
-        return boundModel::class == getSecondModelClass()
-    }
-
-    abstract fun getFirstModelClass(): KClass<FM>
-
-    abstract fun getSecondModelClass(): KClass<SM>
 
     /**
      * Submit a new paged list.
@@ -136,12 +93,8 @@ abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : Epo
      * A diff will be calculated between this list and the previous list so you may still get calls
      * to [buildItemModel] with items from the previous list.
      */
-    fun submitFirstList(newList: PagedList<F>?) {
-        firstModelCache.submitList(newList)
-    }
-
-    fun submitSecondList(newList: PagedList<S>?) {
-        secondModelCache.submitList(newList)
+    fun submitList(newList: PagedList<T>?) {
+        modelCache.submitList(newList)
     }
 
     /**
@@ -151,13 +104,8 @@ abstract class Typed2PagedListEpoxyController<F, FM : EpoxyModel<*>, S, SM : Epo
      * Clears the current model cache to make sure that happens.
      */
     fun requestForcedModelBuild() {
-        firstModelCache.clearModels()
-        secondModelCache.clearModels()
+        modelCache.clearModels()
         requestModelBuild()
-    }
-
-    fun isInstanceOfGenericClass(obj: Any, genericClass: KClass<*>): Boolean {
-        return obj::class.isInstance(genericClass)
     }
 
     companion object {

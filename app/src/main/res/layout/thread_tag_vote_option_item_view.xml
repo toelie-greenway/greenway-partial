@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:gravity="center_vertical"
+    tools:orientation="horizontal"
+    tools:parentTag="greenway_myanmar.org.ui.widget.CheckableLinearLayout">
+
+    <ImageView
+        android:id="@+id/check_state_image_view"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginEnd="@dimen/spacing_16"
+        android:duplicateParentState="true"
+        app:srcCompat="@drawable/csl_ic_check_circle"
+        app:tint="@color/csl_ic_check_circle_tint" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <greenway_myanmar.org.ui.widget.GreenWayTextView
+            android:id="@+id/tag_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_myanmar_medium_500"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:fontFamily="@font/noto_sans_myanmar_medium_500"
+            tools:text="ပင်စည်ပုပ်ရောဂါ" />
+
+    </LinearLayout>
+
+    <greenway_myanmar.org.ui.widget.GreenWayTextView
+        android:id="@+id/vote_count_text_view"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:background="@drawable/app_circle_background_selector"
+        android:gravity="center"
+        android:textColor="?colorPrimary"
+        app:backgroundTint="@color/color_primary_10"
+        tools:text="1" />
+
+</merge>

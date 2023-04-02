@@ -58,7 +58,7 @@ class ThreadFragment : Fragment(R.layout.thread_fragment) {
     }
 
     private fun navigateToVotingScreen() {
-        val votedTags = viewModel.uiState.value.votedTags
+        val votedTags = viewModel.uiState.value.tagVoteOptions
         navController.navigate(
             ThreadFragmentDirections.actionThreadFragmentToVotingFragment(
                 votedTags.toTypedArray()
