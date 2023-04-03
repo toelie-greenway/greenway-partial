@@ -3,6 +3,11 @@
     <string name="nav_title_tag">အကြောင်းအရာ</string>
     <string name="tag_tab_title_thread">မေးဖြေ</string>
     <string name="tag_tab_title_post">ဆောင်းပါး</string>
+    <string name="tag_voting_options_title">လက်ရှိအကြံပြုချက်များ</string>
+    <string name="tag_voting_tags_title">ဆက်စပ် အကြောင်းအရာများ</string>
+    <string name="tag_voting_action_change_category">အကြောင်းအရာပြောင်း</string>
+    <string name="tag_voting_vote_count_label">People votes</string>
+
     <string name="tag_post_formatted_info">%1$s • %2$s</string>
     <string name="tag_action_more_thread_post">ထပ်ကြည့်ရန်</string>
     <string name="tag_action_share">မျှဝေ</string>

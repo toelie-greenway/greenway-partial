@@ -13,7 +13,7 @@
         android:layout_marginTop="@dimen/spacing_16"
         android:layout_marginBottom="@dimen/spacing_4"
         android:fontFamily="@font/noto_sans_myanmar_medium_500"
-        android:text="ဆက်စပ် အကြောင်းအရာများ"
+        android:text="@string/tag_voting_options_title"
         android:textSize="14sp"
         app:fontFamily="@font/noto_sans_myanmar_medium_500" />
 </merge>

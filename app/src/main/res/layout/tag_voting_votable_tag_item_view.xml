@@ -40,7 +40,7 @@
                 android:layout_marginTop="@dimen/spacing_8"
                 android:layout_marginEnd="@dimen/spacing_8"
                 android:fontFamily="@font/noto_sans_myanmar_medium_500"
-                android:text="နဂါးမောက် ပင်စည်နေလောင် ကင်ကာ ရောဂါ (၃)"
+                tools:text="နဂါးမောက် ပင်စည်နေလောင် ကင်ကာ ရောဂါ (၃)"
                 android:textColor="#4A4A4A"
                 android:textSize="12sp"
                 app:fontFamily="@font/noto_sans_myanmar_medium_500"
@@ -65,11 +65,12 @@
 
             <greenway_myanmar.org.ui.widget.GreenWayTextView
                 android:layout_width="0dp"
+                android:id="@+id/vote_count_label_text_view"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_4"
                 android:layout_marginEnd="@dimen/spacing_16"
                 android:fontFamily="@font/noto_sans_myanmar_medium_500"
-                android:text="People votes"
+                android:text="@string/tag_voting_vote_count_label"
                 android:textColor="?colorPrimary"
                 android:textSize="12sp"
                 app:fontFamily="@font/noto_sans_myanmar_medium_500"

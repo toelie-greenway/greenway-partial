@@ -5,22 +5,16 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import com.airbnb.epoxy.ModelView
-import com.airbnb.epoxy.TextProp
-import greenway_myanmar.org.databinding.TagVotingSubheaderViewBinding
+import greenway_myanmar.org.databinding.TagVotingOptionsSubheaderViewBinding
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
-class TagVotingSubheaderView @JvmOverloads constructor(
+class TagVotingOptionsSubheaderView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
 
-    val binding = TagVotingSubheaderViewBinding.inflate(
+    val binding = TagVotingOptionsSubheaderViewBinding.inflate(
         LayoutInflater.from(context),
         this
     )
-
-    @TextProp
-    fun setSubheader(text: CharSequence) {
-        binding.subheaderTextView.text = text
-    }
 }

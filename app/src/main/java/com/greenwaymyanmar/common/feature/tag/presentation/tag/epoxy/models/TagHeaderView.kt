@@ -49,7 +49,7 @@ class TagHeaderView @JvmOverloads constructor(
     fun setTag(tag: UiTag) {
         binding.heroImageView.load(context, tag.imageUrls.firstOrNull())
         binding.tagNameTextView.text = tag.name
-        binding.categoryNameTextView.text = tag.category.name
+        binding.categoryNameTextView.text = tag.category?.name.orEmpty()
     }
 
     @ModelProp

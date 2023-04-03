@@ -38,12 +38,12 @@ class ThreadViewModel @Inject constructor(
                             )
                         ),
                         voteCount = 2,
-                        isVoted = true,
+                        isVoted = false,
                         suggestedCategory = null
                     )
 
                 ),
-                isTechnician = false,
+                isTechnician = true,
                 approvedTags = emptyList()
             )
         }

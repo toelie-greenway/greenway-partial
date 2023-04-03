@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/spacing_8"
+    android:paddingTop="@dimen/spacing_8"
+    android:paddingEnd="@dimen/spacing_8"
+    android:paddingBottom="@dimen/spacing_8"
+    app:shimmer_auto_start="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_4"
+            android:layout_weight="1"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            app:contentPaddingBottom="@dimen/spacing_16">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/image_view"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="#E0E0E0"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintDimensionRatio="3:2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/tag_name_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="@dimen/spacing_8"
+                    android:layout_marginTop="@dimen/spacing_8"
+                    android:layout_marginEnd="@dimen/spacing_8"
+                    android:background="#E0E0E0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_view" />
+
+                <View
+                    android:id="@+id/vote_count_text_view"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="@dimen/spacing_8"
+                    android:layout_marginTop="@dimen/spacing_8"
+                    android:background="@drawable/app_circle_background_selector"
+                    android:gravity="center"
+                    app:backgroundTint="@color/color_primary_10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tag_name_text_view"
+                    tools:text="1" />
+
+                <View
+                    android:id="@+id/vote_count_label_text_view"
+                    android:layout_width="100dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="@dimen/spacing_4"
+                    android:layout_marginEnd="@dimen/spacing_16"
+                    android:background="#E0E0E0"
+                    app:layout_constraintBottom_toBottomOf="@id/vote_count_text_view"
+                    app:layout_constraintStart_toEndOf="@id/vote_count_text_view"
+                    app:layout_constraintTop_toTopOf="@id/vote_count_text_view" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_4"
+            android:layout_weight="1"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            app:contentPaddingBottom="@dimen/spacing_16">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/image_view_2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="#E0E0E0"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintDimensionRatio="3:2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/tag_name_text_view_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="@dimen/spacing_8"
+                    android:layout_marginTop="@dimen/spacing_8"
+                    android:layout_marginEnd="@dimen/spacing_8"
+                    android:background="#E0E0E0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_view_2" />
+
+                <View
+                    android:id="@+id/vote_count_text_view_2"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="@dimen/spacing_8"
+                    android:layout_marginTop="@dimen/spacing_8"
+                    android:background="@drawable/app_circle_background_selector"
+                    android:gravity="center"
+                    app:backgroundTint="@color/color_primary_10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tag_name_text_view_2"
+                    tools:text="1" />
+
+                <View
+                    android:id="@+id/vote_count_label_text_view_2"
+                    android:layout_width="100dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="@dimen/spacing_4"
+                    android:layout_marginEnd="@dimen/spacing_16"
+                    android:background="#E0E0E0"
+                    app:layout_constraintBottom_toBottomOf="@id/vote_count_text_view_2"
+                    app:layout_constraintStart_toEndOf="@id/vote_count_text_view_2"
+                    app:layout_constraintTop_toTopOf="@id/vote_count_text_view_2" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+</com.facebook.shimmer.ShimmerFrameLayout>

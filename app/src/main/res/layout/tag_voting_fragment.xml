@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,6 +11,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             style="@style/Widget.GreenWay.Toolbar.Surface"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,33 +46,21 @@
             android:orientation="horizontal">
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/category_chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ပိုးမွှားရောဂါ"
                 android:textColor="?colorPrimary"
-                app:chipBackgroundColor="#E8F4F3" />
+                app:chipBackgroundColor="#E8F4F3"
+                tools:text="ပိုးမွှားရောဂါ" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/crop_or_animal_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_8"
-                android:text="နဂါးမောက်"
                 android:textColor="?colorPrimary"
-                app:chipBackgroundColor="#E8F4F3" />
-
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_8"
-                android:text="Add topic"
-                android:textColor="?colorOnSurface"
-                app:chipBackgroundColor="@color/app_transparent"
-                app:chipIcon="@drawable/ic_add_circle_black_24dp"
-                app:chipIconSize="15dp"
-                app:chipStrokeColor="#E0E0E0"
-                app:chipStrokeWidth="1dp"
-                app:iconStartPadding="@dimen/spacing_4"
-                app:textStartPadding="@dimen/spacing_4" />
+                app:chipBackgroundColor="#E8F4F3"
+                tools:text="နဂါးမောက်" />
 
         </LinearLayout>
 
@@ -84,6 +74,7 @@
     </LinearLayout>
 
     <greenway_myanmar.org.ui.widget.GreenWayButton
+        android:id="@+id/submit_button"
         style="@style/Widget.GreenWay.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.greenwaymyanmar.common.feature.category.presentation.model.UiCategory
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
@@ -59,9 +60,14 @@ class ThreadFragment : Fragment(R.layout.thread_fragment) {
 
     private fun navigateToVotingScreen() {
         val votedTags = viewModel.uiState.value.tagVoteOptions
+        val category = viewModel.uiState.value.category ?: return
+        val cropOrAnimalName = viewModel.uiState.value.cropOrAnimalName
+
         navController.navigate(
             ThreadFragmentDirections.actionThreadFragmentToVotingFragment(
-                votedTags.toTypedArray()
+                votedTags.toTypedArray(),
+                UiCategory.fromCategoryVo(category),
+                cropOrAnimalName
             )
         )
     }

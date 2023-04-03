@@ -19,6 +19,13 @@ data class UiCategory(
             imageUrl = domainModel.imageUrl,
             type = UiCategoryType.fromDomainModel(domainModel.type)
         )
+
+        fun fromCategoryVo(category: greenway_myanmar.org.vo.Category) = UiCategory(
+            id = category.id,
+            name = category.title,
+            imageUrl = category.image,
+            type = UiCategoryType.fromDomainModel(CategoryType.fromString(category.type))
+        )
     }
 }
 

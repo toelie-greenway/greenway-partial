@@ -1,4 +1,4 @@
-package com.greenwaymyanmar.common.feature.tag.presentation.views
+package com.greenwaymyanmar.common.feature.tag.presentation.tag.views
 
 import android.content.Context
 import android.graphics.Color

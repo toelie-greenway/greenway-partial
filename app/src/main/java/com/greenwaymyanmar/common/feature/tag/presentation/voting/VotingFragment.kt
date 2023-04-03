@@ -17,7 +17,10 @@ import greenway_myanmar.org.databinding.TagVotingFragmentBinding
 import greenway_myanmar.org.util.extensions.dp
 import greenway_myanmar.org.util.kotlin.viewBinding
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
@@ -27,6 +30,7 @@ class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
     private val navController: NavController by lazy {
         findNavController()
     }
+
     private val controller: VotingController = VotingController(
         onVoteClicked = {
             onVoteClicked(it)
@@ -40,12 +44,21 @@ class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
     }
 
     private fun setupUi() {
+        setupToolbar()
         setupList()
     }
 
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
-            observeVotedTags()
+            observeUiState()
+            observeVotedTag()
+        }
+        observeTagListing()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationOnClickListener {
+            navController.popBackStack()
         }
     }
 
@@ -55,11 +68,39 @@ class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
         binding.list.setController(controller)
     }
 
-    private fun CoroutineScope.observeVotedTags() = launch {
+    private fun CoroutineScope.observeUiState() = launch {
         viewModel.uiState
             .collect {
-                controller.setData(it)
+                controller.uiState = it
+
+                it.category?.let {
+                    binding.categoryChip.text = it.name
+                }
+
+                binding.cropOrAnimalNameTextView.text = it.cropOrAnimalName.orEmpty()
             }
+    }
+
+    private fun CoroutineScope.observeVotedTag() = launch {
+        viewModel.uiState.map { it.votedTag }
+            .distinctUntilChanged()
+            .collect {
+                binding.submitButton.isEnabled = it != null
+            }
+    }
+
+    private fun observeTagListing() {
+        viewModel.tags.observe(viewLifecycleOwner) {
+            controller.submitList(it)
+        }
+        viewModel.networkState.observe(viewLifecycleOwner) {
+            Timber.d("NetworkState: ${it.status}")
+            controller.setNetworkState(it)
+        }
+        viewModel.hasMore.observe(viewLifecycleOwner) {
+            Timber.d("HasMore: $it")
+            controller.setHasMore(it)
+        }
     }
 
     private fun navigateToVotingScreen() {
@@ -68,7 +109,7 @@ class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
 
     private fun onVoteClicked(tag: UiVotableTag) {
         viewModel.handleEvent(
-            VotingEvent.OnToggleVote(tag)
+            VotingEvent.OnVoteChanged(tag)
         )
     }
 

@@ -12,7 +12,6 @@ import retrofit2.http.QueryMap
 interface GreenWayWebservice {
 
   @GET("api_path") fun getSomething(): ApiResponse<String>
-
   @GET("threads")
   fun getThreads(
     @Query("page") page: Int,
@@ -34,5 +33,7 @@ interface GreenWayWebservice {
     @Query("page") page: Int,
     @Query("limit") limit: Int
   ): Call<PostListResponse>
+
+
 
 }

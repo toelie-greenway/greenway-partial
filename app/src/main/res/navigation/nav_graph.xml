@@ -23,5 +23,11 @@
         <argument
             android:name="voted_tags"
             app:argType="com.greenwaymyanmar.common.feature.tag.presentation.model.UiVotableTag[]" />
+        <argument
+            android:name="category"
+            app:argType="com.greenwaymyanmar.common.feature.category.presentation.model.UiCategory" />
+        <argument
+            android:name="crop_or_animal_name"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -9,7 +9,7 @@
     android:paddingEnd="@dimen/spacing_16"
     android:paddingBottom="@dimen/spacing_8">
 
-    <com.greenwaymyanmar.common.feature.tag.presentation.views.TagColorIndicatorsView
+    <com.greenwaymyanmar.common.feature.tag.presentation.tag.views.TagColorIndicatorsView
         android:id="@+id/tag_color_indicators_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

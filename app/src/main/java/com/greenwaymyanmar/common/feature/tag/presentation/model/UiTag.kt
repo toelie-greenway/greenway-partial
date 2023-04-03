@@ -9,14 +9,18 @@ import kotlinx.android.parcel.Parcelize
 data class UiTag(
     val id: String,
     val name: String,
-    val category: UiCategory,
+    val category: UiCategory?,
     val imageUrls: List<String>
 ) : Parcelable {
     companion object {
         fun fromDomainModel(domainModel: Tag) = UiTag(
             id = domainModel.id,
             name = domainModel.name,
-            category = UiCategory.fromDomainModel(domainModel.category),
+            category = if (domainModel.category != null) {
+                UiCategory.fromDomainModel(domainModel.category)
+            } else {
+                null
+            },
             imageUrls = domainModel.imageUrls
         )
     }

@@ -34,9 +34,13 @@ class TagVotingVotableTagItemView @JvmOverloads constructor(
     }
 
     @ModelProp
-    fun setVotableTag(votableTag: UiVotableTag) {
+    fun setVotableTag(votableTag: UiVotableTag?) {
+        if (votableTag == null) return
+
         binding.tagNameTextView.text = votableTag.tag.name
         binding.voteCountTextView.text = votableTag.voteCount.toString()
+        binding.voteCountTextView.isVisible = votableTag.voteCount > 0
+        binding.voteCountLabelTextView.isVisible = votableTag.voteCount > 0
         binding.imageView.load(context, votableTag.tag.imageUrls.firstOrNull())
         binding.userVoteIndicatorTextView.isVisible = votableTag.isVoted
         binding.cardView.isChecked = votableTag.isVoted
