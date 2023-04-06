@@ -12,10 +12,13 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            style="@style/Widget.GreenWay.Toolbar.Surface"
+            style="@style/Widget.MaterialComponents.Toolbar.Surface"
+            app:contentInsetStartWithNavigation="0dp"
+            app:contentInsetStart="0dp"
             android:layout_width="match_parent"
+            android:theme="@style/ThemeOverlay.GreenWay2.ActionBar.OnSurface"
             android:layout_height="wrap_content"
-            app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+            app:navigationIcon="@drawable/ic_close_black_24dp"
             app:navigationIconTint="#4A4A4A">
 
             <greenway_myanmar.org.ui.widget.GreenWayTextView

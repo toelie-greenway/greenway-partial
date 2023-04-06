@@ -62,12 +62,14 @@ class ThreadFragment : Fragment(R.layout.thread_fragment) {
         val votedTags = viewModel.uiState.value.tagVoteOptions
         val category = viewModel.uiState.value.category ?: return
         val cropOrAnimalName = viewModel.uiState.value.cropOrAnimalName
+        val categoryType = viewModel.uiState.value.categoryType
 
         navController.navigate(
             ThreadFragmentDirections.actionThreadFragmentToVotingFragment(
                 votedTags.toTypedArray(),
                 UiCategory.fromCategoryVo(category),
-                cropOrAnimalName
+                cropOrAnimalName,
+                categoryType
             )
         )
     }

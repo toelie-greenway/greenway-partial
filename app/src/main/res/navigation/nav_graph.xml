@@ -29,5 +29,19 @@
         <argument
             android:name="crop_or_animal_name"
             app:argType="string" />
+        <action
+            android:id="@+id/action_votingFragment_to_categoryPickerBottomSheetFragment"
+            app:destination="@id/categoryPickerBottomSheetFragment" />
+        <argument
+            android:name="category_type"
+            app:argType="com.greenwaymyanmar.common.feature.category.presentation.model.UiCategoryType" />
     </fragment>
+    <dialog
+        android:id="@+id/categoryPickerBottomSheetFragment"
+        android:name="com.greenwaymyanmar.common.feature.category.presentation.categorypicker.CategoryPickerBottomSheetFragment"
+        android:label="CategoryPickerBottomSheetFragment" >
+        <argument
+            android:name="category_type"
+            app:argType="com.greenwaymyanmar.common.feature.category.presentation.model.UiCategoryType" />
+    </dialog>
 </navigation>

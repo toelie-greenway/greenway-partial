@@ -33,4 +33,6 @@
     <style name="TextAppearance.GreenWay2.Title.Inverse">
         <item name="android:textColor">?colorOnSurface</item>
     </style>
+
+    <style name="ThemeOverlay.GreenWay2.ActionBar.OnSurface" parent="ThemeOverlay.AppCompat.ActionBar"/>
 </resources>

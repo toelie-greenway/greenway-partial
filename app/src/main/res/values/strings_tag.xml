@@ -7,6 +7,7 @@
     <string name="tag_voting_tags_title">ဆက်စပ် အကြောင်းအရာများ</string>
     <string name="tag_voting_action_change_category">အကြောင်းအရာပြောင်း</string>
     <string name="tag_voting_vote_count_label">People votes</string>
+    <string name="tag_voting_hint_search">တိုက်ရိုက်ရှာဖွေရန်</string>
 
     <string name="tag_post_formatted_info">%1$s • %2$s</string>
     <string name="tag_action_more_thread_post">ထပ်ကြည့်ရန်</string>
@@ -23,4 +24,7 @@
     <string name="thread_tag_nav_title_voting">ကိုယ်ပိုင်အကြံပြုချက် ထည့်သွင်းပါ</string>
     <string name="thread_tag_voting_voted_tags_subheader">လက်ရှိအကြံပြုချက်များ</string>
     <string name="thread_tag_voting_suggested_tags_subheader">ဆက်စပ် အကြောင်းအရာများ</string>
+
+    <!-- TODO: move to strings.xml -->
+    <string name="category_picker_title">အကြောင်းအရာရွေးချယ်ပါ</string>
 </resources>

@@ -30,10 +30,20 @@ data class UiCategory(
 }
 
 enum class UiCategoryType {
-    Unknown,
-    Agri,
-    Livestock,
-    Aqua;
+    Unknown {
+        override fun toDomainModel() = CategoryType.Unknown
+    },
+    Agri {
+        override fun toDomainModel() = CategoryType.Agri
+    },
+    Livestock {
+        override fun toDomainModel() = CategoryType.Livestock
+    },
+    Aqua {
+        override fun toDomainModel() = CategoryType.Aqua
+    };
+
+    abstract fun toDomainModel(): CategoryType
 
     companion object {
         fun fromDomainModel(domainModel: CategoryType) = when (domainModel) {

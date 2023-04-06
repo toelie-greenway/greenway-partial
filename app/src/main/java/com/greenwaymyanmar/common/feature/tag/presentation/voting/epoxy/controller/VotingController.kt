@@ -1,6 +1,6 @@
 package com.greenwaymyanmar.common.feature.tag.presentation.voting.epoxy.controller
 
-import android.view.View
+import android.view.View.OnClickListener
 import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.paging.PagedListEpoxyController
 import com.greenwaymyanmar.common.feature.tag.domain.model.Tag
@@ -17,7 +17,8 @@ import greenway_myanmar.org.vo.NetworkState
 import timber.log.Timber
 
 class VotingController constructor(
-    private val onVoteClicked: (UiVotableTag) -> Unit
+    private val onVoteClicked: (UiVotableTag) -> Unit,
+    private val onChangeCategoryClicked: () -> Unit
 ) : PagedListEpoxyController<Tag>() {
 
     var uiState: VotingUiState? = null
@@ -77,14 +78,15 @@ class VotingController constructor(
                     isVoted = isVotedTag(tag)
                 )
             )
-            .onVoteClickListener(View.OnClickListener {
+            .onVoteClickListener(OnClickListener {
                 onVoteClicked(tag)
             })
     }
 
     override fun addModels(models: List<EpoxyModel<*>>) {
         val voteOptions = uiState?.voteOptions.orEmpty()
-        if (voteOptions.isNotEmpty()) {
+        val showVoteOptions = uiState?.showVoteOptions == true
+        if (showVoteOptions) {
             tagVotingOptionsSubheaderView {
                 id("vote-options-subheader")
             }
@@ -97,7 +99,7 @@ class VotingController constructor(
                             isVoted = isVotedTag(votableTag)
                         )
                     )
-                    onVoteClickListener(View.OnClickListener {
+                    onVoteClickListener(OnClickListener {
                         onVoteClicked(votableTag)
                     })
                 }
@@ -108,6 +110,9 @@ class VotingController constructor(
         tagVotingTagsSubheaderView {
             id("tags-subheader")
             category(customCategory)
+            categoryClickCallback(OnClickListener {
+                onChangeCategoryClicked()
+            })
         }
 
         super.addModels(models)
@@ -117,7 +122,7 @@ class VotingController constructor(
                 id("product-network-state")
                 loadingView(R.layout.tag_voting_votable_tag_loading_view)
                 networkState(listingUiState.networkState)
-                retryCallback(View.OnClickListener {
+                retryCallback(OnClickListener {
 
                 })
             }

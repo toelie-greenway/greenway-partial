@@ -2,12 +2,18 @@ package com.greenwaymyanmar.common.feature.tag.presentation.voting
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyItemSpacingDecorator
+import com.greenwaymyanmar.common.feature.category.presentation.categorypicker.CategoryPickerBottomSheetFragment
+import com.greenwaymyanmar.common.feature.category.presentation.model.UiCategory
 import com.greenwaymyanmar.common.feature.tag.presentation.model.UiVotableTag
 import com.greenwaymyanmar.common.feature.tag.presentation.voting.epoxy.controller.VotingController
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
@@ -15,8 +21,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
 import greenway_myanmar.org.databinding.TagVotingFragmentBinding
 import greenway_myanmar.org.util.extensions.dp
+import greenway_myanmar.org.util.extensions.getParcelableExtraCompat
 import greenway_myanmar.org.util.kotlin.viewBinding
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -34,13 +43,21 @@ class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
     private val controller: VotingController = VotingController(
         onVoteClicked = {
             onVoteClicked(it)
+        },
+        onChangeCategoryClicked = {
+            onChangedCategoryClicked()
         }
     )
+
+    private val args by navArgs<VotingFragmentArgs>()
+
+    private lateinit var textChangeCountDownJob: Job
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
         observeViewModel()
+        setupFragmentResultListener()
     }
 
     private fun setupUi() {
@@ -56,10 +73,42 @@ class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
         observeTagListing()
     }
 
+    private fun setupFragmentResultListener() {
+        setFragmentResultListener(CategoryPickerBottomSheetFragment.REQUEST_KEY_CATEGORY) { _, bundle ->
+            bundle.getParcelableExtraCompat<UiCategory?>(CategoryPickerBottomSheetFragment.KEY_CATEGORY)
+                ?.let { category ->
+                    viewModel.handleEvent(
+                        VotingEvent.OnCustomCategoryChanged(category)
+                    )
+                }
+        }
+    }
+
     private fun setupToolbar() {
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
+        binding.toolbar.inflateMenu(R.menu.tag_voting)
+        val searchView = binding.toolbar.menu.findItem(R.id.action_search).actionView as SearchView
+        searchView.queryHint = getString(R.string.tag_voting_hint_search)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                /* no-op */
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                Timber.d("newText: $newText")
+                if (::textChangeCountDownJob.isInitialized)
+                    textChangeCountDownJob.cancel()
+
+                textChangeCountDownJob = viewLifecycleOwner.lifecycleScope.launch {
+                    delay(800)
+                    viewModel.handleEvent(VotingEvent.OnQueryChanged(newText.orEmpty()))
+                }
+                return true
+            }
+        })
     }
 
     private fun setupList() {
@@ -103,14 +152,18 @@ class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
         }
     }
 
-    private fun navigateToVotingScreen() {
-
-    }
-
     private fun onVoteClicked(tag: UiVotableTag) {
         viewModel.handleEvent(
             VotingEvent.OnVoteChanged(tag)
         )
     }
 
+    private fun onChangedCategoryClicked() {
+        val categoryType = args.categoryType
+        navController.navigate(
+            VotingFragmentDirections.actionVotingFragmentToCategoryPickerBottomSheetFragment(
+                categoryType
+            )
+        )
+    }
 }

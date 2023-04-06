@@ -8,8 +8,10 @@ data class VotingUiState(
     val category: UiCategory? = null,
     val cropOrAnimalName: String? = "",
     val voteOptions: List<UiVotableTag> = emptyList(),
-    val tags: LoadingState<List<UiVotableTag>> = LoadingState.Loading,
+    val searchQuery: String = "",
     val searchResults: LoadingState<List<UiVotableTag>>? = null,
     val votedTag: UiVotableTag? = null,
     val customCategory: UiCategory? = null
-)
+) {
+    val showVoteOptions: Boolean = searchQuery.isEmpty() && voteOptions.isNotEmpty()
+}

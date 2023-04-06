@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.LinearLayout
+import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.greenwaymyanmar.common.feature.category.presentation.model.UiCategory
@@ -19,9 +20,16 @@ class TagVotingTagsSubheaderView @JvmOverloads constructor(
 
     val binding = customViewMergeBinding(TagVotingTagsSubheaderViewBinding::inflate)
 
+    var categoryClickCallback: OnClickListener? = null
+        @CallbackProp set
+
     init {
         orientation = HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
+
+        binding.categoryChip.setOnClickListener {
+            categoryClickCallback?.onClick(it)
+        }
     }
 
     @ModelProp

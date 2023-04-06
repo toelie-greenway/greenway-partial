@@ -22,7 +22,8 @@ class GetTagsStreamUseCase @Inject constructor(
                                 id = "1",
                                 name = "ပိုးမွှားရောဂါ",
                                 imageUrl = "https://picsum.photos/id/12/960/540",
-                                type = CategoryType.Agri
+                                type = CategoryType.Agri,
+                                parentCategoryId = "1"
                             ),
                             imageUrls = listOf(
                                 "https://picsum.photos/id/12/960/540",

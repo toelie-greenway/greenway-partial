@@ -41,9 +41,12 @@
 
     </style>
 
-
-    <style name="Widget.GreenWay.Toolbar.Button.Navigation.Primary" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+    <style name="Widget.GreenWay.Toolbar.Button.Navigation.OnPrimary" parent="Widget.AppCompat.Toolbar.Button.Navigation">
         <item name="tint">?colorOnPrimary</item>
+    </style>
+
+    <style name="Widget.GreenWay.Toolbar.Button.Navigation.OnSurface" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">?colorOnSurface</item>
     </style>
 
     <!-- TabLayout -->
