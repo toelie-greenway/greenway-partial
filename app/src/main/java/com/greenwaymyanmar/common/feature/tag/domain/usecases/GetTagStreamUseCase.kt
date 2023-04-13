@@ -28,7 +28,8 @@ class GetTagStreamUseCase @Inject constructor(
                             "https://picsum.photos/id/12/960/540",
                             "https://picsum.photos/id/13/960/540",
                             "https://picsum.photos/id/14/960/540",
-                        )
+                        ),
+                        categories = emptyList()
                     )
                 )
             )

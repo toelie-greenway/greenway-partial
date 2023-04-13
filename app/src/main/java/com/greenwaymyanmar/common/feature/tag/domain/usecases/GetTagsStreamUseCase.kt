@@ -25,6 +25,7 @@ class GetTagsStreamUseCase @Inject constructor(
                                 type = CategoryType.Agri,
                                 parentCategoryId = "1"
                             ),
+                            categories = emptyList(),
                             imageUrls = listOf(
                                 "https://picsum.photos/id/12/960/540",
                                 "https://picsum.photos/id/13/960/540",

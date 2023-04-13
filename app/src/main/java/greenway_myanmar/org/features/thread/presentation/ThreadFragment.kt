@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.greenwaymyanmar.common.feature.category.presentation.model.UiCategory
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
@@ -43,7 +42,7 @@ class ThreadFragment : Fragment(R.layout.thread_fragment) {
 
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
-            observeVotedTags()
+            observeVoteOptions()
         }
     }
 
@@ -51,7 +50,7 @@ class ThreadFragment : Fragment(R.layout.thread_fragment) {
         binding.list.setController(controller)
     }
 
-    private fun CoroutineScope.observeVotedTags() = launch {
+    private fun CoroutineScope.observeVoteOptions() = launch {
         viewModel.uiState
             .collect {
                 controller.setData(it)
@@ -67,7 +66,7 @@ class ThreadFragment : Fragment(R.layout.thread_fragment) {
         navController.navigate(
             ThreadFragmentDirections.actionThreadFragmentToVotingFragment(
                 votedTags.toTypedArray(),
-                UiCategory.fromCategoryVo(category),
+                category,
                 cropOrAnimalName,
                 categoryType
             )

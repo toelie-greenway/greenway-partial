@@ -6,5 +6,6 @@ data class Tag(
     val id: String,
     val name: String,
     val category: Category?,
+    val categories: List<Category>?,
     val imageUrls: List<String>
 )

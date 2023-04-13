@@ -34,7 +34,7 @@ class TagController(
     private val onMoreThreadClicked: () -> Unit,
     private val onMorePostClicked: () -> Unit,
     private val onMoreProductClicked: () -> Unit
-) : Typed3PagedListEpoxyController<
+) :  Typed3PagedListEpoxyController<
         Thread, TagThreadItemViewModel_,
         Post, TagPostItemViewModel_,
         Product, TagProductItemViewModel_>() {

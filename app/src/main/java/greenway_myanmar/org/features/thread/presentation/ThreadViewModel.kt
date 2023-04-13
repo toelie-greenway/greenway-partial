@@ -1,5 +1,6 @@
 package greenway_myanmar.org.features.thread.presentation
 
+import android.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.greenwaymyanmar.common.feature.category.presentation.model.UiCategory
 import com.greenwaymyanmar.common.feature.category.presentation.model.UiCategoryType
@@ -33,9 +34,11 @@ class ThreadViewModel @Inject constructor(
                                 imageUrl = "https://picsum.photos/id/12/960/540",
                                 type = UiCategoryType.Agri
                             ),
+                            categories = null,
                             imageUrls = listOf(
                                 "https://picsum.photos/id/210/960/540"
-                            )
+                            ),
+                            color = Color.GREEN
                         ),
                         voteCount = 2,
                         isVoted = false,
@@ -44,7 +47,6 @@ class ThreadViewModel @Inject constructor(
 
                 ),
                 isTechnician = true,
-                approvedTags = emptyList()
             )
         }
     }

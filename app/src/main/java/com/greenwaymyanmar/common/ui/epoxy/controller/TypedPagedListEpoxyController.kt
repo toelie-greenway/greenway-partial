@@ -22,7 +22,7 @@ import com.airbnb.epoxy.EpoxyViewHolder
  *
  * @param T The type of the items in the [PagedList].
  */
-abstract class TypedPagedListEpoxyController<T>(
+abstract class TypedPagedListEpoxyController<T, TM: EpoxyModel<*>>(
     /**
      * The handler to use for building models. By default this uses the main thread, but you can use
      * [EpoxyAsyncUtil.getAsyncBackgroundHandler] to do model building in the background.
@@ -75,7 +75,7 @@ abstract class TypedPagedListEpoxyController<T>(
      * If the `item` is `null`, you should provide the placeholder. If your [PagedList] is
      * configured without placeholders, you don't need to handle the `null` case.
      */
-    abstract fun buildItemModel(currentPosition: Int, item: T?): EpoxyModel<*>
+    abstract fun buildItemModel(currentPosition: Int, item: T?): TM
 
     override fun onModelBound(
         holder: EpoxyViewHolder,

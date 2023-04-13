@@ -143,6 +143,7 @@
 
     <declare-styleable name="TagColorIndicatorView">
         <attr name="radius" format="dimension" />
+        <attr name="elevation" />
         <attr name="shadowRadius" format="dimension" />
         <attr name="shadowDx" format="dimension" />
         <attr name="shadowDy" format="dimension" />

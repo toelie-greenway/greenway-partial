@@ -27,4 +27,6 @@
 
     <!-- TODO: move to strings.xml -->
     <string name="category_picker_title">အကြောင်းအရာရွေးချယ်ပါ</string>
+    <string name="thread_tags_subheader">ဆက်စပ်အကြောင်းအရာ၊ မေးခွန်းများနှင့်၊  ဆောင်းပါးများကို ဆက်လက်ဖတ်ရှုနိုင်ပါသည်။</string>
+    <string name="tag_item_formatted_title">Topic %1$d</string>
 </resources>

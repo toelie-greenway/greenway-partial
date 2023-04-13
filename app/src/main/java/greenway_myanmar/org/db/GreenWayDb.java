@@ -26,10 +26,12 @@ import greenway_myanmar.org.features.fishfarmrecord.data.source.database.util.La
 import greenway_myanmar.org.features.template.data.source.database.dao.TemplateDao;
 import greenway_myanmar.org.features.template.data.source.database.model.TemplateEntity;
 import greenway_myanmar.org.vo.Thread;
+import greenway_myanmar.org.vo.ThreadComment;
 
 @Database(entities = {
         TemplateEntity.class,
         Thread.class,
+        ThreadComment.class,
         Pagination.class
 }, version = 1)
 @TypeConverters({
