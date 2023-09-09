@@ -148,7 +148,7 @@
         </item>
         <item name="toolbarStyle">@style/Widget.GreenWay.Toolbar.Primary</item>
         <item name="toolbarNavigationButtonStyle">
-            @style/Widget.GreenWay.Toolbar.Button.Navigation.OnSurface
+            @style/Widget.GreenWay.Toolbar.Button.Navigation.OnPrimary
         </item>
         <item name="textAppearanceToolbarTitle">@style/TextAppearance.GreenWay2.Title</item>
         <item name="textAppearanceToolbarTitleInverse">@style/TextAppearance.GreenWay2.Title.Inverse</item>
@@ -156,7 +156,12 @@
         <item name="textInputStyle">@style/Widget.Asymt.TextInputLayout</item>
         <item name="radioButtonStyle">@style/Widget.Asymt.RadioButton</item>
         <item name="checkboxStyle">@style/Widget.Asymt.CheckBox</item>
+    </style>
 
+    <style name="ThemeOverlay.GreenWay.FishFarmerRecordBook.Light" parent="">
+        <item name="toolbarNavigationButtonStyle">
+            @style/Widget.GreenWay.Toolbar.Button.Navigation.OnSurface
+        </item>
     </style>
 
     <bool name="use_light_system_bars">true</bool>

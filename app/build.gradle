@@ -51,6 +51,17 @@ android {
         viewBinding true
         dataBinding true
     }
+    afterEvaluate {
+        gradle.buildFinished{ BuildResult buildResult ->
+            if (buildResult.failure) {
+                ['powershell', """(New-Object Media.SoundPlayer "D:\\FFOutput\\error.wav").PlaySync();"""].execute()
+                println("failed doing task")
+            } else {
+                ['powershell', """(New-Object Media.SoundPlayer "D:\\FFOutput\\success.wav").PlaySync();"""].execute()
+                println("build finished")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -180,4 +191,12 @@ dependencies {
     // Shimmer
     implementation("com.facebook.shimmer:shimmer:0.5.0")
 
+    implementation("com.google.android.exoplayer:exoplayer:2.8.2")
+    implementation("com.google.android.exoplayer:exoplayer-core:2.8.2")
+    implementation("com.google.android.exoplayer:exoplayer-dash:2.8.2")
+    implementation("com.google.android.exoplayer:exoplayer-ui:2.8.2")
+
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:8.0.1'
+
+    implementation("pub.devrel:easypermissions:3.0.0")
 }

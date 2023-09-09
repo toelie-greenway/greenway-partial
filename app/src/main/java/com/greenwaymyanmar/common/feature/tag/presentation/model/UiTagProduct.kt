@@ -9,7 +9,7 @@ data class UiTagProduct(
     val imageUrl: String?
 ) {
     companion object {
-        fun fromDomain(domainModel: com.greenwaymyanmar.common.feature.tag.domain.model.TagProduct) = UiTagProduct(
+        fun fromDomain(domainModel: TagProduct) = UiTagProduct(
             id = domainModel.id,
             productName = domainModel.productName,
             distributorName = domainModel.distributorName,

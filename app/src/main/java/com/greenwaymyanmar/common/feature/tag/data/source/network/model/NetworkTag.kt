@@ -4,6 +4,7 @@ import com.greenwaymyanmar.common.feature.category.data.source.network.model.Net
 import com.greenwaymyanmar.common.feature.category.data.source.network.model.asDomainModel
 import com.greenwaymyanmar.common.feature.tag.domain.model.Tag
 
+@kotlinx.serialization.Serializable
 data class NetworkTag(
     val id: String? = null,
     val name: String? = null,
@@ -12,7 +13,7 @@ data class NetworkTag(
     val images: List<String>? = null
 )
 
-fun NetworkTag.toDomainModel() = Tag(
+fun NetworkTag.asDomainModel() = Tag(
     id = id.orEmpty(),
     name = name.orEmpty(),
     category = category?.asDomainModel(),

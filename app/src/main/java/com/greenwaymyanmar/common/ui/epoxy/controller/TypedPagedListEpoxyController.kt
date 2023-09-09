@@ -57,14 +57,14 @@ abstract class TypedPagedListEpoxyController<T, TM: EpoxyModel<*>>(
     )
 
     final override fun buildModels() {
-        addModels(modelCache.getModels())
+        addModels(modelCache.getModels() as List<TM>)
     }
 
     /**
      * This function adds all built models to the adapter. You can override this method to add extra
      * items into the model list or remove some.
      */
-    open fun addModels(models: List<EpoxyModel<*>>) {
+    open fun addModels(models: List<TM>) {
         super.add(models)
     }
 

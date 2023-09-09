@@ -18,9 +18,6 @@ class TagColorIndicatorsView @JvmOverloads constructor(
         layoutParams = MarginLayoutParams(margin, 0)
     }
 
-    private val circleSize = resources.getDimensionPixelSize(R.dimen.spacing_8)
-    private val elevationSize = resources.getDimensionPixelSize(R.dimen.spacing_4)
-
     init {
         orientation = HORIZONTAL
     }

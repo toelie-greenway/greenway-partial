@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.greenwaymyanmar.common.data.api.v1.Pagination
 import com.greenwaymyanmar.common.feature.tag.data.source.network.TagNetworkDataSource
 import com.greenwaymyanmar.common.feature.tag.data.source.network.model.NetworkTagListResponse
-import com.greenwaymyanmar.common.feature.tag.data.source.network.model.toDomainModel
+import com.greenwaymyanmar.common.feature.tag.data.source.network.model.asDomainModel
 import com.greenwaymyanmar.common.feature.tag.data.source.network.model.toPaginationModel
 import com.greenwaymyanmar.common.feature.tag.domain.model.Tag
 import greenway_myanmar.org.AppExecutors
@@ -12,6 +12,8 @@ import greenway_myanmar.org.repository.paging.datasource.BasePageKeyedGreenWayDa
 import retrofit2.Call
 
 class TagPageKeyedDataSource constructor(
+    private val categoryId: String,
+    private val query: String?,
     private val network: TagNetworkDataSource,
     appExecutors: AppExecutors,
     gson: Gson,
@@ -21,7 +23,8 @@ class TagPageKeyedDataSource constructor(
 ) {
     override fun createCall(): Call<NetworkTagListResponse> {
         return network.getTagsCall(
-            categoryId = null,
+            query = query,
+            categoryId = categoryId,
             categories = null,
             crops = null,
             page = 1,
@@ -31,7 +34,8 @@ class TagPageKeyedDataSource constructor(
 
     override fun createNextPageCall(nextPage: Int): Call<NetworkTagListResponse> {
         return network.getTagsCall(
-            categoryId = null,
+            query = query,
+            categoryId = categoryId,
             categories = null,
             crops = null,
             page = nextPage,
@@ -45,7 +49,7 @@ class TagPageKeyedDataSource constructor(
 
     override fun getItemsFromResponse(requestType: NetworkTagListResponse?): List<Tag> {
         return requestType?.data.orEmpty().map {
-            it.toDomainModel()
+            it.asDomainModel()
         }
     }
 }

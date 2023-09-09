@@ -8,6 +8,8 @@ import greenway_myanmar.org.AppExecutors
 import greenway_myanmar.org.repository.paging.datasource.BaseDataSourceFactory
 
 class TagDataSourceFactory(
+    private val categoryId: String,
+    private val query: String?,
     private val network: TagNetworkDataSource,
     private val appExecutors: AppExecutors,
     private val gson: Gson,
@@ -16,7 +18,7 @@ class TagDataSourceFactory(
 
     override fun createDataSource(): TagPageKeyedDataSource {
         return TagPageKeyedDataSource(
-            network, appExecutors, gson, networkPageSize
+            categoryId, query, network, appExecutors, gson, networkPageSize
         )
     }
 }

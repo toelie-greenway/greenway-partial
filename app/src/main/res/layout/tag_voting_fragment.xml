@@ -4,22 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<!--    style="@style/Widget.MaterialComponents.AppBarLayout.Surface"-->
 
     <com.google.android.material.appbar.AppBarLayout
-        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
         android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
+        android:theme="@style/ThemeOverlay.GreenWay.FishFarmerRecordBook.Light"
         android:layout_height="wrap_content">
 
+<!--        android:theme="@style/ThemeOverlay.GreenWay2.ActionBar.OnSurface"-->
+<!--        style="@style/Widget.MaterialComponents.Toolbar.Surface"-->
+
+<!--        app:navigationIconTint="#4A4A4A"-->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             style="@style/Widget.MaterialComponents.Toolbar.Surface"
-            app:contentInsetStartWithNavigation="0dp"
-            app:contentInsetStart="0dp"
             android:layout_width="match_parent"
-            android:theme="@style/ThemeOverlay.GreenWay2.ActionBar.OnSurface"
             android:layout_height="wrap_content"
-            app:navigationIcon="@drawable/ic_close_black_24dp"
-            app:navigationIconTint="#4A4A4A">
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:navigationIcon="@drawable/ic_close_black_24dp">
 
             <greenway_myanmar.org.ui.widget.GreenWayTextView
                 android:layout_width="wrap_content"
@@ -75,6 +79,24 @@
             android:paddingEnd="@dimen/spacing_16"
             android:paddingBottom="80dp" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/submitting_state_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DEFFFFFF"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/uploading_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:trackColor="?colorSecondaryVariant"
+            app:trackThickness="2dp" />
+
+    </FrameLayout>
 
     <greenway_myanmar.org.ui.widget.GreenWayButton
         android:id="@+id/submit_button"

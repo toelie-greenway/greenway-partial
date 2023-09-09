@@ -14,6 +14,7 @@ import greenway_myanmar.org.features.thread.presentation.epoxy.controller.Thread
 import greenway_myanmar.org.util.kotlin.viewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ThreadFragment : Fragment(R.layout.thread_fragment) {
@@ -27,6 +28,9 @@ class ThreadFragment : Fragment(R.layout.thread_fragment) {
     private val controller: ThreadController = ThreadController(
         onGoToVoteClicked = {
             navigateToVotingScreen()
+        },
+        onMoreProductClicked = {
+            onMoreProductClicked()
         }
     )
 
@@ -44,6 +48,7 @@ class ThreadFragment : Fragment(R.layout.thread_fragment) {
         launchAndRepeatWithViewLifecycle {
             observeVoteOptions()
         }
+        observeProductListing()
     }
 
     private fun setupList() {
@@ -53,8 +58,22 @@ class ThreadFragment : Fragment(R.layout.thread_fragment) {
     private fun CoroutineScope.observeVoteOptions() = launch {
         viewModel.uiState
             .collect {
-                controller.setData(it)
+                controller.threadUiState = it
             }
+    }
+
+    private fun observeProductListing() {
+        viewModel.products.observe(viewLifecycleOwner) {
+            controller.setProductPagedList(it)
+        }
+        viewModel.productNetworkState.observe(viewLifecycleOwner) {
+            Timber.d("NetworkState Product: ${it.status}")
+            controller.setProductNetworkState(it)
+        }
+        viewModel.hasMoreProduct.observe(viewLifecycleOwner) {
+            Timber.d("HasMore Product: $it")
+            controller.setHasMoreProduct(it)
+        }
     }
 
     private fun navigateToVotingScreen() {
@@ -68,8 +87,13 @@ class ThreadFragment : Fragment(R.layout.thread_fragment) {
                 votedTags.toTypedArray(),
                 category,
                 cropOrAnimalName,
-                categoryType
+                "18727",
+                categoryType,
             )
         )
+    }
+
+    private fun onMoreProductClicked() {
+        viewModel.loadProductNextPage()
     }
 }

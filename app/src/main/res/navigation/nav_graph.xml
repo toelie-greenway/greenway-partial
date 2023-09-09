@@ -2,12 +2,23 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/threadFragment">
+    app:startDestination="@id/testFragment">
+
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="greenway_myanmar.org.ui.test.TestFragment"
+        android:label="TestFragment" />
+
+    <fragment
+        android:id="@+id/postDetailFragment"
+        android:name="greenway_myanmar.org.ui.postdetail.PostDetailFragment"
+        android:label="PostDetailFragment" />
 
     <fragment
         android:id="@+id/tagFragment"
         android:name="com.greenwaymyanmar.common.feature.tag.presentation.tag.TagFragment"
         android:label="TagFragment" />
+
     <fragment
         android:id="@+id/threadFragment"
         android:name="greenway_myanmar.org.features.thread.presentation.ThreadFragment"
@@ -28,6 +39,9 @@
             app:argType="com.greenwaymyanmar.common.feature.category.presentation.model.UiCategory" />
         <argument
             android:name="crop_or_animal_name"
+            app:argType="string" />
+        <argument
+            android:name="content_id"
             app:argType="string" />
         <action
             android:id="@+id/action_votingFragment_to_categoryPickerBottomSheetFragment"

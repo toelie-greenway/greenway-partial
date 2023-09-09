@@ -23,6 +23,19 @@ class TagVotingTagsSubheaderView @JvmOverloads constructor(
     var categoryClickCallback: OnClickListener? = null
         @CallbackProp set
 
+    var clearCategoryClickCallback: OnClickListener? = null
+        @CallbackProp set
+
+    var category: UiCategory? = null
+        @ModelProp set(value) {
+            if (field != null && field == value) {
+                return
+            }
+
+            field = value
+            bind(value)
+        }
+
     init {
         orientation = HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
@@ -30,11 +43,15 @@ class TagVotingTagsSubheaderView @JvmOverloads constructor(
         binding.categoryChip.setOnClickListener {
             categoryClickCallback?.onClick(it)
         }
+        binding.categoryChip.setOnCloseIconClickListener {
+            clearCategoryClickCallback?.onClick(it)
+        }
     }
 
-    @ModelProp
-    fun setCategory(category: UiCategory?) {
+    private fun bind(category: UiCategory?) {
         binding.categoryChip.text =
             category?.name ?: resources.getString(R.string.tag_voting_action_change_category)
+        binding.categoryChip.isCloseIconVisible = category != null
+        binding.categoryChip.isChipIconVisible = category == null
     }
 }

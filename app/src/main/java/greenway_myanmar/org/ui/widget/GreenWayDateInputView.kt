@@ -71,7 +71,7 @@ class GreenWayDateInputView @JvmOverloads constructor(
         datePicker.addOnPositiveButtonClickListener { selection ->
             onDateSet(selection)
         }
-        datePicker.show(activity.supportFragmentManager, "DATE_PICKER_DIALOG")
+        datePicker.show(activity.supportFragmentManager, "DELIVERY_DATE_PICKER_DIALOG")
     }
 
     private fun onDateSet(epochMilli: Long) {

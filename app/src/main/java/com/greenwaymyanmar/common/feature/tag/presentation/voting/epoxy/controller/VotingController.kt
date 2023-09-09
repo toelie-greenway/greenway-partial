@@ -18,7 +18,8 @@ import timber.log.Timber
 
 class VotingController constructor(
     private val onVoteClicked: (UiVotableTag) -> Unit,
-    private val onChangeCategoryClicked: () -> Unit
+    private val onChangeCategoryClicked: () -> Unit,
+    private val onClearCategoryClicked: () -> Unit
 ) : PagedListEpoxyController<Tag>() {
 
     var uiState: VotingUiState? = null
@@ -70,7 +71,7 @@ class VotingController constructor(
         if (item == null) return TagVotingVotableTagItemViewModel_()
             .id("tag-null-item")
 
-        val tag = UiVotableTag.fromDomainModel(item)
+        val tag = UiVotableTag.fromTagDomainModel(item)
         return TagVotingVotableTagItemViewModel_()
             .id("tag-${item.id}")
             .votableTag(
@@ -107,12 +108,18 @@ class VotingController constructor(
         }
 
         val customCategory = uiState?.customCategory
-        tagVotingTagsSubheaderView {
-            id("tags-subheader")
-            category(customCategory)
-            categoryClickCallback(OnClickListener {
-                onChangeCategoryClicked()
-            })
+        val searchQuery = uiState?.searchQuery
+        if (searchQuery.isNullOrEmpty()) {
+            tagVotingTagsSubheaderView {
+                id("tags-subheader")
+                category(customCategory)
+                categoryClickCallback(OnClickListener {
+                    onChangeCategoryClicked()
+                })
+                clearCategoryClickCallback(OnClickListener {
+                    onClearCategoryClicked()
+                })
+            }
         }
 
         super.addModels(models)
@@ -130,7 +137,7 @@ class VotingController constructor(
     }
 
     private fun isVotedTag(votableTag: UiVotableTag) =
-        votableTag.tag.id == uiState?.votedTag?.tag?.id
+        votableTag.tag.id == uiState?.currentVotedTag?.tag?.id
 
     fun setNetworkState(networkState: NetworkState?) {
         listingUiState = listingUiState.copy(

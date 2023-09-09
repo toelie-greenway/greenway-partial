@@ -8,11 +8,14 @@
     <string name="tag_voting_action_change_category">အကြောင်းအရာပြောင်း</string>
     <string name="tag_voting_vote_count_label">People votes</string>
     <string name="tag_voting_hint_search">တိုက်ရိုက်ရှာဖွေရန်</string>
+    <string name="tag_voting_action_suggest">အကြံပြုချက်ပေး ရှာမတွေ့ဘူး ဖြစ်နေလား</string>
 
     <string name="tag_post_formatted_info">%1$s • %2$s</string>
     <string name="tag_action_more_thread_post">ထပ်ကြည့်ရန်</string>
     <string name="tag_action_share">မျှဝေ</string>
     <string name="tag_action_vote">အကြံပြုမည်</string>
+    <string name="tag_action_update_vote">အကြံပြုချက် ပြောင်းမည်</string>
+    <string name="tag_action_remove_vote">အကြံပြု ပယ်ဖျက်မည်</string>
     <string name="tag_product_subheader">အသုံးပြုနိုင်သည့် သွင်းအားစုများ (ကြော်ငြာ)</string>
     <string name="thread_tag_vote_technician_subheader">ရောဂါသတ်မှတ်ပေးရန် (ပညာရှင်များသာ)</string>
     <string name="thread_tag_vote_solved_subheader">အပင်အာဟာရ ပြဿနာ</string>

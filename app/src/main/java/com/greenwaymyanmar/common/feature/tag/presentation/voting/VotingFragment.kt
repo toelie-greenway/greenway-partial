@@ -3,6 +3,7 @@ package com.greenwaymyanmar.common.feature.tag.presentation.voting
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -16,9 +17,11 @@ import com.greenwaymyanmar.common.feature.category.presentation.categorypicker.C
 import com.greenwaymyanmar.common.feature.category.presentation.model.UiCategory
 import com.greenwaymyanmar.common.feature.tag.presentation.model.UiVotableTag
 import com.greenwaymyanmar.common.feature.tag.presentation.voting.epoxy.controller.VotingController
+import com.greenwaymyanmar.core.presentation.model.LoadingState
 import com.greenwaymyanmar.utils.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import greenway_myanmar.org.R
+import greenway_myanmar.org.common.presentation.extensions.showSnackbar
 import greenway_myanmar.org.databinding.TagVotingFragmentBinding
 import greenway_myanmar.org.util.extensions.dp
 import greenway_myanmar.org.util.extensions.getParcelableExtraCompat
@@ -46,6 +49,9 @@ class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
         },
         onChangeCategoryClicked = {
             onChangedCategoryClicked()
+        },
+        onClearCategoryClicked = {
+            onClearCategoryClicked()
         }
     )
 
@@ -63,12 +69,14 @@ class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
     private fun setupUi() {
         setupToolbar()
         setupList()
+        setupSubmitButton()
     }
 
     private fun observeViewModel() {
         launchAndRepeatWithViewLifecycle {
             observeUiState()
-            observeVotedTag()
+            observeSubmitButtonLabel()
+            observeSubmittingState()
         }
         observeTagListing()
     }
@@ -117,6 +125,12 @@ class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
         binding.list.setController(controller)
     }
 
+    private fun setupSubmitButton() {
+        binding.submitButton.setOnClickListener {
+            viewModel.handleEvent(VotingEvent.OnSubmit)
+        }
+    }
+
     private fun CoroutineScope.observeUiState() = launch {
         viewModel.uiState
             .collect {
@@ -130,11 +144,32 @@ class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
             }
     }
 
-    private fun CoroutineScope.observeVotedTag() = launch {
-        viewModel.uiState.map { it.votedTag }
-            .distinctUntilChanged()
+    private fun CoroutineScope.observeSubmitButtonLabel() = launch {
+        viewModel.uiState.map { it.submitButtonLabel }
             .collect {
-                binding.submitButton.isEnabled = it != null
+                binding.submitButton.setText(it)
+            }
+    }
+
+    private fun CoroutineScope.observeSubmittingState() = launch {
+        viewModel.uiState.map { it.submittingLoadingState }
+            .distinctUntilChanged()
+            .collect { state ->
+                binding.submitButton.isVisible = state !is LoadingState.Loading
+                binding.submittingStateContainer.isVisible = state is LoadingState.Loading
+                when (state) {
+                    is LoadingState.Error -> {
+                        state.message?.let {
+                            showSnackbar(it)
+                        }
+                    }
+                    is LoadingState.Success -> {
+                        navController.popBackStack()
+                    }
+                    else -> {
+                        /* no-op */
+                    }
+                }
             }
     }
 
@@ -164,6 +199,12 @@ class VotingFragment : Fragment(R.layout.tag_voting_fragment) {
             VotingFragmentDirections.actionVotingFragmentToCategoryPickerBottomSheetFragment(
                 categoryType
             )
+        )
+    }
+
+    private fun onClearCategoryClicked() {
+        viewModel.handleEvent(
+            VotingEvent.OnCustomCategoryChanged(null)
         )
     }
 }

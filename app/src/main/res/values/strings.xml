@@ -9,8 +9,6 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
-
-
     <string name="app_name_in_mm">အစိမ်းရောင်လမ်း</string>
     <!--<string name="app_name_in_mm">အ \u00B7 စိမ်း \u00B7 ရောင် \u00B7 လမ်း</string>-->
     <string name="retry">ပြန်လည်ကြိုးစားကြည့်မယ်</string>

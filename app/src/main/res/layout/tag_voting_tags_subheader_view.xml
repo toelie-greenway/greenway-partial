@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         tools:text="Add topic"
         android:textColor="?colorOnSurface"
+        app:closeIconVisible="true"
         app:chipBackgroundColor="@color/app_transparent"
         app:chipIcon="@drawable/ic_add_circle_black_24dp"
         app:chipIconSize="15dp"
